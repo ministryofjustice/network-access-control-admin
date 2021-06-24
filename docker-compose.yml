@@ -1,0 +1,36 @@
+version: "3.4"
+
+services:
+  db:
+    image: "${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin-mysql:mysql-5-7"
+    env_file: .env.${ENV}
+    expose:
+      - "3306"
+    ports:
+      - "3307:3306"
+    volumes:
+      - datavolume:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      args:
+        UID: "${UID}"
+        BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5}"
+        SHARED_SERVICES_ACCOUNT_ID: "${SHARED_SERVICES_ACCOUNT_ID}"
+    user: "${UID}:${UID}"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/home/app/moj-network-access-admin
+      - node_modules:/home/app/moj-network-access-admin/node_modules
+    links:
+      - db
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    env_file: .env.${ENV}
+
+volumes:
+  node_modules:
+  datavolume:
