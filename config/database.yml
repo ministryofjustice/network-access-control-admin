@@ -1,0 +1,21 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  host: <%= ENV.fetch('DB_HOST') %>
+  port: 3306
+  username: <%= ENV.fetch('DB_USER') %>
+  password: <%= ENV.fetch('DB_PASS') %>
+
+development:
+  <<: *default
+  database: network_access_control_development_admin
+
+test:
+  <<: *default
+  database: network_access_control_test_admin
+
+production:
+  <<: *default
+  database: <%= ENV.fetch('DB_NAME') %>
+  ssl_mode: :verify_identity
+  sslca: <%= Rails.root.join("../cert/rds-combined-ca-bundle.pem") %>

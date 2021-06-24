@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    attributes:
+      reservation:
+        ip_address: "IP address"
+      site:
