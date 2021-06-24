@@ -1,0 +1,11 @@
+{
+  "name": "moj_network_access_control",
+  "private": true,
+  "dependencies": {
+    "@rails/actioncable": "^6.0.0",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "govuk-frontend": "^3.8.1"
+  },
+  "version": "0.1.0"
+}
