@@ -15,8 +15,8 @@ assume_deploy_role() {
 }
 
 deploy() {
-  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${NAC_TERRAFORM_OUTPUTS}" )
-  service_name=$( jq -r '.admin.ecs.service_name' <<< "${NAC_TERRAFORM_OUTPUTS}" )
+  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${TERRAFORM_OUTPUTS}" )
+  service_name=$( jq -r '.admin.ecs.service_name' <<< "${TERRAFORM_OUTPUTS}" )
 
   aws ecs update-service \
     --cluster $cluster_name \
