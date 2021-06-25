@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  variables:
+    DB_PORT: 3306
+    RACK_ENV: "production"
+    ENV: ${ENV}
+    BUNDLE_WITHOUT: "test development"
+  parameter-store:
+    DB_USER: "/moj-network-access-control/$ENV/admin_db_username"
+    DB_PASS: "/moj-network-access-control/$ENV/admin_db_password"
+    DB_HOST: "/moj-network-access-control/$ENV/admin/db/hostname"
+    DB_NAME: "/moj-network-access-control/$ENV/admin/db/name"
+    REGISTRY_URL: "/moj-network-access-control/$ENV/admin/ecr/endpoint"
+    SECRET_KEY_BASE: "/moj-network-access-control/$ENV/admin/rails_master_key"
+    TERRAFORM_OUTPUTS: "/moj-network-access-control/terraform/$ENV/outputs"
+    TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
+    ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
+    SHARED_SERVICES_ACCOUNT_ID: /codebuild/staff_device_shared_services_account_id
+
+phases:
+  build:
+    commands:
+      - make authenticate-docker
+      - make publish
+      - make migrate
+      - make bootstrap
+      - make deploy
