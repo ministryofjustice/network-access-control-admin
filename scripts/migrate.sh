@@ -16,9 +16,9 @@ migrate() {
   local docker_service_name="admin"
   local cluster_name service_name task_definition docker_service_name
 
-  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${NAC_TERRAFORM_OUTPUTS}" )
-  service_name=$( jq -r '.admin.ecs.service_name' <<< "${NAC_TERRAFORM_OUTPUTS}" )
-  task_definition=$( jq -r '.admin.ecs.task_definition_name' <<< "${NAC_TERRAFORM_OUTPUTS}" )
+  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${TERRAFORM_OUTPUTS}" )
+  service_name=$( jq -r '.admin.ecs.service_name' <<< "${TERRAFORM_OUTPUTS}" )
+  task_definition=$( jq -r '.admin.ecs.task_definition_name' <<< "${TERRAFORM_OUTPUTS}" )
 
   aws sts get-caller-identity
 
