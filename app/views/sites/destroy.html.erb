@@ -1,0 +1,34 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete this site?</h2>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Site name:</h4>
+  <p class="govuk-body"><%= @site.name %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting a site cannot be undone.
+  </strong>
+</div>
+
+<%= button_to "Delete site", site_path(@site),
+  method: :delete,
+  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", root_path,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>

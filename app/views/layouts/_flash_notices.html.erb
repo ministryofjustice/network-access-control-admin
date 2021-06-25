@@ -1,0 +1,20 @@
+<% flash.each do |name, msg| -%>
+    <% next if name == "timedout" %>
+    <% next if msg.empty? %>
+
+    <% if name == 'notice' %>
+      <div class='flash-holder'>
+        <%= content_tag :p, msg, class: "govuk-heading-m flash-message-notice" %>
+      </div>
+    <% end %>
+    <% if name == 'alert' %>
+      <div class="govuk-error-summary">
+        <h2 class= "govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <p><%= msg %></p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
