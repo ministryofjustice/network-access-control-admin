@@ -9,14 +9,11 @@ require_ssl() {
   local docker_service_name="admin"
   local cluster_name service_name task_definition docker_service_name
 
-  cluster_name="network-access-control-${ENV}-admin-cluster"
-  service_name="network-access-control-${ENV}-admin"
-  task_definition="network-access-control-${ENV}-admin-task"
+  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${TERRAFORM_OUTPUTS}" )
+  service_name=$( jq -r '.admin.ecs.service_name' <<< "${TERRAFORM_OUTPUTS}" )
+  task_definition=$( jq -r '.admin.ecs.task_definition_name' <<< "${TERRAFORM_OUTPUTS}" )
 
-  echo "${cluster_name}"
-  echo "${service_name}"
   aws sts get-caller-identity
-  echo "===================================================================================================="
 
   run_task_with_command \
     "${cluster_name}" \
