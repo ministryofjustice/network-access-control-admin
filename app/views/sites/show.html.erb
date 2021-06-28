@@ -1,0 +1,13 @@
+<h2 class="govuk-heading-l">Site <%= @site.name %></h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Name</dt>
+    <dd class="govuk-summary-list__value"><%= @site.name %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_site_path(@site), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> name</span>
+      <% end %>
+    </dd>
+  </div>
+</dl>
