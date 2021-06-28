@@ -13,7 +13,7 @@ describe UseCases::DeployService do
     use_case.call
   end
 
-  it "deploys the DHCP service" do
+  it "deploys the network access control admin service" do
     expect(ecs_gateway).to have_received(:update_service)
   end
 end
