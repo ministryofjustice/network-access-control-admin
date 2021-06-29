@@ -22,7 +22,7 @@ describe "showing a vlan", type: :feature do
 
         click_on "View", match: :first
 
-        expect(page).to have_content vlan.name
+        expect(page).to have_content vlan.vlan
       end
     end
   end
