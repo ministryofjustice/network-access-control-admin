@@ -1,0 +1,13 @@
+<h2 class="govuk-heading-l">VLAN <%= @vlan.vlan %></h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">VLAN</dt>
+    <dd class="govuk-summary-list__value"><%= @vlan.vlan %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_vlan_path(@vlan), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> VLAN</span>
+      <% end %>
+    </dd>
+  </div>
+</dl>

@@ -16,6 +16,5 @@ describe AuditPresenter do
 
       expect(presenter.name).to eq("Site (Foobar)")
     end
-
   end
 end
