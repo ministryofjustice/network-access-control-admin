@@ -15,7 +15,7 @@ check-container-registry-account-id:
 	./scripts/check_container_registry_account_id.sh
 
 build: check-container-registry-account-id
-	docker build -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg SHARED_SERVICES_ACCOUNT_ID
+	docker build -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PORT --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg SHARED_SERVICES_ACCOUNT_ID
 
 build-dev:
 	$(DOCKER_COMPOSE) build
