@@ -8,3 +8,5 @@ do
   printf "."
   sleep 1
 done
+
+docker ps
