@@ -19,4 +19,5 @@ phases:
       - make authenticate-docker
       - docker ps
       - ENV=test make db-setup
+      - docker ps
       - make test
