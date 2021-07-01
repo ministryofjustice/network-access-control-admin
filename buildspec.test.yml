@@ -2,9 +2,8 @@ version: 0.2
 
 env:
   variables:
-    TF_IN_AUTOMATION: true
-    TF_INPUT: 0
     AWS_REGION: eu-west-2
+    ENV: test
   parameter-store:
     ROLE_ARN: /codebuild/pttp-ci-infrastructure-core-pipeline/development/assume_role # tests hardcoded to only run in development
     SHARED_SERVICES_ACCOUNT_ID: /codebuild/staff_device_shared_services_account_id
