@@ -2,7 +2,7 @@ default: &default
   adapter: mysql2
   encoding: utf8
   host: <%= ENV.fetch('DB_HOST') %>
-  port: <%= ENV.fetch('DB_PORT') %>
+  port: 3306
   username: <%= ENV.fetch('DB_USER') %>
   password: <%= ENV.fetch('DB_PASS') %>
 
