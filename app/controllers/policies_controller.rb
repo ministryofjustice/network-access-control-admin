@@ -1,5 +1,5 @@
 class PoliciesController < ApplicationController
-  before_action :set_policy, only: [:show]
+  before_action :set_policy, only: [:show, :edit, :update, :destroy]
 
   def new
     @policy = Policy.new
@@ -24,6 +24,19 @@ class PoliciesController < ApplicationController
   def show
   end
 
+  def destroy
+    authorize! :destroy, @policy
+    if confirmed?
+      if @policy.destroy
+        redirect_to policies_path, notice: "Successfully deleted policy. "
+      else
+        redirect_to policy_path(@policy), error: "Failed to delete the policy"
+      end
+    else
+      render "policies/destroy"
+    end
+  end
+
   private
 
   def policy_params
@@ -36,5 +49,9 @@ class PoliciesController < ApplicationController
 
   def set_policy
     @policy = Policy.find(policy_id)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end
