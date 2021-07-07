@@ -4,6 +4,11 @@
     <%= f.text_field :name, class: "govuk-input" %>
   </div>
 
+  <div class="govuk-form-group <%= field_error(f.object, :description) %>">
+    <%= f.label :description, class: "govuk-label" %>
+    <%= f.text_area :description, class: "govuk-input" %>
+  </div>
+
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"

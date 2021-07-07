@@ -45,7 +45,6 @@ describe "create policies", type: :feature do
       click_on "Create"
 
       expect(page).to have_content("Successfully created policy.")
-      expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("My Test Policy")
 
       expect_audit_log_entry_for(editor.email, "create", "Policy")
