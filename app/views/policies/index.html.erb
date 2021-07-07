@@ -1,0 +1,7 @@
+<div>
+  <h2 class="govuk-heading-l">Policies</h2>
+
+  <% if can? :create, Policy %>
+    <%= link_to "Create a new policy", new_policy_path, class: "govuk-button" %>
+  <% end %>
+</div>
