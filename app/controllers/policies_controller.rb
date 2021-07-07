@@ -37,6 +37,21 @@ class PoliciesController < ApplicationController
     end
   end
 
+  def edit
+    authorize! :update, @policy
+  end
+
+  def update
+    authorize! :update, @policy
+    @policy.assign_attributes(policy_params)
+
+    if @policy.save
+      redirect_to policy_path(@policy), notice: "Successfully updated policy. "
+    else
+      render :edit
+    end
+  end
+
   private
 
   def policy_params
