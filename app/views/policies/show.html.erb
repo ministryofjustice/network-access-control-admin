@@ -4,5 +4,10 @@
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Description</dt>
     <dd class="govuk-summary-list__value"><%= @policy.description %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_policy_path(@policy), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> name</span>
+      <% end %>
+    </dd>
   </div>
 </dl>
