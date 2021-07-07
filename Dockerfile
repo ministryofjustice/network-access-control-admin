@@ -5,7 +5,7 @@ ARG UID=1001
 ARG GROUP=app
 ARG USER=app
 ARG HOME=/home/$USER
-ARG APPDIR=$HOME/moj-network-access-control
+ARG APPDIR=$HOME/moj-network-access-admin
 ARG CERTDIR=$HOME/cert
 
 ARG RACK_ENV=development
