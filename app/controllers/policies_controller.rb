@@ -18,6 +18,7 @@ class PoliciesController < ApplicationController
   end
 
   def index
+    @policies = Policy.all
   end
 
   def show
