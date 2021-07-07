@@ -14,7 +14,7 @@ describe "create policies", type: :feature do
       login_as create(:user, :reader)
     end
 
-    it "does not allow creating sites" do
+    it "does not allow creating policies" do
       visit "/policies"
 
       expect(page).not_to have_content "Create a new policy"
