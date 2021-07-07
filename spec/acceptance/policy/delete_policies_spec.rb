@@ -1,0 +1,46 @@
+require "rails_helper"
+
+describe "delete policies", type: :feature do
+  context "when the user is a viewer" do
+    before do
+      login_as create(:user, :reader)
+    end
+
+    it "does not allow deleting policies" do
+      visit "/policies"
+
+      expect(page).not_to have_content "Delete"
+    end
+  end
+
+  context "when the user is an editor" do
+    let!(:policy) do
+      Audited.audit_class.as_user(editor) do
+        create(:policy)
+      end
+    end
+
+    let(:editor) { create(:user, :editor) }
+
+    before do
+      login_as editor
+    end
+
+    it "delete a policy" do
+      visit "/policies"
+
+      click_on "Delete"
+
+      expect(page).to have_content("Are you sure you want to delete this policy?")
+      expect(page).to have_content(policy.name)
+
+      click_on "Delete policy"
+
+      expect(current_path).to eq("/policies")
+      expect(page).to have_content("Successfully deleted policy.")
+      expect(page).not_to have_content(policy.name)
+
+      expect_audit_log_entry_for(editor.email, "destroy", "Policy")
+    end
+  end
+end
