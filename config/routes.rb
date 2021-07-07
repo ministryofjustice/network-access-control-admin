@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     match "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session, via: [:get, :delete]
   end
 
-  resources :sites, :vlans
+  resources :sites, :vlans, :policies
 
   get "/healthcheck", to: "monitoring#healthcheck"
 

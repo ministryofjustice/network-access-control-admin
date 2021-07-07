@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_29_091103) do
+ActiveRecord::Schema.define(version: 2021_07_07_112308) do
+
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -31,6 +32,13 @@ ActiveRecord::Schema.define(version: 2021_06_29_091103) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "policies", charset: "utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sites", charset: "utf8", force: :cascade do |t|
@@ -55,4 +63,5 @@ ActiveRecord::Schema.define(version: 2021_06_29_091103) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
+
 end
