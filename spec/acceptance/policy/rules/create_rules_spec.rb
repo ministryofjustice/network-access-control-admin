@@ -25,7 +25,7 @@ describe "create rules", type: :feature do
         click_on "Create"
 
         expect(page).to have_content("Successfully created rule.")
-        expect(page.current_url).to eq(policy_path(policy: policy))
+        expect(page.current_path).to eq(policy_path(id: policy.id))
         expect_audit_log_entry_for(editor.email, "create", "Rule")
       end
 

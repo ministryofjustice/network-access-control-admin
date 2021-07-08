@@ -6,7 +6,7 @@ class RulesController < ApplicationController
   end
 
   def create
-    @rule = Rule.new(rule_params)
+    @rule = Rule.new(rule_params.merge(policy_id: @policy.id))
     authorize! :create, @rule
 
     if @rule.save
