@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_07_112308) do
+ActiveRecord::Schema.define(version: 2021_07_08_092051) do
+
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -40,6 +41,21 @@ ActiveRecord::Schema.define(version: 2021_07_07_112308) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "request_attributes", charset: "utf8", force: :cascade do |t|
+    t.string "key"
+  end
+
+  create_table "rules", charset: "utf8", force: :cascade do |t|
+    t.string "operator", null: false
+    t.string "value", null: false
+    t.bigint "policy_id", null: false
+    t.bigint "request_attribute_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["policy_id"], name: "index_rules_on_policy_id"
+    t.index ["request_attribute_id"], name: "index_rules_on_request_attribute_id"
+  end
+
   create_table "sites", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -62,4 +78,7 @@ ActiveRecord::Schema.define(version: 2021_07_07_112308) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
+
+  add_foreign_key "rules", "policies"
+  add_foreign_key "rules", "request_attributes"
 end
