@@ -30,7 +30,7 @@ describe "create rules", type: :feature do
       end
 
       it "displays error if form cannot be submitted" do
-        visit rules_path(policy: policy)
+        visit new_policy_rule_path(policy_id: policy)
 
         click_on "Create"
 

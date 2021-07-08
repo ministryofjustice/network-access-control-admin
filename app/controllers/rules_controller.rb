@@ -9,7 +9,7 @@ class RulesController < ApplicationController
     @rule = Rule.new(rule_params)
     authorize! :create, @rule
 
-    if @rule.save!
+    if @rule.save
       redirect_to policy_path(@policy), notice: "Successfully created rule."
     else
       render :new
