@@ -1,6 +1,6 @@
 class Rule < ApplicationRecord
   belongs_to :policy
-  belongs_to :request_attribute
-  validates :operator, presence: true
-  validates :value, presence: true
+
+  validates_presence_of :request_attribute, :operator, :value
+  validates_inclusion_of :operator, in: %w(equals contains)
 end

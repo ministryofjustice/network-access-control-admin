@@ -11,13 +11,11 @@ describe "showing a rule", type: :feature do
       let!(:rule) { create :rule, policy: policy }
 
       it "allows viewing policies" do
-        visit "/policies"
-
-        click_on "View", match: :first
+        visit "/policies/#{policy.id}"
 
         expect(page).to have_content policy.name
         expect(page).to have_content policy.description
-        expect(page).to have_content rule.request_attribute.key
+        expect(page).to have_content rule.request_attribute
         expect(page).to have_content rule.operator
         expect(page).to have_content rule.value
       end
