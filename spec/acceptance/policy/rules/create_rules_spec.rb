@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe "create rules", type: :feature do
   context "when the user is an editor" do
-
     let(:editor) { create(:user, :editor) }
 
     before do
