@@ -4,10 +4,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, [Policy, Site]
+    can :read, [Policy, Site, Rule]
 
     if user.editor?
-      can :manage, [Policy, Site]
+      can :manage, [Policy, Site, Rule]
     end
   end
 end

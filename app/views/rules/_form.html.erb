@@ -1,0 +1,29 @@
+<%= form_with(model: @rule, url: policy_rules_path(@rule, policy_id: @policy.id), local: true) do |f| %>
+  <div class="govuk-form-group <%= field_error(f.object, :request_attribute) %>">
+    <%= f.label :request_attribute, class: "govuk-label" %>
+    <%= f.text_field :request_attribute, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :operator) %>">
+    <%= f.label :operator, class: "govuk-label" %>
+    <%= f.select(:operator, %w(equals contains), prompt: 'Select') %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :value) %>">
+    <%= f.label :value, class: "govuk-label" %>
+    <%= f.text_field :value, class: "govuk-input" %>
+  </div>
+
+  <%= f.submit f.object.new_record? ? "Create" : "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", f.object.new_record? ? root_path : @rule,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
+
+<% end %>

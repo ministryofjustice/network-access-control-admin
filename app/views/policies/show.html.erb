@@ -12,6 +12,10 @@
   </div>
 </dl>
 
+<% if can? :create, Rule %>
+  <%= link_to "Add rule", new_policy_rule_path(policy_id: @policy), class: "govuk-button" %>
+<% end %>
+
 <table class="govuk-table">
   <caption class="govuk-table__caption">List of rules</caption>
   <thead class="govuk-table__head">
