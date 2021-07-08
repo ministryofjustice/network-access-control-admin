@@ -17,8 +17,8 @@ describe "showing a rule", type: :feature do
 
         expect(page).to have_content policy.name
         expect(page).to have_content policy.description
-        expect(page).to have_content rule.request_attribute_key_id
-        expect(page).to have_content rule.operator_id
+        expect(page).to have_content rule.request_attribute.key
+        expect(page).to have_content rule.operator
         expect(page).to have_content rule.value
       end
     end
