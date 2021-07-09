@@ -1,0 +1,34 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete this rule?</h2>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Rule:</h4>
+  <p class="govuk-body"><%= "#{@rule.request_attribute} #{@rule.operator} #{@rule.value}" %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting a rule cannot be undone.
+  </strong>
+</div>
+
+<%= button_to "Delete rule", policy_rule_path(policy_id: @policy, id: @rule),
+  method: :delete,
+  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", root_path,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
