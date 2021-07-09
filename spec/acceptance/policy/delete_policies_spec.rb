@@ -42,5 +42,23 @@ describe "delete policies", type: :feature do
 
       expect_audit_log_entry_for(editor.email, "destroy", "Policy")
     end
+
+    context "When a policy has rules" do
+      before do
+        create(:rule, policy: policy)
+      end
+
+      it "can delete the policy and the rules" do
+        visit "/policies"
+
+        click_on "Delete"
+        click_on "Delete policy"
+
+        expect(page).to have_content("Successfully deleted policy.")
+        expect(page).not_to have_content(policy.name)
+
+        expect_audit_log_entry_for(editor.email, "destroy", "Policy")
+      end
+    end
   end
 end

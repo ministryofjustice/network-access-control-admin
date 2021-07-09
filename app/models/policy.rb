@@ -3,5 +3,6 @@ class Policy < ApplicationRecord
   validates :description, presence: true
 
   has_many :rules, dependent: :destroy
+
   audited
 end
