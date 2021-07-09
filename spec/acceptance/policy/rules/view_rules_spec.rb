@@ -10,7 +10,7 @@ describe "showing a rule", type: :feature do
       let!(:policy) { create :policy }
       let!(:rule) { create :rule, policy: policy }
 
-      it "allows viewing policies" do
+      it "allows viewing rules on the policy page" do
         visit "/policies/#{policy.id}"
 
         expect(page).to have_content policy.name
@@ -18,6 +18,18 @@ describe "showing a rule", type: :feature do
         expect(page).to have_content rule.request_attribute
         expect(page).to have_content rule.operator
         expect(page).to have_content rule.value
+      end
+    end
+
+    context "when a policy exists without rules" do
+      let!(:policy) { create :policy }
+
+      it "does not show the rules table" do
+        visit "/policies/#{policy.id}"
+
+        expect(page).to have_content policy.name
+        expect(page).to have_content policy.description
+        expect(page).to_not have_content "List of rules"
       end
     end
   end
