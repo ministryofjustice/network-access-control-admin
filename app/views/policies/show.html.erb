@@ -24,6 +24,7 @@
         <th scope="col" class="govuk-table__header">Attribute</th>
         <th scope="col" class="govuk-table__header">Operator</th>
         <th scope="col" class="govuk-table__header">Value</th>
+        <th scope="col" class="govuk-table__header">Actions</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -32,6 +33,11 @@
           <td class="govuk-table__cell"><%= rule.request_attribute %></td>
           <td class="govuk-table__cell"><%= rule.operator %></td>
           <td class="govuk-table__cell"><%= rule.value %></td>
+          <td class="govuk-table__cell">
+            <% if can? :manage, Rule %>
+              <%= link_to "Delete", policy_rule_path(policy_id: @policy, id: rule), class:"govuk-link", method: :delete %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

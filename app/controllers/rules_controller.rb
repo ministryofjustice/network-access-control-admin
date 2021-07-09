@@ -1,5 +1,5 @@
 class RulesController < ApplicationController
-  before_action :set_policy, only: [:new, :create]
+  before_action :set_policy, only: [:new, :create, :destroy]
 
   def new
     @rule = Rule.new
@@ -16,6 +16,21 @@ class RulesController < ApplicationController
     end
   end
 
+  def destroy
+    @rule = Rule.find(params.fetch(:id))
+
+    authorize! :destroy, @rule
+    if confirmed?
+      if @rule.destroy
+        redirect_to policy_path(@policy), notice: "Successfully deleted rule. "
+      else
+        redirect_to policy_path(@policy), error: "Failed to delete the rule. "
+      end
+    else
+      render "rules/destroy"
+    end
+  end
+
   private
 
   def policy_id
@@ -28,5 +43,9 @@ class RulesController < ApplicationController
 
   def rule_params
     params.require(:rule).permit(:request_attribute, :value, :operator)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end
