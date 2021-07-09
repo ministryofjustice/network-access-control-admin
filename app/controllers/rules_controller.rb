@@ -1,5 +1,5 @@
 class RulesController < ApplicationController
-  before_action :set_policy, only: [:new, :create, :destroy]
+  before_action :set_policy, only: [:new, :create, :destroy, :edit]
 
   def new
     @rule = Rule.new
@@ -29,6 +29,11 @@ class RulesController < ApplicationController
     else
       render "rules/destroy"
     end
+  end
+
+  def edit
+    @rule = Rule.find(params.fetch(:id))
+    authorize! :update, @rule
   end
 
   private
