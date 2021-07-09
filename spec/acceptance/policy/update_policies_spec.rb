@@ -7,8 +7,8 @@ describe "update policies", type: :feature do
     end
   end
 
-  context "when the user is a unauthenticated" do
-    it "does not allow creating policies" do
+  context "when the user is unauthenticated" do
+    it "does not allow updating policies" do
       visit "/policies/#{policy.to_param}/edit"
 
       expect(page).to have_content "You need to sign in or sign up before continuing."
@@ -23,7 +23,7 @@ describe "update policies", type: :feature do
     it "does not allow editing policies" do
       visit "/policies"
 
-      expect(page).not_to have_content "Edit"
+      expect(page).not_to have_content "Change"
 
       visit "/policies/#{policy.to_param}/edit"
 
@@ -39,7 +39,7 @@ describe "update policies", type: :feature do
       policy
     end
 
-    it "update an existing policy" do
+    it "does update an existing policy" do
       visit "/policies/#{policy.id}"
 
       first(:link, "Change").click
