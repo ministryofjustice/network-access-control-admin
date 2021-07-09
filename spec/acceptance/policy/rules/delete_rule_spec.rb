@@ -43,7 +43,7 @@ describe "delete rules", type: :feature do
 
         click_on "Delete rule"
 
-        # expect(current_path).to eq("/policies/#{policy.id}")
+        expect(current_path).to eq("/policies/#{policy.id}")
         expect(page).to have_content("Successfully deleted rule.")
         expect(page).not_to have_content(rule.request_attribute)
         expect(page).not_to have_content(rule.operator)
