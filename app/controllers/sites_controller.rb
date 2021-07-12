@@ -7,7 +7,7 @@ class SitesController < ApplicationController
   end
 
   def show
-    @navigation_crumbs = [["Home", root_path], ["Sites", sites_path]]
+    @navigation_crumbs = [['Home', root_path], ["Sites", sites_path]]
   end
 
   def new
