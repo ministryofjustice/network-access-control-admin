@@ -60,7 +60,7 @@ push:
 publish: build push
 
 lint:
-	$(DOCKER_COMPOSE) run --rm app bundle exec rake standard:fix
+	$(DOCKER_COMPOSE) run --rm app bundle exec rubocop -a
 
 implode:
 	$(DOCKER_COMPOSE) rm
