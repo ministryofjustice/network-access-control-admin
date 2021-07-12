@@ -1,0 +1,5 @@
+<%= render "layouts/form_errors", resource: @response %>
+
+<h2 class="govuk-heading-l">Editing a response</h2>
+
+<%= render "responses/form", path: policy_response_path(policy_id: @policy, id: @response), response: @response %>
