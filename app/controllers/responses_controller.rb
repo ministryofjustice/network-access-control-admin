@@ -1,5 +1,5 @@
 class ResponsesController < ApplicationController
-  before_action :set_policy, only: [:new, :create]
+  before_action :set_policy, only: [:new, :create, :destroy]
 
   def new
     @response = Response.new
@@ -16,6 +16,21 @@ class ResponsesController < ApplicationController
     end
   end
 
+  def destroy
+    @response = Response.find(params.fetch(:id))
+
+    authorize! :destroy, @response
+    if confirmed?
+      if @response.destroy
+        redirect_to policy_path(@policy), notice: "Successfully deleted response. "
+      else
+        redirect_to policy_path(@policy), error: "Failed to delete the response. "
+      end
+    else
+      render "responses/destroy"
+    end
+  end
+
   private
 
   def policy_id
@@ -28,5 +43,9 @@ class ResponsesController < ApplicationController
 
   def set_policy
     @policy = Policy.find(policy_id)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end
