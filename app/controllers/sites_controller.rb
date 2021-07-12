@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SitesController < ApplicationController
-  before_action :set_site, only: [:show, :edit, :update, :destroy]
+  before_action :set_site, only: %i[show edit update destroy]
 
   def index
     @sites = Site.all
@@ -54,7 +56,7 @@ class SitesController < ApplicationController
     end
   end
 
-  private
+private
 
   def site_params
     params.require(:site).permit(:name)

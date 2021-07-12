@@ -38,13 +38,13 @@ RSpec.describe OmniAuth::Strategies::Cognito do
     let(:callback_url) { "http://localhost/auth/cognito/callback?code=1234" }
 
     let(:request) { double("Rack::Request", params: params) }
-    let(:params) { {"code" => "12345"} }
+    let(:params) { { "code" => "12345" } }
 
     it "does not send the query part of the request URL as callback URL" do
       expect(auth_code).to receive(:get_token).with(
         params["code"],
-        {redirect_uri: callback_url.split("?").first}.merge(subject.token_params.to_hash(symbolize_keys: true)),
-        subject.__send__(:deep_symbolize, subject.options.auth_token_params)
+        { redirect_uri: callback_url.split("?").first }.merge(subject.token_params.to_hash(symbolize_keys: true)),
+        subject.__send__(:deep_symbolize, subject.options.auth_token_params),
       ).and_return(access_token_object)
 
       expect(subject.__send__(:build_access_token)).to eql access_token_object
@@ -52,13 +52,13 @@ RSpec.describe OmniAuth::Strategies::Cognito do
   end
 
   describe "auth hash" do
-    let(:options) { {aws_region: "eu-west-1", user_pool_id: "user_pool_id"} }
+    let(:options) { { aws_region: "eu-west-1", user_pool_id: "user_pool_id" } }
 
     let(:auth_hash) { env["omniauth.auth"] }
 
     let(:env) { {} }
-    let(:request) { double("Rack::Request", params: {"state" => strategy.session["omniauth.state"]}) }
-    let(:session) { {"omniauth.state" => "some_state"} }
+    let(:request) { double("Rack::Request", params: { "state" => strategy.session["omniauth.state"] }) }
+    let(:session) { { "omniauth.state" => "some_state" } }
     let(:oauth_client) { double("OAuth2::Client", auth_code: auth_code) }
     let(:auth_code) { double("OAuth2::AuthCode") }
     let(:access_token_object) { OAuth2::AccessToken.from_hash(oauth_client, token_hash) }
@@ -68,7 +68,7 @@ RSpec.describe OmniAuth::Strategies::Cognito do
         "expires_at" => token_expires.to_i,
         "access_token" => access_token_string,
         "refresh_token" => refresh_token_string,
-        "id_token" => id_token_string
+        "id_token" => id_token_string,
       }
     end
 
@@ -93,9 +93,9 @@ RSpec.describe OmniAuth::Strategies::Cognito do
           aud: strategy.options[:client_id],
           phone_number: id_phone,
           email: id_email,
-          name: id_name
+          name: id_name,
         },
-        "12345"
+        "12345",
       )
     end
 
@@ -132,7 +132,7 @@ RSpec.describe OmniAuth::Strategies::Cognito do
           "expires_at" => token_expires.to_i,
           "id_token" => id_token_string,
           "refresh_token" => refresh_token_string,
-          "token" => access_token_string
+          "token" => access_token_string,
         )
       end
     end
@@ -140,7 +140,7 @@ RSpec.describe OmniAuth::Strategies::Cognito do
     describe ":extra" do
       it "contains the parsed data from the id token" do
         expect(auth_hash[:extra])
-          .to eql("raw_info" => {"sub" => id_sub, "phone_number" => id_phone, "email" => id_email, "name" => id_name})
+          .to eql("raw_info" => { "sub" => id_sub, "phone_number" => id_phone, "email" => id_email, "name" => id_name })
       end
     end
   end

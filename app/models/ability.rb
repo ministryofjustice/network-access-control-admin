@@ -6,8 +6,6 @@ class Ability
   def initialize(user)
     can :read, [Policy, Site, Rule, Response]
 
-    if user.editor?
-      can :manage, [Policy, Site, Rule, Response]
-    end
+    can :manage, [Policy, Site, Rule, Response] if user.editor?
   end
 end

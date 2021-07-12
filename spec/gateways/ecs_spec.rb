@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Gateways::Ecs do
   subject(:gateway) { described_class.new(cluster_name: cluster_name, service_name: service_name, aws_config: aws_config) }
 
@@ -6,7 +8,7 @@ describe Gateways::Ecs do
   let(:aws_config) do
     {
       region: "eu-west-2",
-      stub_responses: true
+      stub_responses: true,
     }
   end
 

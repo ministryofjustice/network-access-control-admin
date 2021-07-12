@@ -268,12 +268,12 @@ Devise.setup do |config|
   # config.navigational_formats = ['*/*', :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
-  config.sign_out_via = [:get, :delete]
+  config.sign_out_via = %i[get delete]
 
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :cognito, ENV["COGNITO_CLIENT_ID"], ENV["COGNITO_CLIENT_SECRET"], client_options: {site: ENV["COGNITO_USER_POOL_SITE"]}, scope: "email openid aws.cognito.signin.user.admin profile",
+  config.omniauth :cognito, ENV["COGNITO_CLIENT_ID"], ENV["COGNITO_CLIENT_SECRET"], client_options: { site: ENV["COGNITO_USER_POOL_SITE"] }, scope: "email openid aws.cognito.signin.user.admin profile",
                                                                                     user_pool_id: ENV["COGNITO_USER_POOL_ID"],
                                                                                     aws_region: "eu-west-2", strategy_class: OmniAuth::Strategies::Cognito
   config.omniauth :developer
@@ -344,8 +344,6 @@ Warden::Manager.after_set_user do |record, warden, options|
 
     # Only set this once (to represent when the user signed in)
     # signed_in_at gets cleared when the user is signed out
-    unless warden.session(scope)["signed_in_at"]
-      warden.session(scope)["signed_in_at"] = Time.now.utc.to_i
-    end
+    warden.session(scope)["signed_in_at"] = Time.now.utc.to_i unless warden.session(scope)["signed_in_at"]
   end
 end

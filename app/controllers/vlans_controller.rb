@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 class VlansController < ApplicationController
   before_action :set_vlan, only: [:show]
 
-  def show
-  end
+  def show; end
 
   def index
     @vlans = Vlan.all
   end
 
-  private
+private
 
   def set_vlan
     @vlan = Vlan.find(vlan_id)

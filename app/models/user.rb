@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   EDITOR_ROLE = "editor"
 
   MAX_SESSION_TIME = 8.hours
 
   devise :omniauthable, :timeoutable, :hard_timeoutable,
-    omniauth_providers: (Rails.env.development? ? %i[cognito developer] : %i[cognito]),
-    hard_timeout_in: MAX_SESSION_TIME
+         omniauth_providers: (Rails.env.development? ? %i[cognito developer] : %i[cognito]),
+         hard_timeout_in: MAX_SESSION_TIME
 
   def self.from_omniauth(auth)
     user = find_or_initialize_by(provider: auth.provider, uid: auth.uid)

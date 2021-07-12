@@ -19,7 +19,7 @@ module Devise
     module HardTimeoutable
       extend ActiveSupport::Concern
 
-      def self.required_fields(klass)
+      def self.required_fields(_klass)
         []
       end
 
@@ -31,8 +31,6 @@ module Devise
       def hard_timeout_in
         self.class.hard_timeout_in
       end
-
-      private
 
       module ClassMethods
         Devise::Models.config(self, :hard_timeout_in)

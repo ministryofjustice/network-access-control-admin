@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   after_action :set_expect_ct_header
 
-  def new_session_path(scope)
+  def new_session_path(_scope)
     new_user_session_path
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |exception|
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
     respond_to do |format|
       format.html { render file: "#{Rails.root}/public/404.html", status: :not_found }
     end
@@ -18,14 +20,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  private
+private
 
   def set_expect_ct_header
     response.headers["Expect-CT"] = "max-age=86400, enforce"
   end
 
   # Overwriting the sign_out redirect path method
-  def after_sign_out_path_for(resource_or_scope)
+  def after_sign_out_path_for(_resource_or_scope)
     new_user_session_path
   end
 

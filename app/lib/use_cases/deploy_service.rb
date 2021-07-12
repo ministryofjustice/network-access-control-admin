@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UseCases
   class DeployService
     def initialize(ecs_gateway:)
@@ -8,7 +10,7 @@ module UseCases
       ecs_gateway.update_service
     end
 
-    private
+  private
 
     attr_reader :ecs_gateway
   end

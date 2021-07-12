@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PoliciesController < ApplicationController
-  before_action :set_policy, only: [:show, :edit, :update, :destroy]
+  before_action :set_policy, only: %i[show edit update destroy]
 
   def new
     @policy = Policy.new
@@ -21,8 +23,7 @@ class PoliciesController < ApplicationController
     @policies = Policy.all
   end
 
-  def show
-  end
+  def show; end
 
   def destroy
     authorize! :destroy, @policy
@@ -52,7 +53,7 @@ class PoliciesController < ApplicationController
     end
   end
 
-  private
+private
 
   def policy_params
     params.require(:policy).permit(:name, :description)
