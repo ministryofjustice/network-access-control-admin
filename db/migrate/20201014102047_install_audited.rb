@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class InstallAudited < ActiveRecord::Migration[6.0]
   def self.up
     create_table :audits, force: true do |t|

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 describe Gateways::S3 do
   subject(:gateway) do
     described_class.new(bucket: bucket, key: key,

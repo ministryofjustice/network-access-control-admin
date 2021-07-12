@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SitesController < ApplicationController
   before_action :set_site, only: %i[show edit update destroy]
 

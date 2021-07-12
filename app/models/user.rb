@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 class User < ApplicationRecord
-  EDITOR_ROLE = "editor"
+  EDITOR_ROLE = "editor".freeze
 
   MAX_SESSION_TIME = 8.hours
 

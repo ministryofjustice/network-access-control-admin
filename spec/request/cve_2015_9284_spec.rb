@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "rails_helper"
 
 # Make sure that https://nvd.nist.gov/vuln/detail/CVE-2015-9284 is mitigated

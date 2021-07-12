@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class VlansController < ApplicationController
   before_action :set_vlan, only: [:show]
 

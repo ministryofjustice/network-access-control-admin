@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AuditPresenter < BasePresenter
   def name
     string = record.auditable_type.underscore.humanize

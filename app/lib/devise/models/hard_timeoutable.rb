@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Devise
   module Models
     # HardTimeoutable ensures that users are not signed in for longer then the max

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class BasePresenter
   attr_reader :record
 

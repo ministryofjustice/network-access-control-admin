@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Ipv4ListValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, ip_addresses)
     unless ip_addresses.all? { |ip_address| IPAddress.valid_ipv4?(ip_address) }

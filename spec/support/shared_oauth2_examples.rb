@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 shared_examples "an oauth2 strategy" do
   # Courtesy omniauth-37signals:
   # https://github.com/tallgreentree/omniauth-37signals/blob/master/spec/support/shared_examples.rb

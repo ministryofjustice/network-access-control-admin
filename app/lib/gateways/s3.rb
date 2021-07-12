@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Gateways
   class S3
     def initialize(bucket:, key:, aws_config:, content_type:)

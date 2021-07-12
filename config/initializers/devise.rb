@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "omni_auth/strategies/cognito"
 
 # Assuming you have not yet modified this file, each configuration option below

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module AuditLoggingFeatureHelpers
   def expect_audit_log_entry_for(editor_string, action, object_type_changed)
     click_on "Audit log"

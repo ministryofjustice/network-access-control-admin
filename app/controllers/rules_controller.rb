@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class RulesController < ApplicationController
   before_action :set_policy, only: %i[new create destroy edit update]
 
