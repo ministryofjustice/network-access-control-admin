@@ -1,5 +1,5 @@
 class ResponsesController < ApplicationController
-  before_action :set_policy, only: [:new, :create, :destroy]
+  before_action :set_policy, only: [:new, :create, :destroy, :edit, :update]
 
   def new
     @response = Response.new
@@ -28,6 +28,24 @@ class ResponsesController < ApplicationController
       end
     else
       render "responses/destroy"
+    end
+  end
+
+  def edit
+    @response = Response.find(params.fetch(:id))
+    authorize! :update, @response
+  end
+
+  def update
+    @response = Response.find(params.fetch(:id))
+    authorize! :update, @response
+
+    @response.assign_attributes(response_params)
+
+    if @response.save
+      redirect_to policy_path(@policy), notice: "Successfully updated response. "
+    else
+      render :edit
     end
   end
 
