@@ -65,7 +65,7 @@
           <td class="govuk-table__cell"><%= response.response_attribute %></td>
           <td class="govuk-table__cell"><%= response.value %></td>
           <td class="govuk-table__cell">
-            <% if can? :manage, Rule %>
+            <% if can? :manage, Response %>
               <%= link_to "Delete", policy_response_path(policy_id: @policy, id: response), class:"govuk-link", method: :delete %>
             <% end %>
           </td>
