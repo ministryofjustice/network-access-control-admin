@@ -32,8 +32,7 @@ describe "delete responses", type: :feature do
         click_on "Delete"
 
         expect(page).to have_content("Are you sure you want to delete this response?")
-        expect(page).to have_content(response.response_attribute)
-        expect(page).to have_content(response.value)
+        expect(page).to have_content("#{response.response_attribute}: #{response.value}")
 
         click_on "Delete response"
 
