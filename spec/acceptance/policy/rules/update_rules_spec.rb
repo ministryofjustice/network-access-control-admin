@@ -10,7 +10,6 @@ describe "update rules", type: :feature do
 
   context "when the user is unauthenticated" do
     it "does not allow updating rules" do
-
       visit "/policies/#{policy.id}/rules/#{rule.id}/edit"
 
       expect(page).to have_content "You need to sign in or sign up before continuing."
