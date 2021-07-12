@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :sites, :vlans
   resources :policies do
     resources :rules
+    resources :responses
   end
 
   get "/healthcheck", to: "monitoring#healthcheck"
