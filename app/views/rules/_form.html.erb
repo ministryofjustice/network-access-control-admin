@@ -1,4 +1,4 @@
-<%= form_with(model: @rule, url: policy_rules_path(@rule, policy_id: @policy.id), local: true) do |f| %>
+<%= form_with(model: rule, url: path, local: true) do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :request_attribute) %>">
     <%= f.label :request_attribute, class: "govuk-label" %>
     <%= f.text_field :request_attribute, class: "govuk-input" %>
@@ -19,7 +19,7 @@
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", f.object.new_record? ? root_path : @rule,
+  <%= link_to "Cancel", policy_path(@policy),
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"

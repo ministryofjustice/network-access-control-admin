@@ -35,6 +35,7 @@
           <td class="govuk-table__cell"><%= rule.value %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Rule %>
+              <%= link_to "Edit", edit_policy_rule_path(policy_id: @policy, id: rule), class:"govuk-link" %>
               <%= link_to "Delete", policy_rule_path(policy_id: @policy, id: rule), class:"govuk-link", method: :delete %>
             <% end %>
           </td>
