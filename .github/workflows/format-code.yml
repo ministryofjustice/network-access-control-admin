@@ -12,9 +12,9 @@ jobs:
         ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Setup Ruby
-      uses: actions/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.7.3'
+        ruby-version: '3.0.2'
 
     - name: Format code
       env:
