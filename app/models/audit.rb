@@ -4,6 +4,6 @@ class Audit < Audited::Audit
   paginates_per 50
 
   delegate :email,
-    to: :user,
-    allow_nil: true
+           to: :user,
+           allow_nil: true
 end

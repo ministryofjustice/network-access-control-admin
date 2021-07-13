@@ -12,9 +12,11 @@ RSpec.describe "GET /sign_in", type: :feature do
     before do
       # Simulate logging in via Cognito Omniauth provider
       OmniAuth.config.add_mock(:cognito, {
-        provider: "cognito", uid: "12345", extra: {
-          raw_info: {"custom:app_role": "editor", identities: [{userId: "test_sign_in@example.com"}]}
-        }
+        provider: "cognito",
+        uid: "12345",
+        extra: {
+          raw_info: { "custom:app_role": "editor", identities: [{ userId: "test_sign_in@example.com" }] },
+        },
       })
 
       Rails.application.env_config["devise.mapping"] = Devise.mappings[:user]

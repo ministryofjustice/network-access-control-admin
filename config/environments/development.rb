@@ -20,7 +20,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}",
     }
   else
     config.action_controller.perform_caching = false
@@ -63,10 +63,10 @@ Rails.application.configure do
 
   config.check_yarn_integrity = false
   config.s3_aws_config = {
-    stub_responses: true
+    stub_responses: true,
   }
 
   config.ecs_aws_config = {
-    stub_responses: true
+    stub_responses: true,
   }
 end

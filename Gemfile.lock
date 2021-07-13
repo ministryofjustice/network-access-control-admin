@@ -279,8 +279,21 @@ GEM
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (0.3.0)
       parser (>= 2.7.1.4)
+    rubocop-govuk (3.16.0)
+      rubocop (= 0.85.1)
+      rubocop-rails (= 2.6.0)
+      rubocop-rake (= 0.5.1)
+      rubocop-rspec (= 1.39.0)
     rubocop-performance (1.6.1)
       rubocop (>= 0.71.0)
+    rubocop-rails (2.6.0)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 0.82.0)
+    rubocop-rake (0.5.1)
+      rubocop
+    rubocop-rspec (1.39.0)
+      rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.4)
     rubyzip (2.3.0)
@@ -382,6 +395,7 @@ DEPENDENCIES
   rails (~> 6.1.4)
   rails-controller-testing
   rspec-rails (~> 5.0.1)
+  rubocop-govuk
   sassc-rails
   selenium-webdriver
   sentry-raven
@@ -398,7 +412,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.7.1p83
+   ruby 2.7.3p183
 
 BUNDLED WITH
    2.1.4

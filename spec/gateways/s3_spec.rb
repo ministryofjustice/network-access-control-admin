@@ -6,16 +6,14 @@ describe Gateways::S3 do
 
   let(:bucket) { "StubBucket" }
   let(:key) { "StubKey" }
-  let(:data) { {blah: "foobar"}.to_json }
+  let(:data) { { blah: "foobar" }.to_json }
   let(:aws_config) do
     {
       stub_responses: {
-        get_object: ->(context) {
-          if context.params.fetch(:bucket) == bucket && context.params.fetch(:key) == key
-            {body: "some data"}
-          end
-        }
-      }
+        get_object: lambda { |context|
+          { body: "some data" } if context.params.fetch(:bucket) == bucket && context.params.fetch(:key) == key
+        },
+      },
     }
   end
 

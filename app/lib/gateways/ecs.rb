@@ -12,13 +12,13 @@ module Gateways
       client.update_service(
         cluster: cluster_name,
         service: service_name,
-        force_new_deployment: true
+        force_new_deployment: true,
       )
 
       {}
     end
 
-    private
+  private
 
     attr_reader :client, :cluster_name, :service_name
   end

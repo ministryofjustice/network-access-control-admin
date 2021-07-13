@@ -12,7 +12,7 @@ module Gateways
         body: data,
         bucket: bucket,
         key: key,
-        content_type: content_type
+        content_type: content_type,
       )
 
       {}
@@ -22,7 +22,7 @@ module Gateways
       client.get_object(bucket: bucket, key: key).body.read
     end
 
-    private
+  private
 
     attr_reader :bucket, :key, :client, :content_type
   end

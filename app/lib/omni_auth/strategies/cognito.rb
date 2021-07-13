@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Copyright 2018 The Sage Group Plc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +22,11 @@ module OmniAuth
     class Cognito < OmniAuth::Strategies::OAuth2
       option :name, "cognito"
       option :client_options,
-        {
-          authorize_url: "/oauth2/authorize",
-          token_url: "/oauth2/token",
-          auth_scheme: :basic_auth
-        }
+             {
+               authorize_url: "/oauth2/authorize",
+               token_url: "/oauth2/token",
+               auth_scheme: :basic_auth,
+             }
       option :jwt_leeway, 60
       option :user_pool_id, nil
       option :aws_region, nil
@@ -42,13 +40,13 @@ module OmniAuth
           {
             name: parsed_id_token["name"],
             email: parsed_id_token["email"],
-            phone: parsed_id_token["phone_number"]
+            phone: parsed_id_token["phone_number"],
           }
         end
       end
 
       credentials do
-        {token: access_token.token}.tap do |hash|
+        { token: access_token.token }.tap do |hash|
           hash[:refresh_token] = access_token.refresh_token if access_token.expires? && access_token.refresh_token
           hash[:expires_at] = access_token.expires_at if access_token.expires?
           hash[:expires] = access_token.expires?
@@ -57,18 +55,18 @@ module OmniAuth
       end
 
       extra do
-        {raw_info: parsed_id_token.reject { |key| %w[iss aud exp iat token_use nbf].include?(key) }}
+        { raw_info: parsed_id_token.reject { |key| %w[iss aud exp iat token_use nbf].include?(key) } }
       end
 
-      private
+    private
 
       # Override this method to remove the query string from the callback_url because Cognito
       # requires an exact match
       def build_access_token
         client.auth_code.get_token(
           request.params["code"],
-          {redirect_uri: callback_url.split("?").first}.merge(token_params.to_hash(symbolize_keys: true)),
-          deep_symbolize(options.auth_token_params)
+          { redirect_uri: callback_url.split("?").first }.merge(token_params.to_hash(symbolize_keys: true)),
+          deep_symbolize(options.auth_token_params),
         )
       end
 
@@ -92,7 +90,7 @@ module OmniAuth
           verify_not_before: true,
           verify_iat: true,
           verify_jti: false,
-          leeway: options[:jwt_leeway]
+          leeway: options[:jwt_leeway],
         ).first
       end
     end

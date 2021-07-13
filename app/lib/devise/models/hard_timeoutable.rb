@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Devise
   module Models
     # HardTimeoutable ensures that users are not signed in for longer then the max
@@ -19,7 +17,7 @@ module Devise
     module HardTimeoutable
       extend ActiveSupport::Concern
 
-      def self.required_fields(klass)
+      def self.required_fields(_klass)
         []
       end
 
@@ -31,8 +29,6 @@ module Devise
       def hard_timeout_in
         self.class.hard_timeout_in
       end
-
-      private
 
       module ClassMethods
         Devise::Models.config(self, :hard_timeout_in)

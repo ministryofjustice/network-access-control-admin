@@ -3,7 +3,7 @@ class Ipv4ListValidator < ActiveModel::EachValidator
     unless ip_addresses.all? { |ip_address| IPAddress.valid_ipv4?(ip_address) }
       record.errors.add(
         attribute,
-        options[:message] || "contains an invalid IPv4 address"
+        options[:message] || "contains an invalid IPv4 address",
       )
     end
   end

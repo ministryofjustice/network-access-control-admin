@@ -7,7 +7,7 @@ describe User, type: :model do
     let(:auth_hash) do
       # Mocking OmniAuth::AuthHash
       double(provider: "cognito", uid: "1",
-             extra: double(raw_info: {"custom:app_role" => role, :identities => [double(userId: "test_from_omniauth@example.com")]}))
+             extra: double(raw_info: { "custom:app_role" => role, :identities => [double(userId: "test_from_omniauth@example.com")] }))
     end
 
     context "editor app role" do

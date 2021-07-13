@@ -6,7 +6,7 @@ describe Gateways::Ecs do
   let(:aws_config) do
     {
       region: "eu-west-2",
-      stub_responses: true
+      stub_responses: true,
     }
   end
 

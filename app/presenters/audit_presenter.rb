@@ -4,14 +4,12 @@ class AuditPresenter < BasePresenter
 
     return string if record.auditable.blank?
 
-    if auditable_presenter.display_name.present?
-      string += " (#{auditable_presenter.display_name})"
-    end
+    string += " (#{auditable_presenter.display_name})" if auditable_presenter.display_name.present?
 
     string
   end
 
-  private
+private
 
   def auditable_presenter
     model = record.auditable

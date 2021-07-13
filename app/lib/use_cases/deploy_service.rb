@@ -8,7 +8,7 @@ module UseCases
       ecs_gateway.update_service
     end
 
-    private
+  private
 
     attr_reader :ecs_gateway
   end

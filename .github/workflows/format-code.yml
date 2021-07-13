@@ -6,7 +6,21 @@ jobs:
   format-code:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - uses: ministryofjustice/github-actions/code-formatter@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+
+    - name: Setup Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: '2.7.3'
+
+    - name: Format code
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        bundle --quiet
+        bundle exec rubocop -a
+        git config --global user.name "Rubocop"
+        git add . && git commit -m"Commit changes made by Rubocop" && git push || echo "Nothing to fix"

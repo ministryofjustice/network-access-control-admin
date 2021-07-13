@@ -1,5 +1,5 @@
 class RulesController < ApplicationController
-  before_action :set_policy, only: [:new, :create, :destroy, :edit, :update]
+  before_action :set_policy, only: %i[new create destroy edit update]
 
   def new
     @rule = Rule.new
@@ -49,7 +49,7 @@ class RulesController < ApplicationController
     end
   end
 
-  private
+private
 
   def policy_id
     params.fetch(:policy_id)
