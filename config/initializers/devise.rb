@@ -323,13 +323,14 @@ end
 Warden::Manager.after_set_user do |record, warden, options|
   scope = options[:scope]
 
-  if record&.respond_to?(:hard_timedout?) && warden.authenticated?(scope) &&
+  if record.respond_to?(:hard_timedout?) && warden.authenticated?(scope) &&
       options[:store] != false
     signed_in_at = warden.session(scope)["signed_in_at"]
 
-    if signed_in_at.is_a? Integer
+    case signed_in_at
+    when Integer
       signed_in_at = Time.at(signed_in_at).utc
-    elsif signed_in_at.is_a? String
+    when String
       signed_in_at = Time.parse(signed_in_at)
     end
 

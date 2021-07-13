@@ -20,7 +20,7 @@ class SitesController < ApplicationController
     authorize! :create, @site
 
     if @site.save
-      redirect_to site_path(@site), notice: "Successfully created site. " + CONFIG_UPDATE_DELAY_NOTICE
+      redirect_to site_path(@site), notice: "Successfully created site. #{CONFIG_UPDATE_DELAY_NOTICE}"
     else
       render :new
     end
@@ -35,7 +35,7 @@ class SitesController < ApplicationController
     @site.assign_attributes(site_params)
 
     if @site.save
-      redirect_to site_path(@site), notice: "Successfully updated site. " + CONFIG_UPDATE_DELAY_NOTICE
+      redirect_to site_path(@site), notice: "Successfully updated site. #{CONFIG_UPDATE_DELAY_NOTICE}"
     else
       render :edit
     end
@@ -45,7 +45,7 @@ class SitesController < ApplicationController
     authorize! :destroy, @site
     if confirmed?
       if @site.destroy
-        redirect_to sites_path, notice: "Successfully deleted site. " + CONFIG_UPDATE_DELAY_NOTICE
+        redirect_to sites_path, notice: "Successfully deleted site. #{CONFIG_UPDATE_DELAY_NOTICE}"
       else
         redirect_to site_path(@site), error: "Failed to delete the site"
       end
