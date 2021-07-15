@@ -1,0 +1,23 @@
+<div>
+  <h2 class="govuk-heading-l">MAC Authentication Bypasses</h2>
+
+  <table class="govuk-table">
+    <caption class="govuk-table__caption">List of MAC Authentication Bypasses</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Address</th>
+        <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Description</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @mac_authentication_bypasses.each do |bypass| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= bypass.address %></td>
+          <td class="govuk-table__cell"><%= bypass.name %></td>
+          <td class="govuk-table__cell"><%= bypass.description %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
