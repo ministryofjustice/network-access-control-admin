@@ -1,0 +1,36 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete this MAC authentication bypass?</h2>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">MAC authentication bypass:</h4>
+  <p class="govuk-body"><%= @mac_authentication_bypass.address %></p>
+  <p class="govuk-body"><%= @mac_authentication_bypass.name %></p>
+  <p class="govuk-body"><%= @mac_authentication_bypass.description %></p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting a MAC authentication bypass cannot be undone.
+  </strong>
+</div>
+
+<%= button_to "Delete bypass", mac_authentication_bypass_path(@mac_authentication_bypass),
+  method: :delete,
+  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", mac_authentication_bypasses_path,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
