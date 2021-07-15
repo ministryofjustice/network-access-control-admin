@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   end
 
   resources :mac_authentication_bypasses, except: :show
-  resources :sites, :vlans
+  resources :sites, :vlans, :certificates
   resources :policies do
     resources :rules
     resources :responses
