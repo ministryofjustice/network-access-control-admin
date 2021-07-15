@@ -17,7 +17,7 @@ describe "create certificates", type: :feature do
 
       fill_in "Name", with: "My Test Certificate"
       fill_in "Description", with: "My test certificate description details"
-      attach_file("certificate-file", "spec/acceptance/certificate/dummy_certificate/mytestcertificate.pem")
+      attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/mytestcertificate.pem")
 
       click_on "Upload"
 
