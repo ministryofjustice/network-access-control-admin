@@ -1,4 +1,6 @@
 class MacAuthenticationBypassesController < ApplicationController
+  before_action :set_mac_authentication_bypass, only: :destroy
+
   def index
     @mac_authentication_bypasses = MacAuthenticationBypass.all
   end
@@ -20,9 +22,34 @@ class MacAuthenticationBypassesController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :destroy, @mac_authentication_bypass
+    if confirmed?
+      if @mac_authentication_bypass.destroy
+        redirect_to mac_authentication_bypasses_path, notice: "Successfully deleted MAC authentication bypass. "
+      else
+        redirect_to mac_authentication_bypasses_path, error: "Failed to delete the MAC authentication bypass"
+      end
+    else
+      render "mac_authentication_bypasses/destroy"
+    end
+  end
+
   private
 
   def mac_authentication_bypass_params
     params.require(:mac_authentication_bypass).permit(:address, :name, :description)
+  end
+
+  def mac_authentication_bypass_id
+    params.fetch(:id)
+  end
+
+  def set_mac_authentication_bypass
+    @mac_authentication_bypass = MacAuthenticationBypass.find(mac_authentication_bypass_id)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end

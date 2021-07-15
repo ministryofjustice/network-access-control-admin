@@ -12,6 +12,9 @@
         <th scope="col" class="govuk-table__header">Address</th>
         <th scope="col" class="govuk-table__header">Name</th>
         <th scope="col" class="govuk-table__header">Description</th>
+        <th scope="col" class="govuk-table__header">
+          <span class="govuk-visually-hidden">Actions</span>
+        </th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -20,6 +23,9 @@
           <td class="govuk-table__cell"><%= bypass.address %></td>
           <td class="govuk-table__cell"><%= bypass.name %></td>
           <td class="govuk-table__cell"><%= bypass.description %></td>
+          <% if can? :manage, MacAuthenticationBypass %>
+            <%= link_to "Delete", mac_authentication_bypass_path(bypass), class:"govuk-link", method: :delete %>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
