@@ -1,5 +1,5 @@
 class MacAuthenticationBypassesController < ApplicationController
-  before_action :set_mac_authentication_bypass, only: :destroy
+  before_action :set_mac_authentication_bypass, only: %i[destroy edit update]
 
   def index
     @mac_authentication_bypasses = MacAuthenticationBypass.all
@@ -32,6 +32,21 @@ class MacAuthenticationBypassesController < ApplicationController
       end
     else
       render "mac_authentication_bypasses/destroy"
+    end
+  end
+
+  def edit
+    authorize! :update, @mac_authentication_bypass
+  end
+
+  def update
+    authorize! :update, @mac_authentication_bypass
+    @mac_authentication_bypass.assign_attributes(mac_authentication_bypass_params)
+
+    if @mac_authentication_bypass.save
+      redirect_to mac_authentication_bypasses_path, notice: "Successfully updated MAC authentication bypass. "
+    else
+      render :edit
     end
   end
 
