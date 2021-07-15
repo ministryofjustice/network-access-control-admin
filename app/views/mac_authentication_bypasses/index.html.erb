@@ -23,10 +23,12 @@
           <td class="govuk-table__cell"><%= bypass.address %></td>
           <td class="govuk-table__cell"><%= bypass.name %></td>
           <td class="govuk-table__cell"><%= bypass.description %></td>
-          <% if can? :manage, MacAuthenticationBypass %>
-            <%= link_to "Change", edit_mac_authentication_bypass_path(bypass), class:"govuk-link" %>
-            <%= link_to "Delete", mac_authentication_bypass_path(bypass), class:"govuk-link", method: :delete %>
-          <% end %>
+          <td class="govuk-table__cell">
+            <% if can? :manage, MacAuthenticationBypass %>
+              <%= link_to "Change", edit_mac_authentication_bypass_path(bypass), class:"govuk-link" %>
+              <%= link_to "Delete", mac_authentication_bypass_path(bypass), class:"govuk-link", method: :delete %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
