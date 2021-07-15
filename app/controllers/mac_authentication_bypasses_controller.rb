@@ -50,7 +50,7 @@ class MacAuthenticationBypassesController < ApplicationController
     end
   end
 
-  private
+private
 
   def mac_authentication_bypass_params
     params.require(:mac_authentication_bypass).permit(:address, :name, :description)
