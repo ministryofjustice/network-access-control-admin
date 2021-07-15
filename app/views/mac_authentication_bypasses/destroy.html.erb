@@ -1,10 +1,15 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete this MAC authentication bypass?</h2>
 
 <div class="govuk-inset-text">
-  <h4 class="govuk-heading-s">MAC authentication bypass:</h4>
-  <p class="govuk-body"><%= @mac_authentication_bypass.address %></p>
-  <p class="govuk-body"><%= @mac_authentication_bypass.name %></p>
-  <p class="govuk-body"><%= @mac_authentication_bypass.description %></p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">MAC Address:</span> <%= @mac_authentication_bypass.address %>
+  </p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Name:</span> <%= @mac_authentication_bypass.name %>
+  </p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Description:</span> <%= @mac_authentication_bypass.description %>
+  </p>
 </div>
 
 <div class="govuk-warning-text">
