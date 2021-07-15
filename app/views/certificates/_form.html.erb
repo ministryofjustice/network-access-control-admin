@@ -9,8 +9,10 @@
     <%= f.text_field :description, class: "govuk-input" %>
   </div>
 
-  <label for='certificate-file'>Certificate</label>
-  <input type='file' name='certificate-file' />
+  <div class="govuk-form-group">
+    <%= f.label :certificate, class: "govuk-label" %>
+    <%= f.file_field :certificate %>
+  </div>
 
   <%= f.submit "Upload", {
     class: "govuk-button",

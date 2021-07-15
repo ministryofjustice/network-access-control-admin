@@ -6,9 +6,19 @@ class CertificatesController < ApplicationController
   end
 
   def create
+    uploaded_certificate = params["certificate"]["certificate"]
+
+    # Write data into temp file
+    File.open(Rails.root.join("public", "uploads", uploaded_certificate.original_filename), "wb") do |file|
+      file.write(uploaded_certificate.read)
+    end
+
+    # Read file data
+    File.open(Rails.root.join("public", "uploads", uploaded_certificate.original_filename)).read
+
     # TODO: Create a use-case to read expiry_date and metadata from file
     # and merge with the :name and :description params, something like:
-    # certificate_metadata = UseCases::ReadCertificate(file).execute
+    # certificate_metadata = UseCases::ReadCertificateMetadata(file).execute
     @certificate = Certificate.new(certificate_params)
 
     if @certificate.save
