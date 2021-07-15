@@ -1,6 +1,10 @@
 <div>
   <h2 class="govuk-heading-l">MAC Authentication Bypasses</h2>
 
+  <% if can? :create, MacAuthenticationBypass %>
+    <%= link_to "Create a new bypass", new_mac_authentication_bypass_path, class: "govuk-button" %>
+  <% end %>
+
   <table class="govuk-table">
     <caption class="govuk-table__caption">List of MAC Authentication Bypasses</caption>
     <thead class="govuk-table__head">
