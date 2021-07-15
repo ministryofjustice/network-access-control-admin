@@ -1,0 +1,27 @@
+<%= form_with model: @certificate, url: certificates_path, method: :post, local: true do |f| %>
+  <div class="govuk-form-group <%= field_error(f.object, :name) %>">
+    <%= f.label :name, class: "govuk-label" %>
+    <%= f.text_field :name, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :description) %>">
+    <%= f.label :description, class: "govuk-label" %>
+    <%= f.text_field :description, class: "govuk-input" %>
+  </div>
+
+  <label for='certificate-file'>Certificate</label>
+  <input type='file' name='certificate-file' />
+
+  <%= f.submit "Upload", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", root_path,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+  %>
+
+<% end %>
