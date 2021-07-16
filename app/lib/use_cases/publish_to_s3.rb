@@ -7,7 +7,7 @@ class UseCases::PublishToS3
     destination_gateway.write(data: config)
   end
 
-  private
+private
 
   attr_reader :destination_gateway
 end

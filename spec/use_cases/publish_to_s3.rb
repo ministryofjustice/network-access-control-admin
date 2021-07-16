@@ -3,7 +3,7 @@ require "rails_helper"
 describe UseCases::PublishToS3 do
   subject(:use_case) do
     described_class.new(
-      destination_gateway: s3_gateway
+      destination_gateway: s3_gateway,
     )
   end
 
