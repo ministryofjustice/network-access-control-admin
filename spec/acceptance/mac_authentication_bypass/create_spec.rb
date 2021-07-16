@@ -39,14 +39,14 @@ describe "create MAC Authentication Bypasses", type: :feature do
 
       expect(current_path).to eql("/mac_authentication_bypasses/new")
 
-      fill_in "Address", with: "00:11:22:33:55"
+      fill_in "Address", with: "00-11-22-33-55-66"
       fill_in "Name", with: "CCTV"
       fill_in "Description", with: "This is a test bypass"
 
       click_on "Create"
 
       expect(page).to have_content("Successfully created MAC authentication bypass.")
-      expect(page).to have_content("00:11:22:33:55")
+      expect(page).to have_content("00-11-22-33-55-66")
 
       expect_audit_log_entry_for(editor.email, "create", "Mac authentication bypass")
     end
