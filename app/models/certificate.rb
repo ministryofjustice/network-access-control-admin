@@ -7,7 +7,7 @@ private
 
   def fields_from_certificate_file
     unless expiry_date.present? && subject.present?
-      errors.add :certificate, "Certificate is missing or invalid"
+      errors.add :certificate, "is missing or invalid"
     end
   end
 
