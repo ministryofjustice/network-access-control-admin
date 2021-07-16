@@ -21,9 +21,6 @@ describe "create certificates", type: :feature do
 
       click_on "Upload"
 
-      # TODO: assert for calling publish certificate use-case
-      # expect(UseCases::PublishCertificate).to have_received(:execute).with(certificate: certificate)
-
       expect(page).to have_content("Successfully uploaded certificate.")
       expect(page).to have_content("My Test Certificate")
 
@@ -41,6 +38,19 @@ describe "create certificates", type: :feature do
       expect(page).to have_content "Certificate is missing or invalid"
       expect(page).to_not have_content "Expiry date can't be blank"
       expect(page).to_not have_content "Subject can't be blank"
+    end
+
+    it "displays error when the certificate is invalid" do
+      visit "/certificates/new"
+
+      fill_in "Name", with: "My Test Certificate"
+      fill_in "Description", with: "My test certificate description details"
+      attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/invalid_certificate")
+
+      click_on "Upload"
+
+      expect(page).to have_content "There is a problem"
+      expect(page).to have_content "Certificate is missing or invalid"
     end
   end
 end
