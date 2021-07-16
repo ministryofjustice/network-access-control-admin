@@ -17,6 +17,6 @@ describe Certificate, type: :model do
     invalid_cerificate = Certificate.new(params)
 
     expect(invalid_cerificate).to_not be_valid
-    expect(invalid_cerificate.errors.full_messages).to include("Certificate Certificate is missing or invalid")
+    expect(invalid_cerificate.errors.full_messages).to include("Certificate is missing or invalid")
   end
 end
