@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe UseCases::GenerateAuthorisedClients do
+describe UseCases::GenerateAuthorisedMacs do
   subject(:result) do
     described_class.new.call(mac_authentication_bypasses: mac_authentication_bypasses)
   end
