@@ -1,7 +1,7 @@
 class UseCases::GenerateAuthorisedClients
   def call(mac_authentication_bypasses:)
-    mac_authentication_bypasses.map do |mab|
+    mac_authentication_bypasses.map { |mab|
       mab.address
-    end.join("\n")
+    }.join("\n")
   end
 end

@@ -14,7 +14,7 @@ describe UseCases::GenerateAuthorisedClients do
 
       let(:mac_authentication_bypasses) { MacAuthenticationBypass.all }
 
-      it 'generates a authorised_clients configuration file' do
+      it "generates a authorised_clients configuration file" do
         expected_config = %(aa-11-22-33-44-55
 ff-99-88-77-66-55)
 
