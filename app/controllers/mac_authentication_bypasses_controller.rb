@@ -77,8 +77,8 @@ private
         bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
         key: "authorised_macs",
         aws_config: Rails.application.config.s3_aws_config,
-        content_type: "text/plain"
-      )
+        content_type: "text/plain",
+      ),
     )
   end
 end
