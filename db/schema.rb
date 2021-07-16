@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_150359) do
     t.string "name", null: false
     t.text "description", null: false
     t.date "expiry_date"
-    t.string "properties"
+    t.text "subject"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
