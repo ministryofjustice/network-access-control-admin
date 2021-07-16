@@ -3,6 +3,6 @@ FactoryBot.define do
     sequence(:name) { |n| "Certificate #{n}" }
     sequence(:description) { |n| "Certificate description #{n}" }
     sequence(:expiry_date) { Date.today }
-    sequence(:properties) { |n| "Certificate properties #{n}" }
+    sequence(:subject) { |n| "Certificate subject #{n}" }
   end
 end

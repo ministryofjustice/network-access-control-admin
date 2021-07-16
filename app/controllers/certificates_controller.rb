@@ -6,27 +6,25 @@ class CertificatesController < ApplicationController
   end
 
   def create
-    uploaded_certificate = params["certificate"]["certificate"]
+    @certificate = Certificate.new(certificate_params)
+    uploaded_certificate_file = params["certificate"]["certificate"]
 
-    # Write data into temp file
-    File.open(Rails.root.join("public", "uploads", uploaded_certificate.original_filename), "wb") do |file|
-      file.write(uploaded_certificate.read)
+    if uploaded_certificate_file.present?
+      certificate_metadata = UseCases::ReadCertificateMetadata.new(certificate: uploaded_certificate_file.read).call
+      @certificate.expiry_date = certificate_metadata[:expiry_date]
+      @certificate.subject = certificate_metadata[:subject]
     end
-
-    # Read file data
-    certificate = File.open(Rails.root.join("public", "uploads", uploaded_certificate.original_filename)).read
-
-    # TODO: Create a use-case to read expiry_date and metadata from file
-    # and merge with the :name and :description params, something like:
-    expiry_date = UseCases::ReadCertificateMetadata.new(certificate: certificate).call
-
-    @certificate = Certificate.new(certificate_params.merge(expiry_date: expiry_date))
+    # TODO: handle errors when certificate is not present or incorrect file format
 
     if @certificate.save
       redirect_to certificate_path(@certificate), notice: "Successfully uploaded certificate."
     else
       render :new
     end
+  end
+
+  def show
+    @certificate = Certificate.find(params.fetch(:id))
   end
 
 private
