@@ -17,6 +17,7 @@ class MacAuthenticationBypassesController < ApplicationController
 
     if @mac_authentication_bypass.save
       redirect_to mac_authentication_bypasses_path, notice: "Successfully created MAC authentication bypass. "
+      publish_authorised_macs
     else
       render :new
     end
@@ -27,6 +28,7 @@ class MacAuthenticationBypassesController < ApplicationController
     if confirmed?
       if @mac_authentication_bypass.destroy
         redirect_to mac_authentication_bypasses_path, notice: "Successfully deleted MAC authentication bypass. "
+        publish_authorised_macs
       else
         redirect_to mac_authentication_bypasses_path, error: "Failed to delete the MAC authentication bypass"
       end
@@ -45,6 +47,7 @@ class MacAuthenticationBypassesController < ApplicationController
 
     if @mac_authentication_bypass.save
       redirect_to mac_authentication_bypasses_path, notice: "Successfully updated MAC authentication bypass. "
+      publish_authorised_macs
     else
       render :edit
     end
@@ -66,5 +69,16 @@ private
 
   def confirmed?
     params.fetch(:confirm, false)
+  end
+
+  def publish_authorised_macs
+    UseCases::PublishToS3.new(
+      destination_gateway: Gateways::S3.new(
+        bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+        key: "authorised_macs",
+        aws_config: Rails.application.config.s3_aws_config,
+        content_type: "text/plain"
+      )
+    )
   end
 end
