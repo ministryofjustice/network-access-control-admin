@@ -9,7 +9,14 @@ describe Certificate, type: :model do
 
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :description }
-  it { is_expected.to validate_presence_of :expiry_date }
-  it { is_expected.to validate_presence_of :subject }
   it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
+
+  it "raises an error when fields from certificate file are missing" do
+    missing_field = [{ expiry_date: Date.today }, { subject: "may not exist" }].sample
+    params = { name: "My new certificate", description: "bar" }.merge(missing_field)
+    invalid_cerificate = Certificate.new(params)
+
+    expect(invalid_cerificate).to_not be_valid
+    expect(invalid_cerificate.errors.full_messages).to include("Certificate Certificate is missing or invalid")
+  end
 end

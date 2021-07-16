@@ -36,6 +36,11 @@ describe "create certificates", type: :feature do
       click_on "Upload"
 
       expect(page).to have_content "There is a problem"
+      expect(page).to have_content "Description can't be blank"
+      expect(page).to have_content "Name can't be blank"
+      expect(page).to have_content "Certificate is missing or invalid"
+      expect(page).to_not have_content "Expiry date can't be blank"
+      expect(page).to_not have_content "Subject can't be blank"
     end
   end
 end

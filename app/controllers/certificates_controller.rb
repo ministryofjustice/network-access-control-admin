@@ -14,7 +14,7 @@ class CertificatesController < ApplicationController
       @certificate.expiry_date = certificate_metadata[:expiry_date]
       @certificate.subject = certificate_metadata[:subject]
     end
-    # TODO: handle errors when certificate is not present or incorrect file format
+    # TODO: handle errors when certificate is in incorrect file format
 
     if @certificate.save
       redirect_to certificate_path(@certificate), notice: "Successfully uploaded certificate."
