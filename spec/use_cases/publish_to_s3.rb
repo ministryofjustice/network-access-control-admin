@@ -14,7 +14,7 @@ describe UseCases::PublishToS3 do
     use_case.call(config)
   end
 
-  it "publishes the Authorised Macs" do
+  it "publishes the file with contents" do
     expect(s3_gateway).to have_received(:write)
       .with(data: config)
   end
