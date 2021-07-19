@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "showing a certificate", type: :feature do
   context "when the user is unauthenticated" do
-    it "does not allow viewing bypasses" do
+    it "does not allow viewing certificates" do
       visit "/certificates"
 
       expect(page).to have_content "You need to sign in or sign up before continuing."

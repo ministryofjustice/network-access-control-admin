@@ -3,7 +3,7 @@
     <h2 class="govuk-heading-l">Certificates</h2>
   </div>
 
-  <% if can? :create, Site %>
+  <% if can? :create, Certificate %>
     <%= link_to "Upload a new certificate", new_certificate_path, class: "govuk-button" %>
   <% end %>
 
