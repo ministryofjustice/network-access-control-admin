@@ -1,7 +1,40 @@
 <div>
-  <h2 class="govuk-heading-l">Certificates</h2>
-</div>
+  <div>
+    <h2 class="govuk-heading-l">Certificates</h2>
+  </div>
 
-<% if can? :create, Site %>
-  <%= link_to "Upload a new certificate", new_certificate_path, class: "govuk-button" %>
-<% end %>
+  <% if can? :create, Site %>
+    <%= link_to "Upload a new certificate", new_certificate_path, class: "govuk-button" %>
+  <% end %>
+
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-visually-hidden">List of Certificates</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Description</th>
+        <th scope="col" class="govuk-table__header">Subject</th>
+        <th scope="col" class="govuk-table__header">Expiry Date</th>
+        <th scope="col" class="govuk-table__header">
+          <span class="govuk-visually-hidden">Actions</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @certificates.each do |certificate| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= certificate.name %></td>
+          <td class="govuk-table__cell"><%= certificate.description %></td>
+          <td class="govuk-table__cell"><%= certificate.subject %></td>
+          <td class="govuk-table__cell"><%= certificate.expiry_date %></td>
+          <td class="govuk-table__cell">
+            <% if can? :manage, Certificate %>
+              <%= link_to "Change", edit_certificate_path(certificate), class:"govuk-link" %>
+              <%= link_to "Delete", certificate_path(certificate), class:"govuk-link", method: :delete %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

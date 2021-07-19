@@ -1,4 +1,4 @@
-<%= form_with model: @certificate, url: certificates_path, method: :post, local: true do |f| %>
+<%= form_with model: @certificate, local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :name) %>">
     <%= f.label :name, class: "govuk-label" %>
     <%= f.text_field :name, class: "govuk-input" %>
@@ -9,17 +9,19 @@
     <%= f.text_field :description, class: "govuk-input" %>
   </div>
 
+<% if f.object.new_record? %>
   <div class="govuk-form-group">
     <%= f.label :certificate, class: "govuk-label" %>
     <%= f.file_field :certificate %>
   </div>
+<% end %>
 
-  <%= f.submit "Upload", {
+  <%= f.submit f.object.new_record? ? "Upload" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", root_path,
+  <%= link_to "Cancel", certificates_path,
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"
