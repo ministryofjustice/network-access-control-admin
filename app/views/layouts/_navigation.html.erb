@@ -13,6 +13,11 @@
         <%= link_to "MAB", mac_authentication_bypasses_path, class: "govuk-header__link" %>
       </li>
 
+      <li class="govuk-header__navigation-item<%= selected_class_if_controller('certificates') %>">
+        <%= link_to "Certificates", certificates_path, class: "govuk-header__link" %>
+      </li>
+
+
       <li class="govuk-header__navigation-item<%= selected_class_if_controller('audit_log') %>">
         <%= link_to "Audit log", audits_path, class: "govuk-header__link" %>
       </li>

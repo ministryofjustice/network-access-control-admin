@@ -1,7 +1,7 @@
 class Certificate < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates_presence_of :description
-  validate :fields_from_certificate_file
+  validate :fields_from_certificate_file, on: :create
 
 private
 
