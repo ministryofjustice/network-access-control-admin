@@ -78,11 +78,11 @@ private
         key: "authorised_macs",
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
-      )
+      ),
     ).call(
       UseCases::GenerateAuthorisedMacs.new.call(
-        mac_authentication_bypasses: MacAuthenticationBypass.all
-      )
+        mac_authentication_bypasses: MacAuthenticationBypass.all,
+      ),
     )
   end
 end
