@@ -31,7 +31,7 @@ class CertificatesController < ApplicationController
     authorize! :update, @certificate
   end
 
-  def update 
+  def update
     authorize! :update, @certificate
     @certificate.assign_attributes(certificate_params)
 
@@ -60,7 +60,5 @@ private
     @certificate = Certificate.find(certificate_id)
   end
 
-  def publish_certificate
-
-  end
+  def publish_certificate; end
 end

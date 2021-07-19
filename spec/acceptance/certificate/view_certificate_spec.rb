@@ -24,7 +24,6 @@ describe "showing a certificate", type: :feature do
         expect(page).to have_content certificate.description
         expect(page).to have_content certificate.expiry_date
         expect(page).to have_content certificate.subject
-
       end
     end
   end
