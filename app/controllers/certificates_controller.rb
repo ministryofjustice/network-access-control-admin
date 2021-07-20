@@ -83,7 +83,7 @@ private
     UseCases::RemoveFromS3.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
-        key: @certificate.filename,
+        key: full_object_path(@certificate.filename),
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
       ),
@@ -94,12 +94,16 @@ private
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
-        key: certificate_file.original_filename,
+        key: full_object_path(certificate_file.original_filename),
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
       ),
     ).call(
       certificate_file.to_io,
     )
+  end
+
+  def full_object_path(filename) 
+    (@certificate.category == "RADSEC" ? "/radsec/" : "") + filename
   end
 end
