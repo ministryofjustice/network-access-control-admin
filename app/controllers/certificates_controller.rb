@@ -64,7 +64,7 @@ class CertificatesController < ApplicationController
 private
 
   def certificate_params
-    params.require(:certificate).permit(:name, :description, :category, :filename)
+    params.require(:certificate).permit(:name, :description, :category)
   end
 
   def certificate_id
