@@ -21,6 +21,16 @@ describe Gateways::S3 do
     expect(gateway.write(data: data)).to eq({})
   end
 
+  it "removes the file from the S3 bucket" do
+    expect(gateway.remove).to eq(
+      {
+        delete_marker: false,
+        request_charged: "RequestCharged",
+        version_id: "ObjectVersionId",
+      },
+    )
+  end
+
   context "when reading a file from the S3 bucket" do
     it "returns the contents of the file" do
       expect(gateway.read).to eq("some data")

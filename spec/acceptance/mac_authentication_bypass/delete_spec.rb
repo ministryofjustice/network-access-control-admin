@@ -24,7 +24,7 @@ describe "delete MAC authentication bypasses", type: :feature do
       login_as editor
     end
 
-    it "does delete a policy" do
+    it "does delete a MAC address" do
       visit "/mac_authentication_bypasses"
 
       click_on "Delete"

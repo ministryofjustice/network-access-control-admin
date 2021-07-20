@@ -21,7 +21,7 @@ class CertificatesController < ApplicationController
 
     if @certificate.save
       redirect_to certificate_path(@certificate), notice: "Successfully uploaded certificate."
-      publish_certificate
+      publish_certificate(uploaded_certificate_file)
     else
       render :new
     end
@@ -39,6 +39,21 @@ class CertificatesController < ApplicationController
       redirect_to certificate_path(@certificate), notice: "Successfully updated certificate details."
     else
       render :edit
+    end
+  end
+
+  def destroy
+    authorize! :destroy, @certificate
+    if confirmed?
+      if @certificate.destroy
+        redirect_to certificates_path, notice: "Successfully deleted certificate. "
+
+        # TODO: delete certificate from S3
+      else
+        redirect_to certificates_path, error: "Failed to delete the certificate."
+      end
+    else
+      render "certificates/destroy"
     end
   end
 
@@ -60,5 +75,20 @@ private
     @certificate = Certificate.find(certificate_id)
   end
 
-  def publish_certificate; end
+  def confirmed?
+    params.fetch(:confirm, false)
+  end
+
+  def publish_certificate(certificate_file)
+    UseCases::PublishToS3.new(
+      destination_gateway: Gateways::S3.new(
+        bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+        key: "certificates",
+        aws_config: Rails.application.config.s3_aws_config,
+        content_type: "application/x-pem-file",
+      ),
+    ).call(
+      certificate_file,
+    )
+  end
 end

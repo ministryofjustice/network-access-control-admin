@@ -22,6 +22,10 @@ module Gateways
       client.get_object(bucket: bucket, key: key).body.read
     end
 
+    def remove
+      client.delete_object(bucket: bucket, key: key).to_h
+    end
+
   private
 
     attr_reader :bucket, :key, :client, :content_type
