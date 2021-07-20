@@ -32,9 +32,8 @@ class CertificatesController < ApplicationController
     authorize! :destroy, @certificate
     if confirmed?
       if @certificate.destroy
+        remove_certificate
         redirect_to certificates_path, notice: "Successfully deleted certificate. "
-
-        # TODO: delete certificate from S3
       else
         redirect_to certificates_path, error: "Failed to delete the certificate."
       end
@@ -65,16 +64,31 @@ private
     params.fetch(:confirm, false)
   end
 
+  def remove_certificate
+    UseCases::RemoveFromS3.new(
+      destination_gateway: Gateways::S3.new(
+        bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
+        key: full_object_path(@certificate.filename),
+        aws_config: Rails.application.config.s3_aws_config,
+        content_type: "text/plain",
+      ),
+    ).call
+  end
+
   def publish_certificate(certificate_file)
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
-        key: certificate_file.original_filename,
+        key: full_object_path(certificate_file.original_filename),
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
       ),
     ).call(
       certificate_file.to_io,
     )
+  end
+
+  def full_object_path(filename)
+    (@certificate.category == "RADSEC" ? "/radsec/" : "") + filename
   end
 end
