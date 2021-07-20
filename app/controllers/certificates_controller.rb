@@ -83,7 +83,7 @@ private
   def publish_certificate(certificate_file)
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(
-        bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+        bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
         key: certificate_file.original_filename,
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
