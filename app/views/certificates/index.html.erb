@@ -13,7 +13,7 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Name</th>
         <th scope="col" class="govuk-table__header">Description</th>
-        <th scope="col" class="govuk-table__header">Subject</th>
+        <th scope="col" class="govuk-table__header">File Name</th>
         <th scope="col" class="govuk-table__header">Expiry Date</th>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
@@ -25,11 +25,11 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= certificate.name %></td>
           <td class="govuk-table__cell"><%= certificate.description %></td>
-          <td class="govuk-table__cell"><%= certificate.subject %></td>
+          <td class="govuk-table__cell"><%= certificate.filename %></td>
           <td class="govuk-table__cell"><%= certificate.expiry_date %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Certificate %>
-              <%= link_to "Change", edit_certificate_path(certificate), class:"govuk-link" %>
+              <%= link_to "View", certificate_path(certificate), class:"govuk-link" %>
               <%= link_to "Delete", certificate_path(certificate), class:"govuk-link", method: :delete %>
             <% end %>
           </td>
