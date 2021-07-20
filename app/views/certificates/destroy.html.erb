@@ -1,0 +1,44 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete this certificate?</h2>
+
+<div class="govuk-inset-text">
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Name:</span> <%= @certificate.name %>
+  </p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Description:</span> <%= @certificate.description %>
+  </p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Subject:</span> <%= @certificate.subject %>
+  </p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Expiry Date:</span> <%= @certificate.expiry_date %>
+  </p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting a certificate cannot be undone.
+  </strong>
+</div>
+
+<%= button_to "Delete certificate", certificate_path(@certificate),
+  method: :delete,
+  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", certificates_path,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
