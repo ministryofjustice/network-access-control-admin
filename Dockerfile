@@ -25,6 +25,7 @@ ENV LANG='C.UTF-8' \
   DB_USER=${DB_USER} \
   DB_PASS=${DB_PASS} \
   RADIUS_CONFIG_BUCKET_NAME='testconfigbucket' \
+  RADIUS_CERTIFICATE_BUCKET_NAME='testcertificatebucket' \
   SECRET_KEY_BASE=${SECRET_KEY_BASE} \
   AWS_DEFAULT_REGION='eu-west-2' \
   DB_NAME=${DB_NAME}
