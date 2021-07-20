@@ -83,9 +83,9 @@ private
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
-        key: "certificates",
+        key: certificate_file.original_filename,
         aws_config: Rails.application.config.s3_aws_config,
-        content_type: "application/x-pem-file",
+        content_type: "text/plain",
       ),
     ).call(
       certificate_file,
