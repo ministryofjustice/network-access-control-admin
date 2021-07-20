@@ -28,21 +28,6 @@ class CertificatesController < ApplicationController
     end
   end
 
-  def edit
-    authorize! :update, @certificate
-  end
-
-  def update
-    authorize! :update, @certificate
-    @certificate.assign_attributes(certificate_params)
-
-    if @certificate.save
-      redirect_to certificate_path(@certificate), notice: "Successfully updated certificate details."
-    else
-      render :edit
-    end
-  end
-
   def destroy
     authorize! :destroy, @certificate
     if confirmed?
