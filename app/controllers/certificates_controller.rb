@@ -22,7 +22,7 @@ class CertificatesController < ApplicationController
 
     if @certificate.save
       redirect_to certificate_path(@certificate), notice: "Successfully uploaded certificate."
-      publish_certificate(uploaded_certificate_file.read)
+      publish_certificate(uploaded_certificate_file)
     else
       render :new
     end
@@ -89,7 +89,7 @@ private
         content_type: "text/plain",
       ),
     ).call(
-      certificate_file,
+      certificate_file.read,
     )
   end
 end
