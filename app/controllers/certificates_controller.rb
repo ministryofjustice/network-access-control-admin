@@ -17,6 +17,7 @@ class CertificatesController < ApplicationController
       certificate_metadata = UseCases::ReadCertificateMetadata.new(certificate: uploaded_certificate_file.read).call
       @certificate.expiry_date = certificate_metadata[:expiry_date]
       @certificate.subject = certificate_metadata[:subject]
+      @certificate.filename = uploaded_certificate_file.original_filename
     end
 
     if @certificate.save

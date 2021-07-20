@@ -23,6 +23,7 @@ describe "create certificates", type: :feature do
 
       expect(page).to have_content("Successfully uploaded certificate.")
       expect(page).to have_content("My Test Certificate")
+      expect(page).to have_content("mytestcertificate.pem")
 
       expect_audit_log_entry_for(editor.email, "create", "Certificate")
     end

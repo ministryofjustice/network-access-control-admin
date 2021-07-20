@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_15_150359) do
+ActiveRecord::Schema.define(version: 2021_07_20_092852) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_07_15_150359) do
     t.text "subject"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "filename", null: false
   end
 
   create_table "mac_authentication_bypasses", charset: "utf8", force: :cascade do |t|
