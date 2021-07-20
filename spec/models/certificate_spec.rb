@@ -19,4 +19,10 @@ describe Certificate, type: :model do
     expect(invalid_cerificate).to_not be_valid
     expect(invalid_cerificate.errors.full_messages).to include("Certificate is missing or invalid")
   end
+
+  it "validates the category of certificate" do
+    expect(build(:certificate, category: "foobar")).to be_invalid
+    expect(build(:certificate, category: "EAP")).to be_valid
+    expect(build(:certificate, category: "RADSEC")).to be_valid
+  end
 end
