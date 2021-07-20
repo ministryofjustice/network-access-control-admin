@@ -15,12 +15,14 @@ describe "create certificates", type: :feature do
 
       expect(current_path).to eql("/certificates/new")
 
+      select "EAP", from: "certificate_category"
       fill_in "Name", with: "My Test Certificate"
       fill_in "Description", with: "My test certificate description details"
       attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/mytestcertificate.pem")
 
       click_on "Upload"
 
+      expect(page).to have_content("EAP")
       expect(page).to have_content("Successfully uploaded certificate.")
       expect(page).to have_content("My Test Certificate")
       expect(page).to have_content("mytestcertificate.pem")
