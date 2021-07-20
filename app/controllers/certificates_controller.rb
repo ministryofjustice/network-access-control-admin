@@ -89,7 +89,7 @@ private
         content_type: "text/plain",
       ),
     ).call(
-      certificate_file.read,
+      certificate_file.to_io,
     )
   end
 end
