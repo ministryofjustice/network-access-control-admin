@@ -88,7 +88,7 @@ private
     )
   end
 
-  def full_object_path(filename) 
+  def full_object_path(filename)
     (@certificate.category == "RADSEC" ? "radsec/" : "") + filename
   end
 end
