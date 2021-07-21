@@ -76,7 +76,7 @@ private
   end
 
   def publish_certificate(certificate_file)
-    p 'start cert upload'
+    p "start cert upload"
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
@@ -87,7 +87,7 @@ private
     ).call(
       certificate_file.to_io,
     )
-    p 'done uploading cert'
+    p "done uploading cert"
   end
 
   def full_object_path(filename)
