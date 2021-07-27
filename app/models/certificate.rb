@@ -3,6 +3,7 @@ class Certificate < ApplicationRecord
   validates_presence_of :description
   validate :fields_from_certificate_file, on: :create
   validates_inclusion_of :category, in: %w[EAP RADSEC]
+  validates_uniqueness_of :filename
 
 private
 
