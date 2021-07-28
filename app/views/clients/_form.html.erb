@@ -1,0 +1,29 @@
+<%= form_with(model: client, url: path, local: true) do |f| %>
+  <div class="govuk-form-group <%= field_error(f.object, :ip_range) %>">
+    <%= f.label :ip_range, "IP / Subnet CIDR", class: "govuk-label" %>
+    <%= f.text_field :ip_range, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :tag) %>">
+    <%= f.label :tag, class: "govuk-label" %>
+    <%= f.text_field :tag, class: "govuk-input" %>
+  </div>
+
+  <div class="govuk-form-group <%= field_error(f.object, :shared_secret) %>">
+    <%= f.label :shared_secret, class: "govuk-label" %>
+    <%= f.text_field :shared_secret, class: "govuk-input" %>
+  </div>
+
+  <%= f.submit f.object.new_record? ? "Create" : "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", site_path(@site),
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
+
+<% end %>
