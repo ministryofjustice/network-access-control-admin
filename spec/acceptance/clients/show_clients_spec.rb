@@ -16,16 +16,16 @@ describe "showing a client", type: :feature do
       login_as create(:user, :reader)
     end
 
-    context "when the client exists" do
+    context "when a site has a client" do
       let!(:site) { create :site }
       let!(:client) { create :client, site: site }
 
       it "allows viewing clients" do
-        visit "/sites/#{site.id}clients"
-
-        click_on "View", match: :first
+        visit "/sites/#{site.id}"
 
         expect(page).to have_content client.tag
+        expect(page).to have_content client.ip_range
+        expect(page).to have_content client.shared_secret
       end
     end
   end
