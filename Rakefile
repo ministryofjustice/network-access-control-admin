@@ -3,7 +3,3 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
-
-Rake::Task["db:migrate"].enhance do
-  sh "bundle exec erd"
-end
