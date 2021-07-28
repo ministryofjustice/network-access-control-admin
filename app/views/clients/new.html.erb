@@ -1,0 +1,5 @@
+<%= render "layouts/form_errors", resource: @client %>
+
+<h2 class="govuk-heading-l">Create a new Authorised Client</h2>
+
+<%= render "clients/form", path: site_clients_path(site_id: @site, id: @client), client: @client %>
