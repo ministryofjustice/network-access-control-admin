@@ -1,0 +1,38 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete this client?</h2>
+
+<div class="govuk-inset-text">
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">IP / Subnet CIDR:</span> <%= @client.ip_range %>
+  </p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Tag:</span> <%= @client.tag %>
+  </p>
+</div>
+
+<div class="govuk-warning-text">
+  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+  <strong class="govuk-warning-text__text">
+    <span class="govuk-warning-text__assistive">Warning</span>
+      Deleting a client cannot be undone.
+  </strong>
+</div>
+
+<%= button_to "Delete client", site_client_path(site_id: @site, id: @client),
+  method: :delete,
+  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
+  data: {
+    "module" => "govuk-button"
+  },
+  params: {
+    confirm: true
+  },
+  form: {
+    class: 'govuk-!-display-inline-block'
+  }
+%>
+<%= link_to "Cancel", site_path(@site),
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
