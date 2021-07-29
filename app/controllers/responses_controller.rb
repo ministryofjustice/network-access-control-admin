@@ -62,8 +62,4 @@ private
   def set_policy
     @policy = Policy.find(policy_id)
   end
-
-  def confirmed?
-    params.fetch(:confirm, false)
-  end
 end

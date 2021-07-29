@@ -63,8 +63,4 @@ private
   def client_params
     params.require(:client).permit(:ip_range, :tag, :shared_secret)
   end
-
-  def confirmed?
-    params.fetch(:confirm, false)
-  end
 end

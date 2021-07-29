@@ -60,10 +60,6 @@ private
     @certificate = Certificate.find(certificate_id)
   end
 
-  def confirmed?
-    params.fetch(:confirm, false)
-  end
-
   def remove_certificate
     UseCases::RemoveFromS3.new(
       destination_gateway: Gateways::S3.new(

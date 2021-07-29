@@ -29,5 +29,9 @@ private
     new_user_session_path
   end
 
+  def confirmed?
+    params.fetch(:confirm, false)
+  end
+
   CONFIG_UPDATE_DELAY_NOTICE = " This could take up to 10 minutes to apply.".freeze
 end

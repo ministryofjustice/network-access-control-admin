@@ -67,8 +67,4 @@ private
   def set_site
     @site = Site.find(site_id)
   end
-
-  def confirmed?
-    params.fetch(:confirm, false)
-  end
 end

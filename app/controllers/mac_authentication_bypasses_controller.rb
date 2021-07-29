@@ -67,10 +67,6 @@ private
     @mac_authentication_bypass = MacAuthenticationBypass.find(mac_authentication_bypass_id)
   end
 
-  def confirmed?
-    params.fetch(:confirm, false)
-  end
-
   def publish_authorised_macs
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(

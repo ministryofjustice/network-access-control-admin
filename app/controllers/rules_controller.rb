@@ -62,8 +62,4 @@ private
   def rule_params
     params.require(:rule).permit(:request_attribute, :value, :operator)
   end
-
-  def confirmed?
-    params.fetch(:confirm, false)
-  end
 end
