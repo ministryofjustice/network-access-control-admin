@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  before_action :set_site, only: %i[new create edit update]
+  before_action :set_site, only: %i[new create edit update destroy]
 
   def index; end
 
@@ -35,6 +35,21 @@ class ClientsController < ApplicationController
     end
   end
 
+  def destroy
+    @client = Client.find(params.fetch(:id))
+
+    authorize! :destroy, @client
+    if confirmed?
+      if @client.destroy
+        redirect_to site_path(@site), notice: "Successfully deleted client. "
+      else
+        redirect_to site_path(@site), error: "Failed to delete the client. "
+      end
+    else
+      render "clients/destroy"
+    end
+  end
+
 private
 
   def site_id
@@ -47,5 +62,9 @@ private
 
   def client_params
     params.require(:client).permit(:ip_range, :tag, :shared_secret)
+  end
+
+  def confirmed?
+    params.fetch(:confirm, false)
   end
 end
