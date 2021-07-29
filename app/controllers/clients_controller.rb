@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-  before_action :set_site, only: %i[new create]
+  before_action :set_site, only: %i[new create edit update]
 
   def index; end
 
@@ -14,6 +14,24 @@ class ClientsController < ApplicationController
       redirect_to site_path(@site), notice: "Successfully created client."
     else
       render :new
+    end
+  end
+
+  def edit
+    @client = Client.find(params.fetch(:id))
+    authorize! :update, @client
+  end
+
+  def update
+    @client = Client.find(params.fetch(:id))
+    authorize! :update, @client
+
+    @client.assign_attributes(client_params)
+
+    if @client.save
+      redirect_to site_path(@site), notice: "Successfully updated client. "
+    else
+      render :edit
     end
   end
 
