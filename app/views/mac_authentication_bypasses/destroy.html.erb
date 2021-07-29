@@ -12,30 +12,10 @@
   </p>
 </div>
 
-<div class="govuk-warning-text">
-  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-  <strong class="govuk-warning-text__text">
-    <span class="govuk-warning-text__assistive">Warning</span>
-      Deleting a MAC authentication bypass cannot be undone.
-  </strong>
-</div>
-
-<%= button_to "Delete bypass", mac_authentication_bypass_path(@mac_authentication_bypass),
-  method: :delete,
-  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
-  data: {
-    "module" => "govuk-button"
-  },
-  params: {
-    confirm: true
-  },
-  form: {
-    class: 'govuk-!-display-inline-block'
-  }
-%>
-<%= link_to "Cancel", mac_authentication_bypasses_path,
-  class: "govuk-button govuk-button--secondary",
-  data: {
-    module: "govuk-button"
-  }
+<%=
+  render "shared/destroy_confirmation",
+  resource: @mac_authentication_bypass,
+  resource_name: "bypass",
+  delete_path: mac_authentication_bypass_path(@mac_authentication_bypass),
+  cancel_path: mac_authentication_bypasses_path
 %>

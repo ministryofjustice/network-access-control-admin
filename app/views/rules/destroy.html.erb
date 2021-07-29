@@ -6,6 +6,7 @@
 <%=
   render "shared/destroy_confirmation",
   resource: @rule,
+  resource_name: "rule",
   delete_path: policy_rule_path(policy_id: @policy, id: @rule),
   cancel_path: policy_path(@policy)
 %>
