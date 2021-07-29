@@ -9,11 +9,6 @@
     <%= f.text_field :tag, class: "govuk-input" %>
   </div>
 
-  <div class="govuk-form-group <%= field_error(f.object, :shared_secret) %>">
-    <%= f.label :shared_secret, class: "govuk-label" %>
-    <%= f.text_field :shared_secret, class: "govuk-input" %>
-  </div>
-
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"

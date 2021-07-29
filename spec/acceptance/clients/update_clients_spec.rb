@@ -43,11 +43,9 @@ describe "update clients", type: :feature do
 
       expect(page).to have_field("IP / Subnet CIDR", with: client.ip_range)
       expect(page).to have_field("Tag", with: client.tag)
-      expect(page).to have_field("Shared secret", with: client.shared_secret)
 
       fill_in "IP / Subnet CIDR", with: "132.654.132.456"
       fill_in "Tag", with: "Updated client"
-      fill_in "Shared secret", with: "updated secret"
 
       click_on "Update"
 
@@ -56,7 +54,6 @@ describe "update clients", type: :feature do
       expect(page).to have_content("Successfully updated client.")
       expect(page).to have_content "132.654.132.456"
       expect(page).to have_content "Updated client"
-      expect(page).to have_content "updated secret"
 
       expect_audit_log_entry_for(editor.email, "update", "Client")
     end
