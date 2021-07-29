@@ -17,7 +17,7 @@ gem "mysql2", "~> 0.5.3"
 gem "omniauth-oauth2"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "openssl"
-gem "puma", "~> 5.3"
+gem "puma", "~> 5.4"
 gem "rails", "~> 6.1.4"
 gem "rails-erd"
 gem "rubocop-govuk", require: false
