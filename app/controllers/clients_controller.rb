@@ -1,6 +1,8 @@
 class ClientsController < ApplicationController
   before_action :set_site, only: %i[new create edit update destroy]
 
+  SHARED_SECRET_BYTES = 10
+
   def index; end
 
   def new
@@ -8,7 +10,7 @@ class ClientsController < ApplicationController
   end
 
   def create
-    @client = Client.new(client_params.merge(site_id: @site.id))
+    @client = Client.new(client_params.merge(site_id: @site.id, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase))
 
     if @client.save
       redirect_to site_path(@site), notice: "Successfully created client."
@@ -61,6 +63,6 @@ private
   end
 
   def client_params
-    params.require(:client).permit(:ip_range, :tag, :shared_secret)
+    params.require(:client).permit(:ip_range, :tag)
   end
 end

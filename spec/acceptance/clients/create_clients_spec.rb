@@ -20,7 +20,6 @@ describe "create clients", type: :feature do
 
         fill_in "IP / Subnet CIDR", with: "123.123.123.123"
         fill_in "Tag", with: "Some client"
-        fill_in "Shared secret", with: "secret secret"
 
         click_on "Create"
 
