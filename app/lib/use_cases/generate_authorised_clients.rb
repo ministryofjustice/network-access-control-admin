@@ -1,9 +1,9 @@
 class UseCases::GenerateAuthorisedClients
   def call(clients:)
-    result = ""
-    clients.map do |client|
-      result += "\nclient #{client.tag} {\nipv4addr = #{client.ip_range}\nsecret = #{client.shared_secret}\n}"
+    output = clients.map do |client|
+      "client #{client.tag.sub(" ", "_").downcase} {\n\tipv4addr = #{client.ip_range}\n\tsecret = #{client.shared_secret}\n}"
     end
-    result += "\n"
+
+    output.join("\n\n")
   end
 end
