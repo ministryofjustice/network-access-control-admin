@@ -1,0 +1,5 @@
+<%= render "layouts/form_errors", resource: @client %>
+
+<h2 class="govuk-heading-l">Editing a client</h2>
+
+<%= render "clients/form", path: site_client_path(site_id: @site, id: @client), client: @client %>
