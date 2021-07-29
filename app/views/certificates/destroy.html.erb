@@ -15,30 +15,9 @@
   </p>
 </div>
 
-<div class="govuk-warning-text">
-  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-  <strong class="govuk-warning-text__text">
-    <span class="govuk-warning-text__assistive">Warning</span>
-      Deleting a certificate cannot be undone.
-  </strong>
-</div>
-
-<%= button_to "Delete certificate", certificate_path(@certificate),
-  method: :delete,
-  class: "govuk-button govuk-button--warning govuk-!-margin-right-1",
-  data: {
-    "module" => "govuk-button"
-  },
-  params: {
-    confirm: true
-  },
-  form: {
-    class: 'govuk-!-display-inline-block'
-  }
-%>
-<%= link_to "Cancel", certificates_path,
-  class: "govuk-button govuk-button--secondary",
-  data: {
-    module: "govuk-button"
-  }
+<%=
+  render "shared/destroy_confirmation",
+  resource_name: "certificate",
+  delete_path: certificate_path(@certificate),
+  cancel_path: certificates_path
 %>
