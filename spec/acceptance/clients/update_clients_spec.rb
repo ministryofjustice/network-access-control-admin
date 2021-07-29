@@ -1,11 +1,7 @@
 require "rails_helper"
 
 describe "update clients", type: :feature do
-  let(:site) do
-    Audited.audit_class.as_user(User.first) do
-      create(:site)
-    end
-  end
+  let(:site) { create(:site) }
   let(:client) { create(:client, site: site) }
 
   context "when the user is unauthenticated" do

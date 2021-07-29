@@ -3,11 +3,7 @@ require "rails_helper"
 describe "delete rules", type: :feature do
   context "when the user is a viewer" do
     let(:editor) { create(:user, :editor) }
-    let!(:policy) do
-      Audited.audit_class.as_user(editor) do
-        create(:policy)
-      end
-    end
+    let!(:policy) { create(:policy) }
 
     before do
       login_as create(:user, :reader)

@@ -3,11 +3,7 @@ require "rails_helper"
 describe "delete clients", type: :feature do
   context "when the user is a viewer" do
     let(:editor) { create(:user, :editor) }
-    let!(:site) do
-      Audited.audit_class.as_user(editor) do
-        create(:site)
-      end
-    end
+    let!(:site) { create(:site) }
 
     before do
       login_as create(:user, :reader)

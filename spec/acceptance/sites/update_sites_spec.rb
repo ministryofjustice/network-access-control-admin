@@ -1,11 +1,7 @@
 require "rails_helper"
 
 describe "update sites", type: :feature do
-  let(:site) do
-    Audited.audit_class.as_user(User.first) do
-      create(:site)
-    end
-  end
+  let(:site) { create(:site) }
 
   context "when the user is a unauthenticated" do
     it "does not allow creating sites" do

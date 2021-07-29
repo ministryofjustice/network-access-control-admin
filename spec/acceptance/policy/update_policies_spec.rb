@@ -1,11 +1,7 @@
 require "rails_helper"
 
 describe "update policies", type: :feature do
-  let(:policy) do
-    Audited.audit_class.as_user(User.first) do
-      create(:policy)
-    end
-  end
+  let(:policy) { create(:policy) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating policies" do

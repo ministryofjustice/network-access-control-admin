@@ -14,12 +14,7 @@ describe "delete policies", type: :feature do
   end
 
   context "when the user is an editor" do
-    let!(:policy) do
-      Audited.audit_class.as_user(editor) do
-        create(:policy)
-      end
-    end
-
+    let!(:policy) { create(:policy) }
     let(:editor) { create(:user, :editor) }
 
     before do

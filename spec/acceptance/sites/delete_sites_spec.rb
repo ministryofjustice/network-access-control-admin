@@ -14,12 +14,7 @@ describe "delete sites", type: :feature do
   end
 
   context "when the user is an editor" do
-    let!(:site) do
-      Audited.audit_class.as_user(editor) do
-        create(:site)
-      end
-    end
-
+    let!(:site) { create(:site) }
     let(:editor) { create(:user, :editor) }
 
     before do
