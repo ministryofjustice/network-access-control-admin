@@ -6,19 +6,19 @@ describe UseCases::GenerateAuthorisedClients do
 	end
 
 	describe "#call" do
-		describe "When there are entries in the database" do
-			let(:first_client) { create(:client, ip_range: "123.123.0.1") }
-			let(:second_client) { create(:client, ip_range: "123.123.0.2") }
+		describe "when there are entries in the database" do
+			let(:first_client) { create(:client, ip_range: "123.123.0.1/24") }
+			let(:second_client) { create(:client, ip_range: "123.123.0.2/32") }
 			let(:clients) { Client.all }
 
 			it "generates a authorised_clients configuration file" do
 				expected_config = "client #{first_client.tag.sub(" ", "_").downcase} {
-\tipv4addr = 123.123.0.1
+\tipv4addr = 123.123.0.1/24
 \tsecret = #{first_client.shared_secret}
 }
 
 client #{second_client.tag.sub(" ", "_").downcase} {
-\tipv4addr = 123.123.0.2
+\tipv4addr = 123.123.0.2/32
 \tsecret = #{second_client.shared_secret}
 }"
 
@@ -26,7 +26,7 @@ client #{second_client.tag.sub(" ", "_").downcase} {
 			end
 		end
 
-		describe "When there are no entries in the database" do
+		describe "when there are no entries in the database" do
 		  let(:clients) { [] }
 
 		  it "generates an empty authorised_clients configuration file" do
