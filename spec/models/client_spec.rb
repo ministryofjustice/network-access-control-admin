@@ -11,6 +11,7 @@ describe Client, type: :model do
   it { is_expected.to validate_presence_of :tag }
   it { is_expected.to validate_presence_of :shared_secret }
   it { is_expected.to validate_presence_of :ip_range }
+  it { is_expected.to validate_uniqueness_of(:ip_range).case_insensitive }
 
   it "has a valid IP range" do
     valid_ip_addresses = %i[
