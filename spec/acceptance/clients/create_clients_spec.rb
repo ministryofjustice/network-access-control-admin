@@ -18,7 +18,7 @@ describe "create clients", type: :feature do
 
         expect(page.current_path).to eq(new_site_client_path(site_id: site))
 
-        fill_in "IP / Subnet CIDR", with: "123.123.123.123"
+        fill_in "IP / Subnet CIDR", with: "123.123.123.123/32"
         fill_in "Tag", with: "Some client"
 
         click_on "Create"
