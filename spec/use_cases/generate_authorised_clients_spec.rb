@@ -8,8 +8,8 @@ describe UseCases::GenerateAuthorisedClients do
 	describe "#call" do
 		describe "when there are entries in the database" do
       context "and the IP ranges are IPv4" do
-			let(:first_ipv4_client) { create(:client, ip_range: "123.123.0.1/24") }
-			let(:second_ipv4_client) { create(:client, ip_range: "123.123.0.2/32") }
+			let!(:first_ipv4_client) { create(:client, ip_range: "123.123.0.1/24") }
+			let!(:second_ipv4_client) { create(:client, ip_range: "123.123.0.2/32") }
 			let(:clients) { Client.all }
 
         it "generates a authorised_clients configuration file" do
@@ -23,13 +23,13 @@ client #{second_ipv4_client.tag.sub(" ", "_").downcase} {
 \tsecret = #{second_ipv4_client.shared_secret}
 }"
 
-          expect(result).to include(expected_config)
+          expect(result).to eq(expected_config)
         end
       end
 
       context "and the IP ranges are IPv6" do
-			  let(:first_ipv6_client) { create(:client, ip_range: "2001:0db8:85a3:0000:0000:8a2e:0370:7334/32") }
-			  let(:second_ipv6_client) { create(:client, ip_range: "2002::1/128") }
+			  let!(:first_ipv6_client) { create(:client, ip_range: "2001:0db8:85a3:0000:0000:8a2e:0370:7334/32") }
+			  let!(:second_ipv6_client) { create(:client, ip_range: "2002::1/128") }
   			let(:clients) { Client.all }
 
         it "generates a authorised_clients configuration file" do
@@ -43,7 +43,7 @@ client #{second_ipv6_client.tag.sub(" ", "_").downcase} {
 \tsecret = #{second_ipv6_client.shared_secret}
 }"
 
-          expect(result).to include(expected_config)
+          expect(result).to eq(expected_config)
         end
       end
 		end
