@@ -4,6 +4,6 @@ FactoryBot.define do
 
     sequence(:tag) { |n| "Client #{n}" }
     sequence(:shared_secret) { |n| "shared-secret-#{n}" }
-    sequence(:ip_range) { |n| "127.0.0.#{n}" }
+    sequence(:ip_range) { |n| "127.0.0.#{n}/32" }
   end
 end

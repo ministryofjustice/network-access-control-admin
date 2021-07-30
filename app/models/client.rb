@@ -9,7 +9,7 @@ private
   def validate_ip
     return if ip_range.blank?
 
-    errors.add(:ip_range, "is invalid") unless IPAddress.valid?(ip_range)
+    errors.add(:ip_range, "is invalid") unless IPAddress.valid_ipv4_subnet?(ip_range) || IPAddress.valid_ipv6_subnet?(ip_range)
   end
 
   audited
