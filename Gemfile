@@ -5,7 +5,7 @@ ruby File.read(".ruby-version").strip
 
 gem "audited"
 gem "aws-sdk-ecs", "~> 1.83"
-gem "aws-sdk-s3", "~> 1.97"
+gem "aws-sdk-s3", "~> 1.98"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "cancancan", "~> 3.3"
 gem "devise"
