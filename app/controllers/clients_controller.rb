@@ -13,18 +13,7 @@ class ClientsController < ApplicationController
     @client = Client.new(client_params.merge(site_id: @site.id, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase))
 
     if @client.save
-      UseCases::PublishToS3.new(
-        destination_gateway: Gateways::S3.new(
-          bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
-          key: "clients.conf",
-          aws_config: Rails.application.config.s3_aws_config,
-          content_type: "text/plain",
-        ),
-      ).call(
-        UseCases::GenerateAuthorisedClients.new.call(
-          clients: Client.all,
-        ),
-      )
+      publish_authorised_clients
       redirect_to site_path(@site), notice: "Successfully created client."
     else
       render :new
@@ -43,18 +32,7 @@ class ClientsController < ApplicationController
     @client.assign_attributes(client_params)
 
     if @client.save
-      UseCases::PublishToS3.new(
-        destination_gateway: Gateways::S3.new(
-          bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
-          key: "clients.conf",
-          aws_config: Rails.application.config.s3_aws_config,
-          content_type: "text/plain",
-        ),
-      ).call(
-        UseCases::GenerateAuthorisedClients.new.call(
-          clients: Client.all,
-        ),
-      )
+      publish_authorised_clients
       redirect_to site_path(@site), notice: "Successfully updated client. "
     else
       render :edit
@@ -88,5 +66,20 @@ private
 
   def client_params
     params.require(:client).permit(:ip_range, :tag)
+  end
+
+  def publish_authorised_clients
+    UseCases::PublishToS3.new(
+      destination_gateway: Gateways::S3.new(
+        bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+        key: "clients.conf",
+        aws_config: Rails.application.config.s3_aws_config,
+        content_type: "text/plain",
+      ),
+    ).call(
+      UseCases::GenerateAuthorisedClients.new.call(
+        clients: Client.all,
+      ),
+    )
   end
 end
