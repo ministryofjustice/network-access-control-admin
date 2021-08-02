@@ -1,6 +1,9 @@
 <%= form_with(model: client, url: path, local: true) do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :ip_range) %>">
     <%= f.label :ip_range, "IP / Subnet CIDR", class: "govuk-label" %>
+    <div id="ip-range-hint" class="govuk-hint">
+      Must be an IPv4 address with a subnet; for a single IP address, use /32. For example, '127.0.0.1/32'.
+    </div>
     <%= f.text_field :ip_range, class: "govuk-input" %>
   </div>
 
