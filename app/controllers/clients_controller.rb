@@ -14,6 +14,13 @@ class ClientsController < ApplicationController
 
     if @client.save
       publish_authorised_clients
+      UseCases::DeployService.new(
+        ecs_gateway: Gateways::Ecs.new(
+          cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
+          service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
+          aws_config: Rails.application.config.ecs_aws_config
+        )
+      ).call
       redirect_to site_path(@site), notice: "Successfully created client."
     else
       render :new
