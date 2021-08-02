@@ -57,8 +57,10 @@ describe "create clients", type: :feature do
 }"
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
         expect(deploy_service).to have_received(:call)
+
         expect(page).to have_content("Successfully created client.")
         expect(page.current_path).to eq(site_path(id: site.id))
+
         expect_audit_log_entry_for(editor.email, "create", "Client")
       end
 
