@@ -9,11 +9,9 @@
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", f.object.new_record? ? root_path : @site,
+  <%= link_to "Cancel", f.object.new_record? ? sites_path : @site,
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"
-  }
-%>
-
+  } %>
 <% end %>
