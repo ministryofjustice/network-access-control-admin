@@ -28,28 +28,6 @@ client #{second_ipv4_client.ip_range} {
           expect(result).to eq(expected_config)
         end
       end
-
-      context "and the IP ranges are IPv6" do
-        let!(:first_ipv6_client) { create(:client, ip_range: "2001:0db8:85a3:0000:0000:8a2e:0370:7334/32") }
-        let!(:second_ipv6_client) { create(:client, ip_range: "2002::1/128") }
-        let(:clients) { Client.all }
-
-        it "generates an authorised clients configuration file" do
-          expected_config = "client #{first_ipv6_client.ip_range} {
-\tipv6addr = #{first_ipv6_client.ip_range}
-\tsecret = #{first_ipv6_client.shared_secret}
-\tshortname = #{first_ipv6_client.tag}
-}
-
-client #{second_ipv6_client.ip_range} {
-\tipv6addr = #{second_ipv6_client.ip_range}
-\tsecret = #{second_ipv6_client.shared_secret}
-\tshortname = #{second_ipv6_client.tag}
-}"
-
-          expect(result).to eq(expected_config)
-        end
-      end
     end
 
     describe "when there are no entries in the database" do

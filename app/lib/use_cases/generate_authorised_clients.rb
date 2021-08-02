@@ -10,10 +10,6 @@ class UseCases::GenerateAuthorisedClients
 private
 
   def client_definition(client)
-    "client #{client.ip_range} {\n\t#{ip_version(client.ip_range)} = #{client.ip_range}\n\tsecret = #{client.shared_secret}\n\tshortname = #{client.tag}\n}"
-  end
-
-  def ip_version(ip_range)
-    IPAddress.valid_ipv4_subnet?(ip_range) ? "ipv4addr" : "ipv6addr"
+    "client #{client.ip_range} {\n\tipv4addr = #{client.ip_range}\n\tsecret = #{client.shared_secret}\n\tshortname = #{client.tag}\n}"
   end
 end
