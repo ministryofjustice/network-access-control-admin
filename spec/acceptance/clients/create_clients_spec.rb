@@ -33,7 +33,7 @@ describe "create clients", type: :feature do
         expected_ecs_gateway_config = {
           cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
           service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
-          aws_config: Rails.application.config.ecs_aws_config
+          aws_config: Rails.application.config.ecs_aws_config,
         }
 
         expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config).and_return(ecs_gateway)
