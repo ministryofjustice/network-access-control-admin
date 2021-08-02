@@ -45,6 +45,7 @@ class ClientsController < ApplicationController
     authorize! :destroy, @client
     if confirmed?
       if @client.destroy
+        publish_authorised_clients
         redirect_to site_path(@site), notice: "Successfully deleted client. "
       else
         redirect_to site_path(@site), error: "Failed to delete the client. "
