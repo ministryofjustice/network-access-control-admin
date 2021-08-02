@@ -14,13 +14,7 @@ class ClientsController < ApplicationController
 
     if @client.save
       publish_authorised_clients
-      UseCases::DeployService.new(
-        ecs_gateway: Gateways::Ecs.new(
-          cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
-          service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
-          aws_config: Rails.application.config.ecs_aws_config
-        )
-      ).call
+      deploy_service
       redirect_to site_path(@site), notice: "Successfully created client."
     else
       render :new
@@ -40,13 +34,7 @@ class ClientsController < ApplicationController
 
     if @client.save
       publish_authorised_clients
-      UseCases::DeployService.new(
-        ecs_gateway: Gateways::Ecs.new(
-          cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
-          service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
-          aws_config: Rails.application.config.ecs_aws_config
-        )
-      ).call
+      deploy_service
       redirect_to site_path(@site), notice: "Successfully updated client. "
     else
       render :edit
@@ -60,13 +48,7 @@ class ClientsController < ApplicationController
     if confirmed?
       if @client.destroy
         publish_authorised_clients
-        UseCases::DeployService.new(
-          ecs_gateway: Gateways::Ecs.new(
-            cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
-            service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
-            aws_config: Rails.application.config.ecs_aws_config
-          )
-        ).call
+        deploy_service
         redirect_to site_path(@site), notice: "Successfully deleted client. "
       else
         redirect_to site_path(@site), error: "Failed to delete the client. "
@@ -103,5 +85,15 @@ private
         clients: Client.all,
       ),
     )
+  end
+
+  def deploy_service
+    UseCases::DeployService.new(
+      ecs_gateway: Gateways::Ecs.new(
+        cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
+        service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
+        aws_config: Rails.application.config.ecs_aws_config,
+      ),
+    ).call
   end
 end
