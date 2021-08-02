@@ -3,6 +3,8 @@ require "rails_helper"
 describe "update clients", type: :feature do
   let(:site) { create(:site) }
   let(:client) { create(:client, site: site) }
+  let!(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
+  let!(:s3_gateway) { double(Gateways::S3) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating clients" do
@@ -37,6 +39,16 @@ describe "update clients", type: :feature do
     end
 
     it "does update an existing client" do
+      allow(publish_to_s3).to receive(:call)
+      expected_s3_gateway_config = {
+        bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+        key: "clients.conf",
+        aws_config: Rails.application.config.s3_aws_config,
+        content_type: "text/plain",
+      }
+      expect(Gateways::S3).to receive(:new).with(expected_s3_gateway_config).and_return(s3_gateway)
+      expect(UseCases::PublishToS3).to receive(:new).with(destination_gateway: s3_gateway).and_return(publish_to_s3)
+
       visit "sites/#{site.id}"
 
       first(:link, "Edit").click
@@ -44,15 +56,22 @@ describe "update clients", type: :feature do
       expect(page).to have_field("IP / Subnet CIDR", with: client.ip_range)
       expect(page).to have_field("Tag", with: client.tag)
 
-      fill_in "IP / Subnet CIDR", with: "132.654.132.456"
+      fill_in "IP / Subnet CIDR", with: "132.111.132.111/32"
       fill_in "Tag", with: "Updated client"
 
       click_on "Update"
 
+      expected_config = "client 132.111.132.111/32 {
+\tipv4addr = 132.111.132.111/32
+\tsecret = #{Client.first.shared_secret}
+\tshortname = Updated client
+}"
+      expect(publish_to_s3).to have_received(:call).with(expected_config)
+
       expect(current_path).to eq("/sites/#{site.id}")
 
       expect(page).to have_content("Successfully updated client.")
-      expect(page).to have_content "132.654.132.456"
+      expect(page).to have_content "132.111.132.111/32"
       expect(page).to have_content "Updated client"
 
       expect_audit_log_entry_for(editor.email, "update", "Client")

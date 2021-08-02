@@ -43,6 +43,18 @@ class ClientsController < ApplicationController
     @client.assign_attributes(client_params)
 
     if @client.save
+      UseCases::PublishToS3.new(
+        destination_gateway: Gateways::S3.new(
+          bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+          key: "clients.conf",
+          aws_config: Rails.application.config.s3_aws_config,
+          content_type: "text/plain",
+        ),
+      ).call(
+        UseCases::GenerateAuthorisedClients.new.call(
+          clients: Client.all,
+        ),
+      )
       redirect_to site_path(@site), notice: "Successfully updated client. "
     else
       render :edit
