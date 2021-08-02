@@ -60,6 +60,13 @@ class ClientsController < ApplicationController
     if confirmed?
       if @client.destroy
         publish_authorised_clients
+        UseCases::DeployService.new(
+          ecs_gateway: Gateways::Ecs.new(
+            cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
+            service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
+            aws_config: Rails.application.config.ecs_aws_config
+          )
+        ).call
         redirect_to site_path(@site), notice: "Successfully deleted client. "
       else
         redirect_to site_path(@site), error: "Failed to delete the client. "
