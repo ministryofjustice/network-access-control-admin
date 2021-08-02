@@ -3,8 +3,8 @@ require "rails_helper"
 describe "update clients", type: :feature do
   let(:site) { create(:site) }
   let(:client) { create(:client, site: site) }
-  let!(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
-  let!(:s3_gateway) { double(Gateways::S3) }
+  let(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
+  let(:s3_gateway) { double(Gateways::S3) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating clients" do
@@ -61,12 +61,12 @@ describe "update clients", type: :feature do
 
       click_on "Update"
 
-      expected_config = "client 132.111.132.111/32 {
+      expected_config_file = "client 132.111.132.111/32 {
 \tipv4addr = 132.111.132.111/32
 \tsecret = #{Client.first.shared_secret}
 \tshortname = Updated client
 }"
-      expect(publish_to_s3).to have_received(:call).with(expected_config)
+      expect(publish_to_s3).to have_received(:call).with(expected_config_file)
 
       expect(current_path).to eq("/sites/#{site.id}")
 

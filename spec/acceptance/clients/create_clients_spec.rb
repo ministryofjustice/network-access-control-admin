@@ -3,8 +3,8 @@ require "rails_helper"
 describe "create clients", type: :feature do
   context "when the user is an editor" do
     let(:editor) { create(:user, :editor) }
-    let!(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
-    let!(:s3_gateway) { double(Gateways::S3) }
+    let(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
+    let(:s3_gateway) { double(Gateways::S3) }
 
     before do
       login_as editor
@@ -35,12 +35,12 @@ describe "create clients", type: :feature do
 
         click_on "Create"
 
-        expected_config = "client 123.123.123.123/32 {
+        expected_config_file = "client 123.123.123.123/32 {
 \tipv4addr = 123.123.123.123/32
 \tsecret = #{Client.first.shared_secret}
 \tshortname = Some client
 }"
-        expect(publish_to_s3).to have_received(:call).with(expected_config)
+        expect(publish_to_s3).to have_received(:call).with(expected_config_file)
         expect(page).to have_content("Successfully created client.")
         expect(page.current_path).to eq(site_path(id: site.id))
         expect_audit_log_entry_for(editor.email, "create", "Client")
