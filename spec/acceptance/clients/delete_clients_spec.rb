@@ -26,8 +26,20 @@ describe "delete clients", type: :feature do
     context "when there is an existing site with a client" do
       let!(:site) { create(:site) }
       let!(:client) { create(:client, site: site) }
+      let(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
+      let(:s3_gateway) { double(Gateways::S3) }
 
       it "deletes an existing client" do
+        allow(publish_to_s3).to receive(:call)
+        expected_s3_gateway_config = {
+          bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+          key: "clients.conf",
+          aws_config: Rails.application.config.s3_aws_config,
+          content_type: "text/plain",
+        }
+        expect(Gateways::S3).to receive(:new).with(expected_s3_gateway_config).and_return(s3_gateway)
+        expect(UseCases::PublishToS3).to receive(:new).with(destination_gateway: s3_gateway).and_return(publish_to_s3)
+
         visit "/sites/#{site.id}"
 
         click_on "Delete"
@@ -37,6 +49,9 @@ describe "delete clients", type: :feature do
         expect(page).to have_content(client.tag)
 
         click_on "Delete client"
+
+        expected_config_file = ""
+        expect(publish_to_s3).to have_received(:call).with(expected_config_file)
 
         expect(current_path).to eq("/sites/#{site.id}")
         expect(page).to have_content("Successfully deleted client.")
