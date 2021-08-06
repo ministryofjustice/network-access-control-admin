@@ -6,7 +6,7 @@
 
   <div class="govuk-form-group <%= field_error(f.object, :operator) %>">
     <%= f.label :operator, class: "govuk-label" %>
-    <%= f.select(:operator, %w(equals contains), prompt: 'Select') %>
+    <%= f.select(:operator, %w(equals contains), prompt: 'Select', class: "govuk-select") %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :value) %>">
