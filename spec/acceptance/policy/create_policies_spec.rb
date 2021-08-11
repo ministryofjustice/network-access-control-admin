@@ -46,6 +46,29 @@ describe "create policies", type: :feature do
 
       expect(page).to have_content("Successfully created policy.")
       expect(page).to have_content("My Test Policy")
+      expect(page).to have_content("Fallback")
+      expect(page).to have_content("No")
+
+      expect_audit_log_entry_for(editor.email, "create", "Policy")
+    end
+
+    it "creates a new fallback policy" do
+      visit "/policies"
+
+      click_on "Create a new policy"
+
+      expect(current_path).to eql("/policies/new")
+
+      fill_in "Name", with: "My Fallback Policy"
+      fill_in "Description", with: "This is a fallback policy"
+      check("Fallback", allow_label_click: true)
+
+      click_on "Create"
+
+      expect(page).to have_content("Successfully created policy.")
+      expect(page).to have_content("My Fallback Policy")
+      expect(page).to have_content("Fallback")
+      expect(page).to have_content("Yes")
 
       expect_audit_log_entry_for(editor.email, "create", "Policy")
     end

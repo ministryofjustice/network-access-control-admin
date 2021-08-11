@@ -11,6 +11,7 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Name</th>
         <th scope="col" class="govuk-table__header">Description</th>
+        <th scope="col" class="govuk-table__header">Fallback</th>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
@@ -21,6 +22,7 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= policy.name %></td>
           <td class="govuk-table__cell"><%= policy.description %></td>
+          <td class="govuk-table__cell"><%= policy.fallback ? "Yes" : "No" %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Policy %>
               <%= link_to "Manage", policy_path(policy), class: "govuk-link" %>

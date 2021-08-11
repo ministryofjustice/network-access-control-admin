@@ -54,7 +54,7 @@ class PoliciesController < ApplicationController
 private
 
   def policy_params
-    params.require(:policy).permit(:name, :description)
+    params.require(:policy).permit(:name, :description, :fallback)
   end
 
   def policy_id
