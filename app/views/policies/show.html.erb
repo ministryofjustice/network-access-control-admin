@@ -14,7 +14,7 @@
   </div>
 </dl>
 
-<% if can? :create, Rule %>
+<% if (can? :create, Rule) && !@policy.fallback %>
   <%= link_to "Add rule", new_policy_rule_path(policy_id: @policy), class: "govuk-button" %>
 <% end %>
 
