@@ -41,7 +41,7 @@ describe "create rules", type: :feature do
     context "when there is an existing fallback policy" do
       let!(:policy) { create(:policy, fallback: true) }
 
-      it "creates a new rule" do
+      it "does not create a new rule" do
         visit "/policies/#{policy.id}"
 
         expect(page).to_not have_content "Add rule"
