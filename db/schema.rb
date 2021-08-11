@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_105405) do
+ActiveRecord::Schema.define(version: 2021_08_11_111743) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 2021_08_11_105405) do
     t.text "description", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "site_id"
+    t.index ["site_id"], name: "index_policies_on_site_id"
   end
 
   create_table "responses", charset: "utf8", force: :cascade do |t|
