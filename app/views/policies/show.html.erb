@@ -1,11 +1,14 @@
-<h2 class="govuk-heading-l">Policy <%= @policy.name %></h2>
+<h2 class="govuk-heading-l">
+  <% if @policy.fallback? %>
+    <span class="govuk-caption-l">Fallback</span>
+  <% end %>
+  Policy <%= @policy.name %>
+</h2>
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Description</dt>
     <dd class="govuk-summary-list__value"><%= @policy.description %></dd>
-    <dt class="govuk-summary-list__key">Fallback</dt>
-    <dd class="govuk-summary-list__value"><%= @policy.fallback ? "Yes" : "No" %></dd>
     <dd class="govuk-summary-list__actions">
       <%= link_to edit_policy_path(@policy), class: "govuk-link" do %>
         Change<span class="govuk-visually-hidden"> name</span>

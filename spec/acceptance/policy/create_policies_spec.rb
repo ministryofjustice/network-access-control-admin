@@ -46,8 +46,6 @@ describe "create policies", type: :feature do
 
       expect(page).to have_content("Successfully created policy.")
       expect(page).to have_content("My Test Policy")
-      expect(page).to have_content("Fallback")
-      expect(page).to have_content("No")
 
       expect_audit_log_entry_for(editor.email, "create", "Policy")
     end
@@ -68,7 +66,6 @@ describe "create policies", type: :feature do
       expect(page).to have_content("Successfully created policy.")
       expect(page).to have_content("My Fallback Policy")
       expect(page).to have_content("Fallback")
-      expect(page).to have_content("Yes")
 
       expect_audit_log_entry_for(editor.email, "create", "Policy")
     end
