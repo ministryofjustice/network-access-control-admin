@@ -1,5 +1,6 @@
 class RulesController < ApplicationController
   before_action :set_policy, only: %i[new create destroy edit update]
+  before_action :redirect_to_policies_path
 
   def new
     @rule = Rule.new
@@ -61,5 +62,9 @@ private
 
   def rule_params
     params.require(:rule).permit(:request_attribute, :value, :operator)
+  end
+
+  def redirect_to_policies_path
+    redirect_to policies_path if @policy.fallback?
   end
 end
