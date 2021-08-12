@@ -10,7 +10,7 @@
 
       <% @policies.each do |policy| %>
         <div class="govuk-checkboxes__item">
-          <%= f.check_box policy.name, class: "govuk-checkboxes__input" %>
+          <%= f.check_box "policy_#{policy.id}", { class: "govuk-checkboxes__input" }, policy.id, nil %>
           <%= f.label policy.name, class: "govuk-label govuk-checkboxes__label" %>
         </div>
       <% end %>

@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  before_action :set_site, only: %i[show edit update destroy policies]
+  before_action :set_site, only: %i[show edit update destroy policies attach_policies]
 
   def index
     @sites = Site.all
@@ -59,9 +59,15 @@ class SitesController < ApplicationController
   end
 
   def attach_policies
-    # todo:
-    # attach the policies to the site
-    # redirect to the site path
+    @site.policies = add_policies_to_site
+
+    puts "something here"
+
+    if @site.save
+      redirect_to site_path(@site), notice: "Successfully attached policies to the site. "
+    else
+      render :policies
+    end
   end
 
 private
@@ -76,5 +82,14 @@ private
 
   def set_site
     @site = Site.find(site_id)
+  end
+
+  def add_policies_to_site
+    Policy.all.map { |policy|
+      policy_id = params["policy_#{policy.id}"]
+      unless policy_id.nil?
+        Policy.find(policy_id.to_i)
+      end
+    }.compact!
   end
 end

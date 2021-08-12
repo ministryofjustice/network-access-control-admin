@@ -21,13 +21,14 @@ describe "attach policies to a site", type: :feature do
 
         expect(current_path).to eq("/sites/#{site.id}/policies")
 
-        check "First Policy", allow_label_click: true
-        check "Second Policy", allow_label_click: true
+        check "policy_#{first_policy.id}", allow_label_click: true
+        check "policy_#{second_policy.id}", allow_label_click: true
 
         click_on "Attach"
 
         expect(current_path).to eq("/sites/#{site.id}")
 
+        expect(page).to have_content("Successfully attached policies to the site.")
         expect(page).to have_content("List of attached policies")
         expect(page).to have_content("First Policy")
         expect(page).to have_content("Second Policy")
