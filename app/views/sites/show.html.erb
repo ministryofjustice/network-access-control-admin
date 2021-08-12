@@ -20,6 +20,19 @@
   <%= link_to "Add client", new_site_client_path(site_id: @site), class: "govuk-button" %>
 <% end %>
 
+<% if @site.policies.any? %>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption">List of attached policies</caption>
+    <tbody class="govuk-table__body">
+      <% @site.policies.each do |policy| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= policy.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
 <% if @site.clients.any? %>
   <table class="govuk-table">
     <caption class="govuk-table__caption">List of Authorised Clients</caption>
