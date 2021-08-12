@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     resources :clients
   end
 
+  get "/sites/:id/policies", to: "sites#policies", as: "site_policies"
+  post "/sites/:id/policies", to: "sites#attach_policies", as: "attach_site_policies"
+
   resources :policies do
     resources :rules
     resources :responses

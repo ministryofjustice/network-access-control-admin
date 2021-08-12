@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  before_action :set_site, only: %i[show edit update destroy]
+  before_action :set_site, only: %i[show edit update destroy policies]
 
   def index
     @sites = Site.all
@@ -52,6 +52,16 @@ class SitesController < ApplicationController
     else
       render "sites/destroy"
     end
+  end
+
+  def policies
+    @policies = Policy.all
+  end
+
+  def attach_policies
+    # todo:
+    # attach the policies to the site
+    # redirect to the site path
   end
 
 private
