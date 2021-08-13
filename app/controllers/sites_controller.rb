@@ -59,11 +59,15 @@ class SitesController < ApplicationController
   end
 
   def attach_policies
-    @site.policies = add_policies_to_site
+    @site.policies
 
-    puts "something here"
+    if policies_params.any?
 
-    if @site.save
+      @site.policies.clear
+      policies_params.each do |id|
+        @site.policies << Policy.find(id)
+      end
+
       redirect_to site_path(@site), notice: "Successfully attached policies to the site. "
     else
       render :policies
@@ -84,12 +88,7 @@ private
     @site = Site.find(site_id)
   end
 
-  def add_policies_to_site
-    Policy.all.map { |policy|
-      policy_id = params["policy_#{policy.id}"]
-      unless policy_id.nil?
-        Policy.find(policy_id.to_i)
-      end
-    }.compact!
+  def policies_params
+    params.require(:policy_ids).reject(&:empty?)
   end
 end
