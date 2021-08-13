@@ -61,14 +61,16 @@ class SitesController < ApplicationController
   def attach_policies
     authorize! :attach_policies, @site
 
-    @site.policies
+puts policies_params
 
     if policies_params.any?
-
       @site.policies.clear
+
       policies_params.each do |id|
         @site.policies << Policy.find(id)
       end
+    else
+      @site.policies.clear
     end
 
     if @site.save
