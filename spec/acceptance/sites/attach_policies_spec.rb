@@ -31,7 +31,7 @@ describe "attach policies to a site", type: :feature do
       let!(:second_policy) { create :policy, name: "Second Policy" }
       let!(:third_policy) { create :policy, name: "Third Policy" }
 
-      it "does not allow attaching policies to a site" do
+      it "does allow attaching policies to a site" do
         visit "/sites"
 
         click_on "Manage", match: :first
@@ -52,6 +52,30 @@ describe "attach policies to a site", type: :feature do
         expect(page).to have_content("First Policy")
         expect(page).to have_content("Second Policy")
         expect(page).to_not have_content("Third Policy")
+      end
+
+      context "when no policies are attached to a site" do
+        it "does not show any attached policies" do
+          visit "/sites/#{site.id}"
+
+          click_on "Attach policies"
+
+          check "First Policy", allow_label_click: true
+
+          click_on "Attach"
+
+          expect(page).to have_content("Successfully attached policies to the site.")
+
+          click_on "Attach policies"
+
+          uncheck "First Policy"
+
+          click_on "Attach"
+
+          expect(page).to_not have_content("List of attached policies")
+          expect(page).to_not have_content("First Policy")
+
+        end
       end
     end
   end
