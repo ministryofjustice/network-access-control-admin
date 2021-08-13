@@ -73,7 +73,7 @@ class SitesController < ApplicationController
     @site.assign_attributes(policies: policies)
 
     if @site.save
-      redirect_to site_path(@site), notice: "Successfully attached policies to the site. "
+      redirect_to site_path(@site), notice: "Successfully updated site policies."
     else
       render :policies
     end

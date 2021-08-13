@@ -43,55 +43,33 @@ describe "attach policies to a site", type: :feature do
         check "First Policy", allow_label_click: true
         check "Second Policy", allow_label_click: true
 
-        click_on "Attach"
+        click_on "Update"
 
         expect(current_path).to eq("/sites/#{site.id}")
 
-        expect(page).to have_content("Successfully attached policies to the site.")
+        expect(page).to have_content("Successfully updated site policies.")
         expect(page).to have_content("List of attached policies")
         expect(page).to have_content("First Policy")
         expect(page).to have_content("Second Policy")
         expect(page).to_not have_content("Third Policy")
       end
 
-      context "when all policies are detached from a site" do
-        it "does not show any attached policies" do
+      context "when there is a policy attached to a site" do
+        let!(:site) { create :site, policies: [first_policy] }
+
+        it "does allow detaching the policy" do
           visit "/sites/#{site.id}"
-
-          click_on "Attach policies"
-
-          check "First Policy", allow_label_click: true
-
-          click_on "Attach"
-
-          expect(page).to have_content("Successfully attached policies to the site.")
-
-          click_on "Attach policies"
-
-          uncheck "First Policy"
-
-          click_on "Attach"
-
-          expect(page).to_not have_content("List of attached policies")
-          expect(page).to_not have_content("First Policy")
-        end
-      end
-
-      context "when policies are already attached to a site" do
-        it "does show the policy checked" do
-          visit "/sites/#{site.id}"
-
-          click_on "Attach policies"
-
-          check "First Policy", allow_label_click: true
-
-          click_on "Attach"
-
-          expect(page).to have_content("Successfully attached policies to the site.")
 
           click_on "Attach policies"
 
           expect(page).to have_checked_field "First Policy"
+
+          uncheck "First Policy"
+
+          click_on "Update"
+
+          expect(page).to_not have_content("List of attached policies")
+          expect(page).to_not have_content("First Policy")
         end
       end
     end
