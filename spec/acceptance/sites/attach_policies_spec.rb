@@ -54,7 +54,7 @@ describe "attach policies to a site", type: :feature do
         expect(page).to_not have_content("Third Policy")
       end
 
-      context "when no policies are attached to a site" do
+      context "when all policies are detached from a site" do
         it "does not show any attached policies" do
           visit "/sites/#{site.id}"
 
@@ -74,7 +74,24 @@ describe "attach policies to a site", type: :feature do
 
           expect(page).to_not have_content("List of attached policies")
           expect(page).to_not have_content("First Policy")
+        end
+      end
 
+      context "when policies are already attached to a site" do
+        it "does show the policy checked" do
+          visit "/sites/#{site.id}"
+
+          click_on "Attach policies"
+
+          check "First Policy", allow_label_click: true
+
+          click_on "Attach"
+
+          expect(page).to have_content("Successfully attached policies to the site.")
+
+          click_on "Attach policies"
+
+          expect(page).to have_checked_field "First Policy"
         end
       end
     end

@@ -7,9 +7,11 @@
         Select all policies to attach to this site.
       </div>
       <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        <% site_policies_ids = @site.policies.map { |policy| policy.id } %>
+
         <%= f.collection_check_boxes :policy_ids, Policy.all, :id, :name do |b| %>
           <div class="govuk-checkboxes__item">
-            <%= b.check_box class: "govuk-checkboxes__input" %>
+            <%= b.check_box class: "govuk-checkboxes__input", checked: site_policies_ids.include?(b.object.id) %>
             <%= b.label class: "govuk-label govuk-checkboxes__label" %>
           </div>
         <% end %>
