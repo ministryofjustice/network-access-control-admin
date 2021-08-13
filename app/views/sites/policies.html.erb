@@ -1,6 +1,6 @@
 <h2 class="govuk-heading-l"><%= @site.name %></h2>
 
-<%= form_with do |f| %>
+<%= form_with local: true do |f| %>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
       <div id="contact-hint" class="govuk-hint">
