@@ -1,7 +1,8 @@
-<h2 class="govuk-heading-l"><%= @site.name %></h2>
+<%= render "layouts/form_errors", resource: @site %>
 
-<%= form_with local: true do |f| %>
-  <div class="govuk-form-group">
+<h2 class="govuk-heading-l"><%= @site.name %></h2>
+<%= form_with model: @site, url: update_site_policies_path, metod: :post, local: true do |f| %>
+  <div class="govuk-form-group <%= field_error(f.object, :policies) %>">
     <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
       <div id="contact-hint" class="govuk-hint">
         Select all policies to attach to this site.

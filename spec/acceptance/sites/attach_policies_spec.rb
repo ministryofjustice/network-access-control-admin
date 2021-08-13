@@ -25,7 +25,7 @@ describe "attach policies to a site", type: :feature do
       login_as create(:user, :editor)
     end
 
-    context "when both site and policies exists" do
+    context "when both site and non-fallback policies exists" do
       let!(:site) { create :site }
       let!(:first_policy) { create :policy, name: "First Policy" }
       let!(:second_policy) { create :policy, name: "Second Policy" }
@@ -71,6 +71,39 @@ describe "attach policies to a site", type: :feature do
           expect(page).to_not have_content("List of attached policies")
           expect(page).to_not have_content("First Policy")
         end
+      end
+    end
+
+    context "when both site and fallback policies exists" do
+      let!(:site) { create :site }
+      let!(:first_fallback_policy) { create :policy, name: "First FB Policy", fallback: true }
+      let!(:second_fallback_policy) { create :policy, name: "Second FB Policy", fallback: true }
+
+      it "does not allow attaching multiple fallback policies to a site" do
+        visit "/sites"
+
+        click_on "Manage", match: :first
+
+        click_on "Attach policies"
+
+        expect(current_path).to eq("/sites/#{site.id}/policies")
+
+        check "First FB Policy", allow_label_click: true
+        check "Second FB Policy", allow_label_click: true
+
+        click_on "Update"
+
+        expect(page).to have_content("There is a problem")
+        expect(page).to have_content("Policies can only have one fallback policy")
+
+        uncheck "Second FB Policy"
+
+        click_on "Update"
+
+        expect(page).to have_content("Successfully updated site policies.")
+        expect(page).to have_content("List of attached policies")
+        expect(page).to have_content("First FB Policy")
+        expect(page).to_not have_content("Second FB Policy")
       end
     end
   end

@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  before_action :set_site, only: %i[show edit update destroy policies attach_policies]
+  before_action :site, only: %i[show edit update destroy policies attach_policies]
 
   def index
     @sites = Site.all
@@ -55,7 +55,7 @@ class SitesController < ApplicationController
   end
 
   def policies
-    @policies = Policy.all
+    @site.validate
   end
 
   def attach_policies
@@ -89,11 +89,11 @@ private
     params.fetch(:id)
   end
 
-  def set_site
-    @site = Site.find(site_id)
+  def site
+    @site ||= Site.find(site_id)
   end
 
   def policies_params
-    params.require(:policy_ids).reject(&:empty?)
+    params[:site].require(:policy_ids).reject(&:empty?)
   end
 end
