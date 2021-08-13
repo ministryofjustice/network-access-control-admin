@@ -61,17 +61,16 @@ class SitesController < ApplicationController
   def attach_policies
     authorize! :attach_policies, @site
 
-puts policies_params
+    policies = []
 
     if policies_params.any?
-      @site.policies.clear
 
       policies_params.each do |id|
-        @site.policies << Policy.find(id)
+        policies << Policy.find(id)
       end
-    else
-      @site.policies.clear
     end
+
+    @site.assign_attributes(policies: policies)
 
     if @site.save
       redirect_to site_path(@site), notice: "Successfully attached policies to the site. "
