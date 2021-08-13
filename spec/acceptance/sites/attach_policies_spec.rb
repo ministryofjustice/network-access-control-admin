@@ -1,6 +1,25 @@
 require "rails_helper"
 
 describe "attach policies to a site", type: :feature do
+  context "when the user is a reader" do
+    before do
+      login_as create(:user, :reader)
+    end
+
+    context "when both site and policy exists" do
+      let!(:site) { create :site }
+      let!(:policy) { create :policy }
+
+      it "does not allow attaching policies to a site" do
+        visit "/sites"
+
+        click_on "View", match: :first
+
+        expect(page).to_not have_content "Attach policies"
+      end
+    end
+  end
+
   context "when the user is an editor" do
     before do
       login_as create(:user, :editor)
@@ -36,23 +55,4 @@ describe "attach policies to a site", type: :feature do
       end
     end
   end
-
-  # context "when the user is a reader" do
-  #   before do
-  #     login_as create(:user, :reader)
-  #   end
-
-  #   context "when both site and policy exists" do
-  #     let!(:site) { create :site }
-  #     let!(:policy) { create :policy }
-
-  #     it "does not allow attaching policies to a site" do
-  #       visit "/sites"
-
-  #       click_on "View", match: :first
-
-  #       expect(page).to_not have_content "Attach policies"
-  #     end
-  #   end
-  # end
 end
