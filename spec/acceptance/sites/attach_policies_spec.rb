@@ -74,12 +74,22 @@ describe "attach policies to a site", type: :feature do
       end
     end
 
-    context "when both site and fallback policies exists" do
+    context "when both site and fallback policies exist" do
       let!(:site) { create :site }
-      let!(:first_fallback_policy) { create :policy, name: "First FB Policy", fallback: true }
-      let!(:second_fallback_policy) { create :policy, name: "Second FB Policy", fallback: true }
+      let!(:first_policy) { create :policy, name: "First Policy" }
+      let!(:first_fallback_policy) { create :policy, name: "FB", fallback: true }
 
-      it "does not allow attaching multiple fallback policies to a site" do
+      it "does not show fallback policy in policies checkbox list" do
+        visit "/sites"
+
+        click_on "Manage", match: :first
+
+        click_on "Attach policies"
+
+        expect(page).to_not have_css ".govuk-checkboxes__label", text: "FB"
+      end
+
+      it "does allow attaching a single fallback policy to a site" do
         visit "/sites"
 
         click_on "Manage", match: :first
@@ -88,22 +98,35 @@ describe "attach policies to a site", type: :feature do
 
         expect(current_path).to eq("/sites/#{site.id}/policies")
 
-        check "First FB Policy", allow_label_click: true
-        check "Second FB Policy", allow_label_click: true
+        select "FB"
 
-        click_on "Update"
+        expect(page).to have_select "fallback_policy_id", selected: "FB", options: ["No fallback policy", "FB"]
 
-        expect(page).to have_content("There is a problem")
-        expect(page).to have_content("Policies can only have one fallback policy")
-
-        check "First FB Policy", allow_label_click: true
+        check "First Policy", allow_label_click: true
 
         click_on "Update"
 
         expect(page).to have_content("Successfully updated site policies.")
         expect(page).to have_content("List of attached policies")
-        expect(page).to have_content("First FB Policy")
-        expect(page).to_not have_content("Second FB Policy")
+        expect(page).to have_content("First Policy")
+        expect(page).to have_content("FB")
+      end
+    end
+
+    context "when there is an attached fallback policy" do
+      let!(:site) { create :site, policies: [create(:policy, name: "FB", fallback: true)] }
+
+      it "does show the attached fallback policy as selected" do
+        visit "/sites"
+
+        click_on "Manage", match: :first
+
+        expect(page).to have_content("List of attached policies")
+        expect(page).to have_content("FB")
+
+        click_on "Attach policies"
+
+        expect(page).to have_select "fallback_policy_id", selected: "FB", options: ["No fallback policy", "FB"]
       end
     end
   end

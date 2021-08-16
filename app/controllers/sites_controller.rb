@@ -55,7 +55,10 @@ class SitesController < ApplicationController
   end
 
   def policies
-    @site_policies_form = Forms::SitePoliciesForm.build_from_site(@site)
+    default_fallback_policy = OpenStruct.new(name: "No fallback policy")
+    @fallback_policies = Policy.where(fallback: true).to_a.unshift default_fallback_policy
+
+    @non_fallback_policies = Policy.where(fallback: false)
   end
 
   def attach_policies
@@ -64,15 +67,14 @@ class SitesController < ApplicationController
     policies = []
 
     if policies_params.any?
-
       policies_params.each do |id|
         policies << Policy.find(id)
       end
     end
 
-    @site_policies_form = Forms::SitePoliciesForm.new(policies: policies)
+    @site.assign_attributes(policies: policies)
 
-    if @site_policies_form.save(@site)
+    if @site.save
       redirect_to site_path(@site), notice: "Successfully updated site policies."
     else
       render :policies
@@ -94,6 +96,12 @@ private
   end
 
   def policies_params
-    params[:forms_site_policies_form].require(:policy_ids).reject(&:empty?)
+    policy_ids = params.require(:policy_ids).reject(&:empty?)
+
+    if params[:fallback_policy_id].present?
+      policy_ids << params.require(:fallback_policy_id)
+    end
+
+    policy_ids
   end
 end
