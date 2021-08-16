@@ -55,7 +55,7 @@ class SitesController < ApplicationController
   end
 
   def policies
-    @site.validate
+    @site_policies_form = Forms::SitePoliciesForm.build_from_site(@site)
   end
 
   def attach_policies
@@ -70,9 +70,9 @@ class SitesController < ApplicationController
       end
     end
 
-    @site.assign_attributes(policies: policies)
+    @site_policies_form = Forms::SitePoliciesForm.new(policies: policies)
 
-    if @site.save
+    if @site_policies_form.save(@site)
       redirect_to site_path(@site), notice: "Successfully updated site policies."
     else
       render :policies
@@ -94,6 +94,6 @@ private
   end
 
   def policies_params
-    params[:site].require(:policy_ids).reject(&:empty?)
+    params[:forms_site_policies_form].require(:policy_ids).reject(&:empty?)
   end
 end

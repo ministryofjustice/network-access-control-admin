@@ -1,7 +1,7 @@
-<%= render "layouts/form_errors", resource: @site %>
+<%= render "layouts/form_errors", resource: @site_policies_form %>
 
 <h2 class="govuk-heading-l"><%= @site.name %></h2>
-<%= form_with model: @site, url: update_site_policies_path, metod: :post, local: true do |f| %>
+<%= form_with model: @site_policies_form, url: update_site_policies_path, metod: :post, local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :policies) %>">
     <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
       <div id="contact-hint" class="govuk-hint">

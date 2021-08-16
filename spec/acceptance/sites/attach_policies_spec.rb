@@ -96,7 +96,7 @@ describe "attach policies to a site", type: :feature do
         expect(page).to have_content("There is a problem")
         expect(page).to have_content("Policies can only have one fallback policy")
 
-        uncheck "Second FB Policy"
+        check "First FB Policy", allow_label_click: true
 
         click_on "Update"
 
