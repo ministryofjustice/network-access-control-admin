@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  before_action :set_site, only: %i[show edit update destroy policies attach_policies]
+  before_action :site, only: %i[show edit update destroy policies attach_policies]
 
   def index
     @sites = Site.all
@@ -55,7 +55,10 @@ class SitesController < ApplicationController
   end
 
   def policies
-    @policies = Policy.all
+    default_fallback_policy = OpenStruct.new(name: "No fallback policy")
+    @fallback_policies = Policy.where(fallback: true).to_a.unshift default_fallback_policy
+
+    @non_fallback_policies = Policy.where(fallback: false)
   end
 
   def attach_policies
@@ -64,7 +67,6 @@ class SitesController < ApplicationController
     policies = []
 
     if policies_params.any?
-
       policies_params.each do |id|
         policies << Policy.find(id)
       end
@@ -89,11 +91,17 @@ private
     params.fetch(:id)
   end
 
-  def set_site
-    @site = Site.find(site_id)
+  def site
+    @site ||= Site.find(site_id)
   end
 
   def policies_params
-    params.require(:policy_ids).reject(&:empty?)
+    policy_ids = params.require(:policy_ids).reject(&:empty?)
+
+    if params[:fallback_policy_id].present?
+      policy_ids << params.require(:fallback_policy_id)
+    end
+
+    policy_ids
   end
 end

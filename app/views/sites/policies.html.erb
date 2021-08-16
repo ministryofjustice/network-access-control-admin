@@ -1,15 +1,24 @@
 <h2 class="govuk-heading-l"><%= @site.name %></h2>
-
 <%= form_with local: true do |f| %>
   <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
-      <div id="contact-hint" class="govuk-hint">
-        Select all policies to attach to this site.
+    <div id="attach-policies-hint" class="govuk-hint">
+        Select a fallback policy to attach to this site.
+    </div>
+    <% selected_fallback_policy = @site.policies.select(&:fallback).first %>
+    <% options = { selected: (selected_fallback_policy.id unless selected_fallback_policy.nil?) } %>
+
+    <%= f.collection_select(:fallback_policy_id, @fallback_policies, :id, :name, options, { class: "govuk-select" }) %>
+  </div>
+
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="attach-policies-hint">
+      <div id="attach-policies-hint" class="govuk-hint">
+        Select policies to attach to this site.
       </div>
       <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
         <% site_policies_ids = @site.policies.map { |policy| policy.id } %>
 
-        <%= f.collection_check_boxes :policy_ids, Policy.all, :id, :name do |b| %>
+        <%= f.collection_check_boxes :policy_ids, @non_fallback_policies, :id, :name do |b| %>
           <div class="govuk-checkboxes__item">
             <%= b.check_box class: "govuk-checkboxes__input", checked: site_policies_ids.include?(b.object.id) %>
             <%= b.label class: "govuk-label govuk-checkboxes__label" %>
