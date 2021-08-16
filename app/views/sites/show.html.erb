@@ -20,11 +20,21 @@
   <%= link_to "Add client", new_site_client_path(site_id: @site), class: "govuk-button" %>
 <% end %>
 
-<% if @site.policies.any? %>
+<h3 class="govuk-heading-m">List of attached policies</h3>
+<p class="govuk-body">
+  <span class="govuk-!-font-weight-bold">Fallback policy:</span>
+  <% if @site.policies.select(&:fallback).first %>
+    <%= @site.policies.select(&:fallback).first.name %>
+  <% else %>
+    There are no fallback policies attached to this site.
+  <% end %>
+</p>
+
+<% non_fallback_policies = @site.policies.reject(&:fallback) %>
+<% if non_fallback_policies.any? %>
   <table class="govuk-table">
-    <caption class="govuk-table__caption">List of attached policies</caption>
     <tbody class="govuk-table__body">
-      <% @site.policies.each do |policy| %>
+      <% non_fallback_policies.each do |policy| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= policy.name %></td>
         </tr>

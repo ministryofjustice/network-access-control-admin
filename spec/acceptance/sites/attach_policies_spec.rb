@@ -68,7 +68,6 @@ describe "attach policies to a site", type: :feature do
 
           click_on "Update"
 
-          expect(page).to_not have_content("List of attached policies")
           expect(page).to_not have_content("First Policy")
         end
       end
@@ -109,7 +108,7 @@ describe "attach policies to a site", type: :feature do
         expect(page).to have_content("Successfully updated site policies.")
         expect(page).to have_content("List of attached policies")
         expect(page).to have_content("First Policy")
-        expect(page).to have_content("FB")
+        expect(page).to have_content("Fallback policy: FB")
       end
     end
 
@@ -121,8 +120,7 @@ describe "attach policies to a site", type: :feature do
 
         click_on "Manage", match: :first
 
-        expect(page).to have_content("List of attached policies")
-        expect(page).to have_content("FB")
+        expect(page).to have_content("Fallback policy: FB")
 
         click_on "Attach policies"
 
