@@ -23,11 +23,7 @@
 <h3 class="govuk-heading-m">List of attached policies</h3>
 <p class="govuk-body">
   <span class="govuk-!-font-weight-bold">Fallback policy:</span>
-  <% if @site.policies.select(&:fallback).first %>
-    <%= @site.policies.select(&:fallback).first.name %>
-  <% else %>
-    There are no fallback policies attached to this site.
-  <% end %>
+  <%= @site.fallback_policy.try(:name) || "There are no fallback policies attached to this site." %>
 </p>
 
 <% non_fallback_policies = @site.policies.reject(&:fallback) %>

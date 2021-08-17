@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  before_action :site, only: %i[show edit update destroy policies attach_policies]
+  before_action :set_site, only: %i[show edit update destroy policies attach_policies]
 
   def index
     @sites = Site.all
@@ -55,8 +55,7 @@ class SitesController < ApplicationController
   end
 
   def policies
-    default_fallback_policy = OpenStruct.new(name: "No fallback policy")
-    @fallback_policies = Policy.where(fallback: true).to_a.unshift default_fallback_policy
+    @fallback_policies = Policy.where(fallback: true)
 
     @non_fallback_policies = Policy.where(fallback: false)
   end
@@ -64,15 +63,7 @@ class SitesController < ApplicationController
   def attach_policies
     authorize! :attach_policies, @site
 
-    policies = []
-
-    if policies_params.any?
-      policies_params.each do |id|
-        policies << Policy.find(id)
-      end
-    end
-
-    @site.assign_attributes(policies: policies)
+    @site.assign_attributes(policies: Policy.where(id: policies_params))
 
     if @site.save
       redirect_to site_path(@site), notice: "Successfully updated site policies."
@@ -91,8 +82,8 @@ private
     params.fetch(:id)
   end
 
-  def site
-    @site ||= Site.find(site_id)
+  def set_site
+    @site = Site.find(site_id)
   end
 
   def policies_params
