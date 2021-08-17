@@ -5,4 +5,8 @@ class Site < ApplicationRecord
   has_and_belongs_to_many :policies, -> { distinct }
 
   audited
+
+  def fallback_policy
+    @fallback_policy ||= policies.where(fallback: true).first
+  end
 end

@@ -11,4 +11,8 @@ RSpec.describe Site, type: :model do
   it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
   it { is_expected.to have_many(:clients) }
   it { is_expected.to have_and_belong_to_many(:policies) }
+
+  it "responds to #fallback_policy" do
+    expect(subject.fallback_policy).to be_nil
+  end
 end

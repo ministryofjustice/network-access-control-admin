@@ -124,7 +124,7 @@ describe "attach policies to a site", type: :feature do
 
         click_on "Attach policies"
 
-        expect(page).to have_select "fallback_policy_id", selected: "FB", options: ["No fallback policy", "FB"]
+        expect(page).to have_select "fallback_policy_id", selected: "FB"
       end
     end
   end
