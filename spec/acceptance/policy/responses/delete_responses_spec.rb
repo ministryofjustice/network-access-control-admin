@@ -24,7 +24,7 @@ describe "delete responses", type: :feature do
 
     context "when there is an existing policy with a response" do
       let!(:policy) { create(:policy) }
-      let!(:response) { create(:response, policy: policy) }
+      let!(:response) { create(:policy_response, policy: policy) }
 
       it "delete an existing response" do
         visit "/policies/#{policy.id}"
