@@ -5,8 +5,8 @@ Rails.application.routes.draw do
     match "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session, via: %i[get delete]
   end
 
-  resources :mac_authentication_bypasses, except: :show
   resources :certificates
+  resources :mac_authentication_bypasses
 
   resources :sites do
     resources :clients
