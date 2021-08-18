@@ -79,11 +79,13 @@ ActiveRecord::Schema.define(version: 2021_08_19_105613) do
   end
 
   create_table "responses", charset: "utf8", force: :cascade do |t|
-    t.bigint "policy_id", null: false
     t.string "response_attribute", null: false
     t.string "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "mac_authentication_bypass_id"
+    t.bigint "policy_id"
+    t.index ["mac_authentication_bypass_id"], name: "index_responses_on_mac_authentication_bypass_id"
     t.index ["policy_id"], name: "index_responses_on_policy_id"
   end
 
@@ -113,6 +115,7 @@ ActiveRecord::Schema.define(version: 2021_08_19_105613) do
   end
 
   add_foreign_key "clients", "sites"
+  add_foreign_key "responses", "mac_authentication_bypasses"
   add_foreign_key "responses", "policies"
   add_foreign_key "rules", "policies"
 end
