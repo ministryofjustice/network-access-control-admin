@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "update responses", type: :feature do
   let(:policy) { create(:policy) }
-  let(:response) { create(:response, policy: policy) }
+  let(:response) { create(:policy_response, policy: policy) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating responses" do

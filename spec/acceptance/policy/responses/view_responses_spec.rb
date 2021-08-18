@@ -8,7 +8,7 @@ describe "showing a response", type: :feature do
 
     context "when a policy exists with a response" do
       let!(:policy) { create :policy }
-      let!(:response) { create :response, policy: policy }
+      let!(:response) { create :policy_response, policy: policy }
 
       it "allows viewing responses on the policy page" do
         visit "/policies/#{policy.id}"
