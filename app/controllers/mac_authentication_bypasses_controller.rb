@@ -1,5 +1,5 @@
 class MacAuthenticationBypassesController < ApplicationController
-  before_action :set_mac_authentication_bypass, only: %i[destroy edit update]
+  before_action :set_mac_authentication_bypass, only: %i[destroy edit update show]
 
   def index
     @mac_authentication_bypasses = MacAuthenticationBypass.all
@@ -52,6 +52,8 @@ class MacAuthenticationBypassesController < ApplicationController
       render :edit
     end
   end
+
+  def show; end
 
 private
 

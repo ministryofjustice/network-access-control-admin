@@ -1,0 +1,16 @@
+<h2 class="govuk-heading-l">
+  <span class="govuk-caption-l">MAC Authentication Bypass</span>
+  <%= @mac_authentication_bypass.name %>
+</h2>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Description</dt>
+    <dd class="govuk-summary-list__value"><%= @mac_authentication_bypass.description %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to edit_mac_authentication_bypass_path(@mac_authentication_bypass), class: "govuk-link" do %>
+        Change<span class="govuk-visually-hidden"> bypass details</span>
+      <% end %>
+    </dd>
+  </div>
+</dl>

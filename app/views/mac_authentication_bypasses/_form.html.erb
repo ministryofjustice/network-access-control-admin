@@ -23,7 +23,7 @@
     "data-module" => "govuk-button"
   } %>
 
-  <%= link_to "Cancel", mac_authentication_bypasses_path,
+  <%= link_to "Cancel", f.object.new_record? ? mac_authentication_bypasses_path : mac_authentication_bypass_path,
   class: "govuk-button govuk-button--secondary",
   data: {
     module: "govuk-button"
