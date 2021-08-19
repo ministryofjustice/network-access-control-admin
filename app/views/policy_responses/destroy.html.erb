@@ -8,6 +8,6 @@
 <%=
   render "shared/destroy_confirmation",
   resource_name: "response",
-  delete_path: policy_response_path(policy_id: @policy, id: @response),
+  delete_path: policy_policy_response_path(policy_id: @policy, id: @response),
   cancel_path: policy_path(@policy)
 %>

@@ -6,7 +6,7 @@ describe "update responses", type: :feature do
 
   context "when the user is unauthenticated" do
     it "does not allow updating responses" do
-      visit "/policies/#{policy.id}/responses/#{response.id}/edit"
+      visit "/policies/#{policy.id}/policy_responses/#{response.id}/edit"
 
       expect(page).to have_content "You need to sign in or sign up before continuing."
     end
@@ -22,7 +22,7 @@ describe "update responses", type: :feature do
 
       expect(page).not_to have_content "Edit"
 
-      visit "/policies/#{policy.id}/responses/#{response.id}/edit"
+      visit "/policies/#{policy.id}/policy_responses/#{response.id}/edit"
 
       expect(page).to have_content "You are not authorized to access this page."
     end

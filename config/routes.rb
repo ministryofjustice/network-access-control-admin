@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :policies do
     resources :rules
-    resources :responses
+    resources :policy_responses
   end
 
   get "/healthcheck", to: "monitoring#healthcheck"
