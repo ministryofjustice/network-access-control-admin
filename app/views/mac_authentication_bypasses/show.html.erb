@@ -5,6 +5,8 @@
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">MAC Address</dt>
+    <dd class="govuk-summary-list__value"><%= @mac_authentication_bypass.address %></dd>
     <dt class="govuk-summary-list__key">Description</dt>
     <dd class="govuk-summary-list__value"><%= @mac_authentication_bypass.description %></dd>
     <dd class="govuk-summary-list__actions">
@@ -17,4 +19,24 @@
 
 <% if can? :create, MabResponse %>
   <%= link_to "Add response", new_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass), class: "govuk-button" %>
+<% end %>
+
+<% if @mac_authentication_bypass.responses.any? %>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption">List of responses</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Attribute</th>
+        <th scope="col" class="govuk-table__header">Value</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% @mac_authentication_bypass.responses.each do |response| %>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><%= response.response_attribute %></td>
+          <td class="govuk-table__cell"><%= response.value %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
