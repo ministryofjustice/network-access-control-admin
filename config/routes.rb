@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   end
 
   resources :certificates
-  resources :mac_authentication_bypasses
+
+  resources :mac_authentication_bypasses do
+    resources :mab_responses
+  end
 
   resources :sites do
     resources :clients

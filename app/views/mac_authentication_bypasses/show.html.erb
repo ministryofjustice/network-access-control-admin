@@ -14,3 +14,7 @@
     </dd>
   </div>
 </dl>
+
+<% if can? :create, MabResponse %>
+  <%= link_to "Add response", new_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass), class: "govuk-button" %>
+<% end %>
