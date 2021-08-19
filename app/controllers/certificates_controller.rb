@@ -1,5 +1,6 @@
 class CertificatesController < ApplicationController
   before_action :set_certificate, only: %i[destroy edit update]
+  after_action :deploy_service, only: %i[create destroy]
 
   def index
     @certificates = Certificate.all
