@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe MacAuthenticationBypassResponse, type: :model do
-  subject { build :mac_authentication_bypass_response }
+describe MabResponse, type: :model do
+  subject { build :mab_response }
 
   it "has a valid response" do
     expect(subject).to be_valid
