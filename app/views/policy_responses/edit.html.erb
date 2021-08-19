@@ -2,4 +2,8 @@
 
 <h2 class="govuk-heading-l">Editing a response</h2>
 
-<%= render "policy_responses/form", path: policy_policy_response_path(policy_id: @policy, id: @response), response: @response %>
+<%= render "shared/response_form",
+  path: policy_policy_response_path(policy_id: @policy, id: @response),
+  response: @response,
+  cancel_path: policy_path(@policy)
+%>
