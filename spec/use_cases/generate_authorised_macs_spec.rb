@@ -6,23 +6,49 @@ describe UseCases::GenerateAuthorisedMacs do
   end
 
   describe "#call" do
-    describe "When there are entries in the database" do
-      before do
-        create(:mac_authentication_bypass, address: "aa-11-22-33-44-55")
-        create(:mac_authentication_bypass, address: "ff-99-88-77-66-55")
+    describe "when there are entries in the database" do
+      let!(:mac_authentication_bypasses) { MacAuthenticationBypass.all }
+
+      context "when there are no MAB responses" do
+        before do
+          create(:mac_authentication_bypass, address: "aa-11-22-33-44-55")
+          create(:mac_authentication_bypass, address: "ff-99-88-77-66-55")
+        end
+
+        it "generates a authorised_clients configuration file" do
+          expected_config = %(aa-11-22-33-44-55\n\nff-99-88-77-66-55)
+
+          expect(result).to eq(expected_config)
+        end
       end
 
-      let(:mac_authentication_bypasses) { MacAuthenticationBypass.all }
+      context "when there are MAB responses" do
+        let!(:mac_authentication_bypass) { create(:mac_authentication_bypass, address: "aa-66-77-88-99-00") }
+        let!(:second_mac_authentication_bypass) { create(:mac_authentication_bypass, address: "bb-cc-00-11-22-33") }
 
-      it "generates a authorised_clients configuration file" do
-        expected_config = %(aa-11-22-33-44-55
-ff-99-88-77-66-55)
+        before do
+          create(:mab_response, mac_authentication_bypass: mac_authentication_bypass, response_attribute: "Tunnel-Medium-Type", value: "IEEE-802")
+          create(:mab_response, mac_authentication_bypass: mac_authentication_bypass, response_attribute: "Tunnel-Private-Group-Id", value: "123456")
 
-        expect(result).to eq(expected_config)
+          create(:mab_response, mac_authentication_bypass: second_mac_authentication_bypass, response_attribute: "Tunnel-Medium-Type", value: "IEEE-802")
+          create(:mab_response, mac_authentication_bypass: second_mac_authentication_bypass, response_attribute: "Tunnel-Private-Group-Id", value: "123456")
+        end
+
+        it "generates an authorised_macs configuration file" do
+          expected_config = %(aa-66-77-88-99-00
+        Tunnel-Medium-Type = IEEE-802,
+        Tunnel-Private-Group-Id = 123456
+
+bb-cc-00-11-22-33
+        Tunnel-Medium-Type = IEEE-802,
+        Tunnel-Private-Group-Id = 123456)
+
+          expect(result).to eq(expected_config)
+        end
       end
     end
 
-    describe "When there are no entries in the database" do
+    describe "when there are no entries in the database" do
       let(:mac_authentication_bypasses) { [] }
 
       it "generates an empty authorised_clients configuration file" do
