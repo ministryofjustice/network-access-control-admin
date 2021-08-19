@@ -10,7 +10,18 @@ describe Certificate, type: :model do
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :description }
   it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
-  it { is_expected.to validate_uniqueness_of(:filename).case_insensitive }
+
+  describe "validate uniquness of filename" do
+    it "rejects duplicate filenames of the same category" do
+      create(:certificate, filename: "server.pem", category: "EAP")
+      expect { create(:certificate, filename: "server.pem", category: "EAP") }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it "allows duplicate filenames of the different categories" do
+      create(:certificate, filename: "server.pem", category: "RADSEC")
+      expect { create(:certificate, filename: "server.pem", category: "EAP") }.not_to raise_error
+    end
+  end
 
   it "raises an error when fields from certificate file are missing" do
     missing_field = [{ expiry_date: Date.today }, { subject: "may not exist" }].sample
