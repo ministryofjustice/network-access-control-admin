@@ -1,12 +1,12 @@
-class ResponsesController < ApplicationController
+class PolicyResponsesController < ApplicationController
   before_action :set_policy, only: %i[new create destroy edit update]
 
   def new
-    @response = Response.new
+    @response = PolicyResponse.new
   end
 
   def create
-    @response = Response.new(response_params.merge(policy_id: @policy.id))
+    @response = PolicyResponse.new(response_params.merge(policy_id: @policy.id))
     authorize! :create, @response
 
     if @response.save
@@ -17,7 +17,7 @@ class ResponsesController < ApplicationController
   end
 
   def destroy
-    @response = Response.find(params.fetch(:id))
+    @response = PolicyResponse.find(params.fetch(:id))
 
     authorize! :destroy, @response
     if confirmed?
@@ -27,17 +27,17 @@ class ResponsesController < ApplicationController
         redirect_to policy_path(@policy), error: "Failed to delete the response. "
       end
     else
-      render "responses/destroy"
+      render "policy_responses/destroy"
     end
   end
 
   def edit
-    @response = Response.find(params.fetch(:id))
+    @response = PolicyResponse.find(params.fetch(:id))
     authorize! :update, @response
   end
 
   def update
-    @response = Response.find(params.fetch(:id))
+    @response = PolicyResponse.find(params.fetch(:id))
     authorize! :update, @response
 
     @response.assign_attributes(response_params)
@@ -56,7 +56,7 @@ private
   end
 
   def response_params
-    params.require(:response).permit(:response_attribute, :value)
+    params.require(:policy_response).permit(:response_attribute, :value)
   end
 
   def set_policy

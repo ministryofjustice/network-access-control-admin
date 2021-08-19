@@ -16,7 +16,7 @@ describe "create responses", type: :feature do
 
         click_on "Add response"
 
-        expect(page.current_path).to eq(new_policy_response_path(policy_id: policy))
+        expect(page.current_path).to eq(new_policy_policy_response_path(policy_id: policy))
 
         fill_in "Response attribute", with: "VLAN ID"
         fill_in "Value", with: "1234"
@@ -29,7 +29,7 @@ describe "create responses", type: :feature do
       end
 
       it "displays error if form cannot be submitted" do
-        visit new_policy_response_path(policy_id: policy)
+        visit new_policy_policy_response_path(policy_id: policy)
 
         click_on "Create"
 
