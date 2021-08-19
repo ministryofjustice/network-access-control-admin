@@ -16,20 +16,20 @@ class MabResponsesController < ApplicationController
     end
   end
 
-  # def destroy
-  #   @response = MabResponse.find(params.fetch(:id))
+  def destroy
+    @response = MabResponse.find(params.fetch(:id))
 
-  #   authorize! :destroy, @response
-  #   if confirmed?
-  #     if @response.destroy
-  #       redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully deleted response. "
-  #     else
-  #       redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), error: "Failed to delete the response. "
-  #     end
-  #   else
-  #     render "mab_responses/destroy"
-  #   end
-  # end
+    authorize! :destroy, @response
+    if confirmed?
+      if @response.destroy
+        redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully deleted response. "
+      else
+        redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), error: "Failed to delete the response. "
+      end
+    else
+      render "mab_responses/destroy"
+    end
+  end
 
   # def edit
   #   @response = MabResponse.find(params.fetch(:id))

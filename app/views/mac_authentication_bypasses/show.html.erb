@@ -28,6 +28,7 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Attribute</th>
         <th scope="col" class="govuk-table__header">Value</th>
+        <th scope="col" class="govuk-table__header">Actions</th>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -35,6 +36,11 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= response.response_attribute %></td>
           <td class="govuk-table__cell"><%= response.value %></td>
+          <td class="govuk-table__cell">
+            <% if can? :manage, Response %>
+              <%= link_to "Delete", mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: response), class:"govuk-link", method: :delete %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

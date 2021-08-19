@@ -1,0 +1,13 @@
+<h2 class="govuk-heading-l">Are you sure you want to delete this response?</h2>
+
+<div class="govuk-inset-text">
+  <h4 class="govuk-heading-s">Response:</h4>
+  <p class="govuk-body"><%= "#{@response.response_attribute}: #{@response.value}" %></p>
+</div>
+
+<%=
+  render "shared/destroy_confirmation",
+  resource_name: "response",
+  delete_path: mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: @response),
+  cancel_path: mac_authentication_bypass_path(@mac_authentication_bypass)
+%>
