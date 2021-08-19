@@ -31,23 +31,23 @@ class MabResponsesController < ApplicationController
     end
   end
 
-  # def edit
-  #   @response = MabResponse.find(params.fetch(:id))
-  #   authorize! :update, @response
-  # end
+  def edit
+    @response = MabResponse.find(params.fetch(:id))
+    authorize! :update, @response
+  end
 
-  # def update
-  #   @response = MabResponse.find(params.fetch(:id))
-  #   authorize! :update, @response
+  def update
+    @response = MabResponse.find(params.fetch(:id))
+    authorize! :update, @response
 
-  #   @response.assign_attributes(response_params)
+    @response.assign_attributes(response_params)
 
-  #   if @response.save
-  #     redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully updated response. "
-  #   else
-  #     render :edit
-  #   end
-  # end
+    if @response.save
+      redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully updated response. "
+    else
+      render :edit
+    end
+  end
 
 private
 

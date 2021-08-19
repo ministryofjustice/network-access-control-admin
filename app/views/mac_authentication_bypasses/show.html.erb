@@ -38,6 +38,7 @@
           <td class="govuk-table__cell"><%= response.value %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Response %>
+              <%= link_to "Edit", edit_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: response), class:"govuk-link" %>
               <%= link_to "Delete", mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: response), class:"govuk-link", method: :delete %>
             <% end %>
           </td>
