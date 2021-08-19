@@ -1,6 +1,5 @@
 class CertificatesController < ApplicationController
   before_action :set_certificate, only: %i[destroy edit update]
-  after_action :deploy_service, only: %i[create destroy]
 
   def index
     @certificates = Certificate.all
@@ -22,6 +21,7 @@ class CertificatesController < ApplicationController
     end
 
     if @certificate.save
+      deploy_service
       redirect_to certificate_path(@certificate), notice: "Successfully uploaded certificate."
       publish_certificate(uploaded_certificate_file)
     else
@@ -34,6 +34,7 @@ class CertificatesController < ApplicationController
     if confirmed?
       if @certificate.destroy
         remove_certificate
+        deploy_service
         redirect_to certificates_path, notice: "Successfully deleted certificate. "
       else
         redirect_to certificates_path, error: "Failed to delete the certificate."
