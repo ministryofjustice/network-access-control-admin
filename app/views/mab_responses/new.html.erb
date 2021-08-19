@@ -2,4 +2,8 @@
 
 <h2 class="govuk-heading-l">Create a new response</h2>
 
-<%= render "mab_responses/form", path: mac_authentication_bypass_mab_responses_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: @response), response: @response %>
+<%= render "shared/response_form",
+  path: mac_authentication_bypass_mab_responses_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: @response),
+  response: @response,
+  cancel_path: mac_authentication_bypass_path(@mac_authentication_bypass) 
+%>
