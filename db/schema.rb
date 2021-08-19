@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_144906) do
+ActiveRecord::Schema.define(version: 2021_08_19_105613) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -108,14 +108,6 @@ ActiveRecord::Schema.define(version: 2021_08_11_144906) do
     t.string "uid"
     t.boolean "editor", default: false
     t.string "email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "vlans", charset: "utf8", force: :cascade do |t|
-    t.integer "vlan", null: false
-    t.string "common_name", null: false
-    t.string "remote_ip", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
