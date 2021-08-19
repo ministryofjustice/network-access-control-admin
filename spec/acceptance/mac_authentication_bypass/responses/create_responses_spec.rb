@@ -12,7 +12,7 @@ describe "create responses", type: :feature do
       logout
     end
 
-    context "when there is an existing mac_authentication_bypass" do
+    context "when there is an existing MAC authentication bypass" do
       let!(:mac_authentication_bypass) { create(:mac_authentication_bypass) }
 
       it "creates a new response" do
@@ -29,8 +29,7 @@ describe "create responses", type: :feature do
 
         expect(page).to have_content("Successfully created response.")
         expect(page.current_path).to eq(mac_authentication_bypass_path(id: mac_authentication_bypass.id))
-        # TODO: Fix presenter:
-        # expect_audit_log_entry_for(editor.email, "create", "Response")
+        expect_audit_log_entry_for(editor.email, "create", "Response")
       end
 
       it "displays error if f cannot be submitted" do
