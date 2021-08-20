@@ -13,7 +13,7 @@ describe "create clients", type: :feature do
     end
 
     context "when there is an existing site" do
-      let!(:site) { create(:site) }
+      let!(:site) { create(:site, name: "Yusuf's Site") }
 
       it "creates a new client" do
         allow(publish_to_s3).to receive(:call)
@@ -55,14 +55,13 @@ describe "create clients", type: :feature do
         expect(page.current_path).to eq(new_site_client_path(site_id: site))
 
         fill_in "IP / Subnet CIDR", with: "123.123.123.123/32"
-        fill_in "Tag", with: "Some client"
 
         click_on "Create"
 
         expected_config_file = "client 123.123.123.123/32 {
 \tipv4addr = 123.123.123.123/32
 \tsecret = #{Client.first.shared_secret}
-\tshortname = Some client
+\tshortname = yusuf_s_site
 }"
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
         expect(deploy_service).to have_received(:call).twice
