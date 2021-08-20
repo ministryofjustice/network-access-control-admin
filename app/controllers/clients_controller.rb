@@ -67,7 +67,7 @@ private
   end
 
   def client_params
-    params.require(:client).permit(:ip_range, :tag)
+    params.require(:client).permit(:ip_range)
   end
 
   def publish_authorised_clients
