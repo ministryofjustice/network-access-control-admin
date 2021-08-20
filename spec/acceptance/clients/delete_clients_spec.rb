@@ -83,7 +83,6 @@ describe "delete clients", type: :feature do
 
         expect(page).to have_content("Successfully deleted client.")
         expect(page).not_to have_content(client.ip_range)
-        expect(page).not_to have_content(client.tag)
         expect(page).not_to have_content(client.shared_secret)
 
         expect_audit_log_entry_for(editor.email, "destroy", "Client")
