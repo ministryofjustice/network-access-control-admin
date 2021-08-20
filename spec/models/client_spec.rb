@@ -8,7 +8,6 @@ describe Client, type: :model do
   end
 
   it { is_expected.to belong_to :site }
-  it { is_expected.to validate_presence_of :tag }
   it { is_expected.to validate_presence_of :shared_secret }
   it { is_expected.to validate_presence_of :ip_range }
   it { is_expected.to validate_uniqueness_of(:ip_range).case_insensitive }
@@ -27,11 +26,13 @@ describe Client, type: :model do
 
     valid_ip_addresses.each do |ip|
       result = build(:client, ip_range: ip)
+
       expect(result).to be_valid
     end
 
     invalid_ip_addresses.each do |ip|
       result = build(:client, ip_range: ip)
+
       expect(result).to be_invalid
     end
   end

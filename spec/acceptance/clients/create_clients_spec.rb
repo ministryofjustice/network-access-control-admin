@@ -63,6 +63,7 @@ describe "create clients", type: :feature do
 \tsecret = #{Client.first.shared_secret}
 \tshortname = yusuf_s_site
 }"
+
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
         expect(deploy_service).to have_received(:call).twice
 

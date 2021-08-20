@@ -8,7 +8,7 @@ class ClientsController < ApplicationController
   end
 
   def create
-    @client = Client.new(client_params.merge(site_id: @site.id, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase, tag: @site.name.parameterize(separator: "_")))
+    @client = Client.new(client_params.merge(site_id: @site.id, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase))
 
     if @client.save
       publish_authorised_clients
