@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "update clients", type: :feature do
-  let(:site) { create(:site, name: "Yusuf's other site") }
+  let(:site) { create(:site) }
   let(:client) { create(:client, site: site) }
   let(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
   let(:s3_gateway) { double(Gateways::S3) }
@@ -86,7 +86,7 @@ describe "update clients", type: :feature do
       expected_config_file = "client 132.111.132.111/32 {
 \tipv4addr = 132.111.132.111/32
 \tsecret = #{Client.first.shared_secret}
-\tshortname = yusuf_s_other_site
+\tshortname = #{Client.first.tag}
 }"
 
       expect(publish_to_s3).to have_received(:call).with(expected_config_file)

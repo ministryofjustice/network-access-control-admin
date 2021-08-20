@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :client do
     site
 
-    sequence(:tag) { |n| "Client #{n}" }
+    sequence(:tag) { |n| "client_#{n}" }
     sequence(:shared_secret) { |n| "shared-secret-#{n}" }
     sequence(:ip_range) { |n| "127.0.0.#{n}/32" }
   end
