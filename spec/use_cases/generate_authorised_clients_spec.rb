@@ -17,13 +17,13 @@ describe UseCases::GenerateAuthorisedClients do
           expected_config = "client #{first_ipv4_client.ip_range} {
 \tipv4addr = #{first_ipv4_client.ip_range}
 \tsecret = #{first_ipv4_client.shared_secret}
-\tshortname = #{site.name.parameterize(separator: '_')}
+\tshortname = another_site
 }
 
 client #{second_ipv4_client.ip_range} {
 \tipv4addr = 123.123.0.2/32
 \tsecret = #{second_ipv4_client.shared_secret}
-\tshortname = #{site.name.parameterize(separator: '_')}
+\tshortname = another_site
 }"
 
           expect(result).to eq(expected_config)
