@@ -24,7 +24,6 @@ describe "showing a client", type: :feature do
         visit "/sites/#{site.id}"
 
         expect(page).to have_content "List of Authorised Clients"
-        expect(page).to have_content client.tag
         expect(page).to have_content client.ip_range
         expect(page).to have_content client.shared_secret
       end
