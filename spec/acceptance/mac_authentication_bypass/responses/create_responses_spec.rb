@@ -32,7 +32,7 @@ describe "create responses", type: :feature do
         expect_audit_log_entry_for(editor.email, "create", "Response")
       end
 
-      it "displays error if f cannot be submitted" do
+      it "displays an error if form cannot be submitted" do
         visit new_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: mac_authentication_bypass)
 
         click_on "Create"
