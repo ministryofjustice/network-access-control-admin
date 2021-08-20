@@ -78,7 +78,6 @@ describe "update clients", type: :feature do
       first(:link, "Edit").click
 
       expect(page).to have_field("IP / Subnet CIDR", with: client.ip_range)
-      expect(page).to have_field("Tag", with: client.tag)
 
       fill_in "IP / Subnet CIDR", with: "132.111.132.111/32"
 
