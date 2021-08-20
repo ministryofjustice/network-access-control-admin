@@ -14,8 +14,9 @@
     </thead>
     <tbody class="govuk-table__body">
       <% @clients.each do |client| %>
+      <%= client %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= client.tag %></td>
+          <td class="govuk-table__cell"><%= client %></td>
         </tr>
       <% end %>
     </tbody>

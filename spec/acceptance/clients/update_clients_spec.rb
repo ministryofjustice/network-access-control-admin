@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "update clients", type: :feature do
-  let(:site) { create(:site) }
+  let(:site) { create(:site, name: "Yusuf's other site") }
   let(:client) { create(:client, site: site) }
   let(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
   let(:s3_gateway) { double(Gateways::S3) }
@@ -81,14 +81,13 @@ describe "update clients", type: :feature do
       expect(page).to have_field("Tag", with: client.tag)
 
       fill_in "IP / Subnet CIDR", with: "132.111.132.111/32"
-      fill_in "Tag", with: "Updated client"
 
       click_on "Update"
 
       expected_config_file = "client 132.111.132.111/32 {
 \tipv4addr = 132.111.132.111/32
 \tsecret = #{Client.first.shared_secret}
-\tshortname = Updated client
+\tshortname = yusuf_s_other_site
 }"
 
       expect(publish_to_s3).to have_received(:call).with(expected_config_file)
@@ -98,7 +97,6 @@ describe "update clients", type: :feature do
 
       expect(page).to have_content("Successfully updated client.")
       expect(page).to have_content "132.111.132.111/32"
-      expect(page).to have_content "Updated client"
 
       expect_audit_log_entry_for(editor.email, "update", "Client")
     end
