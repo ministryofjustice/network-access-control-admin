@@ -1,16 +1,6 @@
 require "rails_helper"
 
 describe "showing a client", type: :feature do
-  context "when the user is unauthenticated" do
-    let!(:site) { create :site }
-
-    it "does not allow viewing clients" do
-      visit "/sites/#{site.id}/clients"
-
-      expect(page).to have_content "You need to sign in or sign up before continuing."
-    end
-  end
-
   context "when the user is authenticated" do
     before do
       login_as create(:user, :reader)

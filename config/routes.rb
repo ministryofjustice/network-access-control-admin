@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :sites do
-    resources :clients
+    resources :clients, except: %i[index show]
   end
 
   get "/sites/:id/policies", to: "sites#policies", as: "site_policies"
