@@ -3,8 +3,6 @@ class ClientsController < ApplicationController
 
   SHARED_SECRET_BYTES = 10
 
-  def index; end
-
   def new
     @client = Client.new
   end
