@@ -8,11 +8,11 @@ default: &default
 
 development:
   <<: *default
-  database: network_access_control_development_admin
+  database: <%= ENV.fetch('DB_NAME') %>
 
 test:
   <<: *default
-  database: moj_network_access_control_admin_test
+  database: <%= ENV.fetch('DB_NAME') %>
 
 production:
   <<: *default
