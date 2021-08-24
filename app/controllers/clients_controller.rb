@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   before_action :set_site, only: %i[new create edit update destroy]
+  before_action :set_crumbs, only: %i[new edit destroy]
 
   SHARED_SECRET_BYTES = 10
 
@@ -83,5 +84,9 @@ private
         clients: Client.all,
       ),
     )
+  end
+
+  def set_crumbs
+    @navigation_crumbs = [["Home", root_path], ["Sites", sites_path]]
   end
 end

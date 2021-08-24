@@ -1,14 +1,13 @@
 class SitesController < ApplicationController
   before_action :set_site, only: %i[show edit update destroy policies attach_policies]
+  before_action :set_crumbs, only: %i[show new edit destroy policies]
 
   def index
     @sites = Site.all
     @navigation_crumbs = [["Home", root_path]]
   end
 
-  def show
-    @navigation_crumbs = [["Home", root_path], ["Sites", sites_path]]
-  end
+  def show; end
 
   def new
     @site = Site.new
@@ -43,6 +42,7 @@ class SitesController < ApplicationController
 
   def destroy
     authorize! :destroy, @site
+
     if confirmed?
       if @site.destroy
         redirect_to sites_path, notice: "Successfully deleted site. #{CONFIG_UPDATE_DELAY_NOTICE}"
@@ -94,5 +94,9 @@ private
     end
 
     policy_ids
+  end
+
+  def set_crumbs
+    @navigation_crumbs = [["Home", root_path], ["Sites", sites_path]]
   end
 end
