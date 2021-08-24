@@ -16,7 +16,7 @@ private
   end
 
   def generate_tag
-    self.tag = site.name.parameterize(separator: "_")
+    self.tag = site.tag
   end
 
   audited

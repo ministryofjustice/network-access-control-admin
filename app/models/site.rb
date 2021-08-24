@@ -9,4 +9,8 @@ class Site < ApplicationRecord
   def fallback_policy
     @fallback_policy ||= policies.where(fallback: true).first
   end
+
+  def tag
+    name.parameterize(separator: "_")
+  end
 end

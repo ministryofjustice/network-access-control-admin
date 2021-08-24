@@ -5,7 +5,7 @@
     <dt class="govuk-summary-list__key">Name</dt>
     <dd class="govuk-summary-list__value"><%= @site.name %></dd>
     <dt class="govuk-summary-list__key">Tag</dt>
-    <dd class="govuk-summary-list__value"><%= @site.name.parameterize(separator: "_") %></dd>
+    <dd class="govuk-summary-list__value"><%= @site.tag %></dd>
     <dd class="govuk-summary-list__actions">
       <%= link_to edit_site_path(@site), class: "govuk-link" do %>
         Change<span class="govuk-visually-hidden"> name</span>
