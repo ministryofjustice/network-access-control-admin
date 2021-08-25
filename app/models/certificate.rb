@@ -5,6 +5,10 @@ class Certificate < ApplicationRecord
   validates_inclusion_of :category, in: %w[EAP RADSEC]
   validates_uniqueness_of :filename, scope: :category
 
+  def server_certificate?
+    filename == "server.pem"
+  end
+
 private
 
   def fields_from_certificate_file

@@ -8,26 +8,52 @@ describe "create certificates", type: :feature do
       login_as editor
     end
 
-    it "uploads a new certificate" do
-      visit "/certificates"
+    context "when uploading a new certificate" do
+      it "does upload a new certificate" do
+        visit "/certificates"
 
-      click_on "Upload a new certificate"
+        click_on "Upload a new certificate"
 
-      expect(current_path).to eql("/certificates/new")
+        expect(current_path).to eql("/certificates/new")
 
-      select "EAP", from: "certificate_category"
-      fill_in "Name", with: "My Test Certificate"
-      fill_in "Description", with: "My test certificate description details"
-      attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/mytestcertificate.pem")
+        select "EAP", from: "certificate_category"
+        fill_in "Name", with: "My Test Certificate"
+        fill_in "Description", with: "My test certificate description details"
+        attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/mytestcertificate.pem")
 
-      click_on "Upload"
+        click_on "Upload"
 
-      expect(page).to have_content("EAP")
-      expect(page).to have_content("Successfully uploaded certificate.")
-      expect(page).to have_content("My Test Certificate")
-      expect(page).to have_content("mytestcertificate.pem")
+        expect(page).to have_content("EAP")
+        expect(page).to have_content("Successfully uploaded certificate.")
+        expect(page).to have_content("My Test Certificate")
+        expect(page).to have_content("mytestcertificate.pem")
 
-      expect_audit_log_entry_for(editor.email, "create", "Certificate")
+        expect_audit_log_entry_for(editor.email, "create", "Certificate")
+      end
+
+      it "does upload a server certificate" do
+        visit "/certificates"
+
+        click_on "Upload a new certificate"
+
+        select "EAP", from: "certificate_category"
+        check "Server certificate"
+        fill_in "Name", with: "My Test Server Certificate 2"
+        fill_in "Description", with: "My test server certificate description details 2"
+        attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/mytestcertificate.pem")
+
+        click_on "Upload"
+
+        expect(page).to have_content("EAP")
+        expect(page).to have_content("Successfully uploaded certificate.")
+        expect(page).to have_content("My Test Server Certificate 2")
+        expect(page).to have_content("My test server certificate description details 2")
+        expect(page).to have_content("Server certificate")
+        expect(page).to have_content("Yes")
+        expect(page).to have_content("server.pem")
+
+        expect_audit_log_entry_for(editor.email, "create", "Certificate")
+      end
     end
 
     it "displays error if form cannot be submitted" do

@@ -17,13 +17,13 @@ class CertificatesController < ApplicationController
       certificate_metadata = UseCases::ReadCertificateMetadata.new(certificate: uploaded_certificate_file.read).call
       @certificate.expiry_date = certificate_metadata[:expiry_date]
       @certificate.subject = certificate_metadata[:subject]
-      @certificate.filename = uploaded_certificate_file.original_filename
+      @certificate.filename = server_certificate? ? "server.pem" : uploaded_certificate_file.original_filename
     end
 
     if @certificate.save
       deploy_service
       redirect_to certificate_path(@certificate), notice: "Successfully uploaded certificate."
-      publish_certificate(uploaded_certificate_file)
+      publish_certificate(uploaded_certificate_file, @certificate.filename)
     else
       render :new
     end
@@ -58,6 +58,10 @@ private
     params.fetch(:id)
   end
 
+  def server_certificate?
+    ActiveModel::Type::Boolean.new.cast(params.dig(:certificate, :server_certificate))
+  end
+
   def set_certificate
     @certificate = Certificate.find(certificate_id)
   end
@@ -73,12 +77,12 @@ private
     ).call
   end
 
-  def publish_certificate(certificate_file)
+  def publish_certificate(certificate_file, filename)
     p "start cert upload"
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
-        key: full_object_path(certificate_file.original_filename),
+        key: full_object_path(filename),
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
       ),

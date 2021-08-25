@@ -18,6 +18,14 @@
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Server certificate</dt>
+    <dd class="govuk-summary-list__value"><%= @certificate.server_certificate? ? "Yes" : "No" %></dd>
+    </dd>
+  </div>
+</dl>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Subject</dt>
     <dd class="govuk-summary-list__value"><%= @certificate.subject %></dd>
   </div>
