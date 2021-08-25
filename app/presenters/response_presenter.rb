@@ -7,9 +7,9 @@ private
 
   def relation
     if record.policy_id
-      "Policy: #{Policy.find_by_id(record.policy_id).name}"
+      "Policy: #{Policy.find_by_id(record.policy_id).try(:name)}"
     else
-      "MAB: #{MacAuthenticationBypass.find_by_id(record.mac_authentication_bypass_id).name}"
+      "MAB: #{MacAuthenticationBypass.find_by_id(record.mac_authentication_bypass_id).try(:name)}"
     end
   end
 end
