@@ -4,6 +4,15 @@
     <%= f.select(:category, %i(EAP RADSEC), {}, { class: "govuk-select" }) %>
   </div>
 
+  <div class="govuk-form-group">
+    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+      <div class="govuk-checkboxes__item">
+        <%= f.check_box :server_certificate, class: "govuk-checkboxes__input" %>
+        <%= f.label :server_certificate, class: "govuk-label govuk-checkboxes__label" %>
+      </div>
+    </div>
+  </div>
+
   <div class="govuk-form-group <%= field_error(f.object, :name) %>">
     <%= f.label :name, class: "govuk-label" %>
     <%= f.text_field :name, class: "govuk-input" %>
