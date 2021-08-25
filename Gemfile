@@ -23,6 +23,7 @@ gem "rails-erd"
 gem "rubocop-govuk", require: false
 gem "sassc-rails"
 gem "sentry-raven"
+gem "sentry-rails"
 gem "sprockets", "~> 4.0.2"
 gem "tzinfo-data"
 
