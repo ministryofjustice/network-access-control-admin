@@ -17,6 +17,7 @@ ARG DB_NAME=root
 ARG BUNDLE_WITHOUT=""
 ARG BUNDLE_INSTALL_FLAGS=""
 ARG RUN_PRECOMPILATION=true
+ARG SENTRY_DSN=""
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
