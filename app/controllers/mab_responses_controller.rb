@@ -1,5 +1,6 @@
 class MabResponsesController < ApplicationController
   before_action :set_mac_authentication_bypass, only: %i[new create destroy edit update]
+  before_action :set_crumbs, only: %i[new edit destroy]
 
   def new
     @response = MabResponse.new
@@ -61,5 +62,9 @@ private
 
   def set_mac_authentication_bypass
     @mac_authentication_bypass = MacAuthenticationBypass.find(mac_authentication_bypass_id)
+  end
+
+  def set_crumbs
+    @navigation_crumbs = [["Home", root_path], ["MAC Authentication Bypasses", mac_authentication_bypasses_path]]
   end
 end
