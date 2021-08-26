@@ -1,5 +1,6 @@
 class PoliciesController < ApplicationController
   before_action :set_policy, only: %i[show edit update destroy]
+  before_action :set_crumbs, only: %i[index new show edit destroy]
 
   def new
     @policy = Policy.new
@@ -63,5 +64,9 @@ private
 
   def set_policy
     @policy = Policy.find(policy_id)
+  end
+
+  def set_crumbs
+    @navigation_crumbs = [["Home", root_path], ["Policies", policies_path]]
   end
 end
