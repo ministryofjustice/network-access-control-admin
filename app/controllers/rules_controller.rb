@@ -1,5 +1,6 @@
 class RulesController < ApplicationController
   before_action :set_policy, only: %i[new create destroy edit update]
+  before_action :set_crumbs, only: %i[new edit destroy]
   before_action :redirect_to_policies_path
 
   def new
@@ -66,5 +67,9 @@ private
 
   def redirect_to_policies_path
     redirect_to policies_path if @policy.fallback?
+  end
+
+  def set_crumbs
+    @navigation_crumbs = [["Home", root_path], ["Policies", policies_path]]
   end
 end
