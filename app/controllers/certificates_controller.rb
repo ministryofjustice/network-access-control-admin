@@ -1,5 +1,6 @@
 class CertificatesController < ApplicationController
   before_action :set_certificate, only: %i[destroy edit update]
+  before_action :set_crumbs, only: %i[index new show destroy]
 
   def index
     @certificates = Certificate.all
@@ -94,5 +95,9 @@ private
 
   def full_object_path(filename)
     (@certificate.category == "RADSEC" ? "radsec/" : "") + filename
+  end
+
+  def set_crumbs
+    @navigation_crumbs = [["Home", root_path], ["Certificates", certificates_path]]
   end
 end
