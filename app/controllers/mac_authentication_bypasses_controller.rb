@@ -1,5 +1,6 @@
 class MacAuthenticationBypassesController < ApplicationController
   before_action :set_mac_authentication_bypass, only: %i[destroy edit update show]
+  before_action :set_crumbs, only: %i[index new show edit destroy]
 
   def index
     @mac_authentication_bypasses = MacAuthenticationBypass.all
@@ -82,5 +83,9 @@ private
         mac_authentication_bypasses: MacAuthenticationBypass.all,
       ),
     )
+  end
+
+  def set_crumbs
+    @navigation_crumbs = [["Home", root_path], ["MAC Authentication Bypasses", mac_authentication_bypasses_path]]
   end
 end
