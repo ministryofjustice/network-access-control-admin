@@ -65,6 +65,6 @@ private
   end
 
   def set_crumbs
-    @navigation_crumbs = [["Home", root_path], ["MAC Authentication Bypasses", mac_authentication_bypasses_path]]
+    @navigation_crumbs << ["MAC Authentication Bypasses", mac_authentication_bypasses_path]
   end
 end

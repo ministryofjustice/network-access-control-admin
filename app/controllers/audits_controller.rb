@@ -12,6 +12,6 @@ class AuditsController < ApplicationController
 private
 
   def set_crumbs
-    @navigation_crumbs = [["Home", root_path], ["Audit Log", audits_path]]
+    @navigation_crumbs << ["Audit Log", audits_path]
   end
 end

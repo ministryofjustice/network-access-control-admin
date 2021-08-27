@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :set_default_breadcrumbs
   after_action :set_expect_ct_header
 
   def new_session_path(_scope)
@@ -51,6 +51,10 @@ private
 
   def confirmed?
     params.fetch(:confirm, false)
+  end
+
+  def set_default_breadcrumbs
+    @navigation_crumbs = [["Home", root_path]]
   end
 
   CONFIG_UPDATE_DELAY_NOTICE = " This could take up to 10 minutes to apply.".freeze
