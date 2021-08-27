@@ -65,6 +65,6 @@ private
   end
 
   def set_crumbs
-    @navigation_crumbs = [["Home", root_path], ["Policies", policies_path]]
+    @navigation_crumbs << ["Policies", policies_path]
   end
 end
