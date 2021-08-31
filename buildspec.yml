@@ -3,7 +3,6 @@ version: 0.2
 env:
   variables:
     DB_PORT: 3306
-    RACK_ENV: "production"
     ENV: ${ENV}
     BUNDLE_WITHOUT: "test development"
   parameter-store:

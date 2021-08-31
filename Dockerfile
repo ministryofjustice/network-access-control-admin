@@ -7,7 +7,6 @@ ARG HOME=/home/$USER
 ARG APPDIR=$HOME/moj-network-access-admin
 ARG CERTDIR=$HOME/cert
 
-ARG RACK_ENV=development
 ARG DB_HOST=db
 ARG DB_USER=root
 ARG DB_PASS=root
@@ -21,7 +20,6 @@ ARG SENTRY_DSN=""
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
-  RACK_ENV=${RACK_ENV} \
   DB_HOST=${DB_HOST} \
   DB_USER=${DB_USER} \
   DB_PASS=${DB_PASS} \
