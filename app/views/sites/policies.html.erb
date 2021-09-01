@@ -7,7 +7,7 @@
     <% selected_fallback_policy = @site.policies.select(&:fallback).first %>
     <% options = {
       selected: (selected_fallback_policy.id unless selected_fallback_policy.nil?),
-      prompt: "No fallback policy"
+      include_blank: "No fallback policy"
       } %>
 
     <%= f.collection_select(:fallback_policy_id, @fallback_policies, :id, :name, options, { class: "govuk-select" }) %>
