@@ -12,7 +12,7 @@ env:
 phases:
   install:
     commands:
-      - echo none
+      - docker-compose version
 
   build:
     commands:
