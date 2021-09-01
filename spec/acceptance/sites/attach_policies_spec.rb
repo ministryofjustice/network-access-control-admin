@@ -126,6 +126,18 @@ describe "attach policies to a site", type: :feature do
 
         expect(page).to have_select "fallback_policy_id", selected: "FB"
       end
+
+      it "does allow detaching the fallback policy" do
+        visit "/sites/#{site.id}"
+
+        click_on "Attach policies"
+
+        select "No fallback policy"
+
+        click_on "Update"
+
+        expect(page).to_not have_content("Fallback policy: FB")
+      end
     end
   end
 end
