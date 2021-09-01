@@ -38,11 +38,6 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "listen", "~> 3.7"
-  gem "web-console", ">= 3.3.0"
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem "spring"
-  gem "spring-watcher-listen", "~> 2.0.0"
-
   gem "standardrb"
 end
 
@@ -50,8 +45,6 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
-  gem "simplecov", require: false
-  gem "simplecov-console", require: false
   # Easy installation and use of web drivers to run system tests with browsers
   gem "rails-controller-testing"
   gem "shoulda-matchers", "~> 5.0"
