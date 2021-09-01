@@ -8,6 +8,3 @@ do
   printf "."
   sleep 1
 done
-
-env
-docker ps

@@ -10,6 +10,8 @@ services:
       - "3306:3306"
     volumes:
       - datavolume:/var/lib/mysql
+    networks:
+      - adminnet
 
   app:
     build:
@@ -30,7 +32,13 @@ services:
     ports:
       - "3000:3000"
     env_file: .env.${ENV}
+    networks:
+      - adminnet
 
 volumes:
   node_modules:
   datavolume:
+
+networks:
+  adminnet:
+    name: adminnet
