@@ -19,7 +19,6 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "openssl"
 gem "puma", "~> 5.4"
 gem "rails", "~> 6.1.4"
-gem "rails-erd"
 gem "rubocop-govuk", require: false
 gem "sassc-rails"
 gem "sentry-rails"
