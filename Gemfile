@@ -19,7 +19,6 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "openssl"
 gem "puma", "~> 5.4"
 gem "rails", "~> 6.1.4"
-gem "rubocop-govuk", require: false
 gem "sassc-rails"
 gem "sentry-rails"
 gem "sentry-ruby"
@@ -32,11 +31,11 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_bot_rails"
   gem "rspec-rails", "~> 5.0.2"
+  gem "rubocop-govuk", require: false
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem "listen", "~> 3.7"
   gem "standardrb"
 end
 
