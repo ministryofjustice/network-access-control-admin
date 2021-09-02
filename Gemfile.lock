@@ -371,7 +371,6 @@ DEPENDENCIES
   factory_bot_rails
   ipaddress_2
   jbuilder (~> 2.11)
-  jwt
   kaminari
   mysql2 (~> 0.5.3)
   omniauth-oauth2
