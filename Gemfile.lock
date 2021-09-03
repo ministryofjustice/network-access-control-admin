@@ -331,8 +331,6 @@ GEM
     tilt (2.0.10)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2021.1)
-      tzinfo (>= 1.0.0)
     unicode-display_width (2.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -385,7 +383,6 @@ DEPENDENCIES
   shoulda-matchers (~> 5.0)
   sprockets (~> 4.0.2)
   standardrb
-  tzinfo-data
   webdrivers
   webmock
 
