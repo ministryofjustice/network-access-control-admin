@@ -147,8 +147,6 @@ GEM
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     ipaddress_2 (0.14.0)
-    jbuilder (2.11.2)
-      activesupport (>= 5.0.0)
     jmespath (1.4.0)
     jwt (2.2.3)
     kaminari (1.2.1)
@@ -370,7 +368,6 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   ipaddress_2
-  jbuilder (~> 2.11)
   kaminari
   mysql2 (~> 0.5.3)
   omniauth-oauth2
