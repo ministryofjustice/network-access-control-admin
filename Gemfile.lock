@@ -323,10 +323,6 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    standard (0.0.36)
-      rubocop (>= 0.63)
-    standardrb (1.0.0)
-      standard
     thor (1.1.0)
     tilt (2.0.10)
     tzinfo (2.0.4)
@@ -382,7 +378,6 @@ DEPENDENCIES
   sentry-ruby
   shoulda-matchers (~> 5.0)
   sprockets (~> 4.0.2)
-  standardrb
   webdrivers
   webmock
 
