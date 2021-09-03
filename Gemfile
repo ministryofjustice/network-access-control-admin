@@ -31,11 +31,6 @@ group :development, :test do
   gem "rubocop-govuk", require: false
 end
 
-group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem "standardrb"
-end
-
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem "capybara", ">= 2.15"
