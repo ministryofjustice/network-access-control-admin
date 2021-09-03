@@ -10,7 +10,6 @@ gem "bootsnap", ">= 1.4.2", require: false
 gem "cancancan", "~> 3.3"
 gem "devise"
 gem "ipaddress_2"
-gem "jbuilder", "~> 2.11"
 gem "kaminari"
 gem "mysql2", "~> 0.5.3"
 gem "omniauth-oauth2"
