@@ -23,7 +23,13 @@ require_ssl() {
     "${require_ssl_command}"
 }
 
+save_db() {
+  mysqldump -u ${DB_USER} -p${DB_PASS} -n ${DB_NAME} -h ${DB_HOST} --ssl-ca=../cert/rds-combined-ca-bundle.pem >> ./data.sql
+  aws s3 cp ./data.sql s3://${RADIUS_CONFIG_BUCKET_NAME}
+}
+
 main() {
+  save_db
   assume_deploy_role
   require_ssl
 }
