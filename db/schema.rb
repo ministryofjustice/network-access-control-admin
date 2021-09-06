@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_19_105613) do
+ActiveRecord::Schema.define(version: 2021_09_06_140856) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -71,9 +71,10 @@ ActiveRecord::Schema.define(version: 2021_08_19_105613) do
     t.boolean "fallback", null: false
   end
 
-  create_table "policies_sites", id: false, charset: "utf8", force: :cascade do |t|
+  create_table "policies_sites", charset: "utf8", force: :cascade do |t|
     t.bigint "policy_id", null: false
     t.bigint "site_id", null: false
+    t.integer "priority"
     t.index ["policy_id"], name: "index_policies_sites_on_policy_id"
     t.index ["site_id"], name: "index_policies_sites_on_site_id"
   end
