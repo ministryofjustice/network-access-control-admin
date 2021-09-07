@@ -14,33 +14,39 @@ describe "create clients", type: :feature do
 
     context "when there is an existing site" do
       let!(:site) { create(:site, name: "Yusuf's Site") }
-
-      it "creates a new client" do
-        allow(publish_to_s3).to receive(:call)
-
-        expected_s3_gateway_config = {
+      let(:expected_s3_gateway_config) do
+        {
           bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
           key: "clients.conf",
           aws_config: Rails.application.config.s3_aws_config,
           content_type: "text/plain",
         }
+      end
 
-        expect(Gateways::S3).to receive(:new).with(expected_s3_gateway_config).and_return(s3_gateway)
-        expect(UseCases::PublishToS3).to receive(:new).with(destination_gateway: s3_gateway).and_return(publish_to_s3)
-
-        allow(deploy_service).to receive(:call)
-
-        expected_ecs_gateway_config = {
+      let(:expected_ecs_gateway_config) do
+        {
           cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
           service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
           aws_config: Rails.application.config.ecs_aws_config,
         }
+      end
 
-        expected_ecs_gateway_config_internal = {
+      let(:expected_ecs_gateway_config_internal) do
+        {
           cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
           service_name: ENV.fetch("RADIUS_INTERNAL_SERVICE_NAME"),
           aws_config: Rails.application.config.ecs_aws_config,
         }
+      end
+
+      before(:each) do
+        allow(publish_to_s3).to receive(:call)
+        allow(deploy_service).to receive(:call)
+      end
+
+      it "creates a new client" do
+        expect(Gateways::S3).to receive(:new).with(expected_s3_gateway_config).and_return(s3_gateway)
+        expect(UseCases::PublishToS3).to receive(:new).with(destination_gateway: s3_gateway).and_return(publish_to_s3)
 
         expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config).and_return(ecs_gateway)
         expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
@@ -69,6 +75,44 @@ describe "create clients", type: :feature do
 
         expect(page).to have_content("Successfully created client.")
         expect(page.current_path).to eq(site_path(id: site.id))
+        expect(page).to have_content("123.123.123.123/32")
+        expect(page).not_to have_content("radsec")
+
+        expect_audit_log_entry_for(editor.email, "create", "Client")
+      end
+
+      it "creates a new RadSec client" do
+        expect(Gateways::S3).to receive(:new).with(expected_s3_gateway_config).and_return(s3_gateway)
+        expect(UseCases::PublishToS3).to receive(:new).with(destination_gateway: s3_gateway).and_return(publish_to_s3)
+
+        expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config).and_return(ecs_gateway)
+        expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
+
+        expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config_internal).and_return(ecs_gateway)
+        expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
+
+        visit "/sites/#{site.id}"
+
+        click_on "Add client"
+
+        check("RadSec", allow_label_click: true)
+
+        fill_in "IP / Subnet CIDR", with: "123.123.123.123/32"
+
+        click_on "Create"
+
+        expected_config_file = "client 123.123.123.123/32 {
+\tipv4addr = 123.123.123.123/32
+\tsecret = radsec
+\tshortname = yusuf_s_site
+}"
+
+        expect(publish_to_s3).to have_received(:call).with(expected_config_file)
+        expect(deploy_service).to have_received(:call).twice
+
+        expect(page).to have_content("Successfully created client.")
+        expect(page).to have_content("123.123.123.123/32")
+        expect(page).to have_content("radsec")
 
         expect_audit_log_entry_for(editor.email, "create", "Client")
       end

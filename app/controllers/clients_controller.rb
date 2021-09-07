@@ -3,13 +3,14 @@ class ClientsController < ApplicationController
   before_action :set_crumbs, only: %i[new edit destroy]
 
   SHARED_SECRET_BYTES = 10
+  RADSEC_SHARED_SECRET = "radsec".freeze
 
   def new
     @client = Client.new
   end
 
   def create
-    @client = Client.new(client_params.merge(site_id: @site.id, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase))
+    @client = Client.new(client_params.merge(site_id: @site.id, shared_secret: shared_secret))
 
     if @client.save
       publish_authorised_clients
@@ -71,6 +72,11 @@ private
     params.require(:client).permit(:ip_range)
   end
 
+  def radsec?
+    radsec = params.require(:client).fetch(:radsec)
+    ActiveRecord::Type::Boolean.new.cast(radsec)
+  end
+
   def publish_authorised_clients
     UseCases::PublishToS3.new(
       destination_gateway: Gateways::S3.new(
@@ -88,5 +94,9 @@ private
 
   def set_crumbs
     @navigation_crumbs << ["Sites", sites_path]
+  end
+
+  def shared_secret
+    radsec? ? RADSEC_SHARED_SECRET : SecureRandom.hex(SHARED_SECRET_BYTES).upcase
   end
 end
