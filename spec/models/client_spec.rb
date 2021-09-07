@@ -36,4 +36,11 @@ describe Client, type: :model do
       expect(result).to be_invalid
     end
   end
+
+  it "responds to #radsec?" do
+    expect(subject.radsec?).to be_falsey
+
+    radsec_client = build(:client, shared_secret: "radsec")
+    expect(radsec_client.radsec?).to be_truthy
+  end
 end

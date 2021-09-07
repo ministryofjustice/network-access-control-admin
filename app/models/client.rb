@@ -7,6 +7,10 @@ class Client < ApplicationRecord
 
   before_save :generate_tag
 
+  def radsec?
+    shared_secret == "radsec"
+  end
+
 private
 
   def validate_ip
