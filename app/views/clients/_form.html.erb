@@ -10,7 +10,7 @@
   <div class="govuk-form-group">
     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
       <div class="govuk-checkboxes__item">
-        <%= f.check_box :radsec, class: "govuk-checkboxes__input" %>
+        <%= f.check_box :radsec, checked: client.shared_secret == 'radsec', disabled: !f.object.new_record?, class: "govuk-checkboxes__input" %>
         <%= f.label :radsec, 'RadSec', class: "govuk-label govuk-checkboxes__label" %>
       </div>
     </div>

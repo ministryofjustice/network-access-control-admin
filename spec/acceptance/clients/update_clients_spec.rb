@@ -81,6 +81,8 @@ describe "update clients", type: :feature do
 
       fill_in "IP / Subnet CIDR", with: "132.111.132.111/32"
 
+      expect(page).to have_field("RadSec", type: "checkbox", disabled: true, checked: false)
+
       click_on "Update"
 
       expected_config_file = "client 132.111.132.111/32 {
@@ -98,6 +100,18 @@ describe "update clients", type: :feature do
       expect(page).to have_content "132.111.132.111/32"
 
       expect_audit_log_entry_for(editor.email, "update", "Client")
+    end
+
+    context "when the client is a RadSec client" do
+      let(:client) { create(:client, site: site, shared_secret: "radsec") }
+
+      it "does not allow updating the client type" do
+        visit "sites/#{site.id}"
+
+        first(:link, "Edit").click
+
+        expect(page).to have_field("RadSec", type: "checkbox", disabled: true, checked: true)
+      end
     end
   end
 end
