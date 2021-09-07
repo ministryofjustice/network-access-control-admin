@@ -15,7 +15,7 @@ describe "showing a site", type: :feature do
     end
 
     context "when the site exists" do
-      let!(:site) { create :site, name: "Yusuf's brilliant site" }
+      let!(:site) { create :site, name: "Your brilliant site" }
 
       it "allows viewing sites" do
         visit "/sites"
@@ -23,7 +23,7 @@ describe "showing a site", type: :feature do
         click_on "View", match: :first
 
         expect(page).to have_content site.name
-        expect(page).to have_content "yusuf_s_brilliant_site"
+        expect(page).to have_content "your_brilliant_site"
       end
     end
   end

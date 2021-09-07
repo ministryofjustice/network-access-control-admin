@@ -13,7 +13,7 @@ describe "create clients", type: :feature do
     end
 
     context "when there is an existing site" do
-      let!(:site) { create(:site, name: "Yusuf's Site") }
+      let!(:site) { create(:site, name: "Your Site") }
       let(:expected_s3_gateway_config) do
         {
           bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
@@ -67,7 +67,7 @@ describe "create clients", type: :feature do
         expected_config_file = "client 123.123.123.123/32 {
 \tipv4addr = 123.123.123.123/32
 \tsecret = #{Client.first.shared_secret}
-\tshortname = yusuf_s_site
+\tshortname = your_site
 }"
 
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
@@ -104,7 +104,7 @@ describe "create clients", type: :feature do
         expected_config_file = "client 123.123.123.123/32 {
 \tipv4addr = 123.123.123.123/32
 \tsecret = radsec
-\tshortname = yusuf_s_site
+\tshortname = your_site
 }"
 
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
