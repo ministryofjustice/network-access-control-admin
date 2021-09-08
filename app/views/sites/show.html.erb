@@ -28,11 +28,11 @@
   <%= @site.fallback_policy.try(:name) || "There are no fallback policies attached to this site." %>
 </p>
 
-<% non_fallback_policies = @site.policies.reject(&:fallback) %>
-<% if non_fallback_policies.any? %>
+<% if @non_fallback_policies.any? %>
+  <%= link_to "Order policies", edit_site_policies_path(@site), class: "govuk-button" %>
   <table class="govuk-table">
     <tbody class="govuk-table__body">
-      <% non_fallback_policies.each do |policy| %>
+      <% @non_fallback_policies.each do |policy| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= policy.name %></td>
         </tr>

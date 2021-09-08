@@ -1,0 +1,43 @@
+<h2 class="govuk-heading-l"><%= @site.name %></h2>
+<%= form_with model: SitePolicy, url: update_site_policies_path(site: @site), local: true do |f| %>
+  <div class="govuk-form-group">
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-table__caption--m">Policies and weightings</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Policy</th>
+            <th scope="col" class="govuk-table__header">Priority</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @site.site_policy.each do |site_policy| %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">
+                <%= f.label site_policy.policy.name, class: "govuk-label" %>
+              </th>
+              <td class="govuk-table__cell ">
+                <%= f.number_field(site_policy.id, 
+                  id: site_policy.policy.name,
+                  value: site_policy.priority,
+                  step: 1, min: 0, max: 1000,
+                  class: 'govuk-input govuk-input--width-2')
+                %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+  </div>
+
+  <%= f.submit "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", @site,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  } %>
+
+<% end %>

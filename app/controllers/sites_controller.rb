@@ -1,12 +1,14 @@
 class SitesController < ApplicationController
-  before_action :set_site, only: %i[show edit update destroy policies attach_policies]
+  before_action :set_site, only: %i[show edit update destroy policies attach_policies edit_policies update_policies]
   before_action :set_crumbs, only: %i[show new edit destroy policies]
 
   def index
     @sites = Site.all
   end
 
-  def show; end
+  def show
+    @non_fallback_policies = SitePolicy.where(site_id: @site.id).includes(:policy).order(:priority).map(&:policy).reject(&:fallback)
+  end
 
   def new
     @site = Site.new
@@ -30,6 +32,7 @@ class SitesController < ApplicationController
 
   def update
     authorize! :update, @site
+
     @site.assign_attributes(site_params)
 
     if @site.save
@@ -71,6 +74,21 @@ class SitesController < ApplicationController
     end
   end
 
+  def edit_policies
+    authorize! :edit_policies, @site
+  end
+
+  def update_policies
+    site_policies = SitePolicy.where(site_id: @site.id)
+
+    site_policies.each do |site_policy|
+      priority = site_policies_params.fetch(site_policy.id.to_s)
+      site_policy.update(priority: priority)
+    end
+
+    redirect_to site_path(@site), notice: "Successfully updated the order of site policies."
+  end
+
 private
 
   def site_params
@@ -93,6 +111,10 @@ private
     end
 
     policy_ids
+  end
+
+  def site_policies_params
+    params.fetch(:site_policy)
   end
 
   def set_crumbs
