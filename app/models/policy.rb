@@ -5,7 +5,9 @@ class Policy < ApplicationRecord
 
   has_many :rules, dependent: :destroy
   has_many :responses, dependent: :destroy
-  has_and_belongs_to_many :sites
+
+  has_many :site_policy
+  has_many :sites, through: :site_policy
 
   audited
 end
