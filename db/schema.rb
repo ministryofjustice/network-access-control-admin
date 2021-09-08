@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_06_140856) do
+ActiveRecord::Schema.define(version: 2021_09_08_130546) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -71,14 +71,6 @@ ActiveRecord::Schema.define(version: 2021_09_06_140856) do
     t.boolean "fallback", null: false
   end
 
-  create_table "policies_sites", charset: "utf8", force: :cascade do |t|
-    t.bigint "policy_id", null: false
-    t.bigint "site_id", null: false
-    t.integer "priority"
-    t.index ["policy_id"], name: "index_policies_sites_on_policy_id"
-    t.index ["site_id"], name: "index_policies_sites_on_site_id"
-  end
-
   create_table "responses", charset: "utf8", force: :cascade do |t|
     t.string "response_attribute", null: false
     t.string "value", null: false
@@ -98,6 +90,14 @@ ActiveRecord::Schema.define(version: 2021_09_06_140856) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["policy_id"], name: "index_rules_on_policy_id"
+  end
+
+  create_table "site_policies", charset: "utf8", force: :cascade do |t|
+    t.bigint "site_id"
+    t.bigint "policy_id"
+    t.integer "priority"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sites", charset: "utf8", force: :cascade do |t|
