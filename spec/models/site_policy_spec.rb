@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe PoliciesSites, type: :model do
-  subject { build :policies_sites }
+RSpec.describe SitePolicy, type: :model do
+  subject { build :site_policy }
 
   it "has a valid factory" do
     expect(subject).to be_valid
