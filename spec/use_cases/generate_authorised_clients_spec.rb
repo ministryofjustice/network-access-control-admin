@@ -24,7 +24,10 @@ client #{second_ipv4_client.ip_range} {
 \tipv4addr = 123.123.0.2/32
 \tsecret = #{second_ipv4_client.shared_secret}
 \tshortname = #{second_ipv4_client.tag}
-}\n"
+}
+
+clients radsec {
+}"
           expect(result).to eq(expected_config)
         end
       end
@@ -73,7 +76,7 @@ clients radsec {
       let(:radsec_clients) { [] }
 
       it "generates an empty authorised clients configuration file" do
-        expect(result).to eq("")
+        expect(result).to eq("clients radsec {\n}")
       end
     end
   end

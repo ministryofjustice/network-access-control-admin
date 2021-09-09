@@ -68,7 +68,10 @@ describe "create clients", type: :feature do
 \tipv4addr = 123.123.123.123/32
 \tsecret = #{Client.first.shared_secret}
 \tshortname = your_site
-}\n"
+}
+
+clients radsec {
+}"
 
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
         expect(deploy_service).to have_received(:call).twice

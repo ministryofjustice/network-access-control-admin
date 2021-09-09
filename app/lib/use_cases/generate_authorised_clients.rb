@@ -4,13 +4,13 @@ class UseCases::GenerateAuthorisedClients
       client_definition(client)
     end
 
+    output << "clients radsec {"
     if radsec_clients.any?
-      output << "clients radsec {"
       output << radsec_clients.map do |client|
         radsec_client_definition(client)
       end
-      output << "}"
     end
+    output << "}"
 
     output.join("\n")
   end
