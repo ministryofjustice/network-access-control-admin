@@ -1,10 +1,8 @@
 class UseCases::GenerateAuthorisedClients
-  def call(clients:)
-    output = clients.reject(&:radsec?).map do |client|
+  def call(clients:, radsec_clients:)
+    output = clients.map do |client|
       client_definition(client)
     end
-
-    radsec_clients = clients.select(&:radsec?)
 
     if radsec_clients.any?
       output << "clients radsec {"

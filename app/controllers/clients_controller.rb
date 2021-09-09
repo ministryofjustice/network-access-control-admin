@@ -87,7 +87,8 @@ private
       ),
     ).call(
       UseCases::GenerateAuthorisedClients.new.call(
-        clients: Client.all,
+        clients: Client.where.not(shared_secret: "radsec"),
+        radsec_clients: Client.where(shared_secret: "radsec"),
       ),
     )
   end
