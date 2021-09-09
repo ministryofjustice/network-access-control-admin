@@ -2,15 +2,16 @@ require "rails_helper"
 
 describe UseCases::GenerateAuthorisedClients do
   subject(:result) do
-    described_class.new.call(clients: clients)
+    described_class.new.call(clients: clients, radsec_clients: radsec_clients)
   end
 
   describe "#call" do
     describe "when there are entries in the database" do
       context "and the IP ranges are IPv4" do
-        let!(:first_ipv4_client) { create(:client, ip_range: "123.123.0.1/24") }
-        let!(:second_ipv4_client) { create(:client, ip_range: "123.123.0.2/32") }
-        let(:clients) { Client.all }
+        let!(:first_ipv4_client) { build_stubbed(:client, ip_range: "123.123.0.1/24") }
+        let!(:second_ipv4_client) { build_stubbed(:client, ip_range: "123.123.0.2/32") }
+        let(:clients) { [first_ipv4_client, second_ipv4_client] }
+        let(:radsec_clients) { [] }
 
         it "generates an authorised clients configuration file" do
           expected_config = "client #{first_ipv4_client.ip_range} {
@@ -29,11 +30,12 @@ client #{second_ipv4_client.ip_range} {
       end
 
       context "when there are radsec clients" do
-        let!(:first_ipv4_client) { create(:client, ip_range: "123.123.0.1/24") }
-        let!(:second_ipv4_client) { create(:client, ip_range: "123.123.0.2/32") }
-        let!(:first_radsec_client) { create(:client, ip_range: "123.123.0.3/24", shared_secret: "radsec") }
-        let!(:second_radsec_client) { create(:client, ip_range: "123.123.0.4/32", shared_secret: "radsec") }
-        let(:clients) { Client.all }
+        let!(:first_ipv4_client) { build_stubbed(:client, ip_range: "123.123.0.1/24") }
+        let!(:second_ipv4_client) { build_stubbed(:client, ip_range: "123.123.0.2/32") }
+        let!(:first_radsec_client) { build_stubbed(:client, ip_range: "123.123.0.3/24", shared_secret: "radsec") }
+        let!(:second_radsec_client) { build_stubbed(:client, ip_range: "123.123.0.4/32", shared_secret: "radsec") }
+        let(:clients) { [first_ipv4_client, second_ipv4_client] }
+        let(:radsec_clients) { [first_radsec_client, second_radsec_client] }
 
         it "generates an authorised clients configuration file" do
           expected_config = "client #{first_ipv4_client.ip_range} {
@@ -68,6 +70,7 @@ clients radsec {
 
     describe "when there are no entries in the database" do
       let(:clients) { [] }
+      let(:radsec_clients) { [] }
 
       it "generates an empty authorised clients configuration file" do
         expect(result).to eq("")
