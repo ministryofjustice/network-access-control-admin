@@ -29,8 +29,15 @@
 </p>
 
 <% if @non_fallback_policies.any? %>
-  <%= link_to "Order policies", edit_site_policies_path(@site), class: "govuk-button" %>
   <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row__head">
+        <th scope="col" class="govuk-table__header">Policy</th>
+        <th scope="col" class="govuk-table__header"> 
+          <%= link_to "Order policies", edit_site_policies_path(@site), class: "govuk-link" %>
+        </th>
+      </tr>
+    </thead>
     <tbody class="govuk-table__body">
       <% @non_fallback_policies.each do |policy| %>
         <tr class="govuk-table__row">
