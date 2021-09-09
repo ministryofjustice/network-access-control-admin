@@ -74,7 +74,7 @@ describe "delete clients", type: :feature do
 
         click_on "Delete client"
 
-        expected_config_file = ""
+        expected_config_file = "clients radsec {\n}"
 
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
         expect(deploy_service).to have_received(:call).twice
