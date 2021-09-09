@@ -56,5 +56,25 @@ describe "order site policies", type: :feature do
         expect(page).to have_content("Least Important Policy")
       end
     end
+
+    context "when there is a fallback policy" do
+      let(:fallback_policy) { create(:policy, name: "Fallback Policy", fallback: true) }
+
+      it "does no allow ordering fallback policies" do
+        create(:site_policy, site_id: site.id, policy_id: fallback_policy.id)
+
+        visit "/sites/#{site.id}"
+
+        click_on "Order policies"
+
+        expect(page).not_to have_content("Fallback Policy")
+
+        fill_in "Least Important Policy", with: "50"
+
+        click_on "Update"
+
+        expect(page).to have_content("Successfully updated the order of site policies.")
+      end
+    end
   end
 end

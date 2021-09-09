@@ -10,10 +10,10 @@
           </tr>
         </thead>
         <tbody class="govuk-table__body">
-          <% @site.site_policy.each do |site_policy| %>
+          <% @site_policies.each do |site_policy| %>
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__header">
-                <%= f.label site_policy.policy.name, class: "govuk-label" %>
+                <%= f.label site_policy.id, site_policy.policy.name, class: "govuk-label" %>
               </th>
               <td class="govuk-table__cell ">
                 <%= f.number_field(site_policy.id, 
