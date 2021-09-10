@@ -1,20 +1,13 @@
 class SitesController < ApplicationController
   before_action :set_site, only: %i[show edit update destroy policies attach_policies edit_policies update_policies]
-  before_action :set_site_policies, only: %i[edit_policies update_policies]
+  before_action :set_site_policies, only: %i[show edit_policies update_policies]
   before_action :set_crumbs, only: %i[show new edit destroy policies]
 
   def index
     @sites = Site.all
   end
 
-  def show
-    @non_fallback_policies =
-      SitePolicy.where(site_id: @site.id)
-                .includes(:policy)
-                .order(:priority)
-                .map(&:policy)
-                .reject(&:fallback)
-  end
+  def show; end
 
   def new
     @site = Site.new
@@ -108,7 +101,7 @@ private
   end
 
   def set_site_policies
-    @site_policies = SitePolicy.where(site_id: @site.id).includes(:policy).reject { |sp| sp.policy.fallback? }
+    @site_policies = SitePolicy.where(site_id: @site.id).includes(:policy).order(:priority).reject { |sp| sp.policy.fallback? }
   end
 
   def policies_params
