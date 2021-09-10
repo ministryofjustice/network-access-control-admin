@@ -58,12 +58,14 @@ clients radsec {
 \t\tipv4addr = 123.123.0.3/24
 \t\tsecret = radsec
 \t\tshortname = #{first_radsec_client.tag}
+\t\tproto = tls
 \t}
 
 \tclient #{second_radsec_client.ip_range} {
 \t\tipv4addr = 123.123.0.4/32
 \t\tsecret = radsec
 \t\tshortname = #{second_radsec_client.tag}
+\t\tproto = tls
 \t}\n
 }"
           expect(result).to eq(expected_config)

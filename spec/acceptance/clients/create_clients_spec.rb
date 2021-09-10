@@ -109,6 +109,7 @@ clients radsec {
 \t\tipv4addr = 123.123.123.123/32
 \t\tsecret = radsec
 \t\tshortname = your_site
+\t\tproto = tls
 \t}\n
 }"
 

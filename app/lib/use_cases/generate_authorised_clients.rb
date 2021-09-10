@@ -22,6 +22,11 @@ private
   end
 
   def radsec_client_definition(client)
-    "\tclient #{client.ip_range} {\n\t\tipv4addr = #{client.ip_range}\n\t\tsecret = #{client.shared_secret}\n\t\tshortname = #{client.tag}\n\t}\n"
+    str = "\tclient #{client.ip_range} {"
+    str << "\n\t\tipv4addr = #{client.ip_range}"
+    str << "\n\t\tsecret = #{client.shared_secret}"
+    str << "\n\t\tshortname = #{client.tag}"
+    str << "\n\t\tproto = tls"
+    str << "\n\t}\n"
   end
 end
