@@ -119,6 +119,14 @@ When run locally, you need to target the AWS account directly with AWS Vault.
 ```
 
 ## Entity Relationship Diagram
+The diagram can be generated using [rails-erd](https://voormedia.github.io/rails-erd). Graphviz is a dependency(`brew install graphviz`).
+
+Regenerate the diagram:
+
+```bash
+bundle exec erd
+```
+
 ![The domain model for this application](docs/MOJ-NAC-ERD.png)
 
 ## Maintenance
