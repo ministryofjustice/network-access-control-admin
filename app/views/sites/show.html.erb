@@ -28,13 +28,20 @@
   <%= @site.fallback_policy.try(:name) || "There are no fallback policies attached to this site." %>
 </p>
 
-<% non_fallback_policies = @site.policies.reject(&:fallback) %>
-<% if non_fallback_policies.any? %>
+<% if @site_policies.any? %>
   <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row__head">
+        <th scope="col" class="govuk-table__header">Policy</th>
+        <th scope="col" class="govuk-table__header"> 
+          <%= link_to "Order policies", edit_site_policies_path(@site), class: "govuk-link" %>
+        </th>
+      </tr>
+    </thead>
     <tbody class="govuk-table__body">
-      <% non_fallback_policies.each do |policy| %>
+      <% @site_policies.each do |sp| %>
         <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= policy.name %></td>
+          <td class="govuk-table__cell"><%= sp.policy.name %></td>
         </tr>
       <% end %>
     </tbody>
