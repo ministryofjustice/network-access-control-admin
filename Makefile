@@ -45,6 +45,9 @@ stop:
 migrate:
 	./scripts/migrate.sh
 
+seed:
+	./scripts/seed.sh
+
 migrate-dev: start-db
 	$(DOCKER_COMPOSE) run --rm app bundle exec rake db:migrate
 
