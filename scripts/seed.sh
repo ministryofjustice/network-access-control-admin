@@ -27,9 +27,7 @@ main() {
   if [ "$ENV" == "development" ]; then
     assume_deploy_role
     seed
-  } else {
-    echo "NOOP"
-  }
+  fi
 }
 
 main
