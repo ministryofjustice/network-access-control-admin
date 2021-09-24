@@ -1,4 +1,6 @@
 class Site < ApplicationRecord
+  paginates_per 50
+
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   has_many :clients, dependent: :destroy

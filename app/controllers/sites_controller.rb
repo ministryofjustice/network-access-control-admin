@@ -4,7 +4,7 @@ class SitesController < ApplicationController
   before_action :set_crumbs, only: %i[show new edit destroy policies]
 
   def index
-    @sites = Site.all
+    @sites = Site.page params[:page]
   end
 
   def show; end
