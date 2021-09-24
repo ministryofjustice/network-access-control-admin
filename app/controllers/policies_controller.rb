@@ -19,7 +19,7 @@ class PoliciesController < ApplicationController
   end
 
   def index
-    @policies = Policy.all
+    @policies = Policy.page params[:page]
   end
 
   def show; end
