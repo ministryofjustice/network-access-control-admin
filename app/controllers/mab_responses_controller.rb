@@ -12,6 +12,7 @@ class MabResponsesController < ApplicationController
 
     if @response.save
       redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully created response."
+      publish_authorised_macs
     else
       render :new
     end
@@ -45,6 +46,7 @@ class MabResponsesController < ApplicationController
 
     if @response.save
       redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully updated response. "
+      publish_authorised_macs
     else
       render :edit
     end
@@ -66,5 +68,20 @@ private
 
   def set_crumbs
     @navigation_crumbs << ["MAC Authentication Bypasses", mac_authentication_bypasses_path]
+  end
+
+  def publish_authorised_macs
+    UseCases::PublishToS3.new(
+      destination_gateway: Gateways::S3.new(
+        bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
+        key: "authorised_macs",
+        aws_config: Rails.application.config.s3_aws_config,
+        content_type: "text/plain",
+      ),
+    ).call(
+      UseCases::GenerateAuthorisedMacs.new.call(
+        mac_authentication_bypasses: MacAuthenticationBypass.all,
+      ),
+    )
   end
 end
