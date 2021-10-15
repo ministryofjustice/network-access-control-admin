@@ -1,5 +1,5 @@
 def ip_range
-  "%d.%d.%d.%d" % [rand(256), rand(256), rand(256), rand(256)]
+  sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
 end
 
 2000.times do |s|
@@ -8,12 +8,12 @@ end
   fallback_policy = Policy.create!(
     name: "Fallback Policy: #{s}",
     description: "Some policy description",
-    fallback: true
+    fallback: true,
   )
 
   fallback_response = Response.create!(
     response_attribute: "Reply-Message",
-    value: "Oh no"
+    value: "Oh no",
   )
 
   fallback_policy.responses << fallback_response
@@ -25,18 +25,18 @@ end
       fallback: false,
     )
 
-    5.times do |r|
+    5.times do |_r|
       policy.rules.create!(
         request_attribute: "Aruba-AP-Group",
         operator: "equals",
-        value: "SetMeUp-C7:7D:EE"
+        value: "SetMeUp-C7:7D:EE",
       )
     end
 
     5.times do |r|
       policy.responses.create!(
         response_attribute: "Reply-Message",
-        value: "Hello! #{r} #{s}"
+        value: "Hello! #{r} #{s}",
       )
     end
 
@@ -45,14 +45,12 @@ end
   end
 
   20.times do |c|
-    begin
-      Client.create!(
-        site: site,
-        ip_range: "#{ip_range}/32",
-        shared_secret: "secret#{s}#{c}",
-      )
-    rescue
-      retry
-    end
+    Client.create!(
+      site: site,
+      ip_range: "#{ip_range}/32",
+      shared_secret: "secret#{s}#{c}",
+    )
+  rescue StandardError
+    retry
   end
 end
