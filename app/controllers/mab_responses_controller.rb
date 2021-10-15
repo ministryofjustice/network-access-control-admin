@@ -25,6 +25,7 @@ class MabResponsesController < ApplicationController
     if confirmed?
       if @response.destroy
         redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully deleted response. "
+        publish_authorised_macs
       else
         redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), error: "Failed to delete the response. "
       end
