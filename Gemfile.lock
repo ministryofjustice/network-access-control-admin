@@ -147,6 +147,7 @@ GEM
     hashie (4.1.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    ipaddr (1.2.2)
     ipaddress_2 (0.14.0)
     jmespath (1.4.0)
     jwt (2.3.0)
@@ -197,7 +198,8 @@ GEM
     omniauth-rails_csrf_protection (1.0.0)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    openssl (2.2.0)
+    openssl (2.2.1)
+      ipaddr
     orm_adapter (0.5.0)
     parallel (1.21.0)
     parser (3.0.2.0)
