@@ -17,13 +17,13 @@ describe UseCases::GenerateAuthorisedClients do
           expected_config = "client #{first_ipv4_client.ip_range} {
 \tipv4addr = #{first_ipv4_client.ip_range}
 \tsecret = #{first_ipv4_client.shared_secret}
-\tshortname = #{first_ipv4_client.tag}
+\tshortname = #{first_ipv4_client.site.tag}
 }
 
 client #{second_ipv4_client.ip_range} {
 \tipv4addr = 123.123.0.2/32
 \tsecret = #{second_ipv4_client.shared_secret}
-\tshortname = #{second_ipv4_client.tag}
+\tshortname = #{second_ipv4_client.site.tag}
 }
 
 clients radsec {
@@ -44,27 +44,27 @@ clients radsec {
           expected_config = "client #{first_ipv4_client.ip_range} {
 \tipv4addr = #{first_ipv4_client.ip_range}
 \tsecret = #{first_ipv4_client.shared_secret}
-\tshortname = #{first_ipv4_client.tag}
+\tshortname = #{first_ipv4_client.site.tag}
 }
 
 client #{second_ipv4_client.ip_range} {
 \tipv4addr = 123.123.0.2/32
 \tsecret = #{second_ipv4_client.shared_secret}
-\tshortname = #{second_ipv4_client.tag}
+\tshortname = #{second_ipv4_client.site.tag}
 }
 
 clients radsec {
 \tclient #{first_radsec_client.ip_range} {
 \t\tipv4addr = 123.123.0.3/24
 \t\tsecret = radsec
-\t\tshortname = #{first_radsec_client.tag}
+\t\tshortname = #{first_radsec_client.site.tag}
 \t\tproto = tls
 \t}
 
 \tclient #{second_radsec_client.ip_range} {
 \t\tipv4addr = 123.123.0.4/32
 \t\tsecret = radsec
-\t\tshortname = #{second_radsec_client.tag}
+\t\tshortname = #{second_radsec_client.site.tag}
 \t\tproto = tls
 \t}\n
 }"

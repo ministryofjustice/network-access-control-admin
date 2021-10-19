@@ -88,7 +88,7 @@ describe "update clients", type: :feature do
       expected_config_file = "client 132.111.132.111/32 {
 \tipv4addr = 132.111.132.111/32
 \tsecret = #{Client.first.shared_secret}
-\tshortname = #{Client.first.tag}
+\tshortname = #{Client.first.site.tag}
 }
 
 clients radsec {
