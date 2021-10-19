@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_19_092620) do
+ActiveRecord::Schema.define(version: 2021_10_19_110057) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 2021_10_19_092620) do
   end
 
   create_table "clients", charset: "utf8", force: :cascade do |t|
-    t.string "tag", null: false
     t.string "shared_secret", null: false
     t.string "ip_range", null: false
     t.bigint "site_id", null: false
@@ -105,6 +104,7 @@ ActiveRecord::Schema.define(version: 2021_10_19_092620) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "tag", null: false
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
