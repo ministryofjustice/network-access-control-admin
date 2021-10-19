@@ -20,4 +20,3 @@ phases:
       - docker ps
       - ENV=test make db-setup
       - docker ps
-      - make test
