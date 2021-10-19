@@ -16,4 +16,13 @@ describe Rule, type: :model do
     subject.operator = "somethinginvalid"
     expect(subject).not_to be_valid
   end
+
+  it "perists the amount of rules when a policy is saved" do
+    policy = create(:policy)
+
+    create(:rule, policy: policy)
+    create(:rule, policy: policy)
+
+    expect(Rule.first.policy.rule_count).to eq(2)
+  end
 end
