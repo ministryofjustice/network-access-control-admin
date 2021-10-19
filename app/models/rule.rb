@@ -8,7 +8,7 @@ class Rule < ApplicationRecord
 
   audited
 
-  private
+private
 
   def update_rule_count
     policy.update_attribute(:rule_count, policy.rules.count)
