@@ -6,8 +6,8 @@ p "creating policies"
 3000.times do |p|
   policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
 
-  5.times do |_r|
-    policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE#{p}-#{_r}")
+  5.times do |r|
+    policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE#{p}-#{r}")
   end
 
   5.times do |r|
@@ -36,7 +36,7 @@ p "creating sites"
     retry
   end
 end
-  
+
 p "assigning policies to sites"
 Site.all.each do |site|
   site.policies << Policy.select(:id).sample
