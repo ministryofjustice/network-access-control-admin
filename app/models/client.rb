@@ -5,8 +5,6 @@ class Client < ApplicationRecord
   validates_uniqueness_of :ip_range
   validate :validate_ip, on: :create
 
-  before_save :generate_tag
-
   def radsec?
     shared_secret == "radsec"
   end
@@ -17,10 +15,6 @@ private
     return if ip_range.blank?
 
     errors.add(:ip_range, "is invalid") unless IPAddress.valid_ipv4_subnet?(ip_range)
-  end
-
-  def generate_tag
-    self.tag = site.tag
   end
 
   audited

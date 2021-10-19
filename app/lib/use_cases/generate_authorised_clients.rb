@@ -18,14 +18,14 @@ class UseCases::GenerateAuthorisedClients
 private
 
   def client_definition(client)
-    "client #{client.ip_range} {\n\tipv4addr = #{client.ip_range}\n\tsecret = #{client.shared_secret}\n\tshortname = #{client.tag}\n}\n"
+    "client #{client.ip_range} {\n\tipv4addr = #{client.ip_range}\n\tsecret = #{client.shared_secret}\n\tshortname = #{client.site.tag}\n}\n"
   end
 
   def radsec_client_definition(client)
     str = "\tclient #{client.ip_range} {"
     str << "\n\t\tipv4addr = #{client.ip_range}"
     str << "\n\t\tsecret = #{client.shared_secret}"
-    str << "\n\t\tshortname = #{client.tag}"
+    str << "\n\t\tshortname = #{client.site.tag}"
     str << "\n\t\tproto = tls"
     str << "\n\t}\n"
   end

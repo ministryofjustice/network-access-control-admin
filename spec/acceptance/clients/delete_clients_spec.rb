@@ -70,7 +70,7 @@ describe "delete clients", type: :feature do
 
         expect(page).to have_content("Are you sure you want to delete this client?")
         expect(page).to have_content(client.ip_range)
-        expect(page).to have_content(client.tag)
+        expect(page).to have_content(client.site.tag)
 
         click_on "Delete client"
 
