@@ -1,44 +1,44 @@
-def ip_range
-  sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
-end
+# def ip_range
+#   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
+# end
 
-p "creating policies"
-3000.times do |p|
-  policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
+# p "creating policies"
+# 3000.times do |p|
+#   policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
 
-  5.times do |r|
-    policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE#{p}-#{r}")
-  end
+#   5.times do |r|
+#     policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE#{p}-#{r}")
+#   end
 
-  5.times do |r|
-    policy.responses.create!(response_attribute: "Reply-Message", value: "Hello! #{r} #{p}")
-  end
-end
+#   5.times do |r|
+#     policy.responses.create!(response_attribute: "Reply-Message", value: "Hello! #{r} #{p}")
+#   end
+# end
 
-p "creating policies"
-500.times do |s|
-  fallback_policy = Policy.create!(name: "Fallback Policy: #{s}", description: "Some policy description", fallback: true)
-  fallback_response = Response.create!(response_attribute: "Reply-Message", value: "Oh no #{s}")
-  fallback_policy.responses << fallback_response
-end
+# p "creating policies"
+# 500.times do |s|
+#   fallback_policy = Policy.create!(name: "Fallback Policy: #{s}", description: "Some policy description", fallback: true)
+#   fallback_response = Response.create!(response_attribute: "Reply-Message", value: "Oh no #{s}")
+#   fallback_policy.responses << fallback_response
+# end
 
-p "creating sites"
-2000.times do |s|
-  site = Site.create!(name: "Test site #{s}")
+# p "creating sites"
+# 2000.times do |s|
+#   site = Site.create!(name: "Test site #{s}")
 
-  20.times do |c|
-    Client.create!(
-      site: site,
-      ip_range: "#{ip_range}/32",
-      shared_secret: "secret#{s}#{c}",
-    )
-  rescue StandardError
-    retry
-  end
-end
+#   20.times do |c|
+#     Client.create!(
+#       site: site,
+#       ip_range: "#{ip_range}/32",
+#       shared_secret: "secret#{s}#{c}",
+#     )
+#   rescue StandardError
+#     retry
+#   end
+# end
 
-p "assigning policies to sites"
+# p "assigning policies to sites"
 Site.all.each do |site|
-  site.policies << Policy.select(:id).sample
-  site.policies << Policy.where(fallback: true).select(:id).sample
+  site.policies << Policy.select(:id).sample(4)
+  # site.policies << Policy.where(fallback: true).select(:id).sample
 end
