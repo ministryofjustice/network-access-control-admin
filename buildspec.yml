@@ -24,5 +24,6 @@ phases:
       - make authenticate-docker
       - make publish
       - make migrate
+      - make seed
       - make bootstrap
       - make deploy
