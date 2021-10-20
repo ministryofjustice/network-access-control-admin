@@ -55,5 +55,33 @@ describe "delete policies", type: :feature do
         expect_audit_log_entry_for(editor.email, "destroy", "Policy")
       end
     end
+
+    context "when a policy is attached to a site" do
+      before do
+        create(:site, policies: [policy])
+      end
+
+      it "can delete the attached policy" do
+        visit "/sites"
+
+        click_on "Manage"
+
+        expect(page).to have_content(policy.name)
+
+        visit "/policies"
+
+        click_on "Delete"
+        click_on "Delete policy"
+
+        expect(page).to have_content("Successfully deleted policy.")
+        expect(page).not_to have_content(policy.name)
+
+        visit "/sites"
+
+        click_on "Manage"
+
+        expect(page).not_to have_content(policy.name)
+      end
+    end
   end
 end
