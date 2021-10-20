@@ -1,7 +1,7 @@
 <%= form_with(model: rule, url: path, local: true) do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :request_attribute) %>">
     <%= f.label :request_attribute, class: "govuk-label" %>
-    <%= f.text_field :request_attribute, class: "govuk-input" %>
+    <%= f.select(:request_attribute, AttributesHelper.requests, { prompt: 'Select' }, { class: "govuk-select" }) %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :operator) %>">

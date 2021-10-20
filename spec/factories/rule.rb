@@ -4,6 +4,6 @@ FactoryBot.define do
 
     sequence(:operator) { %w[equals contains].sample }
     sequence(:value) { |n| "Value #{n}" }
-    sequence(:request_attribute) { |n| "Request attribute #{n}" }
+    sequence(:request_attribute) { AttributesHelper.requests.sample }
   end
 end
