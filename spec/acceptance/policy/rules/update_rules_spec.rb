@@ -41,11 +41,11 @@ describe "update rules", type: :feature do
 
       first(:link, "Edit").click
 
-      expect(page).to have_field("Request attribute", with: rule.request_attribute)
+      expect(page).to have_select("Request attribute", text: rule.request_attribute)
       expect(page).to have_select("Operator", text: rule.operator)
       expect(page).to have_field("Value", with: rule.value)
 
-      fill_in "Request attribute", with: "Tunnel-Type"
+      select "User-Name", from: "Request attribute"
       select "contains", from: "Operator"
       fill_in "Value", with: "LAN"
 
@@ -54,7 +54,7 @@ describe "update rules", type: :feature do
       expect(current_path).to eq("/policies/#{policy.id}")
 
       expect(page).to have_content("Successfully updated rule.")
-      expect(page).to have_content "Tunnel-Type"
+      expect(page).to have_content "User-Name"
       expect(page).to have_content "contains"
       expect(page).to have_content "LAN"
 

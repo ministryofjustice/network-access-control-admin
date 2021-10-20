@@ -18,7 +18,7 @@ describe "create rules", type: :feature do
 
         expect(page.current_path).to eq(new_policy_rule_path(policy_id: policy))
 
-        fill_in "Request attribute", with: "Tunnel-Type"
+        select "User-Name", from: "Request attribute"
         select "equals", from: "Operator"
         fill_in "Value", with: "VLAN"
 
