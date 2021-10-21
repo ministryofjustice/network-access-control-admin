@@ -57,7 +57,13 @@ private
   end
 
   def response_params
-    params.require(:policy_response).permit(:response_attribute, :value)
+    response_parameters = params.require(:policy_response).permit(:response_attribute, :value)
+
+    if params[:policy_response][:'response-attribute'] == "custom"
+      response_parameters[:response_attribute] = params[:policy_response][:custom_response_attribute]
+    end
+
+    response_parameters
   end
 
   def set_policy
