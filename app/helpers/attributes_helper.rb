@@ -1,6 +1,6 @@
 module AttributesHelper
   def self.requests
-    %w(
+    %w[
       User-Name
       User-Password
       CHAP-Password
@@ -61,11 +61,11 @@ module AttributesHelper
       TLS-Client-Cert-Subject-Alt-Name-Email
       TLS-Client-Cert-X509v3-Extended-Key-Usage
       TLS-Client-Cert-X509v
-    )
+    ]
   end
 
   def self.responses
-    %w(
+    %w[
       ARAP-Challenge-Response
       ARAP-Features
       ARAP-Password
@@ -259,6 +259,6 @@ module AttributesHelper
       User-Password
       Vendor-Id
       Vendor-Specific
-    )
+    ]
   end
 end
