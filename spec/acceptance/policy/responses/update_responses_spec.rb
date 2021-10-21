@@ -44,7 +44,7 @@ describe "update responses", type: :feature do
       expect(page).to have_field("Response attribute", with: response.response_attribute)
       expect(page).to have_field("Value", with: response.value)
 
-      fill_in "Response attribute", with: "Updated VLAN ID"
+      select "Tunnel-Type", from: "Response attribute"
       fill_in "Value", with: "5678"
 
       click_on "Update"
@@ -52,7 +52,7 @@ describe "update responses", type: :feature do
       expect(current_path).to eq("/policies/#{policy.id}")
 
       expect(page).to have_content("Successfully updated response.")
-      expect(page).to have_content "Updated VLAN ID"
+      expect(page).to have_content "Tunnel-Type"
       expect(page).to have_content "5678"
 
       expect_audit_log_entry_for(editor.email, "update", "Response")
