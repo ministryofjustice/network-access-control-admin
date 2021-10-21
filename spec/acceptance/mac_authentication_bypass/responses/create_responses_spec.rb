@@ -22,7 +22,7 @@ describe "create responses", type: :feature do
 
         expect(page.current_path).to eq(new_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: mac_authentication_bypass))
 
-        select "Tunnel-Type", from: "Response attribute"
+        select "Tunnel-Type", from: "response-attribute"
         fill_in "Value", with: "1234"
 
         click_on "Create"

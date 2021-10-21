@@ -18,7 +18,7 @@ describe "create responses", type: :feature do
 
         expect(page.current_path).to eq(new_policy_policy_response_path(policy_id: policy))
 
-        select "Tunnel-Type", from: "Response attribute"
+        select "Tunnel-Type", from: "response-attribute"
         fill_in "Value", with: "1234"
 
         click_on "Create"

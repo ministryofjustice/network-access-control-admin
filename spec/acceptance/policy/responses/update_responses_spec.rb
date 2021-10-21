@@ -41,10 +41,10 @@ describe "update responses", type: :feature do
 
       first(:link, "Edit").click
 
-      expect(page).to have_field("Response attribute", with: response.response_attribute)
+      expect(page).to have_select("response-attribute", text: response.response_attribute)
       expect(page).to have_field("Value", with: response.value)
 
-      select "Tunnel-Type", from: "Response attribute"
+      select "Tunnel-Type", from: "response-attribute"
       fill_in "Value", with: "5678"
 
       click_on "Update"
