@@ -41,11 +41,11 @@ describe "update rules", type: :feature do
 
       first(:link, "Edit").click
 
-      expect(page).to have_select("Request attribute", text: rule.request_attribute)
+      expect(page).to have_select("request-attribute", text: rule.request_attribute)
       expect(page).to have_select("Operator", text: rule.operator)
       expect(page).to have_field("Value", with: rule.value)
 
-      select "User-Name", from: "Request attribute"
+      select "User-Name", from: "request-attribute"
       select "contains", from: "Operator"
       fill_in "Value", with: "LAN"
 
