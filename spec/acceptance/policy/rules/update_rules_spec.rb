@@ -3,6 +3,7 @@ require "rails_helper"
 describe "update rules", type: :feature do
   let(:policy) { create(:policy) }
   let(:rule) { create(:rule, policy: policy) }
+  let(:custom_rule) { create(:rule, request_attribute: "Custom-Attribute", policy: policy) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating rules" do
@@ -34,6 +35,7 @@ describe "update rules", type: :feature do
     before do
       login_as editor
       rule
+      custom_rule
     end
 
     it "does update an existing rule" do
@@ -59,6 +61,29 @@ describe "update rules", type: :feature do
       expect(page).to have_content "LAN"
 
       expect_audit_log_entry_for(editor.email, "update", "Rule")
+    end
+
+    it "does update an existing custom rule" do
+      visit "policies/#{policy.id}"
+
+      all(:link, "Edit")[1].click
+
+      expect(page).to have_field("custom-request-attribute", with: custom_rule.request_attribute)
+      expect(page).to have_select("Operator", text: custom_rule.operator)
+      expect(page).to have_field("Value", with: custom_rule.value)
+
+      fill_in "custom-request-attribute", with: "Updated-Custom-Attribute"
+      select "contains", from: "Operator"
+      fill_in "Value", with: "LAN"
+
+      click_on "Update"
+
+      expect(current_path).to eq("/policies/#{policy.id}")
+
+      expect(page).to have_content("Successfully updated rule.")
+      expect(page).to have_content "Updated-Custom-Attribute"
+      expect(page).to have_content "contains"
+      expect(page).to have_content "LAN"
     end
   end
 end
