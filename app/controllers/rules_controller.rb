@@ -62,7 +62,13 @@ private
   end
 
   def rule_params
-    params.require(:rule).permit(:request_attribute, :custom_request_attribue, :value, :operator)
+    rule_parameters = params.require(:rule).permit(:request_attribute, :value, :operator)
+
+    if params[:rule][:'request-attribute'] == "custom"
+      rule_parameters[:request_attribute] = params[:rule][:custom_request_attribute]
+    end
+
+    rule_parameters
   end
 
   def redirect_to_policies_path
