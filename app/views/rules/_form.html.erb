@@ -1,6 +1,6 @@
 <%= form_with(model: rule, url: path, local: true) do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :request_attribute) %>">
-    <%= f.label :Request_attribute, class: "govuk-label" %>
+    <%= f.label :request_attribute, class: "govuk-label" %>
 
     <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
       <div class="govuk-radios__item">
