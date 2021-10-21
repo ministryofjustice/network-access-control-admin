@@ -1,5 +1,5 @@
 require "spec_helper"
-require "support/shared_oauth2_examples"
+require "support/shared_examples/shared_oauth2_examples"
 
 RSpec.describe OmniAuth::Strategies::Cognito do
   subject { strategy }
