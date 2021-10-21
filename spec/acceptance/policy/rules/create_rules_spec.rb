@@ -11,7 +11,7 @@ describe "create rules", type: :feature do
     context "when there is an existing policy" do
       let!(:policy) { create(:policy) }
 
-      it "creates a new rule" do
+      it "creates a new rule from dictionary dropdown" do
         visit "/policies/#{policy.id}"
 
         click_on "Add rule"
@@ -27,6 +27,23 @@ describe "create rules", type: :feature do
         expect(page).to have_content("Successfully created rule.")
         expect(page.current_path).to eq(policy_path(id: policy.id))
         expect_audit_log_entry_for(editor.email, "create", "Rule")
+      end
+
+      it "creates a new custom rule" do
+        visit "/policies/#{policy.id}"
+
+        click_on "Add rule"
+
+        expect(page.current_path).to eq(new_policy_rule_path(policy_id: policy))
+
+        choose "Custom"
+        fill_in "custom-request-attribute", with: "Custom-Tunnel-Type"
+        select "equals", from: "Operator"
+        fill_in "Value", with: "VLAN"
+
+        click_on "Create"
+
+        expect(page).to have_content("Successfully created rule.")
       end
 
       it "displays error if form cannot be submitted" do
