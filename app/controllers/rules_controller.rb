@@ -62,7 +62,7 @@ private
   end
 
   def rule_params
-    params.require(:rule).permit(:request_attribute, :value, :operator)
+    params.require(:rule).permit(:request_attribute, :custom_request_attribue, :value, :operator)
   end
 
   def redirect_to_policies_path
