@@ -15,7 +15,7 @@ describe "create responses", type: :feature do
     context "when there is an existing MAC authentication bypass" do
       let!(:mac_authentication_bypass) { create(:mac_authentication_bypass) }
 
-      it "creates a new response" do
+      it "creates a new response from dictionary dropdown" do
         visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"
 
         click_on "Add response"
@@ -23,6 +23,24 @@ describe "create responses", type: :feature do
         expect(page.current_path).to eq(new_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: mac_authentication_bypass))
 
         select "Tunnel-Type", from: "response-attribute"
+        fill_in "Value", with: "1234"
+
+        click_on "Create"
+
+        expect(page).to have_content("Successfully created response.")
+        expect(page.current_path).to eq(mac_authentication_bypass_path(id: mac_authentication_bypass.id))
+        expect_audit_log_entry_for(editor.email, "create", "Response")
+      end
+
+      it "creates a new custom response" do
+        visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"
+
+        click_on "Add response"
+
+        expect(page.current_path).to eq(new_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: mac_authentication_bypass))
+
+        choose "Custom"
+        fill_in "custom-response-attribute", with: "Custom-Tunnel-Type"
         fill_in "Value", with: "1234"
 
         click_on "Create"

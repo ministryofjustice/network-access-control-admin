@@ -60,7 +60,13 @@ private
   end
 
   def response_params
-    params.require(:mab_response).permit(:response_attribute, :value)
+    response_parameters = params.require(:mab_response).permit(:response_attribute, :value)
+
+    if params[:mab_response][:'response-attribute'] == "custom"
+      response_parameters[:response_attribute] = params[:mab_response][:custom_response_attribute]
+    end
+
+    response_parameters
   end
 
   def set_mac_authentication_bypass
