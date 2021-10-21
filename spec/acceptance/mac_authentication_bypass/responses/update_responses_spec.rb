@@ -3,6 +3,7 @@ require "rails_helper"
 describe "update responses", type: :feature do
   let(:mac_authentication_bypass) { create(:mac_authentication_bypass) }
   let(:response) { create(:mab_response, mac_authentication_bypass: mac_authentication_bypass) }
+  let(:custom_response) { create(:mab_response, response_attribute: "Custom-Attribute", mac_authentication_bypass: mac_authentication_bypass) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating responses" do
@@ -34,6 +35,7 @@ describe "update responses", type: :feature do
     before do
       login_as editor
       response
+      custom_response
     end
 
     it "does update an existing response" do
@@ -56,6 +58,26 @@ describe "update responses", type: :feature do
       expect(page).to have_content "8765"
 
       expect_audit_log_entry_for(editor.email, "update", "Response")
+    end
+
+    it "does update an existing custom response" do
+      visit "mac_authentication_bypasses/#{mac_authentication_bypass.id}"
+
+      all(:link, "Edit")[1].click
+
+      expect(page).to have_field("custom-response-attribute", with: custom_response.response_attribute)
+      expect(page).to have_field("Value", with: custom_response.value)
+
+      fill_in "custom-response-attribute", with: "Updated-Custom-Attribute"
+      fill_in "Value", with: "LAN"
+
+      click_on "Update"
+
+      expect(current_path).to eq("/mac_authentication_bypasses/#{mac_authentication_bypass.id}")
+
+      expect(page).to have_content("Successfully updated response.")
+      expect(page).to have_content "Updated-Custom-Attribute"
+      expect(page).to have_content "LAN"
     end
   end
 end
