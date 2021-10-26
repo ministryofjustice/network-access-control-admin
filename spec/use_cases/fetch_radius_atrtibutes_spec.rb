@@ -5,32 +5,63 @@ describe UseCases::FetchRadiusAttributes do
     described_class.new(
       gateway: s3_gateway,
       output: output,
+      files: files
     )
   end
 
   let(:s3_gateway) { instance_spy(Gateways::S3) }
-  let(:output) { "spec/use_cases/attributes.json" }
-  let(:content) { File.read("spec/use_cases/attributes.vendor") }
+  let(:output) { "tmp/attributes.json" }
 
-  before do
-    allow(s3_gateway).to receive(:read).and_return(content)
+  context "where there is one file" do
+    let(:content) { File.read("spec/use_cases/attributes.vendor") }
+    let(:files) { ["attributes.vendor"] }
 
-    use_case.call
+    before do
+      allow(s3_gateway).to receive(:read).and_return(content)
+
+      use_case.call
+    end
+
+    it "writes the attributes to the output file" do
+      expect(s3_gateway).to have_received(:read)
+
+      output_file_content = File.read(output)
+
+      expected_content = <<~ATTRIBUTES
+        3GPP2-Ike-Preshared-Secret-Request
+        3GPP2-Security-Level
+        3GPP2-Pre-Shared-Secret
+        3GPP2-Reverse-Tunnel-Spec
+        3GPP2-Diffserv-Class-Option
+      ATTRIBUTES
+
+      expect(output_file_content).to eq(expected_content)
+    end
   end
 
-  it "writes the attributes to the output file" do
-    expect(s3_gateway).to have_received(:read)
+  context "when there are multiple files" do
+    let(:files) { ["first.attributes", "second.attributes"] }
 
-    output_file_content = File.read(output)
+    before do
+      allow(s3_gateway).to receive(:read).with("first.attributes").and_return("ATTRIBUTE First-Attribute\nATTRIBUTE Second-Attribute")
+      allow(s3_gateway).to receive(:read).with("second.attributes").and_return("ATTRIBUTE Foo-Attribute\nATTRIBUTE Bar-Attribute")
 
-    expected_content = <<~ATTRIBUTES
-      3GPP2-Ike-Preshared-Secret-Request
-      3GPP2-Security-Level
-      3GPP2-Pre-Shared-Secret
-      3GPP2-Reverse-Tunnel-Spec
-      3GPP2-Diffserv-Class-Option
-    ATTRIBUTES
+      use_case.call
+    end
+
+    it "writes the attributes to the output file" do
+      expect(s3_gateway).to have_received(:read).twice
+
+      output_file_content = File.read(output)
+
+      expected_content = <<~ATTRIBUTES
+        First-Attribute
+        Second-Attribute
+        Foo-Attribute
+        Bar-Attribute
+      ATTRIBUTES
 
     expect(output_file_content).to eq(expected_content)
+    end
   end
 end

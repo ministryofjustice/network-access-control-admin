@@ -1,22 +1,25 @@
 class UseCases::FetchRadiusAttributes
-  def initialize(gateway:, output:)
+  def initialize(gateway:, output:, files:)
     @gateway = gateway
+    @files = files
     @output = output
   end
 
   def call
-    content = gateway.read.split("\n")
-
     File.open(output, "w") do |output_file|
-      content.each do |line|
-        next unless line.include?("ATTRIBUTE")
+      files.each do |file|
+        content = gateway.read(file).split("\n")
 
-        output_file.write(line.split.second, "\n")
+        content.each do |line|
+          next unless line.include?("ATTRIBUTE")
+
+          output_file.write(line.split.second, "\n")
+        end
       end
     end
   end
 
 private
 
-  attr_reader :gateway, :output
+  attr_reader :gateway, :output, :files
 end
