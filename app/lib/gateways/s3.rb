@@ -26,6 +26,10 @@ module Gateways
       client.delete_object(bucket: bucket, key: key).to_h
     end
 
+    def list_object_keys(prefix, max_keys = 1000)
+      client.list_objects_v2(bucket: bucket, max_keys: max_keys, prefix: prefix)
+    end
+
   private
 
     attr_reader :bucket, :key, :client, :content_type
