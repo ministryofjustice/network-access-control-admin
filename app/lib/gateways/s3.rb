@@ -18,8 +18,8 @@ module Gateways
       {}
     end
 
-    def read
-      client.get_object(bucket: bucket, key: key).body.read
+    def read(file = key)
+      client.get_object(bucket: bucket, key: file).body.read
     end
 
     def remove
