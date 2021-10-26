@@ -41,11 +41,16 @@ describe Gateways::S3 do
     it "returns the contents of the file" do
       expect(gateway.read).to eq("some data")
     end
+
+    it "does read a given file" do
+      expect(gateway.read(key)).to eq("some data")
+    end
   end
 
   context "when reading multiples files from the S3 bucket" do
     it "returns a list of file names" do
       list_objects = gateway.list_object_keys(prefix)
+
       expect(list_objects).to eq(["dictionary.one", "dictionary.two"])
     end
   end
