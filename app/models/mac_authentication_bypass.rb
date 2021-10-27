@@ -1,4 +1,6 @@
 class MacAuthenticationBypass < ApplicationRecord
+  paginates_per 50
+  
   validates :address, presence: true, uniqueness: true
   validates_format_of :address, with: /\A([0-9a-f]{2}-){5}([0-9a-f]{2})\z/, on: :create
 

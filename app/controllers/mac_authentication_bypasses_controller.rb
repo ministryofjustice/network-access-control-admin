@@ -3,7 +3,7 @@ class MacAuthenticationBypassesController < ApplicationController
   before_action :set_crumbs, only: %i[index new show edit destroy]
 
   def index
-    @mac_authentication_bypasses = MacAuthenticationBypass.all
+    @mac_authentication_bypasses = MacAuthenticationBypass.page params[:page]
   end
 
   def new

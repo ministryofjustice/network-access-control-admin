@@ -2,6 +2,10 @@ def ip_range
   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
 end
 
+def mac_address
+  6.times.map { '%02x' % rand(0..255) }.join('-')
+end
+
 p "creating policies"
 3000.times do |p|
   policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
@@ -41,4 +45,13 @@ p "assigning policies to sites"
 Site.all.each do |site|
   site.policies << Policy.select(:id).sample(5)
   site.policies << Policy.where(fallback: true).select(:id).sample
+end
+
+p "creating MABs"
+100.times do |m|
+  mab = MacAuthenticationBypass.create!(
+    address: "#{mac_address}",
+    name: "MAB#{m}",
+    description: "MAC Address for #{m}"
+  )
 end
