@@ -57,6 +57,16 @@ describe "attach policies to a site", type: :feature do
       context "when there is a policy attached to a site" do
         let!(:site) { create :site, policies: [first_policy] }
 
+        it "does allow viewing the policy" do
+          visit "/sites/#{site.id}"
+
+          click_on "View", match: :first
+
+          expect(current_path).to eq("/policies/#{first_policy.id}")
+
+          expect(page).to have_content "First Policy"
+        end
+
         it "does allow detaching the policy" do
           visit "/sites/#{site.id}"
 
