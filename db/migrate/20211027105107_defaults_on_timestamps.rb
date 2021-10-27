@@ -11,8 +11,8 @@ class DefaultsOnTimestamps < ActiveRecord::Migration[6.1]
 
     tables.each do |table|
       change_table table do |t|
-        t.change :created_at, :datetime, default: -> { "CURRENT_TIMESTAMP" }
-        t.change :updated_at, :datetime, default: -> { "CURRENT_TIMESTAMP" }
+        t.change :created_at, :datetime, precision: 6, default: -> { 'CURRENT_TIMESTAMP' }
+        t.change :updated_at, :datetime, precision: 6, default: -> { 'CURRENT_TIMESTAMP' }
       end
     end
   end
