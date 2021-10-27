@@ -6,6 +6,6 @@ class UseCases::GenerateAuthorisedMacs
       bypass.responses.empty? ? bypass.address : [bypass.address, responses].join("\n        ")
     end
 
-    bypasses.join("\n\n")
+    "#{bypasses.join("\n\n")}\n"
   end
 end

@@ -15,8 +15,8 @@ describe UseCases::GenerateAuthorisedMacs do
           create(:mac_authentication_bypass, address: "ff-99-88-77-66-55")
         end
 
-        it "generates a authorised_clients configuration file" do
-          expected_config = %(aa-11-22-33-44-55\n\nff-99-88-77-66-55)
+        it "generates a authorised_macs configuration file" do
+          expected_config = %(aa-11-22-33-44-55\n\nff-99-88-77-66-55\n)
 
           expect(result).to eq(expected_config)
         end
@@ -41,7 +41,8 @@ describe UseCases::GenerateAuthorisedMacs do
 
 bb-cc-00-11-22-33
         Tunnel-Medium-Type = IEEE-802,
-        Tunnel-Private-Group-Id = 123456)
+        Tunnel-Private-Group-Id = 123456
+)
 
           expect(result).to eq(expected_config)
         end
@@ -52,7 +53,7 @@ bb-cc-00-11-22-33
       let(:mac_authentication_bypasses) { [] }
 
       it "generates an empty authorised_clients configuration file" do
-        expect(result).to eq("")
+        expect(result).to eq("\n")
       end
     end
   end
