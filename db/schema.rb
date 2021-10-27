@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_19_110057) do
+ActiveRecord::Schema.define(version: 2021_10_27_105107) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(version: 2021_10_19_110057) do
     t.string "shared_secret", null: false
     t.string "ip_range", null: false
     t.bigint "site_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["site_id"], name: "index_clients_on_site_id"
   end
 
@@ -58,15 +58,15 @@ ActiveRecord::Schema.define(version: 2021_10_19_110057) do
     t.string "address", null: false
     t.string "name"
     t.text "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "policies", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "fallback", null: false
     t.integer "rule_count", default: 0
   end
@@ -74,8 +74,8 @@ ActiveRecord::Schema.define(version: 2021_10_19_110057) do
   create_table "responses", charset: "utf8", force: :cascade do |t|
     t.string "response_attribute", null: false
     t.string "value", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "mac_authentication_bypass_id"
     t.bigint "policy_id"
     t.index ["mac_authentication_bypass_id"], name: "index_responses_on_mac_authentication_bypass_id"
@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 2021_10_19_110057) do
     t.string "value", null: false
     t.bigint "policy_id", null: false
     t.string "request_attribute", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["policy_id"], name: "index_rules_on_policy_id"
   end
 
@@ -102,8 +102,8 @@ ActiveRecord::Schema.define(version: 2021_10_19_110057) do
 
   create_table "sites", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "tag", null: false
   end
 
