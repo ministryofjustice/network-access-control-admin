@@ -11,10 +11,7 @@ namespace :radius_attributes do
       content_type: "text/plain",
     )
 
-    files = s3_gateway.list_object_keys("radius_dictionaries")
-
     UseCases::FetchRadiusAttributes.new(
-      files: files.contents,
       gateway: s3_gateway,
       output: "app/helpers/radius_dictionary_attributes.txt",
     ).call

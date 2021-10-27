@@ -1,12 +1,13 @@
 module UseCases
   class FetchRadiusAttributes
-    def initialize(gateway:, output:, files:)
+    def initialize(gateway:, output:)
       @gateway = gateway
-      @files = files
       @output = output
     end
 
     def call
+      files = gateway.list_object_keys("radius_dictionaries").contents
+
       File.open(output, "w") do |output_file|
         files.each do |file|
           content = gateway.read(file.key).split("\n")
@@ -22,6 +23,6 @@ module UseCases
 
   private
 
-    attr_reader :gateway, :output, :files
+    attr_reader :gateway, :output
   end
 end
