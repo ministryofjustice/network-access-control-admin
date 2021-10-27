@@ -18,7 +18,7 @@ describe Gateways::S3 do
         },
         list_objects_v2: lambda { |context|
           ["dictionary.one", "dictionary.two"] if context.params.fetch(:prefix) == prefix
-        }
+        },
       },
     }
   end

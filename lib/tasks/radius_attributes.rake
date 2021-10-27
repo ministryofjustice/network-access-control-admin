@@ -1,15 +1,22 @@
 require "./app/lib/gateways/s3"
+require "./app/lib/use_cases/fetch_radius_attributes"
 
 namespace :radius_attributes do
   desc "Retrieve attributes from RADIUS dictionaries"
   task :fetch do
     s3_gateway = Gateways::S3.new(
       bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
-      key: "radius_dictionaries/dummy.dum",
+      key: nil,
       aws_config: {},
       content_type: "text/plain",
     )
 
-    s3_gateway.read
+    files = s3_gateway.list_object_keys("radius_dictionaries")
+
+    UseCases::FetchRadiusAttributes.new(
+      files: files.contents,
+      gateway: s3_gateway,
+      output: "app/helpers/radius_dictionary_attributes.txt",
+    ).call
   end
 end
