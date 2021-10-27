@@ -3,7 +3,7 @@ def ip_range
 end
 
 def mac_address
-  6.times.map {"%02x" % rand(0..255)}.join("-")
+  6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
 end
 
 p "creating policies"
@@ -50,8 +50,8 @@ end
 p "creating MABs"
 100.times do |m|
   MacAuthenticationBypass.create!(
-    address: "#{mac_address}",
+    address: mac_address.to_s,
     name: "MAB#{m}",
-    description: "MAC Address for #{m}"
+    description: "MAC Address for #{m}",
   )
 end
