@@ -3,7 +3,7 @@ class CertificatesController < ApplicationController
   before_action :set_crumbs, only: %i[index new show destroy]
 
   def index
-    @certificates = Certificate.all
+    @certificates = Certificate.page params[:page]
   end
 
   def new
