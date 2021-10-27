@@ -6,24 +6,26 @@ describe UseCases::FetchRadiusAttributes do
     described_class.new(
       gateway: s3_gateway,
       output: output,
-      files: files,
     )
   end
 
-  let(:s3_gateway) { instance_spy(Gateways::S3) }
+  let(:s3_gateway) { double(Gateways::S3) }
   let(:output) { "tmp/attributes.json" }
 
   context "where there is one file" do
     let(:content) { File.read("spec/use_cases/attributes.vendor") }
     let(:files) { [OpenStruct.new(key: "attributes.vendor")] }
+    let(:list_objects_response) { OpenStruct.new(contents: files) }
 
     before do
       allow(s3_gateway).to receive(:read).and_return(content)
+      allow(s3_gateway).to receive(:list_object_keys).and_return(list_objects_response)
 
       use_case.call
     end
 
     it "writes the attributes to the output file" do
+      expect(s3_gateway).to have_received(:list_object_keys)
       expect(s3_gateway).to have_received(:read)
 
       output_file_content = File.read(output)
@@ -48,7 +50,10 @@ describe UseCases::FetchRadiusAttributes do
       ]
     end
 
+    let(:list_objects_response) { OpenStruct.new(contents: files) }
+
     before do
+      allow(s3_gateway).to receive(:list_object_keys).and_return(list_objects_response)
       allow(s3_gateway).to receive(:read).with("first.attributes").and_return("ATTRIBUTE First-Attribute\nATTRIBUTE Second-Attribute")
       allow(s3_gateway).to receive(:read).with("second.attributes").and_return("ATTRIBUTE Foo-Attribute\nATTRIBUTE Bar-Attribute")
 
@@ -56,6 +61,7 @@ describe UseCases::FetchRadiusAttributes do
     end
 
     it "writes the attributes to the output file" do
+      expect(s3_gateway).to have_received(:list_object_keys)
       expect(s3_gateway).to have_received(:read).twice
 
       output_file_content = File.read(output)
