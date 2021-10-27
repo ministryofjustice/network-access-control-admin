@@ -5,8 +5,6 @@ describe "create clients", type: :feature do
     let(:editor) { create(:user, :editor) }
     let(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
     let(:s3_gateway) { double(Gateways::S3) }
-    let(:deploy_service) { instance_double(UseCases::DeployService) }
-    let(:ecs_gateway) { double(Gateways::Ecs) }
 
     before do
       login_as editor
@@ -23,36 +21,15 @@ describe "create clients", type: :feature do
         }
       end
 
-      let(:expected_ecs_gateway_config) do
-        {
-          cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
-          service_name: ENV.fetch("RADIUS_SERVICE_NAME"),
-          aws_config: Rails.application.config.ecs_aws_config,
-        }
-      end
-
-      let(:expected_ecs_gateway_config_internal) do
-        {
-          cluster_name: ENV.fetch("RADIUS_CLUSTER_NAME"),
-          service_name: ENV.fetch("RADIUS_INTERNAL_SERVICE_NAME"),
-          aws_config: Rails.application.config.ecs_aws_config,
-        }
-      end
-
       before(:each) do
         allow(publish_to_s3).to receive(:call)
-        allow(deploy_service).to receive(:call)
       end
 
       it "creates a new client" do
+        expect_service_deployment
+
         expect(Gateways::S3).to receive(:new).with(expected_s3_gateway_config).and_return(s3_gateway)
         expect(UseCases::PublishToS3).to receive(:new).with(destination_gateway: s3_gateway).and_return(publish_to_s3)
-
-        expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config).and_return(ecs_gateway)
-        expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
-
-        expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config_internal).and_return(ecs_gateway)
-        expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
 
         visit "/sites/#{site.id}"
 
@@ -74,7 +51,6 @@ clients radsec {
 }"
 
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
-        expect(deploy_service).to have_received(:call).twice
 
         expect(page).to have_content("Successfully created client.")
         expect(page.current_path).to eq(site_path(id: site.id))
@@ -88,11 +64,7 @@ clients radsec {
         expect(Gateways::S3).to receive(:new).with(expected_s3_gateway_config).and_return(s3_gateway)
         expect(UseCases::PublishToS3).to receive(:new).with(destination_gateway: s3_gateway).and_return(publish_to_s3)
 
-        expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config).and_return(ecs_gateway)
-        expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
-
-        expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config_internal).and_return(ecs_gateway)
-        expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
+        expect_service_deployment
 
         visit "/sites/#{site.id}"
 
@@ -114,7 +86,6 @@ clients radsec {
 }"
 
         expect(publish_to_s3).to have_received(:call).with(expected_config_file)
-        expect(deploy_service).to have_received(:call).twice
 
         expect(page).to have_content("Successfully created client.")
         expect(page).to have_content("123.123.123.123/32")
