@@ -55,3 +55,15 @@ p "creating MABs"
     description: "MAC Address for #{m}",
   )
 end
+
+p "creating certificates"
+100.times do |c|
+  Certificate.create!(
+    name: "Certificate#{c}",
+    description: "Certificate No. #{c}",
+    subject: "Common-Name=Certificate#{c}",
+    expiry_date: Date.today + 1,
+    category: "EAP",
+    filename: "#{c}.pem",
+  )
+end
