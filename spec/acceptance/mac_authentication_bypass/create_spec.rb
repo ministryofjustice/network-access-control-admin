@@ -33,6 +33,8 @@ describe "create MAC Authentication Bypasses", type: :feature do
     end
 
     it "creates a new bypass" do
+      expect_service_deployment
+
       visit "/mac_authentication_bypasses"
 
       click_on "Create a new bypass"

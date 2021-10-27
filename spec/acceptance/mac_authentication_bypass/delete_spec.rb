@@ -25,6 +25,8 @@ describe "delete MAC authentication bypasses", type: :feature do
     end
 
     it "does delete a MAC address" do
+      expect_service_deployment
+
       visit "/mac_authentication_bypasses"
 
       click_on "Delete"

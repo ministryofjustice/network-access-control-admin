@@ -37,6 +37,8 @@ describe "update MAC authentication bypasses", type: :feature do
     end
 
     it "does update an existing bypass" do
+      expect_service_deployment
+
       visit "/mac_authentication_bypasses/#{mac_authentication_bypass.to_param}"
 
       first(:link, "Change").click

@@ -17,8 +17,9 @@ class MacAuthenticationBypassesController < ApplicationController
     authorize! :create, @mac_authentication_bypass
 
     if @mac_authentication_bypass.save
-      redirect_to mac_authentication_bypasses_path, notice: "Successfully created MAC authentication bypass. "
       publish_authorised_macs
+      deploy_service
+      redirect_to mac_authentication_bypasses_path, notice: "Successfully created MAC authentication bypass. "
     else
       render :new
     end
@@ -28,8 +29,9 @@ class MacAuthenticationBypassesController < ApplicationController
     authorize! :destroy, @mac_authentication_bypass
     if confirmed?
       if @mac_authentication_bypass.destroy
-        redirect_to mac_authentication_bypasses_path, notice: "Successfully deleted MAC authentication bypass. "
         publish_authorised_macs
+        deploy_service
+        redirect_to mac_authentication_bypasses_path, notice: "Successfully deleted MAC authentication bypass. "
       else
         redirect_to mac_authentication_bypasses_path, error: "Failed to delete the MAC authentication bypass"
       end
@@ -47,8 +49,9 @@ class MacAuthenticationBypassesController < ApplicationController
     @mac_authentication_bypass.assign_attributes(mac_authentication_bypass_params)
 
     if @mac_authentication_bypass.save
-      redirect_to mac_authentication_bypasses_path, notice: "Successfully updated MAC authentication bypass. "
       publish_authorised_macs
+      deploy_service
+      redirect_to mac_authentication_bypasses_path, notice: "Successfully updated MAC authentication bypass. "
     else
       render :edit
     end
