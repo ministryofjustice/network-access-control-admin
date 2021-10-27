@@ -1,11 +1,12 @@
 require "rails_helper"
+require "ostruct"
 
 describe UseCases::FetchRadiusAttributes do
   subject(:use_case) do
     described_class.new(
       gateway: s3_gateway,
       output: output,
-      files: files
+      files: files,
     )
   end
 
@@ -14,7 +15,7 @@ describe UseCases::FetchRadiusAttributes do
 
   context "where there is one file" do
     let(:content) { File.read("spec/use_cases/attributes.vendor") }
-    let(:files) { ["attributes.vendor"] }
+    let(:files) { [OpenStruct.new(key: "attributes.vendor")] }
 
     before do
       allow(s3_gateway).to receive(:read).and_return(content)
@@ -40,7 +41,12 @@ describe UseCases::FetchRadiusAttributes do
   end
 
   context "when there are multiple files" do
-    let(:files) { ["first.attributes", "second.attributes"] }
+    let(:files) do
+      [
+        OpenStruct.new(key: "first.attributes"),
+        OpenStruct.new(key: "second.attributes"),
+      ]
+    end
 
     before do
       allow(s3_gateway).to receive(:read).with("first.attributes").and_return("ATTRIBUTE First-Attribute\nATTRIBUTE Second-Attribute")
@@ -61,7 +67,7 @@ describe UseCases::FetchRadiusAttributes do
         Bar-Attribute
       ATTRIBUTES
 
-    expect(output_file_content).to eq(expected_content)
+      expect(output_file_content).to eq(expected_content)
     end
   end
 end
