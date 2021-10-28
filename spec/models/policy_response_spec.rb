@@ -28,4 +28,14 @@ describe PolicyResponse, type: :model do
 
     expect(result).to be_invalid
   end
+
+  it "validates an updated response attribute" do
+    editable_response = create(:policy_response)
+
+    expect(editable_response).to be_valid
+
+    editable_response.update(response_attribute: "Invalid-Attribute")
+
+    expect(editable_response).to be_invalid
+  end
 end
