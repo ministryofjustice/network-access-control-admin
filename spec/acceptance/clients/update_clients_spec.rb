@@ -84,7 +84,7 @@ clients radsec {
     end
 
     context "when the client is a RadSec client" do
-      let(:client) { create(:client, site: site, shared_secret: "radsec") }
+      let(:client) { create(:client, radsec: true, site: site, shared_secret: "radsec") }
 
       it "does not allow updating the client type" do
         visit "sites/#{site.id}"

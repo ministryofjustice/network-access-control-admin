@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_27_145023) do
+ActiveRecord::Schema.define(version: 2021_10_28_103519) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_10_27_145023) do
     t.bigint "site_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "radsec", null: false
     t.index ["site_id"], name: "index_clients_on_site_id"
   end
 
