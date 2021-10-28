@@ -18,10 +18,9 @@ namespace :radius_attributes do
         gateway: s3_gateway,
         output: "app/helpers/radius_dictionary_attributes.txt",
       ).call
-
-      pp "Fetched #{File.read('app/helpers/radius_dictionary_attributes.txt').split.count} RADIUS dictionary attibutes"
     rescue StandardError => e
-      pp "Failed to fetch attributes with error: #{e} - #{e.message}"
+      pp "Failed to fetch attributes with error: #{e}"
+      raise e
     end
   end
 end

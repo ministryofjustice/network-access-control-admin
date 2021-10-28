@@ -19,6 +19,7 @@ module UseCases
           end
         end
       end
+      pp "Fetched #{File.read(output).split.count} RADIUS dictionary attibutes"
     end
 
   private
