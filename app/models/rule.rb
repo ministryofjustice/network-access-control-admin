@@ -14,7 +14,7 @@ private
   def validate_radius_attributes
     return if request_attribute.blank?
 
-    errors.add(:request_attribute, "is invalid") unless File.read("app/helpers/radius_dictionary_attributes.txt").include?(request_attribute)
+    errors.add(:request_attribute, "is invalid") unless AttributesHelper.valid_radius_attribute?(request_attribute)
   end
 
   def update_rule_count
