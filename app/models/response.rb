@@ -1,6 +1,6 @@
 class Response < ApplicationRecord
   validates_presence_of :response_attribute, :value
-  validate :validate_radius_attributes, on: :create
+  validate :validate_radius_attributes, on: %i[create update]
 
   audited
 
