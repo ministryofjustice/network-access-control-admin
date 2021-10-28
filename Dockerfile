@@ -65,4 +65,4 @@ RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
 
 EXPOSE 3000
 
-CMD ["bundle", "exec", "rake", "radius_attributes:fetch", "&&", "bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD bundle exec rake radius_attributes:fetch && bundle exec rails server -b 0.0.0.0
