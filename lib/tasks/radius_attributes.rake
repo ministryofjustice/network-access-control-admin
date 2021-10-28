@@ -11,9 +11,17 @@ namespace :radius_attributes do
       content_type: "text/plain",
     )
 
-    UseCases::FetchRadiusAttributes.new(
-      gateway: s3_gateway,
-      output: "app/helpers/radius_dictionary_attributes.txt",
-    ).call
+    begin
+      pp "Fetching Radius attibutes"
+
+      UseCases::FetchRadiusAttributes.new(
+        gateway: s3_gateway,
+        output: "app/helpers/radius_dictionary_attributes.txt",
+      ).call
+
+      pp "Fetched #{File.read('app/helpers/radius_dictionary_attributes.txt').split.count} RADIUS dictionary attibutes"
+    rescue StandardError => e
+      pp "Failed to fetch attributes with error: #{e}"
+    end
   end
 end
