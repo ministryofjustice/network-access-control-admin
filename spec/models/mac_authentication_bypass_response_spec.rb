@@ -10,4 +10,22 @@ describe MabResponse, type: :model do
   it { is_expected.to belong_to :mac_authentication_bypass }
   it { is_expected.to validate_presence_of :response_attribute }
   it { is_expected.to validate_presence_of :value }
+
+  it "validates the response attribute" do
+    valid_response_attributes = %w[
+      User-Name
+      3Com-User-Access-Level
+      Zyxel-Callback-Phone-Source
+    ]
+
+    valid_response_attributes.each do |response_attribute|
+      result = build(:mab_response, response_attribute: response_attribute)
+
+      expect(result).to be_valid
+    end
+
+    result = build(:mab_response, response_attribute: "Invalid-Attribute")
+
+    expect(result).to be_invalid
+  end
 end
