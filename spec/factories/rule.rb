@@ -4,6 +4,10 @@ FactoryBot.define do
 
     sequence(:operator) { %w[equals contains].sample }
     sequence(:value) { |n| "Value #{n}" }
-    sequence(:request_attribute) { AttributesHelper.requests.sample }
+    sequence(:request_attribute) do
+      %w[Framed-IP-Address
+         Framed-IP-Netmask
+         Framed-Routing].sample
+    end
   end
 end
