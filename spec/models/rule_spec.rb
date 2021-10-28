@@ -26,8 +26,17 @@ describe Rule, type: :model do
     end
 
     result = build(:rule, request_attribute: "Invalid-Attribute")
-
     expect(result).to be_invalid
+  end
+
+  it "validates an updated request attribute" do
+    editable_rule = create(:rule)
+
+    expect(editable_rule).to be_valid
+
+    editable_rule.update(request_attribute: "Invalid-Attribute")
+
+    expect(editable_rule).to be_invalid
   end
 
   it "only allows specified values for operator" do
