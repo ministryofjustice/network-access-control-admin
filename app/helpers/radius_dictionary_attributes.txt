@@ -1,0 +1,13 @@
+3Com-User-Access-Level
+Custom-Tunnel-Type
+Custom-Attribute
+TLS-Cert-Issuer
+Tunnel-Type
+Zyxel-Callback-Phone-Source
+Port-Limit
+Proxy-State
+Reply-Message
+Framed-IP-Address
+Framed-IP-Netmask
+Framed-Routing
+User-Name
