@@ -1,3 +1,6 @@
+# These are test attributes, specifically used for testing purposes.
+# This file will be overwritten in the pipeline by the `radius_attributes:fetch` Rake task.
+
 3Com-User-Access-Level
 Custom-Attribute
 Custom-Tunnel-Type
