@@ -1,4 +1,8 @@
 module AttributesHelper
+  def self.valid_radius_attribute?(attribute)
+    File.read("app/helpers/radius_dictionary_attributes.txt").include?(attribute)
+  end
+
   def self.requests
     %w[
       User-Name

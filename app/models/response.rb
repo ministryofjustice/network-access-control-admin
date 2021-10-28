@@ -9,6 +9,6 @@ private
   def validate_radius_attributes
     return if response_attribute.blank?
 
-    errors.add(:response_attribute, "is invalid") unless File.read("app/helpers/radius_dictionary_attributes.txt").include?(response_attribute)
+    errors.add(:response_attribute, "is invalid") unless AttributesHelper.valid_radius_attribute?(response_attribute)
   end
 end
