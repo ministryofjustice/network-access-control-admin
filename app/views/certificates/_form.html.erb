@@ -24,6 +24,9 @@
   </div>
 
 <% if f.object.new_record? %>
+  <div id="certificate-hint" class="govuk-hint">
+    Certificate must be in the format "PEM"
+  </div>
   <div class="govuk-form-group">
     <%= f.label :certificate, class: "govuk-label" %>
     <%= f.file_field :certificate, class: "govuk-file-upload" %>
