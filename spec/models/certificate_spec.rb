@@ -23,6 +23,13 @@ describe Certificate, type: :model do
     end
   end
 
+  describe "validate the certificate is in pem format" do
+    it "rejects file extension of cer" do
+      params = { name: "Wrong certificate extension", description: "CER format", filename: "wrong_extension.cer", category: "EAP" }
+      expect { create(:certificate, params) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
   it "raises an error when fields from certificate file are missing" do
     missing_field = [{ expiry_date: Date.today }, { subject: "may not exist" }].sample
     params = { name: "My new certificate", description: "bar" }.merge(missing_field)
