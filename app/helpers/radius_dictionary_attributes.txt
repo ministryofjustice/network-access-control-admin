@@ -14,4 +14,5 @@ Tunnel-Medium-Type
 Tunnel-Private-Group-Id
 Tunnel-Type
 User-Name
+Updated-Custom-Attribute
 Zyxel-Callback-Phone-Source
