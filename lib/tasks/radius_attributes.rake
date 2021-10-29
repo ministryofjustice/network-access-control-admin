@@ -12,14 +12,15 @@ namespace :radius_attributes do
     )
 
     begin
-      pp "Fetching Radius attibutes"
+      pp "Fetching RADIUS attributes..."
 
       UseCases::FetchRadiusAttributes.new(
         gateway: s3_gateway,
         output: "app/helpers/radius_dictionary_attributes.txt",
       ).call
     rescue StandardError => e
-      pp "Failed to fetch attributes with error: #{e}"
+      pp "Failed to fetch RADIUS attributes with error: #{e}"
+
       raise e
     end
   end
