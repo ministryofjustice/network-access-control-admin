@@ -1,6 +1,6 @@
 module AttributesHelper
   def self.valid_radius_attribute?(attribute)
-    File.read("app/helpers/radius_dictionary_attributes.txt").include?(attribute)
+    File.read("app/helpers/radius_dictionary_attributes.txt").split("\n").reject(&:empty?).include?(attribute)
   end
 
   def self.requests
