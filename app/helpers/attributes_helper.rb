@@ -64,7 +64,6 @@ module AttributesHelper
       TLS-Client-Cert-Filename
       TLS-Client-Cert-Subject-Alt-Name-Email
       TLS-Client-Cert-X509v3-Extended-Key-Usage
-      TLS-Client-Cert-X509v
     ]
   end
 
@@ -76,13 +75,6 @@ module AttributesHelper
       ARAP-Security
       ARAP-Security-Data
       ARAP-Zone-Access
-      AUTH-Key
-      Access-Accept
-      Access-Challenge
-      Access-Reject
-      Access-Request
-      Accounting-Request
-      Accounting-Response
       Acct-Authentic
       Acct-Delay-Time
       Acct-Input-Gigawords
@@ -106,13 +98,11 @@ module AttributesHelper
       Callback-Number
       Called-Station-Id
       Calling-Station-Id
-      Change-of-Authorization
       Chargeable-User-Identity
       Class
       Configuration-Token
       Connect-Info
       DNS-Server-IPv6-Address
-      DS-Lite
       DS-Lite-Tunnel-Name
       Delegated-IPv6-Prefix
       Delegated-IPv6-Prefix-Pool
@@ -138,17 +128,12 @@ module AttributesHelper
       EAP-Message
       Error-Cause
       Event-Timestamp
-      Extended-Type-1
-      Extended-Type-2
-      Extended-Type-3
-      Extended-Type-4
       Extended-Vendor-Specific-1
       Extended-Vendor-Specific-2
       Extended-Vendor-Specific-3
       Extended-Vendor-Specific-4
       Extended-Vendor-Specific-5
       Extended-Vendor-Specific-6
-      Filter-ID
       Filter-Id
       Framed-AppleTalk-Link
       Framed-AppleTalk-Network
@@ -163,13 +148,11 @@ module AttributesHelper
       Framed-IPv6-Route
       Framed-Interface-Id
       Framed-MTU
-      Framed-Management-Protocol
       Framed-Pool
       Framed-Protocol
       Framed-Route
       Framed-Routing
       Idle-Timeout
-      Keep-Alives
       Login-IP-Host
       Login-IPv6-Host
       Login-LAT-Group
@@ -178,10 +161,7 @@ module AttributesHelper
       Login-LAT-Service
       Login-Service
       Login-TCP-Port
-      Long-Extended-Type-1
-      Long-Extended-Type-2
       MS-ARAP-Challenge
-      MS-ARAP-Password-Change-Reason
       MS-Acct-Auth-Type
       MS-Acct-EAP-Type
       MS-BAP-Usage
@@ -224,7 +204,6 @@ module AttributesHelper
       NAS-Port
       NAS-Port-Id
       NAS-Port-Type
-      PKM-AUTH-Key
       PKM-CA-Cert
       PKM-Config-Settings
       PKM-Cryptosuite-List
@@ -243,25 +222,14 @@ module AttributesHelper
       State
       Stateful-IPv6-Address-Pool
       Termination-Action
-      Tunnel-Assignment-ID
-      Tunnel-Client-Auth-ID
       Tunnel-Client-Endpoint
-      Tunnel-Link-Reject
-      Tunnel-Link-Start
-      Tunnel-Link-Stop
       Tunnel-Medium-Type
       Tunnel-Password
       Tunnel-Preference
-      Tunnel-Private-Group-ID
-      Tunnel-Reject
-      Tunnel-Server-Auth-ID
       Tunnel-Server-Endpoint
-      Tunnel-Start
-      Tunnel-Stop
       Tunnel-Type
       User-Name
       User-Password
-      Vendor-Id
       Vendor-Specific
     ]
   end
