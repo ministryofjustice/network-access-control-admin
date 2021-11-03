@@ -11,8 +11,9 @@ class MabResponsesController < ApplicationController
     authorize! :create, @response
 
     if @response.save
-      redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully created response."
       publish_authorised_macs
+      deploy_service
+      redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully created response."
     else
       render :new
     end
