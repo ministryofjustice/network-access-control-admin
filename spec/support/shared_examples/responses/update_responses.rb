@@ -34,6 +34,8 @@ RSpec.shared_examples "response update" do |domain, response|
       login_as editor
       created_response
       custom_response
+
+      expect_service_deployment if domain == :mac_authentication_bypass
     end
 
     it "does update an existing response" do

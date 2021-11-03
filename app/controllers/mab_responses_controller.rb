@@ -25,8 +25,10 @@ class MabResponsesController < ApplicationController
     authorize! :destroy, @response
     if confirmed?
       if @response.destroy
-        redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully deleted response. "
         publish_authorised_macs
+        deploy_service
+
+        redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully deleted response. "
       else
         redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), error: "Failed to delete the response. "
       end
@@ -47,8 +49,10 @@ class MabResponsesController < ApplicationController
     @response.assign_attributes(response_params)
 
     if @response.save
-      redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully updated response. "
       publish_authorised_macs
+      deploy_service
+
+      redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully updated response. "
     else
       render :edit
     end

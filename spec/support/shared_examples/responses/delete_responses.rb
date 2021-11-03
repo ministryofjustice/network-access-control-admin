@@ -18,6 +18,8 @@ RSpec.shared_examples "response deletion" do |domain, response|
 
     before do
       login_as editor
+
+      expect_service_deployment if domain == :mac_authentication_bypass
     end
 
     context "when there is an existing domain with a response" do
