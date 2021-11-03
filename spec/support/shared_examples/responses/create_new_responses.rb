@@ -14,6 +14,8 @@ RSpec.shared_examples "new response creation" do |domain, response|
       let!(:created_domain) { create(domain) }
 
       it "creates a new response from dictionary dropdown" do
+        expect_service_deployment if domain == :mac_authentication_bypass
+
         visit "/#{domain.to_s.pluralize}/#{created_domain.id}"
 
         click_on "Add response"
@@ -31,6 +33,8 @@ RSpec.shared_examples "new response creation" do |domain, response|
       end
 
       it "creates a new custom response" do
+        expect_service_deployment if domain == :mac_authentication_bypass
+
         visit "/#{domain.to_s.pluralize}/#{created_domain.id}"
 
         click_on "Add response"
