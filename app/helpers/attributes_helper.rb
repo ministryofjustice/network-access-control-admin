@@ -62,7 +62,6 @@ module AttributesHelper
       TLS-Client-Cert-Filename
       TLS-Client-Cert-Subject-Alt-Name-Email
       TLS-Client-Cert-X509v3-Extended-Key-Usage
-      TLS-Client-Cert-X509v
     ].sort
   end
 
