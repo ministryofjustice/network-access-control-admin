@@ -1,6 +1,13 @@
 module AttributesHelper
-  def self.valid_radius_attribute?(attribute)
-    File.read("app/helpers/radius_dictionary_attributes.txt").split("\n").reject(&:empty?).include?(attribute)
+  def self.valid_radius_attribute?(response_attribute, response_value)
+    contents =<<-HEREDOC
+aa-bb-cc-77-88-99
+\t#{response_attribute} = #{response_value}
+HEREDOC
+
+  File.write('/etc/raddb/mods-config/files/authorize', contents)
+
+  result = `/usr/sbin/radiusd -xx -l stdout`
   end
 
   def self.requests
