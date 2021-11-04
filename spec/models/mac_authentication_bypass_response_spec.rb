@@ -12,14 +12,14 @@ describe MabResponse, type: :model do
   it { is_expected.to validate_presence_of :value }
 
   it "validates the response attribute" do
-    valid_response_attributes = %w[
-      User-Name
-      3Com-User-Access-Level
-      Zyxel-Callback-Phone-Source
+    valid_response_attributes = [
+      { attribute: "User-Name", value: "Bob" },
+      { attribute: "3Com-User-Access-Level", value: "3Com-Visitor" },
+      { attribute: "Zyxel-Callback-Phone-Source", value: "User" }
     ]
 
     valid_response_attributes.each do |response_attribute|
-      result = build(:mab_response, response_attribute: response_attribute)
+      result = build(:mab_response, response_attribute: response_attribute.fetch(:attribute), value: response_attribute.fetch(:value))
 
       expect(result).to be_valid
     end

@@ -1,7 +1,7 @@
 RSpec.shared_examples "response update" do |domain, response|
   let(:created_domain) { create(domain) }
   let(:created_response) { create(response, { domain => created_domain }) }
-  let(:custom_response) { create(response, { :response_attribute => "Custom-Attribute", domain => created_domain }) }
+  let(:custom_response) { create(response, { :response_attribute => "3Com-User-Access-Level", :value => "3Com-Visitor",  domain => created_domain }) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating responses" do
@@ -46,16 +46,16 @@ RSpec.shared_examples "response update" do |domain, response|
       expect(page).to have_select("response-attribute", text: created_response.response_attribute)
       expect(page).to have_field("Value", with: created_response.value)
 
-      select "Tunnel-Type", from: "response-attribute"
-      fill_in "Value", with: "8765"
+      select "Reply-Message", from: "response-attribute"
+      fill_in "Value", with: "Hello to you"
 
       click_on "Update"
 
       expect(current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}")
 
       expect(page).to have_content("Successfully updated response.")
-      expect(page).to have_content "Tunnel-Type"
-      expect(page).to have_content "8765"
+      expect(page).to have_content "Reply-Message"
+      expect(page).to have_content "Hello to you"
 
       expect_audit_log_entry_for(editor.email, "update", "Response")
     end
@@ -68,16 +68,16 @@ RSpec.shared_examples "response update" do |domain, response|
       expect(page).to have_field("custom-response-attribute", with: custom_response.response_attribute)
       expect(page).to have_field("Value", with: custom_response.value)
 
-      fill_in "custom-response-attribute", with: "Updated-Custom-Attribute"
-      fill_in "Value", with: "LAN"
+      fill_in "custom-response-attribute", with: "Zyxel-Callback-Phone-Source"
+      fill_in "Value", with: "User"
 
       click_on "Update"
 
       expect(current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}")
 
       expect(page).to have_content("Successfully updated response.")
-      expect(page).to have_content "Updated-Custom-Attribute"
-      expect(page).to have_content "LAN"
+      expect(page).to have_content "Zyxel-Callback-Phone-Source"
+      expect(page).to have_content "User"
     end
   end
 end

@@ -3,7 +3,7 @@ require "rails_helper"
 describe "update rules", type: :feature do
   let(:policy) { create(:policy) }
   let(:rule) { create(:rule, policy: policy) }
-  let(:custom_rule) { create(:rule, request_attribute: "Custom-Attribute", policy: policy) }
+  let(:custom_rule) { create(:rule, request_attribute: "3Com-User-Access-Level", value: "3Com-Administrator", policy: policy) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating rules" do
@@ -47,18 +47,18 @@ describe "update rules", type: :feature do
       expect(page).to have_select("Operator", text: rule.operator)
       expect(page).to have_field("Value", with: rule.value)
 
-      select "User-Name", from: "request-attribute"
+      select "Reply-Message", from: "request-attribute"
       select "contains", from: "Operator"
-      fill_in "Value", with: "LAN"
+      fill_in "Value", with: "Hi hi"
 
       click_on "Update"
 
       expect(current_path).to eq("/policies/#{policy.id}")
 
       expect(page).to have_content("Successfully updated rule.")
-      expect(page).to have_content "User-Name"
+      expect(page).to have_content "Reply-Message"
       expect(page).to have_content "contains"
-      expect(page).to have_content "LAN"
+      expect(page).to have_content "Hi hi"
 
       expect_audit_log_entry_for(editor.email, "update", "Rule")
     end
@@ -72,18 +72,18 @@ describe "update rules", type: :feature do
       expect(page).to have_select("Operator", text: custom_rule.operator)
       expect(page).to have_field("Value", with: custom_rule.value)
 
-      fill_in "custom-request-attribute", with: "Updated-Custom-Attribute"
+      fill_in "custom-request-attribute", with: "Aruba-AirGroup-Version"
       select "contains", from: "Operator"
-      fill_in "Value", with: "LAN"
+      fill_in "Value", with: "AirGroup-v1"
 
       click_on "Update"
 
       expect(current_path).to eq("/policies/#{policy.id}")
 
       expect(page).to have_content("Successfully updated rule.")
-      expect(page).to have_content "Updated-Custom-Attribute"
+      expect(page).to have_content "Aruba-AirGroup-Version"
       expect(page).to have_content "contains"
-      expect(page).to have_content "LAN"
+      expect(page).to have_content "AirGroup-v1"
     end
   end
 end

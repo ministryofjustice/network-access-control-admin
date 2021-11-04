@@ -23,7 +23,7 @@ RSpec.shared_examples "new response creation" do |domain, response|
         expect(page.current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}/#{response.to_s.pluralize}/new")
 
         select "Tunnel-Type", from: "response-attribute"
-        fill_in "Value", with: "1234"
+        fill_in "Value", with: "VLAN"
 
         click_on "Create"
 
@@ -42,8 +42,8 @@ RSpec.shared_examples "new response creation" do |domain, response|
         expect(page.current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}/#{response.to_s.pluralize}/new")
 
         choose "Custom"
-        fill_in "custom-response-attribute", with: "Custom-Tunnel-Type"
-        fill_in "Value", with: "1234"
+        fill_in "custom-response-attribute", with: "3Com-User-Access-Level"
+        fill_in "Value", with: "3Com-Visitor"
 
         click_on "Create"
 

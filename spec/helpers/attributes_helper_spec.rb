@@ -1,11 +1,19 @@
 require "rails_helper"
 
 describe AttributesHelper do
-  it "invalidates attributes with a partial match" do
-    expect(described_class.valid_radius_attribute?("Attribute")).to be false
+  it "valid attribute" do
+    expect(described_class.validate("Tunnel-Type", "VLAN")).to eq({ success: true })
   end
 
-  it "validates attributes with an exact match" do
-    expect(described_class.valid_radius_attribute?("Custom-Attribute")).to be true
+  it "invalid attribute key" do
+    expect(described_class.validate("Tunnel-Typezzz", "VLAN")).to eq({ success: false, message: "Tunnel-Typezzz is not a valid attribute" })
+  end
+
+  it "invalid attribute value" do
+    expect(described_class.validate("Tunnel-Type", "VLANzzzz")).to eq({ success: false, message: "VLANzzzz is not a valid value for Tunnel-Type" })
+  end
+
+  it "invalid attribute key and value" do
+    expect(described_class.validate("Tunnel-Typezzzz", "VLANzzzz")).to eq({ success: false, message: "Tunnel-Typezzzz is not a valid attribute" })
   end
 end

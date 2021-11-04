@@ -1,13 +1,21 @@
 module AttributesHelper
-  def self.valid_radius_attribute?(response_attribute, response_value)
+  def self.validate(attribute, value)
     contents =<<-HEREDOC
 aa-bb-cc-77-88-99
-\t#{response_attribute} = #{response_value}
+\t#{attribute} = "#{value}"
 HEREDOC
 
-  File.write('/etc/raddb/mods-config/files/authorize', contents)
+    File.write('/etc/raddb/mods-config/files/authorize', contents)
+    cmd = `/usr/sbin/radiusd -xx -l stdout`
+    result = cmd.split("\n").select { |l| l.include?("error") }[0]
 
-  result = `/usr/sbin/radiusd -xx -l stdout`
+    return { success: true } if result.nil?
+
+    if result.include?("Unknown name")
+      { success: false, message: "#{attribute} is not a valid attribute"}
+    elsif result.include?("invalid value")
+      { success: false, message: "#{value} is not a valid value for #{attribute}"}
+    end
   end
 
   def self.requests
