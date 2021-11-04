@@ -11,7 +11,6 @@ class Rule < ApplicationRecord
 
 private
 
-
   def validate_rule
     return if request_attribute.blank?
 

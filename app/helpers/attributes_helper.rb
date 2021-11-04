@@ -1,20 +1,20 @@
 module AttributesHelper
   def self.validate(attribute, value)
-    contents =<<-HEREDOC
-aa-bb-cc-77-88-99
-\t#{attribute} = "#{value}"
-HEREDOC
+    contents = <<~HEREDOC
+      aa-bb-cc-77-88-99
+      \t#{attribute} = "#{value}"
+    HEREDOC
 
-    File.write('/etc/raddb/mods-config/files/authorize', contents)
+    File.write("/etc/raddb/mods-config/files/authorize", contents)
     cmd = `/usr/sbin/radiusd -xx -l stdout`
     result = cmd.split("\n").select { |l| l.include?("error") }[0]
 
     return { success: true } if result.nil?
 
     if result.include?("Unknown name")
-      { success: false, message: "#{attribute} is not a valid attribute"}
+      { success: false, message: "#{attribute} is not a valid attribute" }
     elsif result.include?("invalid value")
-      { success: false, message: "#{value} is not a valid value for #{attribute}"}
+      { success: false, message: "#{value} is not a valid value for #{attribute}" }
     end
   end
 

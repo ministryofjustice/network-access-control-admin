@@ -16,7 +16,7 @@ describe Rule, type: :model do
     valid_request_attributes = [
       { attribute: "User-Name", value: "Bob" },
       { attribute: "3Com-User-Access-Level", value: "3Com-Visitor" },
-      { attribute: "Zyxel-Callback-Phone-Source", value: "User" }
+      { attribute: "Zyxel-Callback-Phone-Source", value: "User" },
     ]
 
     valid_request_attributes.each do |request_attribute|

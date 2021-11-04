@@ -1,7 +1,7 @@
 RSpec.shared_examples "response update" do |domain, response|
   let(:created_domain) { create(domain) }
   let(:created_response) { create(response, { domain => created_domain }) }
-  let(:custom_response) { create(response, { :response_attribute => "3Com-User-Access-Level", :value => "3Com-Visitor",  domain => created_domain }) }
+  let(:custom_response) { create(response, { :response_attribute => "3Com-User-Access-Level", :value => "3Com-Visitor", domain => created_domain }) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating responses" do

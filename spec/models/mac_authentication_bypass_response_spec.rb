@@ -15,7 +15,7 @@ describe MabResponse, type: :model do
     valid_response_attributes = [
       { attribute: "User-Name", value: "Bob" },
       { attribute: "3Com-User-Access-Level", value: "3Com-Visitor" },
-      { attribute: "Zyxel-Callback-Phone-Source", value: "User" }
+      { attribute: "Zyxel-Callback-Phone-Source", value: "User" },
     ]
 
     valid_response_attributes.each do |response_attribute|
