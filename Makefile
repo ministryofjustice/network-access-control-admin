@@ -34,7 +34,7 @@ run: serve
 
 test: export ENV=test
 test:
-	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rake
+	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rspec --format documentation
 
 shell:
 	$(DOCKER_COMPOSE) run --rm app sh
