@@ -11,7 +11,6 @@ module UseCases
       files.each do |file_d|
         file_name = file_d.key.remove("radius_dictionaries/")
         resp = gateway.get_object(file_d.key, "#{output}#{file_name}")
-        pp resp
       end
     end
 

@@ -24,15 +24,15 @@ describe UseCases::FetchRadiusAttributes do
 
     before do
       allow(s3_gateway).to receive(:list_object_keys).and_return(list_objects_response)
-      allow(s3_gateway).to receive(:read).with("first.attributes").and_return("ATTRIBUTE First-Attribute\nATTRIBUTE Second-Attribute")
-      allow(s3_gateway).to receive(:read).with("second.attributes").and_return("ATTRIBUTE Foo-Attribute\nATTRIBUTE Bar-Attribute")
+      allow(s3_gateway).to receive(:get_object).with("first.attributes", "tmp/attributes.jsonfirst.attributes").and_return('200 SUCCESS')
+      allow(s3_gateway).to receive(:get_object).with("second.attributes", "tmp/attributes.jsonsecond.attributes").and_return('200 SUCCESS')
 
       use_case.call
     end
 
     it "writes the attributes to the output file" do
       expect(s3_gateway).to have_received(:list_object_keys)
-      expect(s3_gateway).to have_received(:read).twice
+      expect(s3_gateway).to have_received(:get_object).twice
 
       output_file_content = File.read(output)
 
