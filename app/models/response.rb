@@ -9,7 +9,7 @@ private
   def validate_response
     return if response_attribute.blank?
 
-    result = AttributesHelper.validate(response_attribute, value)
+    result = UseCases::ValidateRadiusAttribute.new.call(attribute: response_attribute, value: value)
 
     unless result.fetch(:success)
       errors.add(:response_attribute, result.fetch(:message))

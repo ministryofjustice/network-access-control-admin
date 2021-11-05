@@ -14,7 +14,7 @@ private
   def validate_rule
     return if request_attribute.blank?
 
-    result = AttributesHelper.validate(request_attribute, value)
+    result = UseCases::ValidateRadiusAttribute.new.call(attribute: request_attribute, value: value)
 
     unless result.fetch(:success)
       errors.add(:request_attribute, result.fetch(:message))
