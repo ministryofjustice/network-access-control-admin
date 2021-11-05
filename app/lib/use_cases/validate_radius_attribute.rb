@@ -25,6 +25,7 @@ module UseCases
     end
 
     def boot_freeradius_to_validate_authorised_macs_file
+      `whoami`
       `/usr/sbin/radiusd -xx -l stdout`
     end
 
