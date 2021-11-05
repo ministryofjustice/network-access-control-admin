@@ -32,7 +32,7 @@ ENV LANG='C.UTF-8' \
   DB_NAME=${DB_NAME}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow
+  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius
 
 RUN groupadd -g $UID -o $GROUP && \
   useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
@@ -54,7 +54,9 @@ COPY --chown=$USER:$GROUP . $APPDIR
 
 ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $CERTDIR/
 
+
 USER root
+RUN chown -R $USER:$GROUP /usr/share/freeradius/ && rm -fr /usr/share/freeradius/* && chown -R $USER:$GROUP /etc/raddb
 RUN chown -R $USER:$GROUP $CERTDIR &&\
   apk del .build-deps
 USER $USER

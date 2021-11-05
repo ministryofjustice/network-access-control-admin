@@ -29,7 +29,7 @@ describe "fetching attributes from radius dictionaries" do
 
         expect(UseCases::FetchRadiusAttributes).to receive(:new).with({
           gateway: s3_gateway,
-          output: "app/helpers/radius_dictionary_attributes.txt",
+          output: "/usr/share/freeradius/",
         }).and_return(fetch_radius_attributes)
 
         expect(fetch_radius_attributes).to receive(:call)

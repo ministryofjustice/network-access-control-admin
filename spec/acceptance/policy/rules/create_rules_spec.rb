@@ -37,9 +37,9 @@ describe "create rules", type: :feature do
         expect(page.current_path).to eq(new_policy_rule_path(policy_id: policy))
 
         choose "Custom"
-        fill_in "custom-request-attribute", with: "Custom-Tunnel-Type"
+        fill_in "custom-request-attribute", with: "Aruba-AirGroup-Device-Type"
         select "equals", from: "Operator"
-        fill_in "Value", with: "VLAN"
+        fill_in "Value", with: "Personal-Device"
 
         click_on "Create"
 

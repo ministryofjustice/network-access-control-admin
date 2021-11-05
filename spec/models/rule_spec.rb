@@ -13,14 +13,14 @@ describe Rule, type: :model do
   it { is_expected.to validate_presence_of :request_attribute }
 
   it "validates the request attribute" do
-    valid_request_attributes = %w[
-      User-Name
-      3Com-User-Access-Level
-      Zyxel-Callback-Phone-Source
+    valid_request_attributes = [
+      { attribute: "User-Name", value: "Bob" },
+      { attribute: "3Com-User-Access-Level", value: "3Com-Visitor" },
+      { attribute: "Zyxel-Callback-Phone-Source", value: "User" },
     ]
 
     valid_request_attributes.each do |request_attribute|
-      result = build(:rule, request_attribute: request_attribute)
+      result = build(:rule, request_attribute: request_attribute.fetch(:attribute), value: request_attribute.fetch(:value))
 
       expect(result).to be_valid
     end
