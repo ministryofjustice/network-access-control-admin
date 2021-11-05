@@ -8,20 +8,12 @@ module UseCases
     def call
       files = gateway.list_object_keys("radius_dictionaries").contents
 
-      File.open(output, "w") do |output_file|
-        files.each do |file|
-          content = gateway.read(file.key).split("\n")
-
-          content.each do |line|
-            next unless line.include?("ATTRIBUTE")
-
-            output_file.write(line.split.second, "\n")
-          end
-        end
+      files.each do |file_d|
+        file_name = file_d.key.remove("radius_dictionaries/")
+        resp = gateway.get_object(file_d.key, "#{output}#{file_name}")
+        pp resp
       end
-      pp "Fetched #{File.read(output).split.count} RADIUS dictionary attibutes"
     end
-
   private
 
     attr_reader :gateway, :output

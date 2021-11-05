@@ -56,6 +56,7 @@ ADD https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem $CERTDIR/
 
 
 USER root
+RUN chown -R $USER:$GROUP /usr/share/freeradius/
 RUN chown -R $USER:$GROUP /etc/raddb
 RUN chown -R $USER:$GROUP $CERTDIR &&\
   apk del .build-deps
