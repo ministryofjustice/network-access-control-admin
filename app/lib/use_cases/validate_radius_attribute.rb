@@ -25,7 +25,7 @@ module UseCases
     end
 
     def boot_freeradius_to_validate_authorised_macs_file
-      `/usr/sbin/radiusd -xx -l stdout`
+      `/usr/sbin/radiusd -CX`
     end
 
     def error_from_logs(output)
