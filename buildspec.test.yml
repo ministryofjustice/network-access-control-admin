@@ -15,7 +15,6 @@ phases:
       - echo none
 
   build:
-    run-as: app
     commands:
       - make authenticate-docker
       - ENV=test make db-setup
