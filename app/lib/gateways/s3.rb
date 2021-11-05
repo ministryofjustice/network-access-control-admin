@@ -31,8 +31,9 @@ module Gateways
     end
 
     def get_object(key, file)
-      client.get_object({ bucket:bucket, key: key }, target: file)
+      client.get_object({ bucket: bucket, key: key }, target: file)
     end
+
   private
 
     attr_reader :bucket, :key, :client, :content_type

@@ -14,6 +14,7 @@ module UseCases
         pp resp
       end
     end
+
   private
 
     attr_reader :gateway, :output
