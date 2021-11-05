@@ -1,7 +1,9 @@
 module UseCases
   class ValidateRadiusAttribute
     def call(attribute:, value:)
+      p "we are here"
       generate_test_authorised_macs_file(mab_content(attribute, value))
+      p "we generated the file"
       logs = boot_freeradius_to_validate_authorised_macs_file
       p logs
       result = error_from_logs(logs)
