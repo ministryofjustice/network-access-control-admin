@@ -22,7 +22,7 @@
       </div>
       <div class="govuk-radios__item">
         <%= f.radio_button "response-attribute", "custom", {
-            checked: !f.object.new_record? && !AttributesHelper.responses.include?(response.response_attribute),
+            checked: params.dig(response.model_name.element, :'response-attribute') == "custom" || (!f.object.new_record? && !AttributesHelper.responses.include?(response.response_attribute)),
             class: "govuk-radios__input",
             id: "response-attribute-2",
             'data-aria-controls': "conditional-response-attribute-2"
