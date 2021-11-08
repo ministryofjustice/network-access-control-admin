@@ -18,8 +18,8 @@ module Gateways
       {}
     end
 
-    def read(file = key)
-      client.get_object(bucket: bucket, key: file).body.read
+    def read(file = key, target = nil)
+      client.get_object({ bucket: bucket, key: file }, target: target)
     end
 
     def remove
@@ -28,10 +28,6 @@ module Gateways
 
     def list_object_keys(prefix, max_keys = 1000)
       client.list_objects_v2(bucket: bucket, max_keys: max_keys, prefix: prefix)
-    end
-
-    def get_object(key, file)
-      client.get_object({ bucket: bucket, key: key }, target: file)
     end
 
   private
