@@ -46,6 +46,26 @@ describe "create rules", type: :feature do
         expect(page).to have_content("Successfully created rule.")
       end
 
+      it "displays error if form cannot be submitted multiple times" do
+        visit "/policies/#{policy.id}"
+
+        click_on "Add rule"
+
+        choose "Custom"
+        fill_in "custom-request-attribute", with: "Invalid-Attribute"
+        select "equals", from: "Operator"
+        fill_in "Value", with: "Invalid-Value"
+
+        click_on "Create"
+
+        expect(page).to have_content("There is a problem")
+
+        click_on "Create"
+
+        expect(page).to have_checked_field("Custom")
+        expect(page).to have_content("There is a problem")
+      end
+
       it "displays error if form cannot be submitted" do
         visit new_policy_rule_path(policy_id: policy)
 
