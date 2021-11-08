@@ -52,6 +52,25 @@ RSpec.shared_examples "new response creation" do |domain, response|
         expect_audit_log_entry_for(editor.email, "create", "Response")
       end
 
+      it "displays error if form cannot be submitted multiple times" do
+        visit "/#{domain.to_s.pluralize}/#{created_domain.id}"
+
+        click_on "Add response"
+
+        choose "Custom"
+        fill_in "custom-response-attribute", with: "Invalid-Attribute"
+        fill_in "Value", with: "Invalid-Value"
+
+        click_on "Create"
+
+        expect(page).to have_content("There is a problem")
+
+        click_on "Create"
+
+        expect(page).to have_checked_field("Custom")
+        expect(page).to have_content("There is a problem")
+      end
+
       it "displays an error if form cannot be submitted" do
         visit "/#{domain.to_s.pluralize}/#{created_domain.id}/#{response.to_s.pluralize}/new"
 
