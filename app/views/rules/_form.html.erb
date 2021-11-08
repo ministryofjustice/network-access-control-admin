@@ -21,8 +21,10 @@
         </div>
       </div>
       <div class="govuk-radios__item">
+      <%= params.inspect %><br />
+      <%= rule.inspect %>
         <%= f.radio_button "request-attribute", "custom", {
-            checked: !f.object.new_record? && !AttributesHelper.requests.include?(rule.request_attribute),
+            checked: params.dig(:rule, :'request-attribute') == "custom" || (!f.object.new_record? && !AttributesHelper.requests.include?(rule.request_attribute)),
             class: "govuk-radios__input",
             id: "request-attribute-2",
             'data-aria-controls': "conditional-request-attribute-2"
