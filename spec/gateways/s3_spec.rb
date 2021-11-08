@@ -39,11 +39,7 @@ describe Gateways::S3 do
 
   context "when reading a file from the S3 bucket" do
     it "returns the contents of the file" do
-      expect(gateway.read).to eq("some data")
-    end
-
-    it "does read a given file" do
-      expect(gateway.read(key)).to eq("some data")
+      expect(gateway.read.body.read).to eq("some data")
     end
   end
 
