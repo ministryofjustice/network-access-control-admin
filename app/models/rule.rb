@@ -1,6 +1,7 @@
 class Rule < ApplicationRecord
   belongs_to :policy
 
+  before_validation :format_request_attribute
   after_save :update_rule_count
 
   validates_presence_of :request_attribute, :operator, :value
@@ -19,6 +20,10 @@ private
     unless result.fetch(:success)
       errors.add(:request_attribute, result.fetch(:message))
     end
+  end
+
+  def format_request_attribute
+    request_attribute.strip! if request_attribute
   end
 
   def update_rule_count

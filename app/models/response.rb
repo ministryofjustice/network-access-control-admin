@@ -1,4 +1,6 @@
 class Response < ApplicationRecord
+  before_validation :format_response_attribute
+
   validates_presence_of :response_attribute, :value
   validate :validate_response, on: %i[create update]
 
@@ -14,5 +16,9 @@ private
     unless result.fetch(:success)
       errors.add(:response_attribute, result.fetch(:message))
     end
+  end
+
+  def format_response_attribute
+    response_attribute.strip! if response_attribute
   end
 end
