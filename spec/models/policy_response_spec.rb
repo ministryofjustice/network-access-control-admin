@@ -29,6 +29,14 @@ describe PolicyResponse, type: :model do
     expect(result).to be_invalid
   end
 
+  it "validates the response attribute with trailing whitespace" do
+    result = build(:policy_response, response_attribute: " User-Name ", value: "Foo")
+
+    result.valid?
+
+    expect(result.response_attribute).to eq("User-Name")
+  end
+
   it "validates an updated response attribute" do
     editable_response = create(:policy_response)
 

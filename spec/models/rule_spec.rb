@@ -29,6 +29,14 @@ describe Rule, type: :model do
     expect(result).to be_invalid
   end
 
+  it "validates the request attribute with trailing whitespace" do
+    result = build(:rule, request_attribute: " User-Name ", value: "Foo")
+
+    result.valid?
+
+    expect(result.request_attribute).to eq("User-Name")
+  end
+
   it "validates an updated request attribute" do
     editable_rule = create(:rule)
 
