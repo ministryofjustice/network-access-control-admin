@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_28_103519) do
+ActiveRecord::Schema.define(version: 2021_11_09_082249) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2021_10_28_103519) do
 
   create_table "responses", charset: "utf8", force: :cascade do |t|
     t.string "response_attribute", null: false
-    t.string "value", null: false
+    t.text "value", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "mac_authentication_bypass_id"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 2021_10_28_103519) do
 
   create_table "rules", charset: "utf8", force: :cascade do |t|
     t.string "operator", null: false
-    t.string "value", null: false
+    t.text "value", null: false
     t.bigint "policy_id", null: false
     t.string "request_attribute", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
