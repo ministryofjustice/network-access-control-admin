@@ -1,6 +1,6 @@
 <%= form_with model: mac_authentication_bypass, local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :address) %>">
-    <%= f.label :address, class: "govuk-label" %>
+    <%= f.label :address, "MAC Address", class: "govuk-label" %>
     <div id="address-hint" class="govuk-hint">
       Must be lowercase and separated by a dash.<br />
       For example: aa-bb-cc-77-88-99
