@@ -55,9 +55,20 @@ describe Rule, type: :model do
   it "perists the amount of rules when a policy is saved" do
     policy = create(:policy)
 
-    create(:rule, policy: policy)
-    create(:rule, policy: policy)
+    create(:rule, request_attribute: "User-Name", policy: policy)
+    create(:rule, request_attribute: "User-Password", policy: policy)
 
     expect(Rule.first.policy.rule_count).to eq(2)
+  end
+
+  it "validates the uniquness of request attribute per policy" do
+    policy = create(:policy)
+
+    rule = create(:rule, policy: policy, request_attribute: "User-Name", value: "Bob")
+
+    expect(rule).to be_truthy
+
+    duplicate_rule = build(:rule, policy: policy, request_attribute: "User-Name", value: "Bill")
+    expect(duplicate_rule).to be_invalid
   end
 end

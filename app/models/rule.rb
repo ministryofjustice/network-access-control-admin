@@ -6,14 +6,21 @@ class Rule < ApplicationRecord
 
   validates_presence_of :request_attribute, :operator, :value
   validates_inclusion_of :operator, in: %w[equals contains]
+  validate :validate_uniqueness_of_request_attribute, on: %i[create]
   validate :validate_rule, on: %i[create update]
 
   audited
 
 private
 
+  def validate_uniqueness_of_request_attribute
+    return if request_attribute.blank? || policy.nil?
+
+    errors.add(:request_attribute, " has already been added for this policy") if policy.rules.where(request_attribute: request_attribute).any?
+  end
+
   def validate_rule
-    return if request_attribute.blank?
+    return if request_attribute.blank? || errors.key?(:request_attribute)
 
     result = UseCases::ValidateRadiusAttribute.new.call(attribute: request_attribute, value: value)
 
