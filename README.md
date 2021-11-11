@@ -117,22 +117,3 @@ When run locally, you need to target the AWS account directly with AWS Vault.
 ```bash
   aws-vault exec [target_aws_account_profile] -- make deploy
 ```
-
-## Entity Relationship Diagram
-The diagram can be generated using [rails-erd](https://voormedia.github.io/rails-erd). Graphviz is a dependency(`brew install graphviz`).
-
-Regenerate the diagram:
-
-```bash
-bundle exec erd
-```
-
-![The domain model for this application](docs/MOJ-NAC-ERD.png)
-
-## Maintenance
-
-### AWS RDS SSL Certificate
-
-The AWS RDS SSL certificate is due to expire August 22, 2024. See [the documentation](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) for information on updating the certificate closer to the date.
-
-To update the certificate, update the Dockerfile to use the new intermediate (region specific) certificate (found [here](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)), and update the `config/database.yml` to point to the new certificate file path.
