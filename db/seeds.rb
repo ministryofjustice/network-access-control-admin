@@ -21,13 +21,17 @@ p "creating policies"
 3000.times do |p|
   policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
 
-  5.times do |r|
-    policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE#{p}-#{r}")
-  end
+  policy.rules.create!(request_attribute: "User-Name", operator: "equals", value: "Bob")
+  policy.rules.create!(request_attribute: "3Com-User-Access-Level", operator: "equals", value: "3Com-Visitor")
+  policy.rules.create!(request_attribute: "Zyxel-Callback-Phone-Source", operator: "equals", value: "User")
+  policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE")
+  policy.rules.create!(request_attribute: "User-Password", operator: "equals", value: "super secure pass")
 
-  5.times do |r|
-    policy.responses.create!(response_attribute: "Reply-Message", value: "Hello! #{r} #{p}")
-  end
+  policy.responses.create!(response_attribute: "ARAP-Password", value: "supe secure pass")
+  policy.responses.create!(response_attribute: "Acct-Delay-Time", value: "1234")
+  policy.responses.create!(response_attribute: "Acct-Input-Octets", value: "2323")
+  policy.responses.create!(response_attribute: "EAP-Message", value: "some EAP message")
+  policy.responses.create!(response_attribute: "Reply-Message", value: "Hello there!")
 end
 
 p "creating fallback policies"
