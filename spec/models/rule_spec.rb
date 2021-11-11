@@ -79,6 +79,6 @@ describe Rule, type: :model do
     create(:rule, policy: policy, request_attribute: "Class", value: "Something")
 
     expect(first_rule.update(request_attribute: "User-Name")).to be false
-    expect(first_rule.errors.full_messages_for(:request_attribute)).to include("Request attribute has already been added for this policy")
+    expect(first_rule.errors.full_messages_for(:request_attribute)).to include("Request attribute has already been added")
   end
 end

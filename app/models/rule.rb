@@ -16,7 +16,7 @@ private
   def validate_uniqueness_of_request_attribute
     return if request_attribute.blank? || policy.nil?
 
-    errors.add(:request_attribute, "has already been added for this policy") if policy.rules.where(request_attribute: request_attribute).any?
+    errors.add(:request_attribute, "has already been added") if policy.rules.where(request_attribute: request_attribute).any?
   end
 
   def validate_rule

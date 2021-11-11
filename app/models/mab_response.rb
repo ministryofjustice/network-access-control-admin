@@ -8,6 +8,6 @@ private
   def validate_uniqueness_of_response_attribute
     return if response_attribute.blank? || mac_authentication_bypass.nil?
 
-    errors.add(:response_attribute, "has already been added for this policy") if mac_authentication_bypass.responses.where(response_attribute: response_attribute).any?
+    errors.add(:response_attribute, "has already been added") if mac_authentication_bypass.responses.where(response_attribute: response_attribute).any?
   end
 end
