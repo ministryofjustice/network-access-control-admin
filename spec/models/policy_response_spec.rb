@@ -62,7 +62,7 @@ describe PolicyResponse, type: :model do
     policy = create(:policy)
 
     first_policy_response = create(:policy_response, policy: policy, response_attribute: "User-Name", value: "Bob")
-    second_policy_response = create(:policy_response, policy: policy, response_attribute: "Class", value: "Something")
+    create(:policy_response, policy: policy, response_attribute: "Class", value: "Something")
 
     expect(first_policy_response.update(response_attribute: "User-Name")).to be false
     expect(first_policy_response.errors.full_messages_for(:response_attribute)).to include("Response attribute has already been added for this policy")
