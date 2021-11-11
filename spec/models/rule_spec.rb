@@ -40,7 +40,7 @@ describe Rule, type: :model do
   it "validates an updated request attribute" do
     editable_rule = create(:rule)
 
-    expect(editable_rule).to be_valid
+    expect(editable_rule).to be_truthy
 
     editable_rule.update(request_attribute: "Invalid-Attribute")
 
@@ -61,7 +61,7 @@ describe Rule, type: :model do
     expect(Rule.first.policy.rule_count).to eq(2)
   end
 
-  it "validates the uniquness of request attribute per policy" do
+  it "validates the uniquness of request attribute per policy when creating" do
     policy = create(:policy)
 
     rule = create(:rule, policy: policy, request_attribute: "User-Name", value: "Bob")
@@ -70,5 +70,15 @@ describe Rule, type: :model do
 
     duplicate_rule = build(:rule, policy: policy, request_attribute: "User-Name", value: "Bill")
     expect(duplicate_rule).to be_invalid
+  end
+
+  it "validates the uniqueness of the request attribute per policy when updating" do
+    policy = create(:policy)
+
+    first_rule = create(:rule, policy: policy, request_attribute: "User-Name", value: "Bob")
+    second_rule = create(:rule, policy: policy, request_attribute: "Class", value: "Something")
+
+    expect(first_rule.update(request_attribute: "User-Name")).to be false
+    expect(first_rule.errors.full_messages_for(:request_attribute)).to include("Request attribute has already been added for this policy")
   end
 end
