@@ -19,7 +19,7 @@ class MacAuthenticationBypassesController < ApplicationController
     if @mac_authentication_bypass.save
       publish_authorised_macs
       deploy_service
-      redirect_to mac_authentication_bypasses_path, notice: "Successfully created MAC authentication bypass. "
+      redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully created MAC authentication bypass. "
     else
       render :new
     end
@@ -51,7 +51,7 @@ class MacAuthenticationBypassesController < ApplicationController
     if @mac_authentication_bypass.save
       publish_authorised_macs
       deploy_service
-      redirect_to mac_authentication_bypasses_path, notice: "Successfully updated MAC authentication bypass. "
+      redirect_to mac_authentication_bypass_path(@mac_authentication_bypass), notice: "Successfully updated MAC authentication bypass. "
     else
       render :edit
     end
