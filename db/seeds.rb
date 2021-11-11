@@ -6,6 +6,17 @@ def mac_address
   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
 end
 
+p "truncating rules, responses, policies, site policies, and sites!"
+base_connection = ActiveRecord::Base.connection
+
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+
+%w[rules responses policies site_policies sites mac_authentication_bypasses].each do |table_name|
+  base_connection.truncate(table_name)
+end
+
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+
 p "creating policies"
 3000.times do |p|
   policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
@@ -19,7 +30,7 @@ p "creating policies"
   end
 end
 
-p "creating policies"
+p "creating fallback policies"
 500.times do |s|
   fallback_policy = Policy.create!(name: "Fallback Policy: #{s}", description: "Some policy description", fallback: true)
   fallback_response = Response.create!(response_attribute: "Reply-Message", value: "Oh no #{s}")
@@ -35,9 +46,8 @@ p "creating sites"
       site: site,
       ip_range: "#{ip_range}/32",
       shared_secret: "secret#{s}#{c}",
+      radsec: false,
     )
-  rescue StandardError
-    retry
   end
 end
 
