@@ -47,18 +47,18 @@ describe "update rules", type: :feature do
       expect(page).to have_select("Operator", text: rule.operator)
       expect(page).to have_field("Value", with: rule.value)
 
-      select "Reply-Message", from: "request-attribute"
+      select "User-Name", from: "request-attribute"
       select "contains", from: "Operator"
-      fill_in "Value", with: "Hi hi"
+      fill_in "Value", with: "Bob"
 
       click_on "Update"
 
       expect(current_path).to eq("/policies/#{policy.id}")
 
       expect(page).to have_content("Successfully updated rule.")
-      expect(page).to have_content "Reply-Message"
+      expect(page).to have_content "User-Name"
       expect(page).to have_content "contains"
-      expect(page).to have_content "Hi hi"
+      expect(page).to have_content "Bob"
 
       expect_audit_log_entry_for(editor.email, "update", "Rule")
     end
