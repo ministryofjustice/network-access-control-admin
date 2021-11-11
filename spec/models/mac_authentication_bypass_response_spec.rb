@@ -40,10 +40,31 @@ describe MabResponse, type: :model do
   it "validates an updated response attribute" do
     editable_response = create(:mab_response)
 
-    expect(editable_response).to be_valid
+    expect(editable_response).to be_truthy
 
     editable_response.update(response_attribute: "Invalid-Attribute")
 
     expect(editable_response).to be_invalid
+  end
+
+  it "validates the uniquness of response attribute per policy when creating" do
+    mab = create(:mac_authentication_bypass)
+
+    mab_response = create(:mab_response, mac_authentication_bypass: mab, response_attribute: "User-Name", value: "Bob")
+
+    expect(mab_response).to be_truthy
+
+    duplicate_mab_response = build(:mab_response, mac_authentication_bypass: mab, response_attribute: "User-Name", value: "Bill")
+    expect(duplicate_mab_response).to be_invalid
+  end
+
+  it "validates the uniqueness of the response attribute per policy when updating" do
+    mab = create(:mac_authentication_bypass)
+
+    first_mab_response = create(:mab_response, mac_authentication_bypass: mab, response_attribute: "User-Name", value: "Bob")
+    second_mab_response = create(:mab_response, mac_authentication_bypass: mab, response_attribute: "Class", value: "Something")
+
+    expect(first_mab_response.update(response_attribute: "User-Name")).to be false
+    expect(first_mab_response.errors.full_messages_for(:response_attribute)).to include("Response attribute has already been added for this policy")
   end
 end
