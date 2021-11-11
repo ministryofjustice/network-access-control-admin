@@ -51,7 +51,7 @@ describe "update MAC authentication bypasses", type: :feature do
 
       click_on "Update"
 
-      expect(current_path).to eq("/mac_authentication_bypasses")
+      expect(current_path).to eq("/mac_authentication_bypasses/#{mac_authentication_bypass.id}")
 
       expect(page).to have_content("55:44:33:22:11")
       expect(page).to have_content("Successfully updated MAC authentication bypass.")
