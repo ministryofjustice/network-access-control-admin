@@ -33,7 +33,7 @@ describe "create clients", type: :feature do
 
         visit "/sites/#{site.id}"
 
-        click_on "Add client"
+        click_on "Create authorised client"
 
         expect(page.current_path).to eq(new_site_client_path(site_id: site))
 
@@ -68,7 +68,7 @@ clients radsec {
 
         visit "/sites/#{site.id}"
 
-        click_on "Add client"
+        click_on "Create authorised client"
 
         check("RadSec", allow_label_click: true)
 
