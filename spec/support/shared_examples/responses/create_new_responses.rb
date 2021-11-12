@@ -22,6 +22,8 @@ RSpec.shared_examples "new response creation" do |domain, response|
 
         expect(page.current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}/#{response.to_s.pluralize}/new")
 
+        expect(page).to have_content(created_domain.name)
+
         select "Tunnel-Type", from: "response-attribute"
         fill_in "Value", with: "VLAN"
 
