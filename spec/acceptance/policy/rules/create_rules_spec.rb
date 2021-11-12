@@ -17,6 +17,7 @@ describe "create rules", type: :feature do
         click_on "Add rule"
 
         expect(page.current_path).to eq(new_policy_rule_path(policy_id: policy))
+        expect(page).to have_content(policy.name)
 
         select "User-Name", from: "request-attribute"
         select "equals", from: "Operator"
