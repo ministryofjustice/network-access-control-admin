@@ -1,5 +1,6 @@
 <%= render "layouts/form_errors", resource: @rule %>
 
+<span class="govuk-caption-l"><%= @policy.name %></span>
 <h2 class="govuk-heading-l">Create a new rule</h2>
 
 <%= render "rules/form", path: policy_rules_path(policy_id: @policy, id: @rule), rule: @rule %>
