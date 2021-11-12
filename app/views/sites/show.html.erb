@@ -21,7 +21,11 @@
 <h3 class="govuk-heading-m">List of attached policies</h3>
 <p class="govuk-body">
   <span class="govuk-!-font-weight-bold">Fallback policy:</span>
-  <%= @site.fallback_policy.try(:name) || "There are no fallback policies attached to this site." %>
+  <% if @site.fallback_policy %>
+    <%= link_to "#{@site.fallback_policy.try(:name)}", policy_path(@site.fallback_policy), class: "govuk-link" %>
+  <% else %>
+    <%= "There are no fallback policies attached to this site." %>
+  <% end %>
 </p>
 
 <% if @site_policies.any? %>

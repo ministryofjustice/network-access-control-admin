@@ -19,6 +19,7 @@ class SitesController < ApplicationController
     authorize! :create, @site
 
     if @site.save
+      @site.policies << Policy.create(name: @site.name, description: "Default fallback policy for #{@site.name}", fallback: true)
       redirect_to site_path(@site), notice: "Successfully created site. #{CONFIG_UPDATE_DELAY_NOTICE}"
     else
       render :new
