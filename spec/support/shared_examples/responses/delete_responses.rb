@@ -32,7 +32,9 @@ RSpec.shared_examples "response deletion" do |domain, response|
         click_on "Delete"
 
         expect(page).to have_content("Are you sure you want to delete this response?")
-        expect(page).to have_content("#{created_response.response_attribute}: #{created_response.value}")
+        expect(page).to have_content("Response attribute: #{created_response.response_attribute}")
+        expect(page).to have_content("Value: #{created_response.value}")
+        expect(page).to have_content(created_domain.name)
 
         click_on "Delete response"
 

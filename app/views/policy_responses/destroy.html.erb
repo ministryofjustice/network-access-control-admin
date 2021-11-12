@@ -1,8 +1,13 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete this response?</h2>
 
 <div class="govuk-inset-text">
-  <h4 class="govuk-heading-s">Response:</h4>
-  <p class="govuk-body"><%= "#{@response.response_attribute}: #{@response.value}" %></p>
+  <p class="govuk-body govuk-!-font-weight-bold">
+    <%= "Response attribute: #{@response.response_attribute}" %><br />
+    <%= "Value: #{@response.value}" %>
+  </p>
+  <p class="govuk-body">
+    <%= "Policy: #{@policy.name}" %>
+  </p>
 </div>
 
 <%=
