@@ -5,7 +5,7 @@ set -euo pipefail
 source ./scripts/aws_helpers.sh
 
 seed() {
-  local seed_command="./bin/rails db:seed"
+  local seed_command="./bin/rails DISABLE_DATABASE_ENVIRONMENT_CHECK=1 db:seed"
   local docker_service_name="admin"
   local cluster_name service_name task_definition docker_service_name
 
