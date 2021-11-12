@@ -16,7 +16,7 @@ describe UseCases::GenerateAuthorisedMacs do
         end
 
         it "generates a authorised_macs configuration file" do
-          expected_config = %(aa-11-22-33-44-55\n\nff-99-88-77-66-55\n)
+          expected_config = %(aa-11-22-33-44-55 Cleartext-Password := aa-11-22-33-44-55\n\nff-99-88-77-66-55 Cleartext-Password := ff-99-88-77-66-55\n)
 
           expect(result).to eq(expected_config)
         end
@@ -35,11 +35,11 @@ describe UseCases::GenerateAuthorisedMacs do
         end
 
         it "generates an authorised_macs configuration file" do
-          expected_config = %(aa-66-77-88-99-00
+          expected_config = %(aa-66-77-88-99-00 Cleartext-Password := aa-66-77-88-99-00
         Tunnel-Medium-Type = IEEE-802,
         Tunnel-Private-Group-Id = 123456
 
-bb-cc-00-11-22-33
+bb-cc-00-11-22-33 Cleartext-Password := bb-cc-00-11-22-33
         Tunnel-Medium-Type = IEEE-802,
         Tunnel-Private-Group-Id = 123456
 )
