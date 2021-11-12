@@ -15,7 +15,7 @@
 </dl>
 
 <% if can? :manage, Site %>
-  <%= link_to "Attach policies", site_policies_path(site_id: @site), class: "govuk-button" %>
+  <%= link_to "Manage policies", site_policies_path(site_id: @site), class: "govuk-button" %>
 <% end %>
 
 <h3 class="govuk-heading-m">List of attached policies</h3>
