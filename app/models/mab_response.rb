@@ -8,8 +8,8 @@ private
   def validate_uniqueness_of_response_attribute
     return if response_attribute.blank? || mac_authentication_bypass.nil?
 
-    duplicate_attribute = mac_authentication_bypass.responses.where(response_attribute: response_attribute).first
+    matching_attribute = mac_authentication_bypass.responses.where(response_attribute: response_attribute).first
 
-    errors.add(:response_attribute, "has already been added") if duplicate_attribute && duplicate_attribute.id != id
+    errors.add(:response_attribute, "has already been added") if matching_attribute && matching_attribute.id != id
   end
 end
