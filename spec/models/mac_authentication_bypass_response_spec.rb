@@ -64,7 +64,10 @@ describe MabResponse, type: :model do
     first_mab_response = create(:mab_response, mac_authentication_bypass: mab, response_attribute: "User-Name", value: "Bob")
     create(:mab_response, mac_authentication_bypass: mab, response_attribute: "Class", value: "Something")
 
-    expect(first_mab_response.update(response_attribute: "User-Name")).to be false
+    expect(first_mab_response.update(response_attribute: "Class")).to be false
     expect(first_mab_response.errors.full_messages_for(:response_attribute)).to include("Response attribute has already been added")
+
+    expect(first_mab_response.update(response_attribute: "User-Name")).to be true
+    expect(first_mab_response.update(value: "Something else")).to be true
   end
 end

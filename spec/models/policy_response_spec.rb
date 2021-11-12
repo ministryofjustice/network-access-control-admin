@@ -64,7 +64,10 @@ describe PolicyResponse, type: :model do
     first_policy_response = create(:policy_response, policy: policy, response_attribute: "User-Name", value: "Bob")
     create(:policy_response, policy: policy, response_attribute: "Class", value: "Something")
 
-    expect(first_policy_response.update(response_attribute: "User-Name")).to be false
+    expect(first_policy_response.update(response_attribute: "Class")).to be false
     expect(first_policy_response.errors.full_messages_for(:response_attribute)).to include("Response attribute has already been added")
+
+    expect(first_policy_response.update(response_attribute: "User-Name")).to be true
+    expect(first_policy_response.update(value: "Something else")).to be true
   end
 end
