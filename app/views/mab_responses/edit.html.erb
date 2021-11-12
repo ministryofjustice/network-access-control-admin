@@ -1,9 +1,10 @@
 <%= render "layouts/form_errors", resource: @response %>
 
+<span class="govuk-caption-l"><%= @mac_authentication_bypass.name %></span>
 <h2 class="govuk-heading-l">Editing a response</h2>
 
 <%= render "shared/response_form",
   path: mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: @response),
   response: @response,
-  cancel_path: mac_authentication_bypass_path(@mac_authentication_bypass) 
+  cancel_path: mac_authentication_bypass_path(@mac_authentication_bypass)
 %>

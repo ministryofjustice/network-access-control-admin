@@ -43,6 +43,8 @@ RSpec.shared_examples "response update" do |domain, response|
 
       first(:link, "Edit").click
 
+      expect(page).to have_content(created_domain.name)
+
       expect(page).to have_select("response-attribute", text: created_response.response_attribute)
       expect(page).to have_field("Value", with: created_response.value)
 
