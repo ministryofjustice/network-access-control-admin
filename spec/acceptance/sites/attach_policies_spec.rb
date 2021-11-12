@@ -15,7 +15,7 @@ describe "attach policies to a site", type: :feature do
 
         click_on "View", match: :first
 
-        expect(page).to_not have_content "Attach policies"
+        expect(page).to_not have_content "Manage policies"
       end
     end
   end
@@ -36,7 +36,7 @@ describe "attach policies to a site", type: :feature do
 
         click_on "Manage", match: :first
 
-        click_on "Attach policies"
+        click_on "Manage policies"
 
         expect(current_path).to eq("/sites/#{site.id}/policies")
 
@@ -70,7 +70,7 @@ describe "attach policies to a site", type: :feature do
         it "does allow detaching the policy" do
           visit "/sites/#{site.id}"
 
-          click_on "Attach policies"
+          click_on "Manage policies"
 
           expect(page).to have_checked_field "First Policy"
 
@@ -93,7 +93,7 @@ describe "attach policies to a site", type: :feature do
 
         click_on "Manage", match: :first
 
-        click_on "Attach policies"
+        click_on "Manage policies"
 
         expect(page).to_not have_css ".govuk-checkboxes__label", text: "FB"
       end
@@ -103,7 +103,7 @@ describe "attach policies to a site", type: :feature do
 
         click_on "Manage", match: :first
 
-        click_on "Attach policies"
+        click_on "Manage policies"
 
         expect(current_path).to eq("/sites/#{site.id}/policies")
 
@@ -132,7 +132,7 @@ describe "attach policies to a site", type: :feature do
 
         expect(page).to have_content("Fallback policy: FB")
 
-        click_on "Attach policies"
+        click_on "Manage policies"
 
         expect(page).to have_select "fallback_policy_id", selected: "FB"
       end
@@ -140,7 +140,7 @@ describe "attach policies to a site", type: :feature do
       it "does allow detaching the fallback policy" do
         visit "/sites/#{site.id}"
 
-        click_on "Attach policies"
+        click_on "Manage policies"
 
         select "No fallback policy"
 
