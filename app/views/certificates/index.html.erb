@@ -14,6 +14,7 @@
         <th scope="col" class="govuk-table__header">Name</th>
         <th scope="col" class="govuk-table__header">File Name</th>
         <th scope="col" class="govuk-table__header">Expiry Date</th>
+        <th scope="col" class="govuk-table__header">Created</th>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
@@ -25,6 +26,7 @@
           <td class="govuk-table__cell"><%= certificate.name %></td>
           <td class="govuk-table__cell"><%= certificate.filename %></td>
           <td class="govuk-table__cell"><%= certificate.expiry_date %></td>
+          <td class="govuk-table__cell"><%= date_format(certificate.created_at) %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Certificate %>
               <%= link_to "View", certificate_path(certificate), class:"govuk-link" %>

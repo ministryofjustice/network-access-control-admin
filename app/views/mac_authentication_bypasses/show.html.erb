@@ -28,6 +28,8 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Attribute</th>
         <th scope="col" class="govuk-table__header">Value</th>
+        <th scope="col" class="govuk-table__header">Created</th>
+        <th scope="col" class="govuk-table__header">Updated</th>
         <th scope="col" class="govuk-table__header">Actions</th>
       </tr>
     </thead>
@@ -36,6 +38,8 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= response.response_attribute %></td>
           <td class="govuk-table__cell"><%= response.value %></td>
+          <td class="govuk-table__cell"><%= date_format(response.created_at) %></td>
+          <td class="govuk-table__cell"><%= date_format(response.updated_at) %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Response %>
               <%= link_to "Edit", edit_mac_authentication_bypass_mab_response_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: response), class:"govuk-link" %>

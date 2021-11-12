@@ -15,6 +15,8 @@ RSpec.shared_examples "response view" do |domain, response|
         expect(page).to have_content created_domain.description
         expect(page).to have_content created_response.response_attribute
         expect(page).to have_content created_response.value
+        expect(page).to have_content date_format(created_response.created_at)
+        expect(page).to have_content date_format(created_response.updated_at)
       end
     end
 

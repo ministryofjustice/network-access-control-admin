@@ -60,6 +60,8 @@
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">IP / Subnet CIDR</th>
         <th scope="col" class="govuk-table__header">Shared Secret</th>
+        <th scope="col" class="govuk-table__header">Created</th>
+        <th scope="col" class="govuk-table__header">Updated</th>
         <th scope="col" class="govuk-table__header">Actions</th>
       </tr>
     </thead>
@@ -68,6 +70,8 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= client.ip_range %></td>
           <td class="govuk-table__cell"><%= client.shared_secret %></td>
+          <td class="govuk-table__cell"><%= date_format(client.created_at) %></td>
+          <td class="govuk-table__cell"><%= date_format(client.updated_at) %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Client %>
               <%= link_to "Edit", edit_site_client_path(site_id: @site, id: client), class:"govuk-link" %>

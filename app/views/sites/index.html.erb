@@ -10,6 +10,8 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Created</th>
+        <th scope="col" class="govuk-table__header">Updated</th>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
@@ -19,6 +21,8 @@
       <% @sites.each do |site| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= site.name %></td>
+          <td class="govuk-table__cell"><%= date_format(site.created_at) %></td>
+          <td class="govuk-table__cell"><%= date_format(site.updated_at) %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Site %>
               <%= link_to "Manage", site_path(site), class: "govuk-link" %>
