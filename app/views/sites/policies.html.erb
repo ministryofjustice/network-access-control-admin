@@ -1,19 +1,6 @@
 <h2 class="govuk-heading-l"><%= @site.name %></h2>
 <%= form_with local: true do |f| %>
   <div class="govuk-form-group">
-    <div id="attach-policies-hint" class="govuk-hint">
-        Select a fallback policy to attach to this site.
-    </div>
-    <% selected_fallback_policy = @site.policies.select(&:fallback).first %>
-    <% options = {
-      selected: (selected_fallback_policy.id unless selected_fallback_policy.nil?),
-      include_blank: "No fallback policy"
-      } %>
-
-    <%= f.collection_select(:fallback_policy_id, @fallback_policies, :id, :name, options, { class: "govuk-select" }) %>
-  </div>
-
-  <div class="govuk-form-group">
     <fieldset class="govuk-fieldset" aria-describedby="attach-policies-hint">
       <div id="attach-policies-hint" class="govuk-hint">
         Select policies to attach to this site.
