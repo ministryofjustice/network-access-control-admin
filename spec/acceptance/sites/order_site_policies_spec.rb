@@ -19,11 +19,11 @@ describe "order site policies", type: :feature do
 
   context "when the user is an editor" do
     let(:editor) { create(:user, :editor) }
+    let!(:least_important_site_policy) { create(:site_policy, site_id: site.id, policy_id: least_important_policy.id) }
+    let!(:most_important_site_policy) { create(:site_policy, site_id: site.id, policy_id: most_important_policy.id) }
 
     before do
       login_as editor
-      create(:site_policy, site_id: site.id, policy_id: least_important_policy.id)
-      create(:site_policy, site_id: site.id, policy_id: most_important_policy.id)
     end
 
     it "updates the order of site policies" do
@@ -31,10 +31,14 @@ describe "order site policies", type: :feature do
 
       within "tr.govuk-table__row:nth-child(1)" do
         expect(page).to have_content("Least Important Policy")
+        expect(page).to have_content(date_format(least_important_site_policy.created_at))
+        expect(page).to have_content(date_format(least_important_site_policy.updated_at))
       end
 
       within "tr.govuk-table__row:nth-child(2)" do
         expect(page).to have_content("Most Important Policy")
+        expect(page).to have_content(date_format(most_important_site_policy.created_at))
+        expect(page).to have_content(date_format(most_important_site_policy.updated_at))
       end
 
       click_on "Order policies"
