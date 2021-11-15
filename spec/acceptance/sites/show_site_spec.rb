@@ -20,7 +20,7 @@ describe "showing a site", type: :feature do
       it "allows viewing sites" do
         visit "/sites"
 
-        click_on "View", match: :first
+        find_link("View", href: "/sites/#{site.id}").click
 
         expect(page).to have_content site.name
         expect(page).to have_content "your_brilliant_site"

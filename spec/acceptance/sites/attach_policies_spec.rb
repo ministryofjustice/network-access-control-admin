@@ -34,11 +34,8 @@ describe "attach policies to a site", type: :feature do
       it "does allow attaching policies to a site" do
         visit "/sites"
 
-        click_on "Manage", match: :first
-
-        click_on "Manage policies"
-
-        expect(current_path).to eq("/sites/#{site.id}/policies")
+        find_link("Manage", href: "/sites/#{site.id}").click
+        find_link("Manage policies", href: "/sites/#{site.id}/policies?site_id=#{site.id}").click
 
         check "First Policy", allow_label_click: true
         check "Second Policy", allow_label_click: true
@@ -79,6 +76,17 @@ describe "attach policies to a site", type: :feature do
           click_on "Update"
 
           expect(page).to_not have_content("First Policy")
+        end
+
+        it "keeps the fallback policy for the site when attaching new policies" do
+          visit "/sites/#{site.id}"
+
+          click_on "Manage policies"
+          check "First Policy"
+          click_on "Update"
+
+          expect(page).to have_content("First Policy")
+          expect(page).to have_content("Fallback policy: #{site.name}")
         end
       end
     end

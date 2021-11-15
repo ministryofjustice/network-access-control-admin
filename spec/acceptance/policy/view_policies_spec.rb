@@ -20,7 +20,7 @@ describe "showing a policy", type: :feature do
       it "allows viewing policies" do
         visit "/policies"
 
-        click_on "View", match: :first
+        find_link("View", href: "/policies/#{policy.id}").click
 
         expect(page).to have_content policy.name
         expect(page).to have_content policy.description

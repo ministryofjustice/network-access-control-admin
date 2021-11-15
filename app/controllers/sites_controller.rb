@@ -19,7 +19,6 @@ class SitesController < ApplicationController
     authorize! :create, @site
 
     if @site.save
-      @site.policies << Policy.create(name: @site.name, description: "Default fallback policy for #{@site.name}", fallback: true)
       redirect_to site_path(@site), notice: "Successfully created site. #{CONFIG_UPDATE_DELAY_NOTICE}"
     else
       render :new
@@ -106,13 +105,7 @@ private
   end
 
   def policies_params
-    policy_ids = params.require(:policy_ids).reject(&:empty?)
-
-    if params[:fallback_policy_id].present?
-      policy_ids << params.require(:fallback_policy_id)
-    end
-
-    policy_ids
+    (params.require(:policy_ids).reject(&:empty?) << @site.fallback_policy.id).flatten
   end
 
   def site_policies_params

@@ -24,7 +24,7 @@ describe "delete policies", type: :feature do
     it "delete a policy" do
       visit "/policies"
 
-      click_on "Delete"
+      find_link("Delete", href: "/policies/#{policy.id}").click
 
       expect(page).to have_content("Are you sure you want to delete this policy?")
       expect(page).to have_content(policy.name)
@@ -46,7 +46,7 @@ describe "delete policies", type: :feature do
       it "can delete the policy and the rules" do
         visit "/policies"
 
-        click_on "Delete"
+        find_link("Delete", href: "/policies/#{policy.id}").click
         click_on "Delete policy"
 
         expect(page).to have_content("Successfully deleted policy.")
@@ -57,20 +57,18 @@ describe "delete policies", type: :feature do
     end
 
     context "when a policy is attached to a site" do
-      before do
-        create(:site, policies: [policy])
-      end
+      let!(:site) { create(:site, policies: [policy]) }
 
       it "can delete the attached policy" do
         visit "/sites"
 
-        click_on "Manage"
+        find_link("Manage", href: "/sites/#{site.id}").click
 
         expect(page).to have_content(policy.name)
 
         visit "/policies"
 
-        click_on "Delete"
+        find_link("Delete", href: "/policies/#{policy.id}").click
         click_on "Delete policy"
 
         expect(page).to have_content("Successfully deleted policy.")
@@ -78,7 +76,7 @@ describe "delete policies", type: :feature do
 
         visit "/sites"
 
-        click_on "Manage"
+        find_link("Manage", href: "/sites/#{site.id}").click
 
         expect(page).not_to have_content(policy.name)
       end
