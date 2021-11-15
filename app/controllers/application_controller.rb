@@ -2,6 +2,10 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, :set_default_breadcrumbs
   after_action :set_expect_ct_header
 
+  rescue_from ActionController::InvalidAuthenticityToken do
+    redirect_to new_user_session_path
+  end
+
   def new_session_path(_scope)
     new_user_session_path
   end
