@@ -17,4 +17,25 @@ describe "showing a policy", type: :feature do
       expect(page).to have_content date_format(policy.updated_at)
     end
   end
+
+  context "when there are sites associated with the policy" do
+    let!(:policy) { create :policy }
+
+    before do
+      4.times { |i| policy.sites << create(:site, name: "Attached site #{i}") }
+      create(:site, name: "Some other site")
+    end
+
+    it "allows viewing the associated sites" do
+      visit "/policies"
+
+      expect(page).to have_content policy.name
+      expect(page).to have_content "Sites"
+      expect(page).to have_content "4"
+
+      click_on "4"
+
+      expect(current_path).to eq "/sites"
+    end
+  end
 end
