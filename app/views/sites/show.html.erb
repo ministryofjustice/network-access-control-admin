@@ -33,6 +33,8 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row__head">
         <th scope="col" class="govuk-table__header">Policy</th>
+        <th scope="col" class="govuk-table__header">Created</th>
+        <th scope="col" class="govuk-table__header">Updated</th>
         <th scope="col" class="govuk-table__header">
           <%= link_to "Order policies", edit_site_policies_path(@site), class: "govuk-link" %>
         </th>
@@ -42,6 +44,8 @@
       <% @site_policies.each do |sp| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= sp.policy.name %></td>
+          <td class="govuk-table__cell"><%= date_format(sp.created_at) %></td>
+          <td class="govuk-table__cell"><%= date_format(sp.updated_at) %></td>
           <td class="govuk-table__cell"><%= link_to "View", policy_path(sp.policy), class: "govuk-link" %></td>
         </tr>
       <% end %>
