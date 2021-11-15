@@ -6,12 +6,12 @@ def mac_address
   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
 end
 
-p "truncating rules, responses, policies, site policies, and sites!"
+p "truncating rules, responses, policies, site policies, clients and sites!"
 base_connection = ActiveRecord::Base.connection
 
 base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-%w[rules responses policies site_policies sites mac_authentication_bypasses].each do |table_name|
+%w[rules responses policies site_policies sites clients mac_authentication_bypasses].each do |table_name|
   base_connection.truncate(table_name)
 end
 
