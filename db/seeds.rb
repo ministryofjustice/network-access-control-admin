@@ -6,7 +6,7 @@ def mac_address
   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
 end
 
-p "truncating rules, responses, policies, site policies, clients and sites!"
+p "truncating rules, responses, policies, site policies, mab, clients and sites!"
 base_connection = ActiveRecord::Base.connection
 
 base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
@@ -70,14 +70,14 @@ p "creating MABs"
   )
 end
 
-p "creating certificates"
-100.times do |c|
-  Certificate.create!(
-    name: "Certificate#{c}",
-    description: "Certificate No. #{c}",
-    subject: "Common-Name=Certificate#{c}",
-    expiry_date: Date.today + 1,
-    category: "EAP",
-    filename: "#{c}.pem",
-  )
-end
+# p "creating certificates"
+# 100.times do |c|
+#   Certificate.create!(
+#     name: "Certificate#{c}",
+#     description: "Certificate No. #{c}",
+#     subject: "Common-Name=Certificate#{c}",
+#     expiry_date: Date.today + 1,
+#     category: "EAP",
+#     filename: "#{c}.pem",
+#   )
+# end
