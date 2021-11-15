@@ -20,5 +20,6 @@ private
 
   def format_response_attribute
     response_attribute.strip! if response_attribute
+    value.strip! if value
   end
 end
