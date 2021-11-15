@@ -97,57 +97,6 @@ describe "attach policies to a site", type: :feature do
 
         expect(page).to_not have_css ".govuk-checkboxes__label", text: "FB"
       end
-
-      it "does allow attaching a single fallback policy to a site" do
-        visit "/sites"
-
-        click_on "Manage", match: :first
-
-        click_on "Manage policies"
-
-        expect(current_path).to eq("/sites/#{site.id}/policies")
-
-        select "FB"
-
-        expect(page).to have_select "fallback_policy_id", selected: "FB", options: ["No fallback policy", "FB"]
-
-        check "First Policy", allow_label_click: true
-
-        click_on "Update"
-
-        expect(page).to have_content("Successfully updated site policies.")
-        expect(page).to have_content("List of attached policies")
-        expect(page).to have_content("First Policy")
-        expect(page).to have_content("Fallback policy: FB")
-      end
-    end
-
-    context "when there is an attached fallback policy" do
-      let!(:site) { create :site, policies: [create(:policy, name: "FB", fallback: true)] }
-
-      it "does show the attached fallback policy as selected" do
-        visit "/sites"
-
-        click_on "Manage", match: :first
-
-        expect(page).to have_content("Fallback policy: FB")
-
-        click_on "Manage policies"
-
-        expect(page).to have_select "fallback_policy_id", selected: "FB"
-      end
-
-      it "does allow detaching the fallback policy" do
-        visit "/sites/#{site.id}"
-
-        click_on "Manage policies"
-
-        select "No fallback policy"
-
-        click_on "Update"
-
-        expect(page).to_not have_content("Fallback policy: FB")
-      end
     end
   end
 end
