@@ -82,9 +82,7 @@
 #   )
 # end
 
-Policy.where(fallback: true).delete_all
-
 Site.all.each do |site|
   policy = Policy.create!(name: site.name, description: site.name, fallback: true)
-  site.update(fallback_policy_id: policy.id)
+  SitePolicy.create!(site_id: site.id, policy_id: policy.id)
 end
