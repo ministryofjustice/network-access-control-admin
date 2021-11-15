@@ -33,6 +33,7 @@ private
 
   def format_request_attribute
     request_attribute.strip! if request_attribute
+    value.strip! if value
   end
 
   def update_rule_count

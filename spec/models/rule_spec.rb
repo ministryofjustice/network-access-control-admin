@@ -37,6 +37,14 @@ describe Rule, type: :model do
     expect(result.request_attribute).to eq("User-Name")
   end
 
+  it "validates the value with leading and trailing whitespace" do
+    result = build(:rule, request_attribute: "Tunnel-Type", value: " VLAN ")
+
+    result.valid?
+
+    expect(result.value).to eq("VLAN")
+  end
+
   it "validates an updated request attribute" do
     editable_rule = create(:rule)
 
