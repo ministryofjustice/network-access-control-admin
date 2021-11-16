@@ -1,25 +1,10 @@
 class Response < ApplicationRecord
-  before_validation :format_response_attribute
+  include ApplicationRecordHelper
+
+  before_validation -> { trim_white_space(response_attribute, value) }
 
   validates_presence_of :response_attribute, :value
-  validate :validate_response, on: %i[create update]
+  validate -> { validate_radius_attribute(response_attribute, value) }, on: %i[create update]
 
   audited
-
-private
-
-  def validate_response
-    return if response_attribute.blank?
-
-    result = UseCases::ValidateRadiusAttribute.new.call(attribute: response_attribute, value: value)
-
-    unless result.fetch(:success)
-      errors.add(:response_attribute, result.fetch(:message))
-    end
-  end
-
-  def format_response_attribute
-    response_attribute.strip! if response_attribute
-    value.strip! if value
-  end
 end
