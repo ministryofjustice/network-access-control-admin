@@ -36,6 +36,11 @@ describe "showing a policy", type: :feature do
       click_on "4"
 
       expect(current_path).to eq "/sites"
+      expect(page).to have_content "Attached site 0"
+      expect(page).to have_content "Attached site 1"
+      expect(page).to have_content "Attached site 2"
+      expect(page).to have_content "Attached site 3"
+      expect(page).to_not have_content "Some other site"
     end
   end
 end
