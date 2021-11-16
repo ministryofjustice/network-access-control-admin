@@ -28,7 +28,7 @@
           <td class="govuk-table__cell"><%= policy.fallback ? "Yes" : "No" %></td>
           <td class="govuk-table__cell"><%= date_format(policy.created_at) %></td>
           <td class="govuk-table__cell"><%= date_format(policy.updated_at) %></td>
-          <td class="govuk-table__cell"><%= link_to policy.sites.count, sites_path, class: "govuk-link" %></td>
+          <td class="govuk-table__cell"><%= link_to policy.sites.count, sites_path(:policy => policy.id), class: "govuk-link" %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Policy %>
               <%= link_to "Manage", policy_path(policy), class: "govuk-link" %>
