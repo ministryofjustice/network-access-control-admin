@@ -42,8 +42,6 @@ describe "update policies", type: :feature do
 
       expect(page).to have_field("Name", with: policy.name)
 
-      expect(page).to have_field("policy_fallback", type: "checkbox", disabled: true)
-
       fill_in "Name", with: "My London Policy"
 
       click_on "Update"
