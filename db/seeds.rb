@@ -6,16 +6,16 @@
 #   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
 # end
 
-# p "truncating rules, responses, policies, site policies, mab, clients and sites!"
-# base_connection = ActiveRecord::Base.connection
+p "truncating rules, responses, policies, site policies, mab, clients and sites!"
+base_connection = ActiveRecord::Base.connection
 
-#base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-# %w[rules responses policies site_policies sites clients mac_authentication_bypasses].each do |table_name|
-#   base_connection.truncate(table_name)
-# end
+%w[rules responses policies site_policies sites clients mac_authentication_bypasses].each do |table_name|
+  base_connection.truncate(table_name)
+end
 
-# base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
 
 # p "creating policies"
 # 3000.times do |p|
@@ -74,15 +74,15 @@
 #   )
 # end
 
-base_connection = ActiveRecord::Base.connection
-base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+# base_connection = ActiveRecord::Base.connection
+# base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-Site.all.each do |site|
-  fallback_policy_id = site.fallback_policy.try(:id)
+# Site.all.each do |site|
+#   fallback_policy_id = site.fallback_policy.try(:id)
 
-  if fallback_policy_id
-    site.delete
-  end
-end
+#   if fallback_policy_id
+#     site.delete
+#   end
+# end
 
-base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+# base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
