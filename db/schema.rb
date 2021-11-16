@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_15_153737) do
+ActiveRecord::Schema.define(version: 2021_11_16_101726) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2021_11_15_153737) do
     t.text "description", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "fallback", null: false
+    t.boolean "fallback", default: false, null: false
     t.integer "rule_count", default: 0
   end
 

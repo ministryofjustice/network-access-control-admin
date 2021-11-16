@@ -16,4 +16,18 @@ RSpec.describe Site, type: :model do
   it "responds to #fallback_policy" do
     expect(subject.fallback_policy).to be_nil
   end
+
+  it "deletes a fallback policy when a site is deleted" do
+    site = create(:site)
+    fallback_policy_id = site.fallback_policy.id
+
+    expect(site.fallback_policy).to_not be_nil
+    expect(site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id)).to_not be_nil
+
+    site.destroy!
+
+    expect(Policy.find_by(id: fallback_policy_id)).to be_nil
+    expect(site.fallback_policy).to be_nil
+    expect(site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id).first).to be_nil
+  end
 end

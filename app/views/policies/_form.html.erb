@@ -9,15 +9,6 @@
     <%= f.text_area :description, class: "govuk-input" %>
   </div>
 
-  <div class="govuk-form-group">
-    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-      <div class="govuk-checkboxes__item">
-        <%= f.check_box :fallback, disabled: !f.object.new_record?, class: "govuk-checkboxes__input" %>
-        <%= f.label :fallback, class: "govuk-label govuk-checkboxes__label" %>
-      </div>
-    </div>
-  </div>
-
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"
