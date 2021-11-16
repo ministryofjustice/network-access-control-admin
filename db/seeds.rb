@@ -83,6 +83,13 @@
 # end
 
 Site.all.each do |site|
+  fallback_policy_id = site.fallback_policy.try(:id)
+
+  if fallback_policy_id
+    site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id).destroy_all
+    Policy.find(fallback_policy_id).destroy
+  end
+
   policy = Policy.create!(name: site.name, description: site.name, fallback: true)
   SitePolicy.create!(site_id: site.id, policy_id: policy.id)
 end
