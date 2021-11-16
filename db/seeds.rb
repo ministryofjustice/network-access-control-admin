@@ -9,7 +9,7 @@
 # p "truncating rules, responses, policies, site policies, mab, clients and sites!"
 # base_connection = ActiveRecord::Base.connection
 
-# base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+#base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
 # %w[rules responses policies site_policies sites clients mac_authentication_bypasses].each do |table_name|
 #   base_connection.truncate(table_name)
@@ -74,6 +74,9 @@
 #   )
 # end
 
+base_connection = ActiveRecord::Base.connection
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+
 Site.all.each do |site|
   fallback_policy_id = site.fallback_policy.try(:id)
 
@@ -81,3 +84,5 @@ Site.all.each do |site|
     site.delete
   end
 end
+
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
