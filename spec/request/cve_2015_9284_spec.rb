@@ -16,9 +16,7 @@ RSpec.describe "CVE-2015-9284", type: :request do
     end
 
     it do
-      expect {
-        post "/users/auth/cognito", headers: { "HTTPS" => "on" }
-      }.to raise_error(ActionController::InvalidAuthenticityToken)
+      expect(post("/users/auth/cognito", headers: { "HTTPS" => "on" })).to redirect_to(new_user_session_path)
     end
 
     after do
