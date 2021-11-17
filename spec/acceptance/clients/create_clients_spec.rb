@@ -36,6 +36,7 @@ describe "create clients", type: :feature do
         click_on "Create authorised client"
 
         expect(page.current_path).to eq(new_site_client_path(site_id: site))
+        expect(page).to_not have_field("Shared secret")
 
         fill_in "IP / Subnet CIDR", with: "123.123.123.123/32"
 

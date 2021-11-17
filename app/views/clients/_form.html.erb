@@ -7,10 +7,12 @@
     <%= f.text_field :ip_range, class: "govuk-input" %>
   </div>
 
-  <div class="govuk-form-group <%= field_error(f.object, :shared_secret) %>">
-    <%= f.label :shared_secret, "Shared secret", class: "govuk-label" %>
-    <%= f.text_field :shared_secret, class: "govuk-input" %>
-  </div>
+  <% unless f.object.new_record? %>
+    <div class="govuk-form-group <%= field_error(f.object, :shared_secret) %>">
+      <%= f.label :shared_secret, "Shared secret", class: "govuk-label" %>
+      <%= f.text_field :shared_secret, class: "govuk-input" %>
+    </div>
+  <% end %>
 
   <div class="govuk-form-group">
     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
