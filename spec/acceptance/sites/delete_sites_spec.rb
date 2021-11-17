@@ -29,6 +29,8 @@ describe "delete sites", type: :feature do
 
       expect(page).to have_content("Are you sure you want to delete this site?")
       expect(page).to have_content(site.name)
+      expect(page).to have_content("#{site.clients.count} clients will be deleted.")
+      expect(page).to have_content("#{site.policies.count} policies will be detached.")
 
       click_on "Delete site"
 

@@ -1,8 +1,11 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete this site?</h2>
 
 <div class="govuk-inset-text">
-  <h4 class="govuk-heading-s">Site name:</h4>
-  <p class="govuk-body"><%= @site.name %></p>
+  <h4 class="govuk-heading-s">Site name: <%= @site.name %></h4>
+  <div class="govuk-body">
+    <p><%="#{@site.clients.count} clients will be deleted." %></p>
+    <p><%="#{@site.policies.count} policies will be detached." %></p>
+  </div>
 </div>
 
 <%=
