@@ -88,3 +88,9 @@
     </tbody>
   </table>
 <% end %>
+
+<% if can? :manage, Policy %>
+  <% unless @policy.fallback? %>
+    <%= link_to "Delete", policy_path(@policy), class:"govuk-button", method: :delete %>
+  <% end%>
+<% end%>

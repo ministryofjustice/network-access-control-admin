@@ -29,7 +29,7 @@ RSpec.shared_examples "response deletion" do |domain, response|
       it "delete an existing response" do
         visit "/#{domain.to_s.pluralize}/#{created_domain.id}"
 
-        click_on "Delete"
+        find_link("Delete", href: "/#{domain.to_s.pluralize}/#{created_domain.id}/#{response.to_s.pluralize}/#{created_response.id}").click
 
         expect(page).to have_content("Are you sure you want to delete this response?")
         expect(page).to have_content("Response attribute: #{created_response.response_attribute}")

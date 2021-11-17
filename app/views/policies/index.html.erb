@@ -32,9 +32,6 @@
           <td class="govuk-table__cell">
             <% if can? :manage, Policy %>
               <%= link_to "Manage", policy_path(policy), class: "govuk-link" %>
-              <% unless policy.fallback? %>
-                <%= link_to "Delete", policy_path(policy), class:"govuk-link", method: :delete %>
-              <% end%>
             <% else %>
               <%= link_to "View", policy_path(policy), class: "govuk-link" %>
             <% end %>
