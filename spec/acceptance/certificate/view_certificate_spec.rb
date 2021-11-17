@@ -21,8 +21,8 @@ describe "showing a certificate", type: :feature do
         visit "/certificates"
 
         expect(page).to have_content certificate.name
+        expect(page).to have_content certificate.category
         expect(page).to have_content certificate.expiry_date
-        expect(page).to have_content certificate.filename
       end
     end
   end
