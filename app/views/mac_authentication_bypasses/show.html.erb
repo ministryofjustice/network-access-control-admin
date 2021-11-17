@@ -53,5 +53,5 @@
 <% end %>
 
 <% if can? :manage, MacAuthenticationBypass %>
-  <%= link_to "Delete", mac_authentication_bypass_path(@mac_authentication_bypass), class:"govuk-button", method: :delete %>
+  <%= link_to "Delete", mac_authentication_bypass_path(@mac_authentication_bypass), class:"govuk-button govuk-button--warning", method: :delete %>
 <% end %>
