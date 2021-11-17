@@ -95,6 +95,7 @@ clients radsec {
         first(:link, "Edit").click
 
         expect(page).to have_field("RadSec", type: "checkbox", disabled: true, checked: true)
+        expect(page).to_not have_field("Shared secret")
       end
     end
   end
