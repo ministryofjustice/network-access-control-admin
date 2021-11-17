@@ -8,6 +8,7 @@ module UseCases
 
     def call
       decoded_certificate = OpenSSL::X509::Certificate.new(certificate)
+
       {
         expiry_date: decoded_certificate.not_after.to_date,
         subject: decoded_certificate.subject.to_s,
