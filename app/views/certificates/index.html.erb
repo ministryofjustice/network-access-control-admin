@@ -30,7 +30,6 @@
           <td class="govuk-table__cell">
             <% if can? :manage, Certificate %>
               <%= link_to "View", certificate_path(certificate), class:"govuk-link" %>
-              <%= link_to "Delete", certificate_path(certificate), class:"govuk-link", method: :delete %>
             <% end %>
           </td>
         </tr>
