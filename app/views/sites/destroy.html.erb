@@ -3,8 +3,8 @@
 <div class="govuk-inset-text">
   <h4 class="govuk-heading-s">Site name: <%= @site.name %></h4>
   <div class="govuk-body">
-    <p><%="#{@site.clients.count} clients will be deleted." %></p>
-    <p><%="#{@site.policies.count} policies will be detached." %></p>
+    <p><%="#{pluralize(@site.clients.count, "client")} will be deleted." %></p>
+    <p><%="#{pluralize(@site.policies.count, "policy")} will be detached." %></p>
   </div>
 </div>
 
