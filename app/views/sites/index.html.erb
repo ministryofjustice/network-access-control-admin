@@ -26,7 +26,6 @@
           <td class="govuk-table__cell">
             <% if can? :manage, Site %>
               <%= link_to "Manage", site_path(site), class: "govuk-link" %>
-              <%= link_to "Delete", site_path(site), class:"govuk-link", method: :delete %>
             <% else %>
               <%= link_to "View", site_path(site), class: "govuk-link" %>
             <% end %>

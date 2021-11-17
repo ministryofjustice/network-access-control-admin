@@ -1,20 +1,21 @@
 require "rails_helper"
 
 describe "delete sites", type: :feature do
+  let!(:site) { create(:site) }
+
   context "when the user is a viewer" do
     before do
       login_as create(:user, :reader)
     end
 
     it "does not allow deleting sites" do
-      visit "/sites"
+      visit "/sites/#{site.id}"
 
       expect(page).not_to have_content "Delete"
     end
   end
 
   context "when the user is an editor" do
-    let!(:site) { create(:site) }
     let(:editor) { create(:user, :editor) }
 
     before do
@@ -22,7 +23,7 @@ describe "delete sites", type: :feature do
     end
 
     it "delete a site" do
-      visit "/sites"
+      visit "/sites/#{site.id}"
 
       find_link("Delete", href: "/sites/#{site.id}").click
 

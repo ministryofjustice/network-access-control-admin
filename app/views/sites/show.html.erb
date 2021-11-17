@@ -87,3 +87,7 @@
     </tbody>
   </table>
 <% end %>
+
+<% if can? :manage, Site %>
+  <%= link_to "Delete", site_path(@site), class:"govuk-button", method: :delete %>
+<% end %>

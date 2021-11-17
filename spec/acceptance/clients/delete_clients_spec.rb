@@ -46,7 +46,7 @@ describe "delete clients", type: :feature do
 
         visit "/sites/#{site.id}"
 
-        click_on "Delete"
+        find_link("Delete", href: "/sites/#{site.id}/clients/#{client.id}").click
 
         expect(page).to have_content("Are you sure you want to delete this client?")
         expect(page).to have_content(client.ip_range)
