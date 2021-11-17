@@ -69,7 +69,7 @@ private
   end
 
   def client_params
-    params.require(:client).permit(:ip_range, :radsec)
+    params.require(:client).permit(:ip_range, :radsec, :shared_secret)
   end
 
   def radsec?

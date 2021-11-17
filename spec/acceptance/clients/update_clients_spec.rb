@@ -58,8 +58,10 @@ describe "update clients", type: :feature do
       first(:link, "Edit").click
 
       expect(page).to have_field("IP / Subnet CIDR", with: client.ip_range)
+      expect(page).to have_field("Shared secret", with: client.shared_secret)
 
       fill_in "IP / Subnet CIDR", with: "132.111.132.111/32"
+      fill_in "Shared secret", with: "UpdatedSharedSecret12345"
 
       expect(page).to have_field("RadSec", type: "checkbox", disabled: true, checked: false)
 
@@ -67,7 +69,7 @@ describe "update clients", type: :feature do
 
       expected_config_file = "client 132.111.132.111/32 {
 \tipv4addr = 132.111.132.111/32
-\tsecret = #{Client.first.shared_secret}
+\tsecret = UpdatedSharedSecret12345
 \tshortname = #{Client.first.site.tag}
 }
 
@@ -79,6 +81,7 @@ clients radsec {
 
       expect(page).to have_content("Successfully updated client.")
       expect(page).to have_content "132.111.132.111/32"
+      expect(page).to have_content "UpdatedSharedSecret12345"
 
       expect_audit_log_entry_for(editor.email, "update", "Client")
     end
