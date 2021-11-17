@@ -89,5 +89,5 @@
 <% end %>
 
 <% if can? :manage, Site %>
-  <%= link_to "Delete", site_path(@site), class:"govuk-button govuk-button--warning", method: :delete %>
+  <%= link_to "Delete site", site_path(@site), class:"govuk-button govuk-button--warning", method: :delete %>
 <% end %>

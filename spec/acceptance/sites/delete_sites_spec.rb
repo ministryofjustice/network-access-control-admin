@@ -25,7 +25,7 @@ describe "delete sites", type: :feature do
     it "delete a site" do
       visit "/sites/#{site.id}"
 
-      find_link("Delete", href: "/sites/#{site.id}").click
+      find_link("Delete site", href: "/sites/#{site.id}").click
 
       expect(page).to have_content("Are you sure you want to delete this site?")
       expect(page).to have_content(site.name)
