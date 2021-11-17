@@ -10,6 +10,9 @@
   <% unless f.object.new_record? || client.radsec? %>
     <div class="govuk-form-group <%= field_error(f.object, :shared_secret) %>">
       <%= f.label :shared_secret, "Shared secret", class: "govuk-label" %>
+      <div id="shared_secret-hint" class="govuk-hint">
+      It is recommended to use a combination of numbers and characters, with a minimum length of 20
+      </div>
       <%= f.text_field :shared_secret, class: "govuk-input" %>
     </div>
   <% end %>
