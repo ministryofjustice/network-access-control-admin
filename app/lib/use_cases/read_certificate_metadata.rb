@@ -12,6 +12,7 @@ module UseCases
         expiry_date: decoded_certificate.not_after.to_date,
         subject: decoded_certificate.subject.to_s,
         issuer: decoded_certificate.issuer.to_s,
+        serial: decoded_certificate.serial.to_s
       }
     rescue StandardError
       {}
