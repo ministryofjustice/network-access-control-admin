@@ -31,4 +31,14 @@ RSpec.describe Site, type: :model do
     expect(site.fallback_policy).to be_nil
     expect(site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id).first).to be_nil
   end
+
+  context "when there is a policy with the same name" do
+    let!(:policy_with_same_name) { create(:policy, name: "Fallback policy for My site") }
+
+    it "shows an error" do
+      site = build(:site, name: "My site")
+      expect(site.save).to be false
+      expect(site.errors.full_messages_for(:name)).to include("Failed to generate fallback policy for site name")
+    end
+  end
 end
