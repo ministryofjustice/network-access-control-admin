@@ -24,11 +24,18 @@ private
   end
 
   def create_fallback_policy
-    policies << Policy.create!(
-      name: "Fallback policy for #{name}",
-      description: "Default fallback policy for #{name}",
-      fallback: true,
-    )
+    fallback_policy =
+      Policy.new(
+        name: "Fallback policy for #{name}",
+        description: "Default fallback policy for #{name}",
+        fallback: true,
+      )
+    if fallback_policy.save
+      policies << fallback_policy
+    else
+      errors.add :name, "Failed to generate fallback policy for site name"
+      raise ActiveRecord::RecordInvalid
+    end
   end
 
   def destroy_fallback_policy
