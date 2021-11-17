@@ -44,3 +44,7 @@
     <dd class="govuk-summary-list__value"><%= @certificate.filename %></dd>
   </div>
 </dl>
+
+<% if can? :manage, Certificate %>
+  <%= link_to "Delete", certificate_path(@certificate), class:"govuk-button", method: :delete %>
+<% end %>

@@ -1,23 +1,23 @@
 require "rails_helper"
 
 describe "delete certificates", type: :feature do
+  let!(:certificate) do
+    create(:certificate)
+  end
+
   context "when the user is a viewer" do
     before do
       login_as create(:user, :reader)
     end
 
     it "does not allow deleting certificates" do
-      visit "/certificates"
+      visit "/certificates/#{certificate.id}"
 
       expect(page).not_to have_content "Delete"
     end
   end
 
   context "when the user is an editor" do
-    let!(:certificate) do
-      create(:certificate)
-    end
-
     let(:editor) { create(:user, :editor) }
 
     before do
@@ -25,7 +25,7 @@ describe "delete certificates", type: :feature do
     end
 
     it "does delete a certificate" do
-      visit "/certificates"
+      visit "/certificates/#{certificate.id}"
 
       click_on "Delete"
 
