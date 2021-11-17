@@ -25,7 +25,7 @@ private
 
   def create_fallback_policy
     policies << Policy.create!(
-      name: name,
+      name: "Fallback policy for #{name}",
       description: "Default fallback policy for #{name}",
       fallback: true,
     )
