@@ -10,7 +10,7 @@ class UseCases::GenerateAuthorisedMacs
     "#{bypasses.join("\n\n")}\n"
   end
 
-  private
+private
 
   def normalised_password(mac_address)
     mac_address.gsub("-", "")
