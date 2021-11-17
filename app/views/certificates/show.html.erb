@@ -26,17 +26,35 @@
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Subject</dt>
-    <dd class="govuk-summary-list__value"><%= @certificate.subject %></dd>
+    <dt class="govuk-summary-list__key">Expiry Date</dt>
+    <dd class="govuk-summary-list__value"><%= @certificate.expiry_date %></dd>
   </div>
 </dl>
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">Expiry Date</dt>
-    <dd class="govuk-summary-list__value"><%= @certificate.expiry_date %></dd>
+    <dt class="govuk-summary-list__key">Subject</dt>
+    <dd class="govuk-summary-list__value"><%= @certificate.subject %></dd>
   </div>
 </dl>
+
+<% unless @certificate.issuer.nil? %>
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Issuer</dt>
+      <dd class="govuk-summary-list__value"><%= @certificate.issuer %></dd>
+    </div>
+  </dl>
+<% end %>
+
+<% unless @certificate.serial.nil? %>
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Serial</dt>
+      <dd class="govuk-summary-list__value"><%= @certificate.serial %></dd>
+    </div>
+  </dl>
+<% end %>
 
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
