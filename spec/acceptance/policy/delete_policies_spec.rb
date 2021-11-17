@@ -1,20 +1,21 @@
 require "rails_helper"
 
 describe "delete policies", type: :feature do
+  let!(:policy) { create(:policy) }
+
   context "when the user is a viewer" do
     before do
       login_as create(:user, :reader)
     end
 
     it "does not allow deleting policies" do
-      visit "/policies"
+      visit "/policies/#{policy.id}"
 
       expect(page).not_to have_content "Delete"
     end
   end
 
   context "when the user is an editor" do
-    let!(:policy) { create(:policy) }
     let(:editor) { create(:user, :editor) }
 
     before do

@@ -1,23 +1,23 @@
 require "rails_helper"
 
 describe "delete MAC authentication bypasses", type: :feature do
+  let!(:mac_authentication_bypass) do
+    create(:mac_authentication_bypass)
+  end
+
   context "when the user is a viewer" do
     before do
       login_as create(:user, :reader)
     end
 
     it "does not allow deleting bypasses" do
-      visit "/mac_authentication_bypasses"
+      visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"
 
       expect(page).not_to have_content "Delete"
     end
   end
 
   context "when the user is an editor" do
-    let!(:mac_authentication_bypass) do
-      create(:mac_authentication_bypass)
-    end
-
     let(:editor) { create(:user, :editor) }
 
     before do
@@ -27,7 +27,7 @@ describe "delete MAC authentication bypasses", type: :feature do
     it "does delete a MAC address" do
       expect_service_deployment
 
-      visit "/mac_authentication_bypasses"
+      visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"
 
       click_on "Delete"
 
