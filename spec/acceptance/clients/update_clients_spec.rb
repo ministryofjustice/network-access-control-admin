@@ -58,6 +58,7 @@ describe "update clients", type: :feature do
       first(:link, "Edit").click
 
       expect(page).to have_field("IP / Subnet CIDR", with: client.ip_range)
+      expect(page).to have_content "It is recommended to use a combination of numbers and characters, with a minimum length of 20"
       expect(page).to have_field("Shared secret", with: client.shared_secret)
 
       fill_in "IP / Subnet CIDR", with: "132.111.132.111/32"
