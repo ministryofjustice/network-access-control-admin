@@ -27,6 +27,12 @@ describe UseCases::ReadCertificateMetadata do
       expected_issuer = "/C=GB/ST=London/L=London/O=MoJ/OU=MoJ/CN=MoJTestCert/emailAddress=testcert@moj.gov.uk"
       expect(issuer).to eq expected_issuer
     end
+
+    it "extracts the serial of the certificate" do
+      serial = use_case.call[:serial]
+      expected_serial = "261449075976929706890225671845538541127278523818"
+      expect(serial).to eq expected_serial
+    end
   end
 
   context "when the certificate is invalid" do
