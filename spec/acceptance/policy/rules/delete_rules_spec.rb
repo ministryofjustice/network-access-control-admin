@@ -30,7 +30,7 @@ describe "delete rules", type: :feature do
       it "delete an existing rule" do
         visit "/policies/#{policy.id}"
 
-        click_on "Delete"
+        find_link("Delete", href: "/policies/#{policy.id}/rules/#{rule.id}").click
 
         expect(page).to have_content("Are you sure you want to delete this rule?")
         expect(page).to have_content(rule.request_attribute)

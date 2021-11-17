@@ -22,7 +22,7 @@ describe "delete policies", type: :feature do
     end
 
     it "delete a policy" do
-      visit "/policies"
+      visit "/policies/#{policy.id}"
 
       find_link("Delete", href: "/policies/#{policy.id}").click
 
@@ -44,7 +44,7 @@ describe "delete policies", type: :feature do
       end
 
       it "can delete the policy and the rules" do
-        visit "/policies"
+        visit "/policies/#{policy.id}"
 
         find_link("Delete", href: "/policies/#{policy.id}").click
         click_on "Delete policy"
@@ -67,7 +67,7 @@ describe "delete policies", type: :feature do
 
         expect(page).to have_content(policy.name)
 
-        visit "/policies"
+        visit "/policies/#{policy.id}"
 
         find_link("Delete", href: "/policies/#{policy.id}").click
         click_on "Delete policy"
@@ -89,7 +89,7 @@ describe "delete policies", type: :feature do
 
         expect(page).to have_content(policy.name)
 
-        visit "/policies"
+        visit "/policies/#{policy.id}"
 
         find_link("Delete", href: "/policies/#{policy.id}").click
 
