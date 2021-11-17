@@ -38,7 +38,7 @@ RSpec.describe Site, type: :model do
     it "shows an error" do
       site = build(:site, name: "My site")
       expect(site.save).to be false
-      expect(site.errors.full_messages_for(:name)).to include("Failed to generate fallback policy for site name")
+      expect(site.errors.full_messages_for(:name)).to include("Name Failed to generate fallback policy for site name")
     end
   end
 end
