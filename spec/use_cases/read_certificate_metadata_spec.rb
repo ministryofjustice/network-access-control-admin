@@ -21,6 +21,12 @@ describe UseCases::ReadCertificateMetadata do
       expected_subject = "/C=GB/ST=London/L=London/O=MoJ/OU=MoJ/CN=MoJTestCert/emailAddress=testcert@moj.gov.uk"
       expect(subject).to eq expected_subject
     end
+
+    it "extracts the issuer of the certificate" do
+      issuer = use_case.call[:issuer]
+      expected_issuer = "/C=GB/ST=London/L=London/O=MoJ/OU=MoJ/CN=MoJTestCert/emailAddress=testcert@moj.gov.uk"
+      expect(issuer).to eq expected_issuer
+    end
   end
 
   context "when the certificate is invalid" do
