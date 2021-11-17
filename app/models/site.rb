@@ -33,7 +33,7 @@ private
     if fallback_policy.save
       policies << fallback_policy
     else
-      errors.add :name, "Failed to generate fallback policy for site name"
+      errors.add :name, "Failed to generate fallback policy with error: #{fallback_policy.errors.full_messages.join(', ')}"
       raise ActiveRecord::RecordInvalid
     end
   end
