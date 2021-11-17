@@ -30,7 +30,6 @@
           <td class="govuk-table__cell">
             <% if can? :manage, MacAuthenticationBypass %>
               <%= link_to "Manage", mac_authentication_bypass_path(bypass), class:"govuk-link" %>
-              <%= link_to "Delete", mac_authentication_bypass_path(bypass), class:"govuk-link", method: :delete %>
             <% end %>
           </td>
         </tr>
