@@ -86,7 +86,7 @@ describe "attach policies to a site", type: :feature do
           click_on "Update"
 
           expect(page).to have_content("First Policy")
-          expect(page).to have_content("Fallback policy: #{site.name}")
+          expect(page).to have_content("Fallback policy: Fallback policy for #{site.name}")
         end
       end
     end

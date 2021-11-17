@@ -22,6 +22,7 @@ RSpec.describe Site, type: :model do
     fallback_policy_id = site.fallback_policy.id
 
     expect(site.fallback_policy).to_not be_nil
+    expect(site.fallback_policy.name).to eq("Fallback policy for #{site.name}")
     expect(site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id)).to_not be_nil
 
     site.destroy!
