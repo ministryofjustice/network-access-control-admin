@@ -1,8 +1,12 @@
 <h2 class="govuk-heading-l">Are you sure you want to delete this policy?</h2>
 
 <div class="govuk-inset-text">
-  <h4 class="govuk-heading-s">Policy name:</h4>
-  <p class="govuk-body"><%= @policy.name %></p>
+  <p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">Policy name:</span> <%= @policy.name %>
+  </p>
+  <p class="govuk-body">
+    This policy is attached to <%= link_to @policy.sites.count, sites_path(:policy => @policy.id), class: "govuk-link govuk-!-font-weight-bold" %> site(s).
+  </p>
 </div>
 
 <%=

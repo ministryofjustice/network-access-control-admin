@@ -58,6 +58,7 @@ describe "delete policies", type: :feature do
 
     context "when a policy is attached to a site" do
       let!(:site) { create(:site, policies: [policy]) }
+      let!(:another_site) { create(:site, policies: [policy]) }
 
       it "can delete the attached policy" do
         visit "/sites"
@@ -79,6 +80,20 @@ describe "delete policies", type: :feature do
         find_link("Manage", href: "/sites/#{site.id}").click
 
         expect(page).not_to have_content(policy.name)
+      end
+
+      it "shows the number of associated sites when deleting the policy" do
+        visit "/sites"
+
+        find_link("Manage", href: "/sites/#{site.id}").click
+
+        expect(page).to have_content(policy.name)
+
+        visit "/policies"
+
+        find_link("Delete", href: "/policies/#{policy.id}").click
+
+        expect(page).to have_content("This policy is attached to 2 site(s).")
       end
     end
   end
