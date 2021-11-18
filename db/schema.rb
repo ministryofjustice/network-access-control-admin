@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_17_153312) do
+ActiveRecord::Schema.define(version: 2021_11_18_140430) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2021_11_17_153312) do
     t.string "category", null: false
     t.text "issuer"
     t.text "serial"
+    t.text "extensions"
   end
 
   create_table "clients", charset: "utf8", force: :cascade do |t|
