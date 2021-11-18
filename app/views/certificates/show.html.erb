@@ -56,6 +56,15 @@
   </dl>
 <% end %>
 
+<% unless @certificate.extensions.nil? %>
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Extensions</dt>
+      <dd class="govuk-summary-list__value"><pre><code><%= @certificate.extensions %></code></pre></dd>
+    </div>
+  </dl>
+<% end %>
+
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Certificate File</dt>

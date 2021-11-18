@@ -34,6 +34,7 @@ describe "showing a certificate", type: :feature do
         expect(page).to have_content certificate.subject
         expect(page).to have_content certificate.issuer
         expect(page).to have_content certificate.serial
+        expect(page).to have_content certificate.extensions
       end
     end
   end
