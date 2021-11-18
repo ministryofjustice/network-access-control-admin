@@ -20,6 +20,7 @@ class CertificatesController < ApplicationController
       @certificate.subject = certificate_metadata[:subject]
       @certificate.issuer = certificate_metadata[:issuer]
       @certificate.serial = certificate_metadata[:serial]
+      @certificate.extensions = certificate_metadata[:extensions]
       @certificate.filename = server_certificate? ? "server.pem" : uploaded_certificate_file.original_filename
     end
 

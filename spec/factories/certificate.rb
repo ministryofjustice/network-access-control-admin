@@ -6,6 +6,7 @@ FactoryBot.define do
     sequence(:subject) { |n| "Certificate subject #{n}" }
     sequence(:issuer) { |n| "Certificate issuer #{n}" }
     sequence(:serial) { |n| "Certificate serial #{n}" }
+    sequence(:extensions) { |n| "Certificate extensions #{n}" }
     sequence(:filename) { |n| "ca#{n}.pem" }
     category { "EAP" }
   end
