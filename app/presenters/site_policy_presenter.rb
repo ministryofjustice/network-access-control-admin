@@ -3,7 +3,7 @@ class SitePolicyPresenter < BasePresenter
     "#{site_relation} - #{policy_relation}"
   end
 
-  private
+private
 
   def policy_relation
     if record.policy_id
