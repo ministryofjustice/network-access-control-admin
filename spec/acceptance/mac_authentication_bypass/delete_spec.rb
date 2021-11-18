@@ -29,7 +29,7 @@ describe "delete MAC authentication bypasses", type: :feature do
 
       visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"
 
-      click_on "Delete"
+      find_link("Delete", href: "/mac_authentication_bypasses/#{mac_authentication_bypass.id}").click
 
       expect(page).to have_content("Are you sure you want to delete this MAC authentication bypass?")
       expect(page).to have_content(mac_authentication_bypass.address)

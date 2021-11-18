@@ -91,6 +91,6 @@
 
 <% if can? :manage, Policy %>
   <% unless @policy.fallback? %>
-    <%= link_to "Delete", policy_path(@policy), class:"govuk-button govuk-button--warning", method: :delete %>
+    <%= link_to "Delete policy", policy_path(@policy), class:"govuk-button govuk-button--warning", method: :delete %>
   <% end%>
 <% end%>

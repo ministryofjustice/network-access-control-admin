@@ -25,7 +25,7 @@ describe "delete policies", type: :feature do
     it "delete a policy" do
       visit "/policies/#{policy.id}"
 
-      find_link("Delete", href: "/policies/#{policy.id}").click
+      find_link("Delete policy", href: "/policies/#{policy.id}").click
 
       expect(page).to have_content("Are you sure you want to delete this policy?")
       expect(page).to have_content(policy.name)

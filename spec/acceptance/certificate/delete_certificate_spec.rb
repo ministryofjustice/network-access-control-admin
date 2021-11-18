@@ -27,7 +27,7 @@ describe "delete certificates", type: :feature do
     it "does delete a certificate" do
       visit "/certificates/#{certificate.id}"
 
-      click_on "Delete"
+      find_link("Delete certificate", href: "/certificates/#{certificate.id}").click
 
       expect(page).to have_content("Are you sure you want to delete this certificate?")
       expect(page).to have_content(certificate.name)
