@@ -68,7 +68,11 @@ class SitesController < ApplicationController
   def attach_policies
     authorize! :attach_policies, @site
 
-    @site.assign_attributes(policies: Policy.where(id: policies_params))
+    @site.policies.each do |policy|
+      SitePolicy.find_by(site_id: @site.id, policy: policy.id).destroy if !policies_params.include?(policy.id) && !policy.fallback?
+    end
+
+    policies_params.each { |p| @site.policies << Policy.find_by_id(p.to_i) }
 
     if @site.save
       redirect_to site_path(@site), notice: "Successfully updated site policies."
@@ -109,7 +113,7 @@ private
   end
 
   def policies_params
-    (params.require(:policy_ids).reject(&:empty?) << @site.fallback_policy.id).flatten
+    params.require(:policy_ids).reject(&:empty?)
   end
 
   def site_policies_params
