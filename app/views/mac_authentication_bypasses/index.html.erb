@@ -11,7 +11,7 @@
       <th scope="col" class="govuk-table__header">
         <div style="text-align: right;">
           <%= form_with url: mac_authentication_bypasses_path, method: :get, local: true do |f| %>
-            <%= f.text_field :search, class: "govuk-input govuk-input--width-10" %>
+            <%= f.text_field :search, value: @search, class: "govuk-input govuk-input--width-10" %>
             <%= f.submit "Search", {
             class: "govuk-button",
             "data-module" => "govuk-button"
