@@ -28,6 +28,8 @@ describe "searching a MAC authentication bypass", type: :feature do
 
         click_on "Search"
 
+        expect(page).to have_field("search", with: third_mab.address)
+
         expect(page).to have_content third_mab.address
         expect(page).to have_content third_mab.name
         expect(page).to have_content third_mab.description
@@ -42,6 +44,8 @@ describe "searching a MAC authentication bypass", type: :feature do
         fill_in "search", with: "11-22"
 
         click_on "Search"
+
+        expect(page).to have_field("search", with: "11-22")
 
         expect(page).to have_content first_mab.address
         expect(page).to have_content first_mab.name
