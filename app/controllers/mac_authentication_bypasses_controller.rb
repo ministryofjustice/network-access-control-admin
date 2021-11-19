@@ -5,7 +5,9 @@ class MacAuthenticationBypassesController < ApplicationController
   def index
     @mac_authentication_bypasses = if params[:search]
                                      @search = params[:search]
-                                     MacAuthenticationBypass.where("address LIKE ?", "%#{@search}%").page(params[:page])
+                                     MacAuthenticationBypass.where(
+                                       MacAuthenticationBypass.arel_table[:address].matches("%#{@search}%"),
+                                     ).page(params[:page])
                                    else
                                      MacAuthenticationBypass.page params[:page]
                                    end
