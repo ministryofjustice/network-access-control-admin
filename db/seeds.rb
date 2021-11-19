@@ -62,27 +62,27 @@ p "creating MABs"
   )
 end
 
-p "creating certificates"
-100.times do |c|
-  Certificate.create!(
-    name: "Certificate#{c}",
-    description: "Certificate No. #{c}",
-    subject: "Common-Name=Certificate#{c}",
-    expiry_date: Date.today + 1,
-    category: "EAP",
-    filename: "#{c}.pem",
-  )
-end
+# p "creating certificates"
+# 100.times do |c|
+#   Certificate.create!(
+#     name: "Certificate#{c}",
+#     description: "Certificate No. #{c}",
+#     subject: "Common-Name=Certificate#{c}",
+#     expiry_date: Date.today + 1,
+#     category: "EAP",
+#     filename: "#{c}.pem",
+#   )
+# end
 
-base_connection = ActiveRecord::Base.connection
-base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+# base_connection = ActiveRecord::Base.connection
+# base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-Site.all.each do |site|
-  fallback_policy_id = site.fallback_policy.try(:id)
+# Site.all.each do |site|
+#   fallback_policy_id = site.fallback_policy.try(:id)
 
-  if fallback_policy_id
-    site.delete
-  end
-end
+#   if fallback_policy_id
+#     site.delete
+#   end
+# end
 
-base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+# base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
