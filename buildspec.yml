@@ -23,7 +23,6 @@ phases:
     commands:
       - make authenticate-docker
       - make publish
-      - make seed
       - make migrate
       - make bootstrap
       - make deploy
