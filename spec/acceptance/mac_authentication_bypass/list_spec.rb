@@ -50,5 +50,21 @@ describe "showing a MAC authentication bypass", type: :feature do
         expect(page).to have_content(second_mac_authentication_bypass.name)
       end
     end
+
+    it "allows ordering descriptions" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "Description"
+
+      within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do
+        expect(page).to have_content(mac_authentication_bypass.description)
+      end
+
+      click_on "Description"
+
+      within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do
+        expect(page).to have_content(second_mac_authentication_bypass.description)
+      end
+    end
   end
 end
