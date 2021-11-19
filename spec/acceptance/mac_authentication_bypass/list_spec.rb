@@ -7,7 +7,7 @@ describe "showing a MAC authentication bypass", type: :feature do
 
   context "when the MAC authentication bypasses exists" do
     let!(:mac_authentication_bypass) { create :mac_authentication_bypass, name: "Printer 1" }
-    let!(:second_mac_authentication_bypass) { create :mac_authentication_bypass, address: "bb-11-22-33-44-11", name: "Printer 2"}
+    let!(:second_mac_authentication_bypass) { create :mac_authentication_bypass, address: "bb-11-22-33-44-11", name: "Printer 2" }
 
     it "allows viewing bypasses" do
       visit "/mac_authentication_bypasses"
