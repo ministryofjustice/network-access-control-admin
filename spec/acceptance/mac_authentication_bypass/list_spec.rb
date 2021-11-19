@@ -82,5 +82,21 @@ describe "showing a MAC authentication bypass", type: :feature do
         expect(page).to have_content(date_format(second_mac_authentication_bypass.created_at))
       end
     end
+
+    it "allows ordering updated at" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "Updated"
+
+      within(:xpath, "//table[2]/tbody/tr[1]/td[5]") do
+        expect(page).to have_content(date_format(mac_authentication_bypass.updated_at))
+      end
+
+      click_on "Updated"
+
+      within(:xpath, "//table[2]/tbody/tr[1]/td[5]") do
+        expect(page).to have_content(date_format(second_mac_authentication_bypass.updated_at))
+      end
+    end
   end
 end
