@@ -7,6 +7,7 @@ describe "showing a MAC authentication bypass", type: :feature do
 
   context "when the MAC authentication bypasses exists" do
     let!(:mac_authentication_bypass) { create :mac_authentication_bypass }
+    let!(:second_mac_authentication_bypass) { create :mac_authentication_bypass, address: "bb-11-22-33-44-11"}
 
     it "allows viewing bypasses" do
       visit "/mac_authentication_bypasses"
@@ -16,6 +17,22 @@ describe "showing a MAC authentication bypass", type: :feature do
       expect(page).to have_content mac_authentication_bypass.description
       expect(page).to have_content date_format(mac_authentication_bypass.created_at)
       expect(page).to have_content date_format(mac_authentication_bypass.updated_at)
+    end
+
+    it "allows ordering MAC addresses" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "MAC Address"
+
+      within(:xpath, "//table[2]/tbody/tr[1]/td[1]") do
+        expect(page).to have_content('aa-11-22-33-44-11')
+      end
+
+      click_on "MAC Address"
+
+      within(:xpath, "//table[2]/tbody/tr[1]/td[1]") do
+        expect(page).to have_content('bb-11-22-33-44-11')
+      end
     end
   end
 end

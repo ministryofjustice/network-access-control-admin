@@ -8,10 +8,16 @@ class MacAuthenticationBypassesController < ApplicationController
                                      MacAuthenticationBypass.where(
                                        "name LIKE ? or description LIKE ? or address LIKE ?",
                                        "%#{@search}%", "%#{@search}%", "%#{@search}%"
-                                     ).page(params[:page])
+                                     ).order("#{params[:sort]}").page(params[:page])
+                                   elsif params[:sort]
+                                     sort_order = cookies[:sort_order] || "asc"
+
+                                     MacAuthenticationBypass.order("#{params[:sort]} #{sort_order}").page params[:page]
                                    else
                                      MacAuthenticationBypass.page params[:page]
                                    end
+
+    cookies[:sort_order] = sort_order == "asc" ? "desc" : "asc"
   end
 
   def new
