@@ -1,0 +1,17 @@
+# -*- text -*-
+# Copyright (C) 2020 The FreeRADIUS Server project and contributors
+# This work is licensed under CC-BY version 4.0 https://creativecommons.org/licenses/by/4.0
+# Version $Id: e28277b527912c304be4c413c331a3c92a9d0c10 $
+#
+#       Version: $Id: e28277b527912c304be4c413c331a3c92a9d0c10 $
+#
+VENDOR          Aruba                           14823
+BEGIN-VENDOR    Aruba
+
+ATTRIBUTE       Aruba-User-Role                         1       string
+ATTRIBUTE       Aruba-User-Vlan                         2       integer
+
+VALUE   Aruba-AirGroup-Device-Type      Personal-Device         1
+VALUE   Aruba-AirGroup-Device-Type      Shared-Device           2
+
+END-VENDOR Aruba

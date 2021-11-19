@@ -62,9 +62,9 @@ RUN chown -R $USER:$GROUP $CERTDIR &&\
 USER $USER
 
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
-  ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=production bundle exec rails assets:precompile; \
+  ASSET_PRECOMPILATION_ONLY=true bundle exec rails assets:precompile; \
   fi
 
 EXPOSE 3000
 
-CMD bundle exec rake radius_attributes:fetch && bundle exec rails server -b 0.0.0.0
+CMD bundle exec rails server -b 0.0.0.0
