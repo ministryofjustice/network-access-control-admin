@@ -7,9 +7,9 @@ describe "searching a MAC authentication bypass", type: :feature do
     end
 
     context "when multiple MAC authentication bypass exists" do
-      let!(:first_mab) { create :mac_authentication_bypass, address: "aa-11-22-33-44-11", name: "Printer", description: "some printer" }
-      let!(:second_mab) { create :mac_authentication_bypass, address: "bb-11-22-33-44-11", name: "old Phone", description: "so much MAC" }
-      let!(:third_mab) { create :mac_authentication_bypass, address: "cc-11-32-33-44-11", name: "iPhone", description: "my smartphone is not old" }
+      let!(:first_mab) { create :mac_authentication_bypass, address: "aa-11-22-33-44-11", name: "Printer", description: "some printer", created_at: 5.minutes.ago }
+      let!(:second_mab) { create :mac_authentication_bypass, address: "bb-11-22-33-44-11", name: "old Phone", description: "so much MAC", created_at: 3.minutes.ago }
+      let!(:third_mab) { create :mac_authentication_bypass, address: "cc-11-32-33-44-11", name: "iPhone", description: "my smartphone is not old", created_at: 2.minutes.ago }
 
       it "allows searching for exact matches" do
         visit "/mac_authentication_bypasses"
@@ -141,6 +141,30 @@ describe "searching a MAC authentication bypass", type: :feature do
 
         within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do
           expect(page).to have_content(first_mab.description)
+        end
+
+        expect(page).to_not have_content third_mab.description
+      end
+
+      it "allows ordering search results of MAB by creation date" do
+        visit "/mac_authentication_bypasses"
+
+        fill_in "search", with: "so"
+
+        click_on "Search"
+
+        click_on "Created"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do
+          expect(page).to have_content(first_mab.description)
+        end
+
+        expect(page).to_not have_content third_mab.description
+
+        click_on "Created"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do
+          expect(page).to have_content(second_mab.description)
         end
 
         expect(page).to_not have_content third_mab.description

@@ -29,7 +29,7 @@
         <th scope="col" class="govuk-table__header"><%= link_to "MAC Address", sort: @sort.merge({ sort_by: "address" }), search: @search %></th>
         <th scope="col" class="govuk-table__header"><%= link_to "Name", sort: @sort.merge({ sort_by: "name" }), search: @search %></th>
         <th scope="col" class="govuk-table__header"><%= link_to "Description", sort: @sort.merge({ sort_by: "description" }), search: @search %></th>
-        <th scope="col" class="govuk-table__header"><%= link_to "Created", sort: @sort.merge({ sort_by: "created_at" }) %></th>
+        <th scope="col" class="govuk-table__header"><%= link_to "Created", sort: @sort.merge({ sort_by: "created_at" }), search: @search %></th>
         <th scope="col" class="govuk-table__header"><%= link_to "Updated", sort: @sort.merge({ sort_by: "updated_at" }) %></th>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
