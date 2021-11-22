@@ -13,5 +13,6 @@ ATTRIBUTE       Aruba-User-Vlan                         2       integer
 
 VALUE   Aruba-AirGroup-Device-Type      Personal-Device         1
 VALUE   Aruba-AirGroup-Device-Type      Shared-Device           2
+#  (for x in `egrep ^ATTRIBUTE dictionary.ascend | egrep 'X-Ascend-' | awk '{print $2}' | uniq`;do y=`echo $x | sed 's/X-//'`;egrep VALUE dictionary.ascend | egrep $y[^-] | sed "s/$y/X-$y/" ; done) > new-value
 
 END-VENDOR Aruba

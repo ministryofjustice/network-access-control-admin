@@ -45,11 +45,11 @@ describe "update rules", type: :feature do
 
       expect(page).to have_content(policy.name)
 
-      expect(page).to have_select("request-attribute", text: rule.request_attribute)
+      expect(page).to have_select("rule_request_attribute", text: rule.request_attribute)
       expect(page).to have_select("Operator", text: rule.operator)
       expect(page).to have_field("Value", with: rule.value)
 
-      select "User-Name", from: "request-attribute"
+      select "User-Name", from: "rule_request_attribute"
       select "contains", from: "Operator"
       fill_in "Value", with: "Bob"
 
@@ -63,29 +63,6 @@ describe "update rules", type: :feature do
       expect(page).to have_content "Bob"
 
       expect_audit_log_entry_for(editor.email, "update", "Rule")
-    end
-
-    it "does update an existing custom rule" do
-      visit "policies/#{policy.id}"
-
-      all(:link, "Edit")[1].click
-
-      expect(page).to have_field("custom-request-attribute", with: custom_rule.request_attribute)
-      expect(page).to have_select("Operator", text: custom_rule.operator)
-      expect(page).to have_field("Value", with: custom_rule.value)
-
-      fill_in "custom-request-attribute", with: "Aruba-AirGroup-Version"
-      select "contains", from: "Operator"
-      fill_in "Value", with: "AirGroup-v1"
-
-      click_on "Update"
-
-      expect(current_path).to eq("/policies/#{policy.id}")
-
-      expect(page).to have_content("Successfully updated rule.")
-      expect(page).to have_content "Aruba-AirGroup-Version"
-      expect(page).to have_content "contains"
-      expect(page).to have_content "AirGroup-v1"
     end
   end
 end

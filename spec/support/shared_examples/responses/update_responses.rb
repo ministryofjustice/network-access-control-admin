@@ -1,4 +1,4 @@
-RSpec.shared_examples "response update" do |domain, response|
+RSpec.shared_examples "response update" do |domain, response, select_box_id|
   let(:created_domain) { create(domain) }
   let(:created_response) { create(response, { domain => created_domain }) }
   let(:custom_response) { create(response, { :response_attribute => "3Com-User-Access-Level", :value => "3Com-Visitor", domain => created_domain }) }
@@ -45,10 +45,10 @@ RSpec.shared_examples "response update" do |domain, response|
 
       expect(page).to have_content(created_domain.name)
 
-      expect(page).to have_select("response-attribute", text: created_response.response_attribute)
+      expect(page).to have_select(select_box_id, text: created_response.response_attribute)
       expect(page).to have_field("Value", with: created_response.value)
 
-      select "Reply-Message", from: "response-attribute"
+      select "Reply-Message", from: select_box_id
       fill_in "Value", with: "Hello to you"
 
       click_on "Update"
@@ -60,26 +60,6 @@ RSpec.shared_examples "response update" do |domain, response|
       expect(page).to have_content "Hello to you"
 
       expect_audit_log_entry_for(editor.email, "update", "Response")
-    end
-
-    it "does update an existing custom response" do
-      visit "/#{domain.to_s.pluralize}/#{created_domain.id}"
-
-      all(:link, "Edit")[1].click
-
-      expect(page).to have_field("custom-response-attribute", with: custom_response.response_attribute)
-      expect(page).to have_field("Value", with: custom_response.value)
-
-      fill_in "custom-response-attribute", with: "Zyxel-Callback-Phone-Source"
-      fill_in "Value", with: "User"
-
-      click_on "Update"
-
-      expect(current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}")
-
-      expect(page).to have_content("Successfully updated response.")
-      expect(page).to have_content "Zyxel-Callback-Phone-Source"
-      expect(page).to have_content "User"
     end
   end
 end

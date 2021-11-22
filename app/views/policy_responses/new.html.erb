@@ -6,5 +6,6 @@
 <%= render "shared/response_form",
   path: policy_policy_responses_path(policy_id: @policy, id: @response),
   response: @response,
-  cancel_path: policy_path(@policy)
+  cancel_path: policy_path(@policy),
+  selector: "#policy_response_response_attribute"
 %>

@@ -7,7 +7,7 @@ module UseCases
 
     def call
       fetch_dictionaries_from_s3
-      extracted_attributes
+      extracted_attributes.sort
     end
 
   private
@@ -27,7 +27,7 @@ module UseCases
 
     def attribute_lines
       active_dictionaries.map { |d|
-        File.read("#{output}/#{d}").each_line.select { |l| l.match?(/ATTRIBUTE/) }
+        File.read("#{output}/#{d}").each_line.select { |l| l.match?(/^ATTRIBUTE/) }
       }.flatten!
     end
 
