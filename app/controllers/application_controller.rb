@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, :set_default_breadcrumbs
+  before_action :authenticate_user!, :set_default_breadcrumbs, :set_radius_attributes
   after_action :set_expect_ct_header
 
   rescue_from ActionController::InvalidAuthenticityToken do
@@ -59,6 +59,10 @@ private
 
   def set_default_breadcrumbs
     @navigation_crumbs = [["Home", root_path]]
+  end
+
+  def set_radius_attributes
+    @radius_attributes = Rails.application.config.radius_attributes
   end
 
   CONFIG_UPDATE_DELAY_NOTICE = " This could take up to 10 minutes to apply.".freeze

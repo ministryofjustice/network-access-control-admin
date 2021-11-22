@@ -1,4 +1,4 @@
-RSpec.shared_examples "new response creation" do |domain, response|
+RSpec.shared_examples "new response creation" do |domain, response, select_box_id|
   context "when the user is an editor" do
     let(:editor) { create(:user, :editor) }
 
@@ -24,7 +24,7 @@ RSpec.shared_examples "new response creation" do |domain, response|
 
         expect(page).to have_content(created_domain.name)
 
-        select "Tunnel-Type", from: "response-attribute"
+        select "Tunnel-Type", from: select_box_id
         fill_in "Value", with: "VLAN"
 
         click_on "Create"
@@ -32,45 +32,6 @@ RSpec.shared_examples "new response creation" do |domain, response|
         expect(page).to have_content("Successfully created response.")
         expect(page.current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}")
         expect_audit_log_entry_for(editor.email, "create", "Response")
-      end
-
-      it "creates a new custom response" do
-        expect_service_deployment if domain == :mac_authentication_bypass
-
-        visit "/#{domain.to_s.pluralize}/#{created_domain.id}"
-
-        click_on "Add response"
-
-        expect(page.current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}/#{response.to_s.pluralize}/new")
-
-        choose "Custom"
-        fill_in "custom-response-attribute", with: "3Com-User-Access-Level"
-        fill_in "Value", with: "3Com-Visitor"
-
-        click_on "Create"
-
-        expect(page).to have_content("Successfully created response.")
-        expect(page.current_path).to eq("/#{domain.to_s.pluralize}/#{created_domain.id}")
-        expect_audit_log_entry_for(editor.email, "create", "Response")
-      end
-
-      it "displays error if form cannot be submitted multiple times" do
-        visit "/#{domain.to_s.pluralize}/#{created_domain.id}"
-
-        click_on "Add response"
-
-        choose "Custom"
-        fill_in "custom-response-attribute", with: "Invalid-Attribute"
-        fill_in "Value", with: "Invalid-Value"
-
-        click_on "Create"
-
-        expect(page).to have_content("There is a problem")
-
-        click_on "Create"
-
-        expect(page).to have_checked_field("Custom")
-        expect(page).to have_content("There is a problem")
       end
 
       it "displays an error if form cannot be submitted" do

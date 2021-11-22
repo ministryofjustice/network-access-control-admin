@@ -6,5 +6,6 @@
 <%= render "shared/response_form",
   path: mac_authentication_bypass_mab_responses_path(mac_authentication_bypass_id: @mac_authentication_bypass, id: @response),
   response: @response,
-  cancel_path: mac_authentication_bypass_path(@mac_authentication_bypass)
+  cancel_path: mac_authentication_bypass_path(@mac_authentication_bypass),
+  selector: "#mab_response_response_attribute"
 %>
