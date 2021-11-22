@@ -6,8 +6,8 @@ describe "showing a MAC authentication bypass", type: :feature do
   end
 
   context "when the MAC authentication bypasses exists" do
-    let!(:mac_authentication_bypass) { create :mac_authentication_bypass, name: "Printer 1" }
-    let!(:second_mac_authentication_bypass) { create :mac_authentication_bypass, address: "bb-11-22-33-44-11", name: "Printer 2" }
+    let!(:mac_authentication_bypass) { create :mac_authentication_bypass, name: "Printer 1", description: "Printer description A" }
+    let!(:second_mac_authentication_bypass) { create :mac_authentication_bypass, address: "bb-11-22-33-44-11", name: "Printer 2", description: "Printer description B" }
 
     it "allows viewing bypasses" do
       visit "/mac_authentication_bypasses"
@@ -53,7 +53,6 @@ describe "showing a MAC authentication bypass", type: :feature do
 
     it "allows ordering descriptions" do
       visit "/mac_authentication_bypasses"
-
       click_on "Description"
 
       within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do

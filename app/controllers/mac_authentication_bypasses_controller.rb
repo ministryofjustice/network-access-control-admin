@@ -1,20 +1,10 @@
 class MacAuthenticationBypassesController < ApplicationController
   before_action :set_mac_authentication_bypass, only: %i[destroy edit update show]
   before_action :set_crumbs, only: %i[index new show edit destroy]
+  before_action :set_sort, only: :index
 
   def index
-    sort_order = cookies[:sort_order] || "asc"
-
-    @mac_authentication_bypasses = if params[:search] && params[:sort]
-                                     @search = params[:search]
-
-                                     results = MacAuthenticationBypass.where(
-                                       "name LIKE ? or description LIKE ? or address LIKE ?",
-                                       "%#{@search}%", "%#{@search}%", "%#{@search}%"
-                                     )
-
-                                     results.order("#{params[:sort]} #{sort_order}").page(params[:page])
-                                   elsif params[:search]
+    @mac_authentication_bypasses = if params[:search]
                                      @search = params[:search]
 
                                      results = MacAuthenticationBypass.where(
@@ -24,12 +14,10 @@ class MacAuthenticationBypassesController < ApplicationController
 
                                      results.page(params[:page])
                                    elsif params[:sort]
-                                     MacAuthenticationBypass.order("#{params[:sort]} #{sort_order}").page params[:page]
+                                     MacAuthenticationBypass.order("#{@sort[:sort_by]} #{@sort[:sort_order]}").page params[:page]
                                    else
                                      MacAuthenticationBypass.page params[:page]
                                    end
-
-    cookies[:sort_order] = sort_order == "asc" ? "desc" : "asc"
   end
 
   def new
@@ -116,5 +104,14 @@ private
 
   def set_crumbs
     @navigation_crumbs << ["MAC Authentication Bypasses", mac_authentication_bypasses_path]
+  end
+
+  def set_sort
+    if params[:sort]
+      sort_order = params.dig(:sort, :sort_order) == "asc" ? "desc" : "asc"
+      @sort = { sort_by: params.dig(:sort, :sort_by), sort_order: sort_order }
+    else
+      @sort = {}
+    end
   end
 end
