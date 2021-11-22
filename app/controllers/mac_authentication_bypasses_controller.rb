@@ -10,9 +10,9 @@ class MacAuthenticationBypassesController < ApplicationController
                                        "%#{@search}%", "%#{@search}%", "%#{@search}%"
                                      ).page(params[:page])
 
-                                     params[:sort] ? results.order("#{@sort[:sort_by]} #{@sort[:sort_order]}") : results
+                                     params[:sort] ? results.order(order_by(@sort)) : results
                                    elsif params[:sort]
-                                     MacAuthenticationBypass.order("#{@sort[:sort_by]} #{@sort[:sort_order]}").page params[:page]
+                                     MacAuthenticationBypass.order(order_by(@sort)).page params[:page]
                                    else
                                      MacAuthenticationBypass.page params[:page]
                                    end
@@ -115,5 +115,19 @@ private
 
   def set_search
     @search = params[:search] if params[:search]
+  end
+
+  def sortable_attributes
+    {
+      address: "address",
+      name: "name",
+      description: "description",
+      created_at: "created_at",
+      updated_at: "updated_at",
+    }
+  end
+
+  def order_by(sort)
+    "#{sortable_attributes[sort[:sort_by].to_sym]} #{sort[:sort_order]}"
   end
 end
