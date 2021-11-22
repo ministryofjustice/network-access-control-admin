@@ -1,0 +1,18 @@
+# -*- text -*-
+# Copyright (C) 2019 The FreeRADIUS Server project and contributors
+# This work is licensed under CC-BY version 4.0 https://creativecommons.org/licenses/by/4.0
+
+VENDOR          Cisco                           9
+
+#
+#       Standard attribute
+#
+BEGIN-VENDOR    Cisco
+
+ATTRIBUTE       Cisco-AVPair                            1       string
+ATTRIBUTE       Cisco-NAS-Port                          2       string
+
+VALUE   Cisco-Disconnect-Cause          No-Reason               0
+VALUE   Cisco-Disconnect-Cause          No-Disconnect           1
+
+END-VENDOR      Cisco
