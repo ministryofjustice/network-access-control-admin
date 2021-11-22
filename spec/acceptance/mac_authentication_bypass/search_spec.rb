@@ -73,6 +73,78 @@ describe "searching a MAC authentication bypass", type: :feature do
         expect(page).to_not have_content first_mab.name
         expect(page).to_not have_content first_mab.description
       end
+
+      it "allows ordering search results of MAC Addresses" do
+        visit "/mac_authentication_bypasses"
+
+        fill_in "search", with: "11-22"
+
+        click_on "Search"
+
+        click_on "MAC Address"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[1]") do
+          expect(page).to have_content(first_mab.address)
+        end
+
+        expect(page).to_not have_content third_mab.address
+
+        click_on "MAC Address"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[1]") do
+          expect(page).to have_content(second_mab.address)
+        end
+
+        expect(page).to_not have_content third_mab.address
+      end
+
+      it "allows ordering search results of MAB names" do
+        visit "/mac_authentication_bypasses"
+
+        fill_in "search", with: "Phone"
+
+        click_on "Search"
+
+        click_on "Name"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[2]") do
+          expect(page).to have_content(third_mab.name)
+        end
+
+        expect(page).to_not have_content first_mab.name
+
+        click_on "Name"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[2]") do
+          expect(page).to have_content(second_mab.name)
+        end
+
+        expect(page).to_not have_content first_mab.name
+      end
+
+      it "allows ordering search results of MAB description" do
+        visit "/mac_authentication_bypasses"
+
+        fill_in "search", with: "so"
+
+        click_on "Search"
+
+        click_on "Description"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do
+          expect(page).to have_content(second_mab.description)
+        end
+
+        expect(page).to_not have_content third_mab.description
+
+        click_on "Description"
+
+        within(:xpath, "//table[2]/tbody/tr[1]/td[3]") do
+          expect(page).to have_content(first_mab.description)
+        end
+
+        expect(page).to_not have_content third_mab.description
+      end
     end
   end
 end
