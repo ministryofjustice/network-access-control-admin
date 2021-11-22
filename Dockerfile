@@ -62,7 +62,7 @@ RUN chown -R $USER:$GROUP $CERTDIR &&\
 USER $USER
 
 RUN if [ ${RUN_PRECOMPILATION} = 'true' ]; then \
-  ASSET_PRECOMPILATION_ONLY=true bundle exec rails assets:precompile; \
+  ASSET_PRECOMPILATION_ONLY=true RAILS_ENV=development bundle exec rails assets:precompile; \
   fi
 
 EXPOSE 3000
