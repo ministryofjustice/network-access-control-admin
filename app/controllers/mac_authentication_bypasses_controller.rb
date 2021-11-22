@@ -1,27 +1,16 @@
 class MacAuthenticationBypassesController < ApplicationController
   before_action :set_mac_authentication_bypass, only: %i[destroy edit update show]
   before_action :set_crumbs, only: %i[index new show edit destroy]
-  before_action :set_sort, only: :index
+  before_action :set_sort, :set_search, only: :index
 
   def index
-    @mac_authentication_bypasses = if params[:search] && params[:sort]
-                                     @search = params[:search]
-
+    @mac_authentication_bypasses = if params[:search]
                                      results = MacAuthenticationBypass.where(
                                        "name LIKE ? or description LIKE ? or address LIKE ?",
                                        "%#{@search}%", "%#{@search}%", "%#{@search}%"
-                                     )
+                                     ).page(params[:page])
 
-                                     results.order("#{@sort[:sort_by]} #{@sort[:sort_order]}").page(params[:page])
-                                   elsif params[:search]
-                                     @search = params[:search]
-
-                                     results = MacAuthenticationBypass.where(
-                                       "name LIKE ? or description LIKE ? or address LIKE ?",
-                                       "%#{@search}%", "%#{@search}%", "%#{@search}%"
-                                     )
-
-                                     results.page(params[:page])
+                                     params[:sort] ? results.order("#{@sort[:sort_by]} #{@sort[:sort_order]}") : results
                                    elsif params[:sort]
                                      MacAuthenticationBypass.order("#{@sort[:sort_by]} #{@sort[:sort_order]}").page params[:page]
                                    else
@@ -122,5 +111,9 @@ private
     else
       @sort = {}
     end
+  end
+
+  def set_search
+    @search = params[:search] if params[:search]
   end
 end
