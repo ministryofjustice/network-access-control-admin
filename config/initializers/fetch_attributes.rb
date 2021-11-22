@@ -1,6 +1,8 @@
 require_relative "../../app/lib/gateways/s3"
 require_relative "../../app/lib/use_cases/fetch_radius_attributes"
 
+p Rails.application.config.s3_aws_config
+
 s3_gateway = Gateways::S3.new(
   bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
   key: nil,

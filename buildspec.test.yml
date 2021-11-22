@@ -16,6 +16,7 @@ phases:
 
   build:
     commands:
-      - make authenticate-docker
-      - ENV=test make db-setup
-      - make test
+      - echo "noop"
+      # - make authenticate-docker
+      # - ENV=test make db-setup
+      # - make test
