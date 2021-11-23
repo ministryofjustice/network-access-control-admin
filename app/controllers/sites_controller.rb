@@ -5,7 +5,7 @@ class SitesController < ApplicationController
   before_action :set_policy, only: :index
 
   def index
-    @q = if @policy
+    @q = if @policy.present?
            Site.joins(:policies).where(policies: { id: @policy }).ransack(params[:q])
          else
            Site.ransack(params[:q])
