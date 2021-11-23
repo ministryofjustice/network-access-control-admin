@@ -3,15 +3,8 @@ class MacAuthenticationBypassesController < ApplicationController
   before_action :set_crumbs, only: %i[index new show edit destroy]
 
   def index
-    @mac_authentication_bypasses = if params[:search]
-                                     @search = params[:search]
-                                     MacAuthenticationBypass.where(
-                                       "name LIKE ? or description LIKE ? or address LIKE ?",
-                                       "%#{@search}%", "%#{@search}%", "%#{@search}%"
-                                     ).page(params[:page])
-                                   else
-                                     MacAuthenticationBypass.page params[:page]
-                                   end
+    @q = MacAuthenticationBypass.ransack(params[:q])
+    @mac_authentication_bypasses = @q.result.page(params.dig(:q, :page))
   end
 
   def new
