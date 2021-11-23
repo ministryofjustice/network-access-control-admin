@@ -24,10 +24,10 @@ seed() {
 }
 
 main() {
-  if [ "$ENV" == "development" ]; then
+  # if [ "$ENV" == "development" ]; then
     assume_deploy_role
     seed
-  fi
+  # fi
 }
 
 main
