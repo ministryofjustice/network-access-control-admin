@@ -42,5 +42,43 @@ describe "showing a policy", type: :feature do
       expect(page).to have_content "Attached site 3"
       expect(page).to_not have_content "Some other site"
     end
+
+    context "ordering" do
+      let!(:first_policy) { create(:policy, name: "AA Policy") }
+      let!(:second_policy) { create(:policy, name: "BB Policy") }
+      let!(:third_policy) { create(:policy, name: "Policy AAA") }
+
+      before do
+        visit "/policies"
+      end
+
+      it "orders by name" do
+        click_on "Name"
+        expect(page.text).to match(/AA Policy.*BB Policy/)
+
+        click_on "Name"
+        expect(page.text).to match(/BB Policy.*AA Policy/)
+      end
+
+      it "orders by updated_at" do
+        second_policy.update_attribute(:updated_at, 10.minutes.ago)
+        first_policy.update_attribute(:updated_at, 2.minutes.ago)
+
+        click_on "Updated at"
+        expect(page.text).to match(/#{date_format(second_policy.updated_at)}.*#{date_format(first_policy.updated_at)}/)
+
+        click_on "Updated at"
+        expect(page.text).to match(/#{date_format(first_policy.updated_at)}.*#{date_format(second_policy.updated_at)}/)
+      end
+    end
+
+    it "paginates" do
+      52.times { |t| create(:site, name: "Policy #{t}") }
+
+      visit "/policies"
+      expect(page.text).to_not include("Policy 51")
+      click_on "2"
+      expect(page.text).to include("Policy 51")
+    end
   end
 end

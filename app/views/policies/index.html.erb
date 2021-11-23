@@ -1,33 +1,34 @@
 <div>
   <h2 class="govuk-heading-l">Policies</h2>
 
-  <table class="govuk-table">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">
-        <% if can? :create, Policy %>
-          <%= link_to "Create a new policy", new_policy_path, class: "govuk-button" %>
-        <% end %>
-      </th>
-      <th scope="col" class="govuk-table__header">
-        <%=
-          render "shared/search_bar",
-          resource_path: policies_path
-        %>
-      </th>
-    </tr>
-  </table>
+    <table class="govuk-table">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+          <% if can? :create, Policy %>
+            <%= link_to "Create a new policy", new_policy_path, class: "govuk-button" %>
+          <% end %>
+        </th>
+        <th scope="col" class="govuk-table__header search_bar">
+          <%= search_form_for @q do |f| %>
+            <%= f.search_field :name_or_description_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
+
+            <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
+          <% end %>
+        </th>
+      </tr>
+    </table>
 
   <table class="govuk-table">
     <caption class="govuk-table__caption">List of policies</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Name</th>
-        <th scope="col" class="govuk-table__header">Description</th>
-        <th scope="col" class="govuk-table__header">Fallback</th>
-        <th scope="col" class="govuk-table__header">Created</th>
-        <th scope="col" class="govuk-table__header">Updated</th>
-        <th scope="col" class="govuk-table__header">Sites</th>
-        <th scope="col" class="govuk-table__header">
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :name) %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :description) %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :fallback) %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :created_at, "Created") %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :updated_at, "Updated") %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :site_count, "Sites") %></th>
+        <th scope="col" class="govuk-table__header govuk-table__narrow">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
       </tr>
@@ -40,7 +41,7 @@
           <td class="govuk-table__cell"><%= policy.fallback ? "Yes" : "No" %></td>
           <td class="govuk-table__cell"><%= date_format(policy.created_at) %></td>
           <td class="govuk-table__cell"><%= date_format(policy.updated_at) %></td>
-          <td class="govuk-table__cell"><%= link_to policy.sites.count, sites_path(:policy => policy.id), class: "govuk-link" %></td>
+          <td class="govuk-table__cell"><%= link_to policy.site_count, sites_path(:policy => policy.id), class: "govuk-link" %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Policy %>
               <%= link_to "Manage", policy_path(policy), class: "govuk-link" %>

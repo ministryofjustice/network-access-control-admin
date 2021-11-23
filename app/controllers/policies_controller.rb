@@ -19,15 +19,8 @@ class PoliciesController < ApplicationController
   end
 
   def index
-    @policies = if params[:search]
-                  @search = params[:search]
-                  Policy.where(
-                    "name LIKE ? or description LIKE ?",
-                    "%#{@search}%", "%#{@search}%"
-                  ).page(params[:page])
-                else
-                  Policy.page params[:page]
-                end
+    @q = Policy.ransack(params[:q])
+    @policies = @q.result.page(params.dig(:q, :page))
   end
 
   def show; end
