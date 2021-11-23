@@ -239,6 +239,10 @@ GEM
       thor (~> 1.0)
     rainbow (3.0.0)
     rake (13.0.6)
+    ransack (2.4.2)
+      activerecord (>= 5.2.4)
+      activesupport (>= 5.2.4)
+      i18n
     regexp_parser (2.1.1)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -367,6 +371,7 @@ DEPENDENCIES
   openssl
   puma (~> 5.5)
   rails (~> 6.1.4)
+  ransack
   rspec-rails (~> 5.0.2)
   rubocop-govuk
   sassc-rails
