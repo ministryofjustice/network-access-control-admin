@@ -16,12 +16,12 @@ gem "omniauth-rails_csrf_protection", "~> 1.0"
 gem "openssl"
 gem "puma", "~> 5.5"
 gem "rails", "~> 6.1.4"
+gem "ransack"
 gem "sassc-rails"
 gem "sentry-rails"
 gem "sentry-ruby"
 gem "sprockets", "~> 4.0.2"
 gem "tzinfo-data"
-gem 'ransack'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

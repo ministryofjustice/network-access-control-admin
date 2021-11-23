@@ -39,7 +39,7 @@ describe "listing sites", type: :feature do
         expect(page).to have_content first_site.name
         expect(page).to have_content second_site.name
 
-        fill_in "q_name_cont", with: 'AA'
+        fill_in "q_name_cont", with: "AA"
         click_on "Search"
 
         expect(page).to_not have_content second_site.name
