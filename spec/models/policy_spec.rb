@@ -14,4 +14,12 @@ describe Policy, type: :model do
   it { is_expected.to have_many(:responses) }
   it { is_expected.to have_many(:site_policy) }
   it { is_expected.to have_many(:sites) }
+
+  it "persists the site count" do
+    policy = create(:policy)
+    expect(policy.site_count).to eq(0)
+
+    policy.sites << create(:site)
+    expect(policy.site_count).to eq(1)
+  end
 end
