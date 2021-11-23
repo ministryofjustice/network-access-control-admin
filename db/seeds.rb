@@ -1,6 +1,4 @@
-SitePolicy.all.each do |sp|
-  sp.save!
-end
+SitePolicy.all.each(&:save!)
 
 # def ip_range
 #   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
