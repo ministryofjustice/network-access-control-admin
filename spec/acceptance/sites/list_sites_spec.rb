@@ -59,10 +59,10 @@ describe "listing sites", type: :feature do
         second_site.update_attribute(:updated_at, 10.minutes.ago)
         first_site.update_attribute(:updated_at, 2.minutes.ago)
 
-        click_on "Updated at"
+        click_on "Updated"
         expect(page.text).to match(/#{date_format(second_site.updated_at)}.*#{date_format(first_site.updated_at)}/)
 
-        click_on "Updated at"
+        click_on "Updated"
         expect(page.text).to match(/#{date_format(first_site.updated_at)}.*#{date_format(second_site.updated_at)}/)
       end
     end

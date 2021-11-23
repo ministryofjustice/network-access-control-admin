@@ -64,10 +64,10 @@ describe "showing a policy", type: :feature do
         second_policy.update_attribute(:updated_at, 10.minutes.ago)
         first_policy.update_attribute(:updated_at, 2.minutes.ago)
 
-        click_on "Updated at"
+        click_on "Updated"
         expect(page.text).to match(/#{date_format(second_policy.updated_at)}.*#{date_format(first_policy.updated_at)}/)
 
-        click_on "Updated at"
+        click_on "Updated"
         expect(page.text).to match(/#{date_format(first_policy.updated_at)}.*#{date_format(second_policy.updated_at)}/)
       end
     end
