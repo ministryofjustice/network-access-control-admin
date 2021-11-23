@@ -8,11 +8,11 @@
           <%= link_to "Create a new bypass", new_mac_authentication_bypass_path, class: "govuk-button"%>
         <% end %>
       </th>
-      <th scope="col" class="govuk-table__header">
-        <%=
-          render "shared/search_bar",
-          resource_path: mac_authentication_bypasses_path
-        %>
+      <th scope="col" class="govuk-table__header search_bar">
+        <%= search_form_for @q do |f| %>
+          <%= f.search_field :name_or_description_or_address_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
+          <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
+        <% end %>
       </th>
     </tr>
   </table>
@@ -21,13 +21,13 @@
     <caption class="govuk-table__caption govuk-visually-hidden">List of MAC Authentication Bypasses</caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">MAC Address</th>
-        <th scope="col" class="govuk-table__header">Name</th>
-        <th scope="col" class="govuk-table__header">Description</th>
-        <th scope="col" class="govuk-table__header">Created</th>
-        <th scope="col" class="govuk-table__header">Updated</th>
-        <th scope="col" class="govuk-table__header">
-          <span class="govuk-visually-hidden">Actions</span>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :address, "MAC Address") %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :name) %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :description) %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :created_at, "Created") %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :updated_at, "Updated") %></th>
+        <th scope="col" class="govuk-table__header govuk-table__narrow">
+          <span class="govuk-visually-hidden"></span>
         </th>
       </tr>
     </thead>

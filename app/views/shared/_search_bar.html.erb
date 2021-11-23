@@ -1,9 +1,0 @@
-<div class='search_bar'>
-  <%= form_with url: resource_path, method: :get, local: true do |f| %>
-    <%= f.text_field :search, value: @search, class: "govuk-input govuk-input--width-10" %>
-    <%= f.submit "Search", {
-    class: "govuk-button",
-    "data-module" => "govuk-button"
-    } %>
-  <% end %>
-</div>
