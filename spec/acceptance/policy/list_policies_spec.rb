@@ -23,10 +23,10 @@ describe "showing a policy", type: :feature do
 
     before do
       4.times { |i| policy.sites << create(:site, name: "Attached site #{i}") }
-      create(:site, name: "Some other site")
+      create(:site, name: "Some other site 2")
     end
 
-    it "allows viewing the associated sites" do
+    it "allows viewing and searching the associated sites" do
       visit "/policies"
 
       expect(page).to have_content policy.name
@@ -40,7 +40,17 @@ describe "showing a policy", type: :feature do
       expect(page).to have_content "Attached site 1"
       expect(page).to have_content "Attached site 2"
       expect(page).to have_content "Attached site 3"
-      expect(page).to_not have_content "Some other site"
+      expect(page).to_not have_content "Some other site 2"
+
+      fill_in "q_name_cont", with: "site 2"
+
+      click_on "Search"
+
+      expect(page).to have_content "Attached site 2"
+      expect(page).to_not have_content "Attached site 1"
+      expect(page).to_not have_content "Attached site 0"
+      expect(page).to_not have_content "Attached site 3"
+      expect(page).to_not have_content "Some other site 2"
     end
 
     context "ordering" do
