@@ -4,11 +4,13 @@ class SitesController < ApplicationController
   before_action :set_crumbs, only: %i[show new edit destroy policies]
 
   def index
-    @sites = if params[:policy]
-               Site.page(params[:page]).joins(:policies).where(policies: { id: params[:policy] })
-             else
-               Site.page params[:page]
-             end
+    @q = if params[:policy]
+           Site.joins(:policies).where(policies: { id: params[:policy] }).ransack(params[:q])
+         else
+           Site.ransack(params[:q])
+         end
+
+    @sites = @q.result.page(params.dig(:q, :page))
   end
 
   def show; end
