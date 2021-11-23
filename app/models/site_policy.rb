@@ -2,7 +2,7 @@ class SitePolicy < ApplicationRecord
   belongs_to :site
   belongs_to :policy
 
-  after_create :update_site_count, :update_policy_count
+  after_save :update_site_count, :update_policy_count
 
   audited
 
