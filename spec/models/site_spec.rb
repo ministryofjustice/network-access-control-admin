@@ -32,12 +32,18 @@ RSpec.describe Site, type: :model do
     expect(site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id).first).to be_nil
   end
 
-  it "persists the policy count" do
+  it "persist and updates the policy count" do
     site = create(:site)
+    policy = create(:policy)
     expect(site.policy_count).to eq(1)
 
-    site.policies << create(:policy)
+    site.policies << policy
     expect(site.policy_count).to eq(2)
+
+    site.assign_attributes(policies: [])
+    site.save
+
+    expect(site.policy_count).to eq(0)
   end
 
   context "when there is a policy with the same name" do

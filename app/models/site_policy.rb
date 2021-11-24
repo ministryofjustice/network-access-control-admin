@@ -3,6 +3,7 @@ class SitePolicy < ApplicationRecord
   belongs_to :policy
 
   after_save :update_site_count, :update_policy_count
+  after_destroy :update_site_count, :update_policy_count, :destroy_fallback_policy
 
   audited
 
@@ -12,5 +13,9 @@ class SitePolicy < ApplicationRecord
 
   def update_policy_count
     site.update_attribute(:policy_count, site.policies.count)
+  end
+
+  def destroy_fallback_policy
+    policy.destroy if policy.fallback?
   end
 end

@@ -5,11 +5,10 @@ class Site < ApplicationRecord
 
   has_many :clients, dependent: :destroy
   has_many :site_policy
-  has_many :policies, through: :site_policy
+  has_many :policies, through: :site_policy, dependent: :destroy
 
   before_save :generate_tag
   after_create :create_fallback_policy
-  after_destroy :destroy_fallback_policy
 
   audited
 
@@ -36,12 +35,5 @@ private
       errors.add :name, "Failed to generate fallback policy with error: #{fallback_policy.errors.full_messages.join(', ')}"
       raise ActiveRecord::RecordInvalid
     end
-  end
-
-  def destroy_fallback_policy
-    fallback_policy_id = fallback_policy.id
-
-    site_policy.where(site_id: id, policy_id: fallback_policy_id).destroy_all
-    Policy.find(fallback_policy_id).destroy
   end
 end
