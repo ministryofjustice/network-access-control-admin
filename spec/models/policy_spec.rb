@@ -15,11 +15,17 @@ describe Policy, type: :model do
   it { is_expected.to have_many(:site_policy) }
   it { is_expected.to have_many(:sites) }
 
-  it "persists the site count" do
+  it "persist and updates the site count" do
     policy = create(:policy)
+    site = create(:site)
     expect(policy.site_count).to eq(0)
 
-    policy.sites << create(:site)
+    policy.sites << site
     expect(policy.site_count).to eq(1)
+
+    policy.assign_attributes(sites: [])
+    policy.save
+
+    expect(policy.site_count).to eq(0)
   end
 end
