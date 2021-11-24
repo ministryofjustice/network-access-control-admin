@@ -51,6 +51,8 @@ class RulesController < ApplicationController
     end
   end
 
+  def index; end
+
 private
 
   def policy_id
@@ -72,7 +74,7 @@ private
   end
 
   def redirect_to_policies_path
-    redirect_to policies_path if @policy.fallback?
+    redirect_to policies_path if @policy.nil? || @policy.fallback?
   end
 
   def set_crumbs

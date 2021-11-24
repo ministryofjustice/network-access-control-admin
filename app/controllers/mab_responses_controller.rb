@@ -1,6 +1,7 @@
 class MabResponsesController < ApplicationController
   before_action :set_mac_authentication_bypass, only: %i[new create destroy edit update]
   before_action :set_crumbs, only: %i[new edit destroy]
+  before_action :redirect_to_mac_authentication_bypasses_path, only: :index
 
   def new
     @response = MabResponse.new
@@ -59,6 +60,8 @@ class MabResponsesController < ApplicationController
     end
   end
 
+  def index; end
+
 private
 
   def mac_authentication_bypass_id
@@ -96,5 +99,9 @@ private
         mac_authentication_bypasses: MacAuthenticationBypass.all,
       ),
     )
+  end
+
+  def redirect_to_mac_authentication_bypasses_path
+    redirect_to mac_authentication_bypasses_path
   end
 end

@@ -1,6 +1,7 @@
 class PolicyResponsesController < ApplicationController
   before_action :set_policy, only: %i[new create destroy edit update]
   before_action :set_crumbs, only: %i[new edit destroy]
+  before_action :redirect_to_policies_path, only: :index
 
   def new
     @response = PolicyResponse.new
@@ -50,6 +51,8 @@ class PolicyResponsesController < ApplicationController
     end
   end
 
+  def index; end
+
 private
 
   def policy_id
@@ -72,5 +75,9 @@ private
 
   def set_crumbs
     @navigation_crumbs << ["Policies", policies_path]
+  end
+
+  def redirect_to_policies_path
+    redirect_to policies_path
   end
 end
