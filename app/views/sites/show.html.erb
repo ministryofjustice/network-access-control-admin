@@ -35,8 +35,10 @@
         <th scope="col" class="govuk-table__header">Policy</th>
         <th scope="col" class="govuk-table__header">Created</th>
         <th scope="col" class="govuk-table__header">Updated</th>
+        <th scope="col" class="govuk-table__header">Actions</th>
+        <th scope="col" class="govuk-table__header">Priority</th>
         <th scope="col" class="govuk-table__header">
-          <%= link_to "Order policies", edit_site_policies_path(@site), class: "govuk-link" %>
+          <%= link_to "Change priorities", edit_site_policies_path(@site), class: "govuk-link" %>
         </th>
       </tr>
     </thead>
@@ -47,6 +49,7 @@
           <td class="govuk-table__cell"><%= date_format(sp.created_at) %></td>
           <td class="govuk-table__cell"><%= date_format(sp.updated_at) %></td>
           <td class="govuk-table__cell"><%= link_to "View", policy_path(sp.policy), class: "govuk-link" %></td>
+          <td class="govuk-table__cell"><%= sp.priority || "Not set" %></td>
         </tr>
       <% end %>
     </tbody>

@@ -26,7 +26,7 @@ describe "order site policies", type: :feature do
       login_as editor
     end
 
-    it "updates the order of site policies" do
+    it "updates the priority of site policies" do
       visit "/sites/#{site.id}"
 
       within "tr.govuk-table__row:nth-child(1)" do
@@ -41,7 +41,7 @@ describe "order site policies", type: :feature do
         expect(page).to have_content(date_format(most_important_site_policy.updated_at))
       end
 
-      click_on "Order policies"
+      click_on "Change priorities"
 
       expect(current_path).to eq("/sites/#{site.to_param}/policies/edit")
 
@@ -69,7 +69,7 @@ describe "order site policies", type: :feature do
 
         visit "/sites/#{site.id}"
 
-        click_on "Order policies"
+        click_on "Change priorities"
 
         expect(page).not_to have_content("Fallback Policy")
 
