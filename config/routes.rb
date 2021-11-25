@@ -15,10 +15,10 @@ Rails.application.routes.draw do
     resources :clients, except: %i[index show]
   end
 
-  get "/sites/:id/policies", to: "sites#policies", as: "site_policies"
-  post "/sites/:id/policies", to: "sites#attach_policies"
-  get "/sites/:id/policies/edit", to: "sites#edit_policies", as: "edit_site_policies"
-  post "/sites/:id/policies/update", to: "sites#update_policies", as: "update_site_policies"
+  get "/sites/:id/policies", to: "sites#site_policies", as: "site_policies"
+  post "/sites/:id/policies", to: "sites#attach_site_policies", as: "attach_site_policies"
+  get "/sites/:id/policies/edit", to: "sites#edit_site_policies", as: "edit_site_policies"
+  post "/sites/:id/policies/update", to: "sites#update_site_policies", as: "update_site_policies"
 
   resources :policies do
     resources :rules
