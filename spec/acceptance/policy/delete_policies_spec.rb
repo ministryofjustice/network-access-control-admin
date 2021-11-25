@@ -94,7 +94,7 @@ describe "delete policies", type: :feature do
 
         find_link("Delete", href: "/policies/#{policy.id}").click
 
-        expect(page).to have_content("This policy is attached to 2 site(s).")
+        expect(page).to have_content("This policy is attached to 2 sites.")
       end
     end
   end
