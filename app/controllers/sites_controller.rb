@@ -64,7 +64,7 @@ class SitesController < ApplicationController
 
   def site_policies
     @q = Policy.where(fallback: false).ransack(params[:q])
-    @non_fallback_policies = @q.result
+    @policies = @q.result
   end
 
   def attach_site_policies
@@ -111,7 +111,8 @@ private
   end
 
   def policies_params
-    (params.require(:policy_ids).reject(&:empty?) << @site.fallback_policy.id).flatten
+    protected_policies = @site.policies.map { |s| s.id.to_s } - params.require(:filtered_policy_ids).split
+    (protected_policies + params.require(:policy_ids).reject(&:empty?)).uniq
   end
 
   def site_policies_params

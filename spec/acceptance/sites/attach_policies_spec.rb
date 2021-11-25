@@ -113,6 +113,28 @@ describe "attach policies to a site", type: :feature do
           expect(page).to have_content("First Policy")
           expect(page).to have_content("Fallback policy: Fallback policy for #{site.name}")
         end
+
+        it "keeps the attached policies for the site when policies filtered" do
+          visit "/sites/#{site.id}"
+
+          click_on "Manage policies"
+
+          fill_in "search", with: "Second Pol"
+
+          click_on "Search"
+
+          expect(page).to have_content(second_policy.name)
+          expect(page).to_not have_content(first_policy.name)
+          expect(page).to_not have_content(third_policy.name)
+
+          check "Second Policy", allow_label_click: true
+
+          click_on "Update"
+
+          expect(page).to have_content("Second Policy")
+          expect(page).to have_content("First Policy")
+          expect(page).to have_content("Fallback policy: Fallback policy for #{site.name}")
+        end
       end
     end
 
