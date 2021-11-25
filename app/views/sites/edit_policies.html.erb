@@ -2,7 +2,11 @@
 <%= form_with model: SitePolicy, url: update_site_policies_path(site: @site), local: true do |f| %>
   <div class="govuk-form-group">
     <table class="govuk-table">
-      <caption class="govuk-table__caption govuk-table__caption--m">Policies and weightings</caption>
+      <caption class="govuk-table__caption govuk-table__caption--m">Priority of policies
+      <div id="priority-hint" class="govuk-hint">
+          Must be a number between 1 and 1000, where 1 is the highest and 1000 is the lowest priority.
+      </div>
+      </caption>
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Policy</th>
@@ -19,7 +23,7 @@
                 <%= f.number_field(site_policy.id, 
                   id: site_policy.policy.name,
                   value: site_policy.priority,
-                  step: 1, min: 0, max: 1000,
+                  step: 1, min: 1, max: 1000,
                   class: 'govuk-input govuk-input--width-2')
                 %>
               </td>
