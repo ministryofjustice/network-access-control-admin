@@ -1,7 +1,7 @@
 class SitesController < ApplicationController
-  before_action :set_site, only: %i[show edit update destroy policies attach_policies edit_policies update_policies]
-  before_action :set_site_policies, only: %i[show edit_policies update_policies]
-  before_action :set_crumbs, only: %i[show new edit destroy policies]
+  before_action :set_site, only: %i[show edit update destroy site_policies attach_site_policies edit_site_policies update_site_policies]
+  before_action :set_site_policies, only: %i[show edit_site_policies update_site_policies]
+  before_action :set_crumbs, only: %i[show new edit destroy site_policies]
   before_action :set_policy, only: :index
 
   def index
@@ -62,12 +62,12 @@ class SitesController < ApplicationController
     end
   end
 
-  def policies
+  def site_policies
     @q = Policy.where(fallback: false).ransack(params[:q])
     @non_fallback_policies = @q.result
   end
 
-  def attach_policies
+  def attach_site_policies
     authorize! :attach_policies, @site
 
     @site.assign_attributes(policies: Policy.where(id: policies_params))
@@ -79,11 +79,11 @@ class SitesController < ApplicationController
     end
   end
 
-  def edit_policies
+  def edit_site_policies
     authorize! :edit_policies, @site
   end
 
-  def update_policies
+  def update_site_policies
     @site_policies.each do |site_policy|
       priority = site_policies_params.fetch(site_policy.id.to_s)
       site_policy.update(priority: priority)
