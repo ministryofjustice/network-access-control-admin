@@ -5,7 +5,7 @@
     <span class="govuk-!-font-weight-bold">Policy name:</span> <%= @policy.name %>
   </p>
   <p class="govuk-body">
-    This policy is attached to <%= link_to @policy.sites.count, sites_path(:policy => @policy.id), class: "govuk-link govuk-!-font-weight-bold" %> site(s).
+    This policy is attached to <%= link_to pluralize(@policy.sites.count, "site"), sites_path(:policy => @policy.id), class: "govuk-link govuk-!-font-weight-bold" %>.
   </p>
 </div>
 
