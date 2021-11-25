@@ -63,9 +63,8 @@ class SitesController < ApplicationController
   end
 
   def policies
-    @fallback_policies = Policy.where(fallback: true)
-
-    @non_fallback_policies = Policy.where(fallback: false)
+    @q = Policy.where(fallback: false).ransack(params[:q])
+    @non_fallback_policies = @q.result
   end
 
   def attach_policies

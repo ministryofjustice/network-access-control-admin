@@ -51,6 +51,31 @@ describe "attach policies to a site", type: :feature do
         expect(page).to_not have_content("Third Policy")
       end
 
+      it "does allow searching policies" do
+        visit "/sites"
+
+        find_link("Manage", href: "/sites/#{site.id}").click
+        find_link("Manage policies", href: "/sites/#{site.id}/policies?site_id=#{site.id}").click
+
+        fill_in "search", with: "Second Pol"
+
+        click_on "Search"
+
+        expect(page).to have_content(second_policy.name)
+        expect(page).to_not have_content(first_policy.name)
+        expect(page).to_not have_content(third_policy.name)
+
+        check "Second Policy", allow_label_click: true
+
+        click_on "Update"
+
+        expect(current_path).to eq("/sites/#{site.id}")
+
+        expect(page).to have_content("Successfully updated site policies.")
+        expect(page).to have_content("List of attached policies")
+        expect(page).to have_content("Second Policy")
+      end
+
       context "when there is a policy attached to a site" do
         let!(:site) { create :site, policies: [first_policy] }
 
