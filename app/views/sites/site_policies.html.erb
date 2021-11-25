@@ -12,8 +12,8 @@
       </div>
       <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
         <% site_policies_ids = @site.policies.map { |policy| policy.id } %>
-
-        <%= f.collection_check_boxes :policy_ids, @non_fallback_policies, :id, :name do |b| %>
+        <%= f.hidden_field :filtered_policy_ids, value: @policies.map(&:id) %>
+        <%= f.collection_check_boxes :policy_ids, @policies, :id, :name do |b| %>
           <div class="govuk-checkboxes__item">
             <%= b.check_box class: "govuk-checkboxes__input", checked: site_policies_ids.include?(b.object.id) %>
             <%= b.label class: "govuk-label govuk-checkboxes__label" %>
