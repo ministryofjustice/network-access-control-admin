@@ -293,9 +293,7 @@ GEM
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
-    sassc (2.1.0)
-      ffi (~> 1.9)
-    sassc (2.1.0-x86_64-linux)
+    sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
       railties (>= 4.0.0)
@@ -376,7 +374,7 @@ DEPENDENCIES
   ransack
   rspec-rails (~> 5.0.2)
   rubocop-govuk
-  sassc-rails
+  sassc-rails (~> 2.1.0)
   selenium-webdriver
   sentry-rails
   sentry-ruby
