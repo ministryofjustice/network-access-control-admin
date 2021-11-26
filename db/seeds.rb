@@ -50,7 +50,7 @@ end
 
 p "assigning policies to sites"
 Site.all.each do |site|
-  site.policies << Policy.select(:id).sample(5)
+  site.policies << Policy.where(fallback: false).select(:id).sample(5)
 end
 
 p "creating MABs"
