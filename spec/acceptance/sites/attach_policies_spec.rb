@@ -44,7 +44,7 @@ describe "attach policies to a site", type: :feature do
 
         expect(page).to have_content("Successfully updated site policies.")
 
-        click_on "Cancel"
+        click_on site.name
 
         expect(current_path).to eq("/sites/#{site.id}")
 
@@ -74,7 +74,7 @@ describe "attach policies to a site", type: :feature do
 
         expect(page).to have_content("Successfully updated site policies.")
 
-        click_on "Cancel"
+        click_on site.name
 
         expect(current_path).to eq("/sites/#{site.id}")
 
@@ -108,7 +108,7 @@ describe "attach policies to a site", type: :feature do
 
           expect(page).to have_content("Successfully updated site policies.")
 
-          click_on "Cancel"
+          click_on site.name
 
           expect(page).to_not have_content("First Policy")
         end
@@ -122,7 +122,7 @@ describe "attach policies to a site", type: :feature do
 
           expect(page).to have_content("Successfully updated site policies.")
 
-          click_on "Cancel"
+          click_on site.name
 
           expect(page).to have_content("First Policy")
           expect(page).to have_content("Fallback policy: Fallback policy for #{site.name}")
@@ -147,7 +147,7 @@ describe "attach policies to a site", type: :feature do
 
           expect(page).to have_content("Successfully updated site policies.")
 
-          click_on "Cancel"
+          click_on site.name
 
           expect(page).to have_content("Second Policy")
           expect(page).to have_content("First Policy")

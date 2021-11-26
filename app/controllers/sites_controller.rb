@@ -1,7 +1,8 @@
 class SitesController < ApplicationController
   before_action :set_site, only: %i[show edit update destroy site_policies attach_site_policies edit_site_policies update_site_policies]
   before_action :set_site_policies, only: %i[show edit_site_policies update_site_policies]
-  before_action :set_crumbs, only: %i[show new edit destroy site_policies]
+  before_action :set_top_level_crumb
+  before_action :set_site_name_crumb, only: %i[edit site_policies attach_site_policies edit_site_policies update_site_policies]
   before_action :set_policy, only: :index
 
   def index
@@ -122,8 +123,12 @@ private
     params.fetch(:site_policy)
   end
 
-  def set_crumbs
+  def set_top_level_crumb
     @navigation_crumbs << ["Sites", sites_path]
+  end
+
+  def set_site_name_crumb
+    @navigation_crumbs << [@site.name, site_path(@site)]
   end
 
   def set_policy
