@@ -376,8 +376,7 @@ DEPENDENCIES
   ransack
   rspec-rails (~> 5.0.2)
   rubocop-govuk
-  sassc (~> 2.1.0)
-  sassc-rails (~> 2.1.0)
+  sassc-rails
   selenium-webdriver
   sentry-rails
   sentry-ruby
