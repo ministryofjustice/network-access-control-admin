@@ -42,7 +42,7 @@ describe "showing a policy", type: :feature do
       expect(page).to have_content "Attached site 3"
       expect(page).to_not have_content "Some other site 2"
 
-      expect(page).to have_content "For: #{policy.name}"
+      expect(page).to have_content "For policy: #{policy.name}"
       expect(page).to_not have_content "Create a new site"
 
       fill_in "q_name_cont", with: "site 2"
@@ -55,7 +55,7 @@ describe "showing a policy", type: :feature do
       expect(page).to_not have_content "Attached site 3"
       expect(page).to_not have_content "Some other site 2"
 
-      expect(page).to have_content "For: #{policy.name}"
+      expect(page).to have_content "For policy: #{policy.name}"
       expect(page).to_not have_content "Create a new site"
     end
 
