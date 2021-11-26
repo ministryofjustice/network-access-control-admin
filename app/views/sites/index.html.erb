@@ -4,7 +4,7 @@
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">
         <% if @policy %>
-          <h4 class="govuk-heading-m"><%= "For: #{@policy.name}"%></h4>
+          <h4 class="govuk-heading-m">For policy: <%= link_to @policy.name, policy_path(@policy), class: "govuk-link" %>
         <% elsif can? :create, Site %>
           <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>
         <% end %>
