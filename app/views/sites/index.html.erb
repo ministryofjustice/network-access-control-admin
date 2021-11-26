@@ -3,13 +3,15 @@
   <table class="govuk-table">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header">
-        <% if can? :create, Site %>
+        <% if @policy %>
+          <h4 class="govuk-heading-m"><%= "For: #{@policy.name}"%></h4>
+        <% elsif can? :create, Site %>
           <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>
         <% end %>
       </th>
       <th scope="col" class="govuk-table__header search_bar">
         <%= search_form_for @q do |f| %>
-          <%= f.hidden_field :policy, value: @policy %>
+          <%= f.hidden_field :policy_id, value: @policy_id %>
           <%= f.search_field :name_cont, class: 'govuk-input govuk-input--width-10' %>
 
           <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>

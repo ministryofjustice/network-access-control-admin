@@ -3,11 +3,12 @@ class SitesController < ApplicationController
   before_action :set_site_policies, only: %i[show edit_site_policies update_site_policies]
   before_action :set_top_level_crumb
   before_action :set_site_name_crumb, only: %i[edit site_policies attach_site_policies edit_site_policies update_site_policies]
+  before_action :set_policy_id, only: :index
   before_action :set_policy, only: :index
 
   def index
-    @q = if @policy.present?
-           Site.joins(:policies).where(policies: { id: @policy }).ransack(params[:q])
+    @q = if @policy_id.present?
+           Site.joins(:policies).where(policies: { id: @policy_id }).ransack(params[:q])
          else
            Site.ransack(params[:q])
          end
@@ -131,7 +132,11 @@ private
     @navigation_crumbs << [@site.name, site_path(@site)]
   end
 
+  def set_policy_id
+    @policy_id = params.dig(:q, :policy_id)
+  end
+
   def set_policy
-    @policy = params.dig(:q, :policy)
+    @policy = Policy.find_by(id: @policy_id)
   end
 end
