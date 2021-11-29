@@ -2,16 +2,15 @@
   <span class="govuk-caption-l">MAC Authentication Bypass</span>
   <%= @mac_authentication_bypass.name %>
 </h2>
-
+<p class="govuk-body">
+  <span class="govuk-!-font-weight-bold">Site:</span>
+  <% if @mac_authentication_bypass.site %>
+    <%= link_to "#{@mac_authentication_bypass.site.try(:name)}", site_path(@mac_authentication_bypass.site), class: "govuk-link" %>
+  <% else %>
+    <%= "There is no site attached to this MAC Authentication Bypass." %>
+  <% end %>
+</p>
 <dl class="govuk-summary-list">
-  <p class="govuk-body">
-    <span class="govuk-!-font-weight-bold">Site:</span>
-    <% if @mac_authentication_bypass.site %>
-      <%= link_to "#{@mac_authentication_bypass.site.try(:name)}", site_path(@mac_authentication_bypass.site), class: "govuk-link" %>
-    <% else %>
-      <%= "There is no site attached to this MAC Authentication Bypass." %>
-    <% end %>
-  </p>
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">MAC Address</dt>
     <dd class="govuk-summary-list__value"><%= @mac_authentication_bypass.address %></dd>
