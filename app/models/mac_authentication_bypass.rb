@@ -1,5 +1,5 @@
 class MacAuthenticationBypass < ApplicationRecord
-  belongs_to :site
+  belongs_to :site, optional: true
 
   paginates_per 50
 
