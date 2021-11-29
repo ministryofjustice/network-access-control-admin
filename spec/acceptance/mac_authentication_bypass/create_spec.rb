@@ -45,7 +45,7 @@ describe "create MAC Authentication Bypasses", type: :feature do
       fill_in "Address", with: "00-11-22-33-55-66"
       fill_in "Name", with: "CCTV"
       fill_in "Description", with: "This is a test bypass"
-      select site.name, from: "Site"
+      select site.name, from: "site"
 
       click_on "Create"
 
@@ -68,7 +68,7 @@ describe "create MAC Authentication Bypasses", type: :feature do
       fill_in "Address", with: "00-11-22-33-55-66"
       fill_in "Name", with: "CCTV"
       fill_in "Description", with: "This is a test bypass"
-      select "No site", from: "Site"
+      select "No site", from: "site"
 
       click_on "Create"
 
