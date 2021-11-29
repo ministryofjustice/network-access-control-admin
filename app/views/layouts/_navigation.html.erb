@@ -17,9 +17,12 @@
         <%= link_to "Certificates", certificates_path, class: "govuk-header__link" %>
       </li>
 
-
       <li class="govuk-header__navigation-item<%= selected_class_if_controller('audits') %>">
         <%= link_to "Audit log", audits_path, class: "govuk-header__link" %>
+      </li>
+
+      <li class="govuk-header__navigation-item">
+        <%= link_to "Server log", ENV["CLOUDWATCH_LINK"], target: "_blank", class: "govuk-header__link" %>
       </li>
 
       <li class="govuk-header__navigation-item">
