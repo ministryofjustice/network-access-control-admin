@@ -19,22 +19,13 @@
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :site) %>">
-    <%= f.label :site, class: "govuk-label" %>
-    <%= javascript_include_tag "accessible-autocomplete.min.js" %>
-    <%= stylesheet_link_tag "accessible-autocomplete.min.css" %>
-
-    <% select_options = @sites.unshift(["No site", "No site"]) %>
-    <%= f.select(:site_id, @sites, {}, { id: "Site" }) %>
-
-    <script>
-      accessibleAutocomplete.enhanceSelectElement({
-        selectElement: document.querySelector("#Site"),
-        required: true,
-        showNoOptionsFound: true,
-        showAllValues: true,
-        confirmOnBlur: true
-      })
-    </script>
+  <%= render "shared/type_ahead", 
+    field_name: :site_id, 
+    select_options: @sites.unshift(["No site", "No site"]), 
+    form: f, 
+    params: { id: "Site" }, 
+    selector: "#Site" 
+  %>
   </div>
 
   <%= f.submit f.object.new_record? ? "Create" : "Update", {

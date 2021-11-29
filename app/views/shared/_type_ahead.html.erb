@@ -1,0 +1,14 @@
+<%= javascript_include_tag "accessible-autocomplete.min.js" %>
+<%= stylesheet_link_tag "accessible-autocomplete.min.css" %>
+
+<%= form.select(field_name, select_options, {}, params) %>
+
+<script>
+  accessibleAutocomplete.enhanceSelectElement({
+    selectElement: document.querySelector("<%= selector %>"),
+    required: true,
+    showNoOptionsFound: true,
+    showAllValues: true,
+    confirmOnBlur: true
+  })
+</script>
