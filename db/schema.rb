@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_23_102659) do
+ActiveRecord::Schema.define(version: 2021_11_26_151351) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -64,6 +64,8 @@ ActiveRecord::Schema.define(version: 2021_11_23_102659) do
     t.text "description"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "site_id"
+    t.index ["site_id"], name: "index_mac_authentication_bypasses_on_site_id"
   end
 
   create_table "policies", charset: "utf8", force: :cascade do |t|
@@ -123,6 +125,7 @@ ActiveRecord::Schema.define(version: 2021_11_23_102659) do
   end
 
   add_foreign_key "clients", "sites"
+  add_foreign_key "mac_authentication_bypasses", "sites"
   add_foreign_key "responses", "mac_authentication_bypasses"
   add_foreign_key "responses", "policies"
   add_foreign_key "rules", "policies"

@@ -1,4 +1,6 @@
 class MacAuthenticationBypass < ApplicationRecord
+  belongs_to :site
+
   paginates_per 50
 
   validates :address, presence: true, uniqueness: true

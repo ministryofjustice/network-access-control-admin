@@ -7,6 +7,7 @@ describe MacAuthenticationBypass, type: :model do
     expect(subject).to be_valid
   end
 
+  it { is_expected.to belong_to :site }
   it { is_expected.to validate_presence_of :address }
   it { is_expected.to validate_uniqueness_of(:address).case_insensitive }
 
