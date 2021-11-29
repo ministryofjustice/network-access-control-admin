@@ -18,6 +18,11 @@
     <%= f.text_area :description, class: "govuk-input" %>
   </div>
 
+  <div class="govuk-form-group <%= field_error(f.object, :site) %>">
+    <%= f.label :site, class: "govuk-label" %>
+    <%= f.select(:site_id, @sites, { prompt: 'Select site' }, { class: "govuk-select", id: "Site" }) %>
+  </div>
+
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"

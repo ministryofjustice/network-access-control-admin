@@ -27,6 +27,7 @@ describe "create MAC Authentication Bypasses", type: :feature do
 
   context "when the user is an editor" do
     let(:editor) { create(:user, :editor) }
+    let!(:site) { create(:site) }
 
     before do
       login_as editor
@@ -44,6 +45,7 @@ describe "create MAC Authentication Bypasses", type: :feature do
       fill_in "Address", with: "00-11-22-33-55-66"
       fill_in "Name", with: "CCTV"
       fill_in "Description", with: "This is a test bypass"
+      select site.name, from: "Site"
 
       click_on "Create"
 

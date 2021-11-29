@@ -1,6 +1,7 @@
 class MacAuthenticationBypassesController < ApplicationController
   before_action :set_mac_authentication_bypass, only: %i[destroy edit update show]
   before_action :set_crumbs, only: %i[index new show edit destroy]
+  before_action :set_sites, only: %i[new create edit update]
 
   def index
     @q = MacAuthenticationBypass.ransack(params[:q])
@@ -63,7 +64,7 @@ class MacAuthenticationBypassesController < ApplicationController
 private
 
   def mac_authentication_bypass_params
-    params.require(:mac_authentication_bypass).permit(:address, :name, :description)
+    params.require(:mac_authentication_bypass).permit(:address, :name, :description, :site_id)
   end
 
   def mac_authentication_bypass_id
@@ -91,5 +92,9 @@ private
 
   def set_crumbs
     @navigation_crumbs << ["MAC Authentication Bypasses", mac_authentication_bypasses_path]
+  end
+
+  def set_sites
+    @sites = Site.all.map { |s| [s.name, s.id] }.to_a
   end
 end
