@@ -4,6 +4,7 @@ class Site < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   has_many :clients, dependent: :destroy
+  has_many :mac_authentication_bypasses
   has_many :site_policy
   has_many :policies, through: :site_policy, dependent: :destroy
 
