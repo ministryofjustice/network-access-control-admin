@@ -17,7 +17,7 @@ env:
     TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
     ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
     SHARED_SERVICES_ACCOUNT_ID: /codebuild/staff_device_shared_services_account_id
-    CLOUDWATCH_LINK: /moj-network-access-control/$ENV/cloudwatch_link
+    CLOUDWATCH_LINK: "/moj-network-access-control/$ENV/cloudwatch_link"
 
 phases:
   build:
