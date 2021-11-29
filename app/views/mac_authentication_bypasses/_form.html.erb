@@ -19,13 +19,14 @@
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :site) %>">
-  <%= render "shared/type_ahead", 
-    field_name: :site_id, 
-    select_options: @sites.unshift(["No site", "No site"]), 
-    form: f, 
-    params: { id: "Site" }, 
-    selector: "#Site" 
-  %>
+    <%= f.label :site, class: "govuk-label" %>
+    <%= render "shared/type_ahead", 
+      field_name: :site_id, 
+      select_options: @sites.unshift(["No site", "No site"]), 
+      form: f, 
+      params: { id: "Site" }, 
+      selector: "#Site" 
+    %>
   </div>
 
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
