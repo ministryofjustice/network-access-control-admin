@@ -8,6 +8,11 @@ RSpec.describe "GET /sign_in", type: :feature do
     expect(page).to have_content "Sign in"
   end
 
+  it "displays sign in when not signed in and route is not found" do
+    visit "/some-undefined-route"
+    expect(page).to have_content "Sign in"
+  end
+
   context "user signed in" do
     before do
       # Simulate logging in via Cognito Omniauth provider

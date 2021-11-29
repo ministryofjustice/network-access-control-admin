@@ -22,6 +22,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def error
+    if user_signed_in?
+      respond_to do |format|
+        format.html { render file: "#{Rails.root}/public/404.html", status: :not_found }
+      end
+    else
+      redirect_to new_user_session_path
+    end
+  end
+
 protected
 
   def deploy_service

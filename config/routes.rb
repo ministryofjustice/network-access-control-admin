@@ -21,12 +21,14 @@ Rails.application.routes.draw do
   post "/sites/:id/policies/update", to: "sites#update_site_policies", as: "update_site_policies"
 
   resources :policies do
-    resources :rules
-    resources :policy_responses
+    resources :rules, except: :index
+    resources :policy_responses, except: :index
   end
 
   get "/healthcheck", to: "monitoring#healthcheck"
 
   root "home#index"
   resources :audits, only: %i[index show]
+
+  match "*path", via: :all, to: "application#error"
 end
