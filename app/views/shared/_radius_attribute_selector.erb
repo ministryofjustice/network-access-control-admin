@@ -1,15 +1,7 @@
-<%= javascript_include_tag "accessible-autocomplete.min.js" %>
-<%= stylesheet_link_tag "accessible-autocomplete.min.css" %>
-
-<% radius_attribute_select_options = @radius_attributes << "" %>
-<%= form.select(field_name, @radius_attributes) %>
-
-<script>
-  accessibleAutocomplete.enhanceSelectElement({
-    selectElement: document.querySelector("<%= selector %>"),
-    required: true,
-    showNoOptionsFound: true,
-    showAllValues: true,
-    confirmOnBlur: true
-  })
-</script>
+<%= render "shared/type_ahead", 
+  field_name: field_name, 
+  select_options: @radius_attributes << "", 
+  form: form, 
+  params: {}, 
+  selector: "#rule_request_attribute" 
+%>
