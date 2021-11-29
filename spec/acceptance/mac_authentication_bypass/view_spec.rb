@@ -23,7 +23,7 @@ describe "showing a MAC authentication bypass", type: :feature do
         expect(page).to have_content mac_authentication_bypass.address
         expect(page).to have_content mac_authentication_bypass.name
         expect(page).to have_content mac_authentication_bypass.description
-        expect(page).to have_content "There is no site attached to this MAC Authentication Bypass."
+        expect(page).to have_content "There is no site attached to this MAC address."
       end
     end
 

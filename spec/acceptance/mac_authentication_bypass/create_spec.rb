@@ -74,7 +74,7 @@ describe "create MAC Authentication Bypasses", type: :feature do
 
       expect(page).to have_content("Successfully created MAC authentication bypass.")
       expect(page).to have_content("00-11-22-33-55-66")
-      expect(page).to have_content("There is no site attached to this MAC Authentication Bypass.")
+      expect(page).to have_content("There is no site attached to this MAC address.")
       expect_audit_log_entry_for(editor.email, "create", "Mac authentication bypass")
     end
 

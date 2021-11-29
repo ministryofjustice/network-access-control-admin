@@ -7,7 +7,7 @@
   <% if @mac_authentication_bypass.site %>
     <%= link_to "#{@mac_authentication_bypass.site.try(:name)}", site_path(@mac_authentication_bypass.site), class: "govuk-link" %>
   <% else %>
-    <%= "There is no site attached to this MAC Authentication Bypass." %>
+    <%= "There is no site attached to this MAC address." %>
   <% end %>
 </p>
 <dl class="govuk-summary-list">
