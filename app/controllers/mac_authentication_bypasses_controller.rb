@@ -97,6 +97,6 @@ private
   end
 
   def set_sites
-    @sites = Site.all.map { |s| [s.name, s.id] }.to_a.sort
+    @sites = Site.order(:name).pluck(:name, :id)
   end
 end
