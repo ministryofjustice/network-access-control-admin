@@ -18,11 +18,26 @@ describe "showing a MAC authentication bypass", type: :feature do
       let!(:mac_authentication_bypass) { create :mac_authentication_bypass }
 
       it "allows viewing bypasses" do
-        visit "/mac_authentication_bypasses"
+        visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"
 
         expect(page).to have_content mac_authentication_bypass.address
         expect(page).to have_content mac_authentication_bypass.name
         expect(page).to have_content mac_authentication_bypass.description
+        expect(page).to have_content "There is no site attached to this MAC Authentication Bypass."
+      end
+    end
+
+    context "when the MAC authentication bypass exists with a site" do
+      let!(:site) { create :site }
+      let!(:mac_authentication_bypass) { create :mac_authentication_bypass, site: site }
+
+      it "allows viewing bypasses" do
+        visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"
+
+        expect(page).to have_content mac_authentication_bypass.address
+        expect(page).to have_content mac_authentication_bypass.name
+        expect(page).to have_content mac_authentication_bypass.description
+        expect(page).to have_content mac_authentication_bypass.site.name
       end
     end
   end
