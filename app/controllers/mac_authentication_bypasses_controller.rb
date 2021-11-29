@@ -64,7 +64,9 @@ class MacAuthenticationBypassesController < ApplicationController
 private
 
   def mac_authentication_bypass_params
-    params.require(:mac_authentication_bypass).permit(:address, :name, :description, :site_id)
+    p = params.require(:mac_authentication_bypass).permit(:address, :name, :description, :site_id)
+    p["site_id"] = nil if p["site_id"] == "No site"
+    p
   end
 
   def mac_authentication_bypass_id
@@ -95,6 +97,6 @@ private
   end
 
   def set_sites
-    @sites = Site.all.map { |s| [s.name, s.id] }.to_a
+    @sites = Site.all.map { |s| [s.name, s.id] }.to_a.sort
   end
 end
