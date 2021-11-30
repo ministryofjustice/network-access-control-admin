@@ -5,7 +5,7 @@ class MacAuthenticationBypassesController < ApplicationController
 
   def index
     @q = MacAuthenticationBypass.ransack(params[:q])
-    @mac_authentication_bypasses = @q.result.page(params.dig(:q, :page))
+    @mac_authentication_bypasses = @q.result.includes(:site).page(params.dig(:q, :page))
   end
 
   def new
