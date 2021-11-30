@@ -19,13 +19,13 @@
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :site) %>">
-    <%= f.label :site, class: "govuk-label" %>
-    <%= render "shared/type_ahead", 
-      field_name: :site_id, 
-      select_options: @sites.unshift(["No site", "No site"]), 
-      form: f, 
-      html_options: { id: "site" }, 
-      selector: "#site" 
+    <%= f.label "Site (optional)", class: "govuk-label" %>
+    <%= render "shared/type_ahead",
+      field_name: :site_id,
+      select_options: @sites.unshift(["No site assigned (type to search)", "No site"]),
+      form: f,
+      html_options: { id: "site" },
+      selector: "#site"
     %>
   </div>
 
