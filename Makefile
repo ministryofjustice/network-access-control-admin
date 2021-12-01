@@ -37,10 +37,10 @@ test:
 	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rspec --format documentation
 
 clone-integration-test:
-	git clone https://github.com/ministryofjustice/network-access-control-integration-tests.git
+	git clone https://github.com/ministryofjustice/network-access-control-integration-tests.git && cd network-access-control-integration-tests && make clone-admin clone-server
 
 integration-test: clone-integration-test
-  cd network-access-control-integration-tests && make clone-admin clone-server test
+	cd network-access-control-integration-tests && make test
 
 shell:
 	$(DOCKER_COMPOSE) run --rm app sh
@@ -74,4 +74,4 @@ lint:
 implode:
 	$(DOCKER_COMPOSE) rm
 
-.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker check-container-registry-account-id start-db db-setup run shell lint bootstrap
+.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker check-container-registry-account-id start-db db-setup run shell lint bootstrap integration-test clone-integration-test
