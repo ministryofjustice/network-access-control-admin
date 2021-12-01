@@ -36,6 +36,12 @@ test: export ENV=test
 test:
 	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rspec --format documentation
 
+clone-integration-test:
+	git clone https://github.com/ministryofjustice/network-access-control-integration-tests.git
+
+integration-test: clone-integration-test
+  cd network-access-control-integration-tests && make clone-admin clone-server test
+
 shell:
 	$(DOCKER_COMPOSE) run --rm app sh
 
