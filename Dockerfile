@@ -18,6 +18,7 @@ ARG BUNDLE_WITHOUT=""
 ARG BUNDLE_INSTALL_FLAGS=""
 ARG RUN_PRECOMPILATION=true
 ARG SENTRY_DSN=""
+ARG CLOUDWATCH_LINK=""
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
@@ -29,7 +30,8 @@ ENV LANG='C.UTF-8' \
   RADIUS_CERTIFICATE_BUCKET_NAME='testcertificatebucket' \
   SECRET_KEY_BASE=${SECRET_KEY_BASE} \
   AWS_DEFAULT_REGION='eu-west-2' \
-  DB_NAME=${DB_NAME}
+  DB_NAME=${DB_NAME} \
+  CLOUDWATCH_LINK=${CLOUDWATCH_LINK}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
   apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius
