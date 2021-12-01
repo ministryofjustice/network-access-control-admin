@@ -39,7 +39,7 @@ test:
 clone-integration-test:
 	git clone https://github.com/ministryofjustice/network-access-control-integration-tests.git && cd network-access-control-integration-tests && make clone-admin clone-server
 
-integration-test: clone-integration-test
+integration-test: stop clone-integration-test
 	cd network-access-control-integration-tests && make test
 
 shell:
