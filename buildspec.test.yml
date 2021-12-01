@@ -19,5 +19,4 @@ phases:
       - make authenticate-docker
       - ENV=test make db-setup
       - make test
-      - git clone https://github.com/ministryofjustice/network-access-control-integration-tests.git
-      - cd network-access-control-integration-tests && make clone-admin clone-server test
+      - make integration-test
