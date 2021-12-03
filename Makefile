@@ -32,6 +32,12 @@ serve: stop start-db
 
 run: serve
 
+clone-integration-test:
+	git clone https://github.com/ministryofjustice/network-access-control-integration-tests.git
+
+integration-test-schema: clone-integration-test
+	cd network-access-control-integration-tests && make clone-server test-schema
+
 test: export ENV=test
 test:
 	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rspec --format documentation
