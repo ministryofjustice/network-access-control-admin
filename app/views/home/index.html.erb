@@ -10,24 +10,26 @@
             <li>View audit logs</li>
           </ul>
         </p>
-        <table class="govuk-table">
-        <caption class="govuk-table__caption">Current Configuration</caption>
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header search_bar"></th>
-              <th scope="col" class="govuk-table__header search_bar"></th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            <% @stats.each do |stat| %>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell"><%= stat.fetch(:label)%>:</td>
-                <td class="govuk-table__cell"><%= stat.fetch(:count)%></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-          <a href="<%= new_site_path %>" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+
+        <h2 class="govuk-heading-m">Current Configuration</h2>
+        <dl class="govuk-summary-list">
+          <% @stats.each do |stat| %>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                <strong><%= stat.fetch(:label) %></strong>
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <%= stat.fetch(:count)%>
+              </dd>
+              <dd class="govuk-summary-list__actions">
+                <% if stat[:link] %>
+                  <%= link_to "View", stat[:link], class: "govuk-link" %>
+                <% end %>
+              </dd>
+            </div>
+          <% end%>
+        </dl>
+        <a href="<%= new_site_path %>" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
           Start now
           <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
             <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
