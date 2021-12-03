@@ -33,7 +33,7 @@ RSpec.describe "GET /sign_in", type: :feature do
 
     it "redirects to the root path" do
       expect(current_path).to eq "/"
-      expect(page).to have_content "Network Access Control Admin portal"
+      expect(page).to have_content "Network Access Control Service"
     end
   end
 
