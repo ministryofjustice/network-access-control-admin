@@ -7,7 +7,7 @@ class HomeController < ApplicationController
       { label: "Policies", count: Policy.all.count },
       { label: "Rules", count: Rule.all.count },
       { label: "Responses", count: Response.all.count },
-      { label: "Certificates", count: Certificate.all.count }
+      { label: "Certificates", count: Certificate.all.count },
     ]
   end
 end
