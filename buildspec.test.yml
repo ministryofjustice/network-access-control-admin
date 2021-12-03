@@ -19,4 +19,4 @@ phases:
       - make authenticate-docker
       - ENV=test make db-setup
       - make test
-      - make stop integration-test-schema
+      - make integration-test-schema
