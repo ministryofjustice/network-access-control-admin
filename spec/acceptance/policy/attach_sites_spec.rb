@@ -27,6 +27,7 @@ describe "attach sites to a policy", type: :feature do
 
     context "when both site and non-fallback policies exist" do
       let!(:site) { create :site, name: "First Site" }
+      let!(:second_site) { create :site, name: "Second Site" }
       let!(:policy) { create :policy }
 
       it "does allow attaching sites to a policy" do
@@ -40,6 +41,20 @@ describe "attach sites to a policy", type: :feature do
         click_on "Update"
 
         expect(page).to have_content("Successfully attached policy to sites.")
+      end
+
+      it "does allow searching sites" do
+        visit "/policies"
+
+        find_link("Manage", href: "/policies/#{policy.id}").click
+        find_link("Manage sites", href: "/policies/#{policy.id}/sites?policy_id=#{policy.id}").click
+
+        fill_in "search", with: "Second"
+
+        click_on "Search"
+
+        expect(page).to have_content(second_site.name)
+        expect(page).to_not have_content(site.name)
       end
     end
   end
