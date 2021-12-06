@@ -1,6 +1,7 @@
 class PoliciesController < ApplicationController
-  before_action :set_policy, only: %i[show edit update destroy]
-  before_action :set_crumbs, only: %i[index new show edit destroy]
+  before_action :set_policy, only: %i[show edit update destroy policy_sites attach_policy_sites]
+  before_action :set_crumbs
+  before_action :set_policy_name_crumb, only: %i[edit policy_sites attach_policy_sites]
 
   def new
     @policy = Policy.new
@@ -54,10 +55,33 @@ class PoliciesController < ApplicationController
     end
   end
 
+  def policy_sites
+    @q = Site.ransack(params[:q])
+    @sites = @q.result
+  end
+
+  def attach_policy_sites
+    @q = Site.ransack(params[:q])
+    @sites = @q.result
+
+    @policy.assign_attributes(sites: Site.where(id: sites_params))
+
+    if @policy.save
+      redirect_to policy_sites_path(@policy), notice: "Successfully attached policy to sites."
+    else
+      redirect_to policy_sites_path(@site), alert: "Failed to update site policies with error: #{@site.errors.full_messages.join(', ')}."
+    end
+  end
+
 private
 
   def policy_params
     params.require(:policy).permit(:name, :description, :fallback)
+  end
+
+  def sites_params
+    protected_sites = @policy.sites.map { |s| s.id.to_s } - params.require(:filtered_site_ids).split
+    (protected_sites + params.require(:site_ids).reject(&:empty?)).uniq
   end
 
   def policy_id
@@ -70,5 +94,9 @@ private
 
   def set_crumbs
     @navigation_crumbs << ["Policies", policies_path]
+  end
+
+  def set_policy_name_crumb
+    @navigation_crumbs << [@policy.name, policy_path(@policy)]
   end
 end

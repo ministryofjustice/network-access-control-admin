@@ -25,6 +25,10 @@
   <%= link_to "Add response", new_policy_policy_response_path(policy_id: @policy), class: "govuk-button" %>
 <% end %>
 
+<% if can? :manage, Policy %>
+  <%= link_to "Manage sites", policy_sites_path(policy_id: @policy), class: "govuk-button" %>
+<% end %>
+
 <% if @policy.rules.any? %>
   <table class="govuk-table">
     <caption class="govuk-table__caption">List of rules</caption>

@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get "/sites/:id/policies/edit", to: "sites#edit_site_policies", as: "edit_site_policies"
   post "/sites/:id/policies/update", to: "sites#update_site_policies", as: "update_site_policies"
 
+  get "/policies/:id/sites", to: "policies#policy_sites", as: "policy_sites"
+  post "/policies/:id/sites", to: "policies#attach_policy_sites", as: "attach_policy_sites"
+
   resources :policies do
     resources :rules, except: :index
     resources :policy_responses, except: :index
