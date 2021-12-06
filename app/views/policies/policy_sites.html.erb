@@ -1,0 +1,37 @@
+<h2 class="govuk-heading-l"><%= @policy.name %></h2>
+<%= search_form_for @q, url: policy_sites_path do |f| %>
+  <%= f.search_field :name_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
+
+  <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
+<% end %>
+<%= form_with local: true do |f| %>
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="attach-policies-hint">
+      <div id="attach-policies-hint" class="govuk-hint">
+        Select sites for this policy to be attached to.
+      </div>
+      <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+        <% policy_sites_ids = @policy.sites.map { |site| site.id } %>
+        <%= f.hidden_field :filtered_site_ids, value: @sites.map(&:id) %>
+        <%= f.collection_check_boxes :site_ids, @sites, :id, :name do |b| %>
+          <div class="govuk-checkboxes__item">
+            <%= b.check_box class: "govuk-checkboxes__input", checked: policy_sites_ids.include?(b.object.id) %>
+            <%= b.label class: "govuk-label govuk-checkboxes__label" %>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+  </div>
+
+  <%= f.submit "Update", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", @policy,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  } %>
+
+<% end %>
