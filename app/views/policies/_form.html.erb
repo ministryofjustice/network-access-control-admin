@@ -1,6 +1,10 @@
 <%= form_with model: policy, local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :name) %>">
     <%= f.label :name, class: "govuk-label" %>
+    <div id="name-hint" class="govuk-hint">
+      Must contain the usage, environment, and VLAN ID in the following format: "USAGE_ENVIRONMENT_VLANXXX"<br />
+      For example: MOJO_LAN_VLAN101, or DOM1_MOJWIFI_VLAN102
+    </div>
     <%= f.text_field :name, class: "govuk-input" %>
   </div>
 
