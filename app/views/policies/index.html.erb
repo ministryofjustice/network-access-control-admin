@@ -25,9 +25,9 @@
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :name) %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :description) %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :fallback) %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :site_count, "Sites") %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :created_at, "Created") %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :updated_at, "Updated") %></th>
-        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :site_count, "Sites") %></th>
         <th scope="col" class="govuk-table__header govuk-table__narrow">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
@@ -39,9 +39,9 @@
           <td class="govuk-table__cell"><%= policy.name %></td>
           <td class="govuk-table__cell"><%= policy.description %></td>
           <td class="govuk-table__cell"><%= policy.fallback ? "Yes" : "No" %></td>
+          <td class="govuk-table__cell"><%= link_to policy.site_count, sites_path(:q => { :policy_id => policy.id }), class: "govuk-link" %></td>
           <td class="govuk-table__cell"><%= date_format(policy.created_at) %></td>
           <td class="govuk-table__cell"><%= date_format(policy.updated_at) %></td>
-          <td class="govuk-table__cell"><%= link_to policy.site_count, sites_path(:q => { :policy_id => policy.id }), class: "govuk-link" %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Policy %>
               <%= link_to "Manage", policy_path(policy), class: "govuk-link" %>
