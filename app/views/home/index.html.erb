@@ -41,25 +41,26 @@
           <h2 class="govuk-heading-m" id="subsection-title">
             Links
           </h2>
+          <p class="govuk-body govuk-!-font-size-16">The following links open in a new tab.</p>
           <nav role="navigation" aria-labelledby="subsection-title">
             <ul class="govuk-list govuk-!-font-size-16">
-              <li><a class="govuk-link" href="<%= ENV["CLOUDWATCH_LINK"] %>" target="_blank">Server Logs</a></li>
+              <li><a class="govuk-link" href="<%= ENV["CLOUDWATCH_LINK"] %>" rel="noreferrer noopener" target="_blank">Server Logs <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
             </ul>
           </nav>
         </aside>
 
         <aside class="app-related-items" role="complementary">
-          <h2 class="govuk-heading-m" id="subsection-title">
+          <h3 class="govuk-heading-s" id="subsection-title">
             Github Repositories
-          </h2>
+          </h3>
           <nav role="navigation" aria-labelledby="subsection-title">
             <ul class="govuk-list govuk-!-font-size-16">
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-infrastructure" target="_blank">Infrastructure</a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-server" target="_blank">Server</a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-admin" target="_blank">Admin</a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-integration-tests" target="_blank">Integration tests</a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-device-shared-services-infrastructure" target="_blank">Build pipelines</a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-infrastructure-monitoring-config" target="_blank">Monitoring and Alerting</a></li>
+              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-infrastructure" rel="noreferrer noopener" target="_blank">Infrastructure <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-server" rel="noreferrer noopener" target="_blank">Server <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-admin" rel="noreferrer noopener" target="_blank">Admin <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-integration-tests" rel="noreferrer noopener" target="_blank">Integration tests <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+              <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-device-shared-services-infrastructure" rel="noreferrer noopener" target="_blank">Build pipelines <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+              <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-infrastructure-monitoring-config" rel="noreferrer noopener" target="_blank">Monitoring and Alerting <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
             </ul>
           </nav>
         </aside>
