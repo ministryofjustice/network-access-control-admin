@@ -1,6 +1,10 @@
 <%= form_with model: site, local: true do |f| %>
   <div class="govuk-form-group <%= field_error(f.object, :name) %>">
     <%= f.label :name, class: "govuk-label" %>
+    <div id="name-hint" class="govuk-hint">
+      Must contain the FITS ID, and location in the following format: "FITS_XXX_LOCATION"<br />
+      For example: FITS_4591_MAIDSTONE
+    </div>
     <%= f.text_field :name, class: "govuk-input" %>
   </div>
 
