@@ -10,6 +10,10 @@
 
   <div class="govuk-form-group <%= field_error(f.object, :name) %>">
     <%= f.label :name, class: "govuk-label" %>
+    <div id="name-hint" class="govuk-hint">
+      Must contain the make, model, and hostname in the following format: "MAKE_MODEL_HOSTNAME"<br />
+      For example: XEROX_7835_MFD001
+    </div>
     <%= f.text_field :name, class: "govuk-input" %>
   </div>
 
