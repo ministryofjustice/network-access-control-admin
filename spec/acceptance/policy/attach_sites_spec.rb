@@ -62,6 +62,16 @@ describe "attach sites to a policy", type: :feature do
         expect(page).to have_content(second_site.name)
         expect(page).to_not have_content(site.name)
       end
+
+      context "when there is a fallback policy" do
+        it "does not allow attaching sites" do
+          visit "/sites/#{site.id}"
+
+          click_on "Fallback policy for #{site.name}"
+
+          expect(page).to_not have_content("Manage sites")
+        end
+      end
     end
   end
 end
