@@ -15,6 +15,14 @@
       <% end %>
     </dd>
   </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Sites</dt>
+    <dd class="govuk-summary-list__value"><%= @policy.site_count %></dd>
+    <dd class="govuk-summary-list__actions">
+      <%= link_to sites_path(:q => { :policy_id => @policy.id }), class: "govuk-link" do %>
+        View<span class="govuk-visually-hidden"> sites</span>
+      <% end %>
+  </div>
 </dl>
 
 <% if (can? :create, Rule) && !@policy.fallback %>
