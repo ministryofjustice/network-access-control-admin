@@ -21,7 +21,7 @@ module UseCases
     end
 
     def clean_up_tmp_config_files
-      [ "/etc/raddb/clients.conf", "/etc/raddb/mods-config/files/authorize", config_file_path ].each { |f| File.write(f, "") }
+      ["/etc/raddb/clients.conf", "/etc/raddb/mods-config/files/authorize", config_file_path].each { |f| File.write(f, "") }
     end
 
     def result
