@@ -67,9 +67,9 @@ class PoliciesController < ApplicationController
     @policy.assign_attributes(sites: Site.where(id: sites_params))
 
     if @policy.save
-      redirect_to policy_sites_path(@policy), notice: "Successfully attached policy to sites."
+      redirect_to policy_path(@policy), notice: "Successfully attached policy to sites."
     else
-      redirect_to policy_sites_path(@site), alert: "Failed to update site policies with error: #{@site.errors.full_messages.join(', ')}."
+      redirect_to policy_sites_path(@policy), alert: "Failed to attach policy to sites with error: #{@policy.errors.full_messages.join(', ')}."
     end
   end
 
