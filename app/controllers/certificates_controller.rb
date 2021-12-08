@@ -82,18 +82,20 @@ private
   end
 
   def publish_certificate(certificate_file, filename)
-    p "start cert upload"
+    content = certificate_file.to_io
+
     UseCases::PublishToS3.new(
+      config_validator: UseCases::ConfigValidator.new(
+        config_file_path: "/etc/raddb/certs/#{@certificate.filename}",
+        content: content,
+      ),
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),
         key: full_object_path(filename),
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
       ),
-    ).call(
-      certificate_file.to_io,
-    )
-    p "done uploading cert"
+    ).call(content)
   end
 
   def full_object_path(filename)

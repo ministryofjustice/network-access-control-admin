@@ -78,18 +78,20 @@ private
   end
 
   def publish_authorised_macs
+    content = UseCases::GenerateAuthorisedMacs.new.call(mac_authentication_bypasses: MacAuthenticationBypass.all)
+
     UseCases::PublishToS3.new(
+      config_validator: UseCases::ConfigValidator.new(
+        config_file_path: "/etc/raddb/mods-config/files/authorize",
+        content: content,
+      ),
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
         key: "authorised_macs",
         aws_config: Rails.application.config.s3_aws_config,
         content_type: "text/plain",
       ),
-    ).call(
-      UseCases::GenerateAuthorisedMacs.new.call(
-        mac_authentication_bypasses: MacAuthenticationBypass.all,
-      ),
-    )
+    ).call(content)
   end
 
   def set_crumbs
