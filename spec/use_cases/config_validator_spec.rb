@@ -11,7 +11,7 @@ describe UseCases::ConfigValidator do
 
   context "with an invalid configration" do
     it "raises an error" do
-      expect { described_class.new(config_file_path: config_file_path, content: "something invalid").call }.to raise_error
+      expect { described_class.new(config_file_path: config_file_path, content: "something invalid").call }.to raise_error(SystemExit)
     end
   end
 end
