@@ -29,7 +29,7 @@ module UseCases
     end
 
     def parsed_error
-      result.split("\n").select { |l| l.match(/error(.*)/) }.first.split(":")[1, 2].join(":").strip
+      result.split("\n").last(5).join("\n")
     end
 
     def configuration_ok?
