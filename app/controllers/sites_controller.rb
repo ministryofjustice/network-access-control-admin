@@ -78,7 +78,7 @@ class SitesController < ApplicationController
     @site.assign_attributes(policies: Policy.where(id: policies_params))
 
     if @site.save
-      redirect_to site_policies_path(@site), notice: "Successfully updated site policies."
+      redirect_to site_path(@site), notice: "Successfully updated site policies."
     else
       redirect_to site_policies_path(@site), alert: "Failed to update site policies with error: #{@site.errors.full_messages.join(', ')}."
     end
