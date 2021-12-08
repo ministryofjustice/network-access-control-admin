@@ -40,7 +40,7 @@ describe "attach sites to a policy", type: :feature do
 
         click_on "Update"
 
-        expect(page).to have_content("Successfully attached policy to sites.")
+        expect(page).to have_content("Successfully updated policy sites.")
         expect(page).to have_content("Sites")
         expect(page).to have_content("1")
         expect(page).to have_link("View", href: "/sites?q%5Bpolicy_id%5D=#{policy.id}")
