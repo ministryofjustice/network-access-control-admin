@@ -8,6 +8,7 @@ gem "aws-sdk-ecs", "~> 1.92"
 gem "aws-sdk-s3", "~> 1.109"
 gem "cancancan", "~> 3.3"
 gem "devise"
+gem "ip", "~> 0.3.1"
 gem "ipaddress_2"
 gem "kaminari"
 gem "mysql2", "~> 0.5.3"
@@ -22,7 +23,6 @@ gem "sentry-rails"
 gem "sentry-ruby"
 gem "sprockets", "~> 4.0.2"
 gem "tzinfo-data"
-gem "ip", "~> 0.3.1"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
