@@ -45,7 +45,7 @@ describe "showing a policy", type: :feature do
       expect(page).to have_content "For policy: #{policy.name}"
       expect(page).to_not have_content "Create a new site"
 
-      fill_in "q_name_cont", with: "site 2"
+      fill_in "q_name_or_clients_ip_range_cont", with: "site 2"
 
       click_on "Search"
 

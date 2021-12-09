@@ -27,6 +27,7 @@ describe "listing sites", type: :feature do
     end
 
     context "searching and ordering" do
+      let!(:client) { create(:client, ip_range: "10.0.1.222/32") }
       let!(:first_site) { create(:site, name: "AA Site") }
       let!(:second_site) { create(:site, name: "BB Site") }
       let!(:third_site) { create(:site, name: "Site AAA") }
@@ -39,12 +40,21 @@ describe "listing sites", type: :feature do
         expect(page).to have_content first_site.name
         expect(page).to have_content second_site.name
 
-        fill_in "q_name_cont", with: "AA"
+        fill_in "q_name_or_clients_ip_range_cont", with: "AA"
         click_on "Search"
 
         expect(page).to_not have_content second_site.name
         expect(page).to have_content first_site.name
         expect(page).to have_content third_site.name
+      end
+
+      it "searches by client ip address" do
+        fill_in "q_name_or_clients_ip_range_cont", with: "10.0.1"
+        click_on "Search"
+
+        expect(page).to have_content client.site.name
+        expect(page).to_not have_content second_site.name
+        expect(page).to_not have_content third_site.name
       end
 
       it "orders by name" do
