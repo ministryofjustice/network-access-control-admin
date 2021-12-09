@@ -22,6 +22,7 @@ gem "sentry-rails"
 gem "sentry-ruby"
 gem "sprockets", "~> 4.0.2"
 gem "tzinfo-data"
+gem "ip", "~> 0.3.1"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

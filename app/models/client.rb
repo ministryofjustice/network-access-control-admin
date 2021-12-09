@@ -10,7 +10,15 @@ private
   def validate_ip
     return if ip_range.blank?
 
-    errors.add(:ip_range, "is invalid") unless IPAddress.valid_ipv4_subnet?(ip_range)
+    unless IPAddress.valid_ipv4_subnet?(ip_range)
+      return errors.add(:ip_range, "is invalid")
+    end
+
+    Client.all.each do |client|
+      if IP::CIDR.new(ip_range).overlaps?(IP::CIDR.new(client.ip_range))
+        return errors.add(:ip_range, "IP overlaps with #{client.site.name} - #{client.ip_range}")
+      end
+    end
   end
 
   audited

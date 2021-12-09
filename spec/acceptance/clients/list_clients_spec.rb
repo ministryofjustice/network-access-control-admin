@@ -7,10 +7,9 @@ describe "listing clients", type: :feature do
 
   context "when a site has clients" do
     let!(:client) { create :client }
-    let!(:site) { create :site, clients: [client] }
 
     it "allows viewing clients" do
-      visit "/sites/#{site.id}"
+      visit "/sites/#{client.site.id}"
 
       expect(page).to have_content client.ip_range
       expect(page).to have_content date_format(client.created_at)

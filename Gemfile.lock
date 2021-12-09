@@ -145,6 +145,7 @@ GEM
     hashie (4.1.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
+    ip (0.3.1)
     ipaddr (1.2.2)
     ipaddress_2 (0.14.0)
     jmespath (1.4.0)
@@ -363,6 +364,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   factory_bot_rails
+  ip (~> 0.3.1)
   ipaddress_2
   kaminari
   mysql2 (~> 0.5.3)
