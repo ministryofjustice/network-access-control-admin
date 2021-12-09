@@ -2,7 +2,7 @@ class Client < ApplicationRecord
   belongs_to :site
 
   validates_presence_of :ip_range, :shared_secret
-  validate :validate_ip, on: :create
+  validate :validate_ip, on: %i[create update]
   validates :ip_range, presence: true, uniqueness: { scope: :radsec }
 
 private
