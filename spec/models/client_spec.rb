@@ -36,4 +36,14 @@ describe Client, type: :model do
       expect(result).to be_invalid
     end
   end
+
+  it "validates an updated IP range" do
+    editable_client = create(:client)
+
+    expect(editable_client).to be_truthy
+
+    editable_client.update(ip_range: "Something-Invalid")
+
+    expect(editable_client).to be_invalid
+  end
 end
