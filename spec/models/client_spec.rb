@@ -47,11 +47,20 @@ describe Client, type: :model do
     expect(editable_client).to be_invalid
   end
 
-  it "does not allow overlapping IPs" do
-    ip1 = "127.0.0.1/32"
-    ip2 = "127.0.0.1/16"
+  context "creating a client" do
+    it "does not allow overlapping IPs" do
+      ip1 = "127.0.0.1/32"
+      ip2 = "127.0.0.1/16"
 
-    create(:client, ip_range: ip1)
-    expect(build(:client, ip_range: ip2)).to be_invalid
+      create(:client, ip_range: ip1)
+      expect(build(:client, ip_range: ip2)).to be_invalid
+    end
+  end
+
+  context "updating a client" do
+    it "does allow updating the existing client ip" do
+      client = create(:client)
+      expect { client.save! }.to_not raise_error
+    end
   end
 end
