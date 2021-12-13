@@ -1,7 +1,8 @@
-<%= render "shared/type_ahead", 
-  field_name: field_name, 
-  select_options: @radius_attributes << "", 
-  form: form, 
-  html_options: {}, 
+<%= render "shared/type_ahead",
+  field_name: field_name,
+  form: form,
+  select_options: @radius_attributes << "",
+  options: {},
+  html_options: {},
   selector: selector
 %>

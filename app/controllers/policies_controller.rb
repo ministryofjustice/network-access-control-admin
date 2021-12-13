@@ -20,7 +20,15 @@ class PoliciesController < ApplicationController
   end
 
   def index
-    @q = Policy.ransack(params[:q])
+    @sites = Site.order(:name).pluck(:name, :id)
+    @site_id = params.dig(:q, :site_id)
+
+    @q = if @site_id.present?
+      Policy.joins(:sites).where(sites: { id: @site_id }).ransack(params[:q])
+    else
+      Policy.ransack(params[:q])
+    end
+
     @policies = @q.result.page(params.dig(:q, :page))
   end
 

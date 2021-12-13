@@ -1,22 +1,43 @@
 <div>
   <h2 class="govuk-heading-l">Policies</h2>
 
-    <table class="govuk-table">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">
-          <% if can? :create, Policy %>
-            <%= link_to "Create a new policy", new_policy_path, class: "govuk-button" %>
-          <% end %>
-        </th>
-        <th scope="col" class="govuk-table__header search_bar">
-          <%= search_form_for @q do |f| %>
-            <%= f.search_field :name_or_description_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
+  <table class="govuk-table">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">
+        <% if can? :create, Policy %>
+          <%= link_to "Create a new policy", new_policy_path, class: "govuk-button" %>
+        <% end %>
+      </th>
+      <th scope="col" class="govuk-table__header search_bar">
+        <%= search_form_for @q do |f| %>
+          <%= f.hidden_field :site_id, value: @site_id %>
+          <%= f.search_field :name_or_description_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
 
-            <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
-          <% end %>
-        </th>
-      </tr>
-    </table>
+          <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
+        <% end %>
+      </th>
+    </tr>
+  </table>
+
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="sort">
+      Filter by site:
+    </label>
+    <%= search_form_for @q do |f| %>
+      <%= render "shared/type_ahead",
+        form: f,
+        field_name: :site_id,
+        select_options: @sites,
+        options: { selected: @site_id },
+        html_options: { id: "filter", class: "" },
+        selector: "#filter"
+      %>
+      <%= f.submit "Filter", {
+        class: "govuk-button",
+        "data-module" => "govuk-button"
+      } %>
+   <% end %>
+  </div>
 
   <table class="govuk-table">
     <caption class="govuk-table__caption">List of policies</caption>
