@@ -26,8 +26,9 @@
     <%= f.label "Site (optional)", class: "govuk-label" %>
     <%= render "shared/type_ahead",
       field_name: :site_id,
-      select_options: @sites.unshift(["No site assigned (type to search)", "No site"]),
       form: f,
+      select_options: @sites.unshift(["No site assigned (type to search)", "No site"]),
+      options: {},
       html_options: { id: "site" },
       selector: "#site"
     %>

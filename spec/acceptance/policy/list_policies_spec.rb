@@ -89,12 +89,12 @@ describe "showing a policy", type: :feature do
     end
 
     it "paginates" do
-      52.times { |t| create(:site, name: "Policy #{t}") }
+      52.times { |t| create(:policy, name: "#{t} Policy") }
 
       visit "/policies"
-      expect(page.text).to_not include("Policy 51")
+      expect(page.text).to_not include("51 Policy")
       click_on "2"
-      expect(page.text).to include("Policy 51")
+      expect(page.text).to include("51 Policy")
     end
   end
 end
