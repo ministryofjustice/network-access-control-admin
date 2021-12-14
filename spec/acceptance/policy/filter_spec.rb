@@ -30,6 +30,23 @@ describe "filtering a policy", type: :feature do
         expect(page).to_not have_content third_policy.name
         expect(page).to_not have_content third_policy.description
       end
+
+      it "allows showing policies for all sites" do
+        visit "/policies"
+
+        select "All Sites", from: "filter"
+
+        click_on "Search"
+
+        expect(page).to have_select("filter", selected: [])
+
+        expect(page).to have_content first_policy.name
+        expect(page).to have_content first_policy.description
+        expect(page).to have_content second_policy.name
+        expect(page).to have_content second_policy.description
+        expect(page).to have_content third_policy.name
+        expect(page).to have_content third_policy.description
+      end
     end
   end
 end

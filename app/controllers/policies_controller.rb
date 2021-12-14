@@ -2,6 +2,7 @@ class PoliciesController < ApplicationController
   before_action :set_policy, only: %i[show edit update destroy policy_sites attach_policy_sites]
   before_action :set_crumbs
   before_action :set_policy_name_crumb, only: %i[edit policy_sites attach_policy_sites]
+  before_action :set_site_id, only: :index
 
   def new
     @policy = Policy.new
@@ -21,13 +22,12 @@ class PoliciesController < ApplicationController
 
   def index
     @sites = Site.order(:name).pluck(:name, :id)
-    @site_id = params.dig(:q, :site_id)
 
     @q = if @site_id.present?
-      Policy.joins(:sites).where(sites: { id: @site_id }).ransack(params[:q])
-    else
-      Policy.ransack(params[:q])
-    end
+           Policy.joins(:sites).where(sites: { id: @site_id }).ransack(params[:q])
+         else
+           Policy.ransack(params[:q])
+         end
 
     @policies = @q.result.page(params.dig(:q, :page))
   end
@@ -106,5 +106,9 @@ private
 
   def set_policy_name_crumb
     @navigation_crumbs << [@policy.name, policy_path(@policy)]
+  end
+
+  def set_site_id
+    @site_id = params.dig(:q, :site_id) == "All" ? nil : params.dig(:q, :site_id)
   end
 end

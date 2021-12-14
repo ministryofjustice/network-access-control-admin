@@ -15,7 +15,7 @@
           <%= render "shared/type_ahead",
             form: f,
             field_name: :site_id,
-            select_options: @sites,
+            select_options: @sites.unshift(["All Sites (type to filter)", "All"]),
             options: { selected: @site_id },
             html_options: { id: "filter" },
             selector: "#filter"
