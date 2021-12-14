@@ -117,8 +117,11 @@ private
 
   def set_fallback
     policy_type = params.dig(:q, :fallback)
-    return @fallback = nil if policy_type == "All Policies"
-
-    @fallback = policy_type == "Fallback"
+    @fallback = case policy_type
+                when "Fallback"
+                  true
+                when "Non Fallback"
+                  false
+                end
   end
 end
