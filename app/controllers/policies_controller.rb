@@ -3,6 +3,7 @@ class PoliciesController < ApplicationController
   before_action :set_crumbs
   before_action :set_policy_name_crumb, only: %i[edit policy_sites attach_policy_sites]
   before_action :set_site_id, only: :index
+  before_action :set_fallback, only: :index
 
   def new
     @policy = Policy.new
@@ -24,10 +25,12 @@ class PoliciesController < ApplicationController
     @sites = Site.order(:name).pluck(:name, :id)
 
     @q = if @site_id.present?
-           Policy.joins(:sites).where(sites: { id: @site_id }).ransack(params[:q])
+           Policy.joins(:sites).where(sites: { id: @site_id })
          else
-           Policy.ransack(params[:q])
+           Policy
          end
+    @q = @q.where(fallback: @fallback) unless @fallback.nil?
+    @q = @q.ransack(params[:q])
 
     @policies = @q.result.page(params.dig(:q, :page))
   end
@@ -110,5 +113,12 @@ private
 
   def set_site_id
     @site_id = params.dig(:q, :site_id) == "All" ? nil : params.dig(:q, :site_id)
+  end
+
+  def set_fallback
+    policy_type = params.dig(:q, :fallback)
+    return @fallback = nil if policy_type == "All Policies"
+
+    @fallback = policy_type == "Fallback"
   end
 end

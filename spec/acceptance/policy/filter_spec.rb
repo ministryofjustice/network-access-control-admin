@@ -47,6 +47,63 @@ describe "filtering a policy", type: :feature do
         expect(page).to have_content third_policy.name
         expect(page).to have_content third_policy.description
       end
+
+      it "allows filtering by policy type" do
+        visit "/policies"
+
+        select "Fallback", from: "q_fallback"
+
+        click_on "Search"
+
+        expect(page).to have_select("q_fallback", selected: "Fallback")
+
+        expect(page).to have_content site.policies.first.name
+        expect(page).to have_content site.policies.first.description
+        expect(page).to have_content second_site.policies.first.name
+        expect(page).to have_content second_site.policies.first.description
+
+        expect(page).to_not have_content first_policy.name
+        expect(page).to_not have_content first_policy.description
+        expect(page).to_not have_content second_policy.name
+        expect(page).to_not have_content second_policy.description
+        expect(page).to_not have_content third_policy.name
+        expect(page).to_not have_content third_policy.description
+
+        select "Non Fallback", from: "q_fallback"
+
+        click_on "Search"
+
+        expect(page).to have_select("q_fallback", selected: "Non Fallback")
+
+        expect(page).to have_content first_policy.name
+        expect(page).to have_content first_policy.description
+        expect(page).to have_content second_policy.name
+        expect(page).to have_content second_policy.description
+        expect(page).to have_content third_policy.name
+        expect(page).to have_content third_policy.description
+
+        expect(page).to_not have_content site.policies.first.name
+        expect(page).to_not have_content site.policies.first.description
+        expect(page).to_not have_content second_site.policies.first.name
+        expect(page).to_not have_content second_site.policies.first.description
+
+        select "All Policies", from: "q_fallback"
+
+        click_on "Search"
+
+        expect(page).to have_select("q_fallback", selected: "All Policies")
+
+        expect(page).to have_content first_policy.name
+        expect(page).to have_content first_policy.description
+        expect(page).to have_content second_policy.name
+        expect(page).to have_content second_policy.description
+        expect(page).to have_content third_policy.name
+        expect(page).to have_content third_policy.description
+        expect(page).to have_content site.policies.first.name
+        expect(page).to have_content site.policies.first.description
+        expect(page).to have_content second_site.policies.first.name
+        expect(page).to have_content second_site.policies.first.description
+      end
     end
   end
 end
