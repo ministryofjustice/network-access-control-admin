@@ -8,14 +8,11 @@ BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
-authenticate-docker: check-container-registry-account-id
+authenticate-docker:
 	./scripts/authenticate_docker.sh
 
-check-container-registry-account-id:
-	./scripts/check_container_registry_account_id.sh
-
-build: check-container-registry-account-id
-	docker build -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PORT --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg SHARED_SERVICES_ACCOUNT_ID --build-arg CLOUDWATCH_LINK
+build:
+	docker build -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PORT --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg CLOUDWATCH_LINK
 
 build-dev:
 	$(DOCKER_COMPOSE) build
@@ -74,4 +71,4 @@ lint:
 implode:
 	$(DOCKER_COMPOSE) rm
 
-.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker check-container-registry-account-id start-db db-setup run shell lint bootstrap integration-test clone-integration-test
+.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker start-db db-setup run shell lint bootstrap integration-test clone-integration-test
