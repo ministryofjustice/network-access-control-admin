@@ -1,5 +1,5 @@
-ARG SHARED_SERVICES_ACCOUNT_ID
-FROM ${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com/admin:ruby-3-0-2-alpine3-14
+FROM ruby:3.0.2-alpine3.14
+
 ARG UID=1001
 ARG GROUP=app
 ARG USER=app
