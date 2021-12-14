@@ -18,7 +18,7 @@ describe "filtering a policy", type: :feature do
 
         select site.name, from: "filter"
 
-        click_on "Filter"
+        click_on "Search"
 
         expect(page).to have_select("filter", selected: site.name)
 
