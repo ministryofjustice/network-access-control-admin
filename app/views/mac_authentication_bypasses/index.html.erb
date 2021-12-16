@@ -6,6 +6,7 @@
       <th scope="col" class="govuk-table__header">
         <% if can? :create, MacAuthenticationBypass %>
           <%= link_to "Create a new bypass", new_mac_authentication_bypass_path, class: "govuk-button"%>
+          <%= link_to "Import bypasses", new_mac_authentication_bypasses_import_path, class: "govuk-button"%>
         <% end %>
       </th>
       <th scope="col" class="govuk-table__header search_bar">
