@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     resources :mab_responses
   end
 
+  resources :mac_authentication_bypasses_imports
+
   resources :sites do
     resources :clients, except: %i[index show]
   end

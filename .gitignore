@@ -43,3 +43,5 @@ yarn-debug.log*
 
 .vscode
 coverage
+
+/spec/acceptance/mac_authentication_bypass/dummy_csv/*

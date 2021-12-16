@@ -1,0 +1,20 @@
+<h2 class="govuk-heading-l">Import bypasses</h2>
+
+<%= form_with model: @mac_authentication_bypasses_import, local: true do |f| %>
+  <div class="govuk-form-group">
+    <%= f.label :bypasses, class: "govuk-label" %>
+    <%= f.file_field :bypasses, class: "govuk-file-upload" %>
+  </div>
+
+  <%= f.submit "Upload", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", mac_authentication_bypasses_path,
+    class: "govuk-button govuk-button--secondary",
+    data: {
+      module: "govuk-button"
+    }
+  %>
+<% end %>
