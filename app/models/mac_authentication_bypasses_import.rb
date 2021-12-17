@@ -36,6 +36,18 @@ class MacAuthenticationBypassesImport
     end
   end
 
+  def save
+    return false unless valid?
+
+    @records.each(&:save)
+  end
+
+  def persisted?
+    false
+  end
+
+private
+
   def validate_records
     @records.each do |record|
       record.validate
@@ -44,12 +56,6 @@ class MacAuthenticationBypassesImport
       end
     end
   end
-
-  def persisted?
-    false
-  end
-
-private
 
   def unwrap_responses(responses)
     mab_responses = []

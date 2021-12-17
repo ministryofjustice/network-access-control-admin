@@ -6,7 +6,7 @@ describe MacAuthenticationBypassesImport, type: :model do
   context "valid csv entries" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
-aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;Tunnel-ID=777,102 Petty France"
+aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,102 Petty France"
     end
 
     before do
@@ -14,6 +14,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
 
     it "creates valid MABs" do
+      expect(subject).to be_valid
       expect(subject.errors).to be_empty
       expect(subject.records.count).to be(1)
 
@@ -27,8 +28,17 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
       expect(expected_mab.responses.first.value).to eq("VLAN")
       expect(expected_mab.responses.second.response_attribute).to eq("Reply-Message")
       expect(expected_mab.responses.second.value).to eq("Hello to you")
-      expect(expected_mab.responses.third.response_attribute).to eq("Tunnel-ID")
+      expect(expected_mab.responses.third.response_attribute).to eq("SG-Tunnel-Id")
       expect(expected_mab.responses.third.value).to eq("777")
+
+      expect(subject.save).to be_truthy
+
+      saved_bypass = MacAuthenticationBypass.last
+
+      expect(saved_bypass.id).to_not be_nil
+      saved_bypass.responses.each do |response|
+        expect(response.id).to_not be_nil
+      end
     end
   end
 
@@ -44,7 +54,6 @@ some test,Tunnel-Type=VLAN,102 Petty France"
         [
           "Bypasses Address can't be blank",
           "Bypasses Address is invalid",
-          "Bypasses Responses is invalid",
         ],
       )
     end
