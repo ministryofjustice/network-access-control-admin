@@ -1,5 +1,5 @@
 class MabResponse < Response
-  belongs_to :mac_authentication_bypass
+  belongs_to :mac_authentication_bypass, optional: true
 
   validate :validate_uniqueness_of_response_attribute, on: %i[create update]
 
