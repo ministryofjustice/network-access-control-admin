@@ -1,25 +1,32 @@
 class MacAuthenticationBypassesImportsController < ApplicationController
   def new
     @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new
+
     authorize! :create, @mac_authentication_bypasses_import
   end
 
   def create
-    contents = params["mac_authentication_bypasses_import"]["bypasses"].read
-    @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new(contents)
+    if session[:bypasess_import]
+      @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new(session[:bypasess_import])
 
-    if params[:confirmed].present?
       if @mac_authentication_bypasses_import.save
-        redirect_to mac_authentication_bypasses_path, notice: "Successfully imported bypasses"
+        session.delete(:bypasess_import)
+
+        return redirect_to mac_authentication_bypasses_path, notice: "Successfully imported bypasses"
       end
     else
-      render :confirm
+      contents = mac_authentication_bypasses_import_params[:bypasses].read
+      session[:bypasess_import] = contents
+
+      @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new(contents)
     end
+
+    render :new
   end
 
 private
 
-  def mac_authentication_bypasses_imports_params
-    params.require(:mac_authentication_bypasses_imports).permit(:bypasses)
+  def mac_authentication_bypasses_import_params
+    params.require(:mac_authentication_bypasses_import).permit(:bypasses)
   end
 end

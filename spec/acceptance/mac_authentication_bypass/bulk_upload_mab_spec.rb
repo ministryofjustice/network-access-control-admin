@@ -27,13 +27,13 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
 
   context "when the user is an editor" do
     let(:editor) { create(:user, :editor) }
-    let!(:site) { create(:site) }
+    let!(:site) { create(:site, name: "102 Petty France") }
 
     before do
       login_as editor
     end
 
-    it "imports bypasses" do
+    it "imports bypasses from a valid CSV" do
       # expect_service_deployment
 
       visit "/mac_authentication_bypasses"
@@ -46,8 +46,15 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
       click_on "Upload"
 
       expect(page).to have_content("Confirm upload")
-      # expect(page).to have_content("aa-bb-cc-dd-ee-ff")
-      # expect(page).to have_content("Successfully imported bypasses")
+      expect(page).to have_content("aa-bb-cc-dd-ee-ff")
+      expect(page).to have_content("some printer")
+      expect(page).to have_content("some test")
+      expect(page).to have_content("102 Petty France")
+
+      click_on "Confirm Upload"
+
+      expect(current_path).to eql("/mac_authentication_bypasses")
+      expect(page).to have_content("Successfully imported bypasses")
     end
   end
 end
