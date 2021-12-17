@@ -28,6 +28,10 @@ class MacAuthenticationBypassesImport
         site: Site.find_by(name: site_name),
       )
 
+      unwrap_responses(responses).each do |response|
+        record.responses << response
+      end
+
       @records << record
     end
   end
@@ -43,5 +47,17 @@ class MacAuthenticationBypassesImport
 
   def persisted?
     false
+  end
+
+private
+
+  def unwrap_responses(responses)
+    mab_responses = []
+    responses = responses.split(";")
+    responses.each do |r|
+      response_attribute, value = r.split("=")
+      mab_responses << MabResponse.new(response_attribute: response_attribute, value: value)
+    end
+    mab_responses
   end
 end
