@@ -88,5 +88,23 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("SG-Tunnel-Id")
       expect(page).to have_content("999")
     end
+
+    it "shows errors when the CSV is invalid" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "Import bypasses"
+
+      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
+
+      attach_file("mac_authentication_bypasses_import_bypasses", "spec/fixtures/mac_authentication_bypasses_csv/invalid.csv")
+      click_on "Upload"
+
+      expect(page).to_not have_content("Valid Printer")
+
+      expect(page).to have_content("There is a problem")
+
+      expect(page).to have_content("Address is invalid")
+      # expect(page).to have_content("Site not found")
+    end
   end
 end
