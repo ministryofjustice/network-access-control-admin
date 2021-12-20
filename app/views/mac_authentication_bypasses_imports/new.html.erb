@@ -1,4 +1,25 @@
+<%= render "layouts/form_errors", resource: @mac_authentication_bypasses_import %>
+
 <%= form_with model: @mac_authentication_bypasses_import, local: true do |f| %>
+  <% f.object.records.each do |record| %>
+    <% next unless record.errors.any? %>
+    <div class="govuk-form-group govuk-form-group--error">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">MAC Address</dt>
+          <dd class="govuk-summary-list__value"><%= record.address %></dd>
+          <dt class="govuk-summary-list__key">Name</dt>
+          <dd class="govuk-summary-list__value"><%= record.name %></dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Description</dt>
+          <dd class="govuk-summary-list__value"><%= record.description %></dd>
+          <dt class="govuk-summary-list__key">Site</dt>
+          <dd class="govuk-summary-list__value"><%= record.site&.name %></dd>
+        </div>
+      </dl>
+    </div>
+  <% end %>
   <h2 class="govuk-heading-l">Import bypasses</h2>
 
   <div class="govuk-form-group">
