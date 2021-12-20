@@ -34,7 +34,7 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
     end
 
     it "imports bypasses from a valid CSV" do
-      # expect_service_deployment
+      expect_service_deployment
 
       visit "/mac_authentication_bypasses"
 
