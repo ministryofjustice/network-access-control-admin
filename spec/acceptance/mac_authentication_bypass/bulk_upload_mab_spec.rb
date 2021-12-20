@@ -45,16 +45,48 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
       attach_file("mac_authentication_bypasses_import_bypasses", "spec/fixtures/mac_authentication_bypasses_csv/valid.csv")
       click_on "Upload"
 
-      expect(page).to have_content("Confirm upload")
-      expect(page).to have_content("aa-bb-cc-dd-ee-ff")
-      expect(page).to have_content("some printer")
-      expect(page).to have_content("some test")
-      expect(page).to have_content("102 Petty France")
-
-      click_on "Confirm Upload"
-
       expect(current_path).to eql("/mac_authentication_bypasses")
       expect(page).to have_content("Successfully imported bypasses")
+
+      expect(page).to have_content("aa-bb-cc-dd-ee-ff")
+      expect(page).to have_content("printer1")
+      expect(page).to have_content("some test1")
+
+      expect(page).to have_content("aa-bb-cc-ff-ee-ff")
+      expect(page).to have_content("printer2")
+      expect(page).to have_content("some test2")
+
+      expect(page).to have_content("aa-bb-ff-dd-ee-ff")
+      expect(page).to have_content("printer3")
+      expect(page).to have_content("some test3")
+      expect(page).to have_content("102 Petty France")
+
+      visit "/mac_authentication_bypasses/#{MacAuthenticationBypass.first.id}"
+
+      expect(page).to have_content("Tunnel-Type")
+      expect(page).to have_content("VLAN")
+      expect(page).to have_content("Reply-Message")
+      expect(page).to have_content("Hello to you")
+      expect(page).to have_content("SG-Tunnel-Id")
+      expect(page).to have_content("777")
+
+      visit "/mac_authentication_bypasses/#{MacAuthenticationBypass.second.id}"
+
+      expect(page).to have_content("Tunnel-Type")
+      expect(page).to have_content("VLAN")
+      expect(page).to have_content("Reply-Message")
+      expect(page).to have_content("Hello to you")
+      expect(page).to have_content("SG-Tunnel-Id")
+      expect(page).to have_content("888")
+
+      visit "/mac_authentication_bypasses/#{MacAuthenticationBypass.third.id}"
+
+      expect(page).to have_content("Tunnel-Type")
+      expect(page).to have_content("VLAN")
+      expect(page).to have_content("Reply-Message")
+      expect(page).to have_content("Hello to you")
+      expect(page).to have_content("SG-Tunnel-Id")
+      expect(page).to have_content("999")
     end
   end
 end

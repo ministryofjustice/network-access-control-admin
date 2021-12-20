@@ -1,33 +1,12 @@
 <%= form_with model: @mac_authentication_bypasses_import, local: true do |f| %>
-  <% if f.object.records.any? %>
-    <h2 class="govuk-heading-l">Confirm upload</h2>
-    <% f.object.records.each do |record| %>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">MAC Address</dt>
-          <dd class="govuk-summary-list__value"><%= record.address %></dd>
-          <dt class="govuk-summary-list__key">Name</dt>
-          <dd class="govuk-summary-list__value"><%= record.name %></dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Description</dt>
-          <dd class="govuk-summary-list__value"><%= record.description %></dd>
-          <dt class="govuk-summary-list__key">Site</dt>
-          <dd class="govuk-summary-list__value"><%= record.site&.name %></dd>
-        </div>
-      </dl>
-    <% end %>
-  <% else %>
-    <h2 class="govuk-heading-l">Import bypasses</h2>
+  <h2 class="govuk-heading-l">Import bypasses</h2>
 
-    <div class="govuk-form-group">
-      <%= f.label :bypasses, class: "govuk-label" %>
-      <%= f.file_field :bypasses, class: "govuk-file-upload" %>
-    </div>
-  <% end %>
-  
-  <% submit_button = f.object.records.any? ? "Confirm Upload" :  "Upload" %>
-  <%= f.submit submit_button, {
+  <div class="govuk-form-group">
+    <%= f.label :bypasses, class: "govuk-label" %>
+    <%= f.file_field :bypasses, class: "govuk-file-upload" %>
+  </div>
+
+  <%= f.submit "Upload", {
     class: "govuk-button",
     "data-module" => "govuk-button"
   } %>
