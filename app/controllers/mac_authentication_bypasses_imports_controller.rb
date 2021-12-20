@@ -6,22 +6,14 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   end
 
   def create
-    if session[:bypasess_import]
-      @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new(session[:bypasess_import])
+    contents = mac_authentication_bypasses_import_params[:bypasses].read
+    @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new(contents)
 
-      if @mac_authentication_bypasses_import.save
-        session.delete(:bypasess_import)
-
-        return redirect_to mac_authentication_bypasses_path, notice: "Successfully imported bypasses"
-      end
+    if @mac_authentication_bypasses_import.save
+      redirect_to mac_authentication_bypasses_path, notice: "Successfully imported bypasses"
     else
-      contents = mac_authentication_bypasses_import_params[:bypasses].read
-      session[:bypasess_import] = contents
-
-      @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new(contents)
+      render :new
     end
-
-    render :new
   end
 
 private
