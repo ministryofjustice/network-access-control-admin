@@ -104,7 +104,7 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("There is a problem")
 
       expect(page).to have_content("Address is invalid")
-      # expect(page).to have_content("Site not found")
+      expect(page).to have_content("Site Unknown Site is not found")
     end
   end
 end
