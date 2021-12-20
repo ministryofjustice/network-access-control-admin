@@ -42,9 +42,25 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
   end
 
-  context "invalid csv entries" do
+  context "csv with invalid header" do
     let(:file_contents) do
       "Description,Responses,Site
+aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,102 Petty France"
+    end
+
+    it "records the validation errors" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "The CSV header is invalid",
+        ],
+      )
+    end
+  end
+
+  context "csv with invalid entries" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
 some test,Tunnel-Type=VLAN,102 Petty France"
     end
 
@@ -52,8 +68,7 @@ some test,Tunnel-Type=VLAN,102 Petty France"
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq(
         [
-          "Bypasses Address can't be blank",
-          "Bypasses Address is invalid",
+          "Address is invalid",
         ],
       )
     end
