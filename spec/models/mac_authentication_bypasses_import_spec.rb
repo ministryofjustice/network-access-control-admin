@@ -61,7 +61,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
   context "csv with invalid entries" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
-some test,Tunnel-Type=VLAN,102 Petty France"
+aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN,Unknown Site"
     end
 
     it "records the validation errors" do
@@ -69,6 +69,7 @@ some test,Tunnel-Type=VLAN,102 Petty France"
       expect(subject.errors.full_messages).to eq(
         [
           "Address is invalid",
+          "Site Unknown Site is not found",
         ],
       )
     end

@@ -11,10 +11,12 @@ class MacAuthenticationBypassesImport
 
   validate :validate_header
   validate :validate_records
+  validate :validate_sites
 
   def initialize(csv_contents = {})
     @csv_contents = csv_contents
     @records = []
+    @sites_not_found = []
 
     return if csv_contents.empty? || !valid_header?
 
@@ -25,11 +27,17 @@ class MacAuthenticationBypassesImport
       responses = row["Responses"]
       site_name = row["Site"]
 
+      site = Site.find_by(name: site_name)
+
+      if site_name.present? && site.nil?
+        @sites_not_found << site_name
+      end
+
       record = MacAuthenticationBypass.new(
         name: name,
         address: address,
         description: description,
-        site: Site.find_by(name: site_name),
+        site: site,
       )
 
       return @records << record if responses.nil?
@@ -64,6 +72,12 @@ private
       record.errors.full_messages.each do |message|
         errors.add(:base, message)
       end
+    end
+  end
+
+  def validate_sites
+    @sites_not_found.each do |site_name|
+      errors.add(:base, "Site #{site_name} is not found")
     end
   end
 
