@@ -4,7 +4,12 @@
   <h2 class="govuk-heading-l">Import bypasses</h2>
 
   <div class="govuk-form-group">
-    <%= f.label :bypasses, class: "govuk-label" %>
+    <div id="csv-hint" class="govuk-hint">
+      Header must contain the following: "<%= @mac_authentication_bypasses_import.headers %>"<br /><br />
+      Responses must be separated by a semicolon.<br />
+      For example: Tunnel-Type=VLAN;Reply-Message=Welcome;SG-Tunnel-Id=333<br /><br />
+      File must have extension of ".csv"<br />
+    </div>
     <%= f.file_field :bypasses, class: "govuk-file-upload" %>
   </div>
 

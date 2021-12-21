@@ -60,6 +60,10 @@ class MacAuthenticationBypassesImport
     false
   end
 
+  def headers
+    CSV_HEADERS
+  end
+
 private
 
   def validate_csv
