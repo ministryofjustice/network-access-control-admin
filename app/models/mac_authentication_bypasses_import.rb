@@ -53,7 +53,19 @@ class MacAuthenticationBypassesImport
   def save
     return false unless valid?
 
-    @records.each(&:save)
+    records_to_save = []
+    responses_to_save = []
+    last_id = MacAuthenticationBypass.last&.id || 0
+    @records.each_with_index do |record, i|
+      record_id = last_id + i + 1
+      records_to_save << { id: record_id, address: record.address, name: record.name, description: record.description, site_id: record.site&.id }
+      record.responses.each do |response|
+        responses_to_save << { mac_authentication_bypass_id: record_id, response_attribute: response.response_attribute, value: response.value }
+      end
+    end
+
+    MacAuthenticationBypass.insert_all(records_to_save)
+    MabResponse.insert_all(responses_to_save)
   end
 
   def persisted?
