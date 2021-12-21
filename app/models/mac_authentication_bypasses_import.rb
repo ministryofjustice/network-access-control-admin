@@ -71,8 +71,15 @@ private
   def validate_records
     @records.each_with_index do |record, i|
       record.validate
+
       record.errors.full_messages.each do |message|
         errors.add(:base, "Error on row #{i + 2}: #{message}")
+      end
+
+      record.responses.each do |response|
+        response.errors.full_messages.each do |message|
+          errors.add(:base, "Error on row #{i + 2}: #{message}")
+        end
       end
     end
   end
