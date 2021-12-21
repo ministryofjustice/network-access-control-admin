@@ -66,14 +66,14 @@ GEM
     audited (5.0.1)
       activerecord (>= 5.0, < 6.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.538.0)
-    aws-sdk-core (3.124.0)
+    aws-partitions (1.543.0)
+    aws-sdk-core (3.125.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-ecs (1.92.0)
-      aws-sdk-core (~> 3, >= 3.122.0)
+    aws-sdk-ecs (1.93.0)
+      aws-sdk-core (~> 3, >= 3.125.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.52.0)
       aws-sdk-core (~> 3, >= 3.122.0)
@@ -356,7 +356,7 @@ PLATFORMS
 
 DEPENDENCIES
   audited (= 5.0.1)
-  aws-sdk-ecs (~> 1.92)
+  aws-sdk-ecs (~> 1.93)
   aws-sdk-s3 (~> 1.109)
   byebug
   cancancan (~> 3.3)
