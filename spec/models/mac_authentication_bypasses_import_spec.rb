@@ -68,8 +68,8 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN,Unknown Site"
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq(
         [
-          "Address is invalid",
-          "Site Unknown Site is not found",
+          "Error on row 2: Address is invalid",
+          "Site \"Unknown Site\" is not found",
         ],
       )
     end

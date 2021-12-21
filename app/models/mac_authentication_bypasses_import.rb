@@ -69,17 +69,17 @@ private
   end
 
   def validate_records
-    @records.each do |record|
+    @records.each_with_index do |record, i|
       record.validate
       record.errors.full_messages.each do |message|
-        errors.add(:base, message)
+        errors.add(:base, "Error on row #{i + 2}: #{message}")
       end
     end
   end
 
   def validate_sites
     @sites_not_found.each do |site_name|
-      errors.add(:base, "Site #{site_name} is not found")
+      errors.add(:base, "Site \"#{site_name}\" is not found")
     end
   end
 
