@@ -106,5 +106,17 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("Address is invalid")
       expect(page).to have_content("Site Unknown Site is not found")
     end
+
+    it "shows errors when the CSV is missing" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "Import bypasses"
+
+      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
+
+      click_on "Upload"
+
+      expect(page).to have_content("CSV is missing")
+    end
   end
 end

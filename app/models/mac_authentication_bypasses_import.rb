@@ -9,16 +9,16 @@ class MacAuthenticationBypassesImport
   include ActiveModel::Conversion
   include ActiveModel::Naming
 
-  validate :validate_header
+  validate :validate_csv
   validate :validate_records
   validate :validate_sites
 
-  def initialize(csv_contents = {})
+  def initialize(csv_contents = nil)
     @csv_contents = csv_contents
     @records = []
     @sites_not_found = []
 
-    return if csv_contents.empty? || !valid_header?
+    return unless valid_header?
 
     CSV.parse(csv_contents, headers: true).each do |row|
       address = row["Address"]
@@ -62,7 +62,9 @@ class MacAuthenticationBypassesImport
 
 private
 
-  def validate_header
+  def validate_csv
+    return errors.add(:base, "CSV is missing") if @csv_contents.nil?
+
     errors.add(:base, "The CSV header is invalid") unless valid_header?
   end
 
@@ -92,6 +94,8 @@ private
   end
 
   def valid_header?
+    return false if @csv_contents.nil?
+
     @csv_contents.split("\n").first == CSV_HEADERS
   end
 end

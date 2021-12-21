@@ -6,7 +6,8 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   end
 
   def create
-    contents = mac_authentication_bypasses_import_params[:bypasses].read
+    contents = mac_authentication_bypasses_import_params&.dig(:bypasses)&.read
+
     @mac_authentication_bypasses_import = MacAuthenticationBypassesImport.new(contents)
 
     if @mac_authentication_bypasses_import.save
@@ -21,6 +22,8 @@ class MacAuthenticationBypassesImportsController < ApplicationController
 private
 
   def mac_authentication_bypasses_import_params
+    return if params[:mac_authentication_bypasses_import].nil?
+
     params.require(:mac_authentication_bypasses_import).permit(:bypasses)
   end
 
