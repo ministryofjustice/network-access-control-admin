@@ -18,8 +18,11 @@ class MacAuthenticationBypassesImport
     @csv_contents = csv_contents
     @records = []
     @sites_not_found = []
+    @all_mac_addresses = MacAuthenticationBypass.all.map(&:address)
 
     return unless valid_header?
+
+    all_sites = Site.all
 
     CSV.parse(csv_contents, headers: true).each do |row|
       address = row["Address"]
@@ -28,18 +31,20 @@ class MacAuthenticationBypassesImport
       responses = row["Responses"]
       site_name = row["Site"]
 
-      site = Site.find_by(name: site_name)
+      site = all_sites.select { |s| s.name == site_name }.first
 
       if site_name.present? && site.nil?
         @sites_not_found << site_name
       end
 
-      record = MacAuthenticationBypass.new(
+      record = MacAuthenticationBypassImport.new(
         name: name,
         address: address,
         description: description,
         site: site,
       )
+
+      @all_mac_addresses << address
 
       return @records << record if responses.nil?
 
@@ -88,9 +93,16 @@ private
   def validate_records
     @records.each_with_index do |record, i|
       record.validate
+      record.validate_uniqueness_of_address(@all_mac_addresses)
 
       record.errors.full_messages.each do |message|
         errors.add(:base, "Error on row #{i + 2}: #{message}")
+      end
+
+      record.responses.each do |response|
+        response.errors.full_messages.each do |message|
+          errors.add(:base, "Error on row #{i + 2}: #{message}")
+        end
       end
     end
   end
