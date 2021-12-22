@@ -5,11 +5,15 @@ module UseCases
       @content = content
     end
 
-    def call
+    def call(&block)
       clean_up_tmp_config_files
       write_tmp_config_file
 
-      abort("Corrupt FreeRadius configuration: #{parsed_error}") unless configuration_ok?
+      if block
+        block.call(parsed_error.to_s) unless configuration_ok?
+      else
+        abort("Corrupt FreeRadius configuration: #{parsed_error}") unless configuration_ok?
+      end
     ensure
       clean_up_tmp_config_files
     end

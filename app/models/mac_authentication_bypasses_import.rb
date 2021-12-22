@@ -11,6 +11,7 @@ class MacAuthenticationBypassesImport
 
   validate :validate_csv
   validate :validate_records
+  validate :validate_radius_attributes
   validate :validate_sites
 
   def initialize(csv_contents = nil)
@@ -91,12 +92,6 @@ private
       record.errors.full_messages.each do |message|
         errors.add(:base, "Error on row #{i + 2}: #{message}")
       end
-
-      record.responses.each do |response|
-        response.errors.full_messages.each do |message|
-          errors.add(:base, "Error on row #{i + 2}: #{message}")
-        end
-      end
     end
   end
 
@@ -106,12 +101,32 @@ private
     end
   end
 
+  def validate_radius_attributes
+    content = UseCases::GenerateAuthorisedMacs.new.call(mac_authentication_bypasses: @records)
+
+    radius_errors = ""
+    UseCases::ConfigValidator.new(
+      config_file_path: "/etc/raddb/mods-config/files/authorize",
+      content: content,
+    ).call do |error|
+      radius_errors = error
+    end
+
+    @records.each_with_index do |record, i|
+      error_line = radius_errors.split("\n").select { |l| l.include?(record.address) }[0]
+      if error_line
+        message = error_line.match(/#{record.address}: (.*)/)[1]
+        errors.add(:base, "Error on row #{i + 2}: #{message}")
+      end
+    end
+  end
+
   def unwrap_responses(responses)
     mab_responses = []
     responses = responses.split(";")
     responses.each do |r|
       response_attribute, value = r.split("=")
-      mab_responses << MabResponse.new(response_attribute: response_attribute, value: value)
+      mab_responses << MabResponseImport.new(response_attribute: response_attribute, value: value)
     end
     mab_responses
   end
