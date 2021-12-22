@@ -10,8 +10,10 @@
     <dt class="govuk-summary-list__key">Description</dt>
     <dd class="govuk-summary-list__value"><%= @policy.description %></dd>
     <dd class="govuk-summary-list__actions">
-      <%= link_to edit_policy_path(@policy), class: "govuk-link" do %>
-        Change<span class="govuk-visually-hidden"> name</span>
+      <% if can? :manage, Policy %>
+        <%= link_to edit_policy_path(@policy), class: "govuk-link" do %>
+          Change<span class="govuk-visually-hidden"> name</span>
+        <% end %>
       <% end %>
     </dd>
   </div>

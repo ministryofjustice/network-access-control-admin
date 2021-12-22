@@ -17,9 +17,11 @@
     <dt class="govuk-summary-list__key">Description</dt>
     <dd class="govuk-summary-list__value"><%= @mac_authentication_bypass.description %></dd>
     <dd class="govuk-summary-list__actions">
+    <% if can? :manage, MacAuthenticationBypass %>
       <%= link_to edit_mac_authentication_bypass_path(@mac_authentication_bypass), class: "govuk-link" do %>
         Change<span class="govuk-visually-hidden"> bypass details</span>
       <% end %>
+    <% end %>
     </dd>
   </div>
 </dl>
