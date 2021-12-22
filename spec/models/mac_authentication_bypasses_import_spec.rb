@@ -75,4 +75,24 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,
       )
     end
   end
+
+  context "when a MAC address already exist" do
+    before do
+      create(:mac_authentication_bypass, address: "aa-bb-cc-dd-ee-ff")
+    end
+
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
+aa-bb-cc-dd-ee-ff,Printer1,some test,SG-Tunnel-Id=777"
+    end
+
+    it "records the validation errors" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 2: Address has already taken",
+        ],
+      )
+    end
+  end
 end
