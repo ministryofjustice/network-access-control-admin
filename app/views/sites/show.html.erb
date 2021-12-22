@@ -7,8 +7,10 @@
     <dt class="govuk-summary-list__key">Tag</dt>
     <dd class="govuk-summary-list__value"><%= @site.tag %></dd>
     <dd class="govuk-summary-list__actions">
-      <%= link_to edit_site_path(@site), class: "govuk-link" do %>
-        Change<span class="govuk-visually-hidden"> name</span>
+      <% if can? :manage, Site %>
+        <%= link_to edit_site_path(@site), class: "govuk-link" do %>
+          Change<span class="govuk-visually-hidden"> name</span>
+        <% end %>
       <% end %>
     </dd>
   </div>
@@ -29,7 +31,9 @@
         <th scope="col" class="govuk-table__header">Actions</th>
         <th scope="col" class="govuk-table__header">Priority</th>
         <th scope="col" class="govuk-table__header">
-          <%= link_to "Change priorities", edit_site_policies_path(@site), class: "govuk-link" %>
+          <% if can? :manage, Site %>
+            <%= link_to "Change priorities", edit_site_policies_path(@site), class: "govuk-link" %>
+          <%end%>
         </th>
       </tr>
     </thead>
