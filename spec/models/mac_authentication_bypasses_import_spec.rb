@@ -69,8 +69,7 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,
       expect(subject.errors.full_messages).to eq(
         [
           "Error on row 2: Address is invalid",
-          "Error on row 2: Responses is invalid",
-          "Error on row 2: 3com-connect id Unknown or invalid value \"ASASAS\" for attribute 3Com-Connect_Id",
+          "Error on row 2: Unknown or invalid value \"ASASAS\" for attribute 3Com-Connect_Id",
           "Site \"Unknown Site\" is not found",
         ],
       )
