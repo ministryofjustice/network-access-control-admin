@@ -9,13 +9,15 @@
 # p "truncating rules, responses, policies, site policies, mab, clients and sites!"
 # base_connection = ActiveRecord::Base.connection
 
-# base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
 # %w[rules responses policies site_policies sites clients mac_authentication_bypasses].each do |table_name|
 #   base_connection.truncate(table_name)
 # end
 
-# base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+MacAuthenticationBypass.delete_all
+MabResponse.delete_all
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
 
 # p "creating policies"
 # 300.times do |p|
@@ -74,5 +76,3 @@
 #   )
 # end
 
-MacAuthenticationBypass.delete_all
-MabResponse.delete_all
