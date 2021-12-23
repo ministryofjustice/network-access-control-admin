@@ -7,7 +7,7 @@
 # end
 
 # p "truncating rules, responses, policies, site policies, mab, clients and sites!"
-# base_connection = ActiveRecord::Base.connection
+base_connection = ActiveRecord::Base.connection
 
 base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
