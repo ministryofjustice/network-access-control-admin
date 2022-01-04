@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe MacAuthenticationBypassesImport, type: :model do
+describe CSVImport::MacAuthenticationBypassesImport, type: :model do
   subject { described_class.new(file_contents) }
 
   context "valid csv entries" do
@@ -73,6 +73,10 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,
           "Site \"Unknown Site\" is not found",
         ],
       )
+    end
+
+    it "does not save the records" do
+      expect(subject.save).to be_falsey
     end
   end
 
