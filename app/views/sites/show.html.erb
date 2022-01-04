@@ -72,7 +72,9 @@
         <th scope="col" class="govuk-table__header">Shared Secret</th>
         <th scope="col" class="govuk-table__header">Created</th>
         <th scope="col" class="govuk-table__header">Updated</th>
-        <th scope="col" class="govuk-table__header">Actions</th>
+        <% if can? :manage, Client %>
+          <th scope="col" class="govuk-table__header">Actions</th>
+        <% end %>
       </tr>
     </thead>
     <tbody class="govuk-table__body">
