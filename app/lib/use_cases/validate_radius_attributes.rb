@@ -1,5 +1,9 @@
 module UseCases
-  class ValidateRadiusAttributes < UseCases::ConfigValidator
+  class ValidateRadiusAttributes
+    include RadiusHelper
+
+    attr_reader :content, :config_file_path
+
     def initialize(records:, errors:)
       @records = records
       @errors = errors
@@ -8,8 +12,8 @@ module UseCases
     end
 
     def call
-      clean_up_tmp_config_files
-      write_tmp_config_file
+      clean_up_tmp_config_files(config_file_path)
+      write_tmp_config_file(config_file_path, content)
 
       return if configuration_ok?
 
