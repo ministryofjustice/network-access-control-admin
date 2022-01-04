@@ -66,7 +66,6 @@ ActiveRecord::Schema.define(version: 2021_12_23_100646) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "site_id"
     t.index ["address"], name: "index_mac_authentication_bypasses_on_address"
-    t.index ["address"], name: "mac_index"
     t.index ["site_id"], name: "index_mac_authentication_bypasses_on_site_id"
   end
 
@@ -116,7 +115,6 @@ ActiveRecord::Schema.define(version: 2021_12_23_100646) do
     t.string "tag", null: false
     t.bigint "policy_count", default: 0
     t.index ["name"], name: "index_sites_on_name"
-    t.index ["name"], name: "site_name_index"
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|

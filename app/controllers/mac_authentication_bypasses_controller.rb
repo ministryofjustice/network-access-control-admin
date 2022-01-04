@@ -78,7 +78,7 @@ private
   end
 
   def publish_authorised_macs
-    content = UseCases::GenerateAuthorisedMacs.new.call(mac_authentication_bypasses: MacAuthenticationBypass.all)
+    content = UseCases::GenerateAuthorisedMacs.new.call(mac_authentication_bypasses: MacAuthenticationBypass.includes(:responses).all)
 
     UseCases::PublishToS3.new(
       config_validator: UseCases::ConfigValidator.new(
