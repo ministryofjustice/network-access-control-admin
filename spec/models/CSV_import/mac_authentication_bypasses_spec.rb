@@ -6,7 +6,9 @@ describe CSVImport::MacAuthenticationBypasses, type: :model do
   context "valid csv entries" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
-aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,102 Petty France"
+aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,102 Petty France
+bb-bb-cc-dd-ee-ff,Printer2,some test,,102 Petty France
+cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777"
     end
 
     before do
@@ -16,7 +18,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     it "creates valid MABs" do
       expect(subject).to be_valid
       expect(subject.errors).to be_empty
-      expect(subject.records.count).to be(1)
+      expect(subject.records.count).to be(3)
 
       expected_mab = subject.records.first
       expect(expected_mab.name).to eq("Printer1")
