@@ -75,10 +75,6 @@ module CSVImport
       MabResponse.insert_all(responses_to_save)
     end
 
-    def persisted?
-      false
-    end
-
     def headers
       CSV_HEADERS
     end
