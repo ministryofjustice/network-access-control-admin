@@ -42,7 +42,7 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
 
       expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
 
-      attach_file("csv_import_mac_authentication_bypasses_import_bypasses", "spec/fixtures/mac_authentication_bypasses_csv/valid.csv")
+      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/valid.csv")
       click_on "Upload"
 
       expect(current_path).to eql("/mac_authentication_bypasses")
@@ -96,7 +96,7 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
 
       expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
 
-      attach_file("csv_import_mac_authentication_bypasses_import_bypasses", "spec/fixtures/mac_authentication_bypasses_csv/invalid.csv")
+      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/invalid.csv")
       click_on "Upload"
 
       expect(page).to_not have_content("Valid Printer")

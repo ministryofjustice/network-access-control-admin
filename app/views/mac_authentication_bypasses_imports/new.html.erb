@@ -10,7 +10,7 @@
       For example: Tunnel-Type=VLAN;Reply-Message=Welcome;SG-Tunnel-Id=333<br /><br />
       File must have extension of ".csv"<br />
     </div>
-    <%= f.file_field :bypasses, class: "govuk-file-upload" %>
+    <%= f.file_field :bypasses, id: :csv_file, class: "govuk-file-upload" %>
   </div>
 
   <%= f.submit "Upload", {
