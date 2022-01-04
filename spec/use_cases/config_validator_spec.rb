@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UseCases::ConfigValidator do
-  let(:config_file_path) { "/etc/raddb/mods-config/files/authorize" }
+  let(:config_file_path) { RadiusHelper::AUTHORISED_MACS_PATH }
 
   context "with a valid configuration" do
     it "does not raise an error" do

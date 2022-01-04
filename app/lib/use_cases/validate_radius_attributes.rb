@@ -7,7 +7,7 @@ module UseCases
     def initialize(records:, errors:)
       @records = records
       @errors = errors
-      @config_file_path = "/etc/raddb/mods-config/files/authorize"
+      @config_file_path = AUTHORISED_MACS_PATH
       @content = UseCases::GenerateAuthorisedMacs.new.call(mac_authentication_bypasses: @records)
     end
 

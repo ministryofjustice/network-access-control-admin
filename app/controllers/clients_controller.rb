@@ -85,7 +85,7 @@ private
 
     UseCases::PublishToS3.new(
       config_validator: UseCases::ConfigValidator.new(
-        config_file_path: "/etc/raddb/clients.conf",
+        config_file_path: RadiusHelper::AUTHORISED_CLIENTS_PATH,
         content: content,
       ),
       destination_gateway: Gateways::S3.new(
