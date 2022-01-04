@@ -1,27 +1,22 @@
 module UseCases
   class ValidateRadiusAttribute
+    include RadiusHelper
+
     def call(attribute:, value:)
-      generate_test_authorised_macs_file(mab_content(attribute, value))
-      result = error_from_logs(boot_freeradius_to_validate_authorised_macs_file)
+      write_tmp_config_file(AUTHORISED_MACS_PATH, mab_content(attribute, value))
+
+      result = error_from_logs(boot_freeradius_to_validate_attributes)
 
       result_payload(result, attribute, value)
     end
 
   private
 
-    def generate_test_authorised_macs_file(content)
-      File.write("/etc/raddb/mods-config/files/authorize", content)
-    end
-
     def mab_content(attribute, value)
       <<~HEREDOC
         aa-bb-cc-77-88-99
         \t#{attribute} = "#{value}"
       HEREDOC
-    end
-
-    def boot_freeradius_to_validate_authorised_macs_file
-      `/usr/sbin/radiusd -CX`
     end
 
     def error_from_logs(output)
