@@ -23,38 +23,7 @@ module CSVImport
 
       return unless valid_header?
 
-      all_sites = Site.all
-
-      CSV.parse(csv_contents, headers: true).each do |row|
-        address = row["Address"]
-        name = row["Name"]
-        description = row["Description"]
-        responses = row["Responses"]
-        site_name = row["Site"]
-
-        site = all_sites.select { |s| s.name == site_name }.first
-
-        if site_name.present? && site.nil?
-          @sites_not_found << site_name
-        end
-
-        record = CSVImport::MacAuthenticationBypass.new(
-          name: name,
-          address: address,
-          description: description,
-          site: site,
-        )
-
-        @all_mac_addresses << address
-
-        return @records << record if responses.nil?
-
-        unwrap_responses(responses).each do |response|
-          record.responses << response
-        end
-
-        @records << record
-      end
+      @records = parse_csv(csv_contents)
     end
 
     def save
@@ -76,6 +45,42 @@ module CSVImport
     end
 
   private
+
+    def parse_csv(csv_contents)
+      all_sites = Site.all
+      records = []
+
+      CSV.parse(csv_contents, headers: true).each do |row|
+        address = row["Address"]
+        name = row["Name"]
+        description = row["Description"]
+        responses = row["Responses"]
+        site_name = row["Site"]
+
+        site = all_sites.detect { |s| s.name == site_name }
+
+        if site_name.present? && site.nil?
+          @sites_not_found << site_name
+        end
+
+        record = CSVImport::MacAuthenticationBypass.new(
+          name: name,
+          address: address,
+          description: description,
+          site: site,
+        )
+
+        @all_mac_addresses << address
+
+        unwrap_responses(responses).each do |response|
+          record.responses << response
+        end
+
+        records << record
+      end
+
+      records
+    end
 
     def validate_csv
       return errors.add(:base, "CSV is missing") if @csv_contents.nil?
@@ -112,6 +117,9 @@ module CSVImport
 
     def unwrap_responses(responses)
       mab_responses = []
+
+      return mab_responses if responses.nil?
+
       responses = responses.split(";")
       responses.each do |r|
         response_attribute, value = r.split("=")
