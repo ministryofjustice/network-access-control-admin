@@ -5,7 +5,7 @@
 
   <div class="govuk-form-group">
     <div id="csv-hint" class="govuk-hint">
-      Header must contain the following: "<%= @mac_authentication_bypasses_import.headers %>"<br /><br />
+      Header must contain the following: "<%= CSVImport::MacAuthenticationBypasses::CSV_HEADERS %>"<br /><br />
       Responses must be separated by a semicolon.<br />
       For example: Tunnel-Type=VLAN;Reply-Message=Welcome;SG-Tunnel-Id=333<br /><br />
       File must have extension of ".csv"<br />
