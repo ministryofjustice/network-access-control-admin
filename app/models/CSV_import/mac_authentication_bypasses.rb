@@ -1,7 +1,7 @@
 module CSVImport
   require "csv"
 
-  class MacAuthenticationBypassesImport
+  class MacAuthenticationBypasses
     attr_accessor :records
 
     CSV_HEADERS = "Address,Name,Description,Responses,Site".freeze
@@ -38,7 +38,7 @@ module CSVImport
           @sites_not_found << site_name
         end
 
-        record = MacAuthenticationBypassImport.new(
+        record = CSVImport::MacAuthenticationBypass.new(
           name: name,
           address: address,
           description: description,
@@ -139,7 +139,7 @@ module CSVImport
       responses = responses.split(";")
       responses.each do |r|
         response_attribute, value = r.split("=")
-        mab_responses << MabResponseImport.new(response_attribute: response_attribute, value: value)
+        mab_responses << CSVImport::MabResponse.new(response_attribute: response_attribute, value: value)
       end
       mab_responses
     end

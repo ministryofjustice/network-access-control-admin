@@ -1,5 +1,5 @@
 module CSVImport
-  class MacAuthenticationBypassImport < MacAuthenticationBypass
+  class MacAuthenticationBypass < MacAuthenticationBypass
     def validate_uniqueness_of_address(list_of_mac_addresses)
       errors.add(:address, "has already taken") unless list_of_mac_addresses.count(address) == 1
     end
