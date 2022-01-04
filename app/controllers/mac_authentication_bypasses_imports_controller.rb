@@ -1,6 +1,6 @@
 class MacAuthenticationBypassesImportsController < ApplicationController
   def new
-    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypassesImport.new
+    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new
 
     authorize! :create, @mac_authentication_bypasses_import
   end
@@ -8,7 +8,7 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   def create
     contents = mac_authentication_bypasses_import_params&.dig(:bypasses)&.read
 
-    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypassesImport.new(contents)
+    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(contents)
 
     if @mac_authentication_bypasses_import.save
       publish_authorised_macs
@@ -22,9 +22,9 @@ class MacAuthenticationBypassesImportsController < ApplicationController
 private
 
   def mac_authentication_bypasses_import_params
-    return if params[:csv_import_mac_authentication_bypasses_import].nil?
+    return if params[:csv_import_mac_authentication_bypasses].nil?
 
-    params.require(:csv_import_mac_authentication_bypasses_import).permit(:bypasses)
+    params.require(:csv_import_mac_authentication_bypasses).permit(:bypasses)
   end
 
   def publish_authorised_macs

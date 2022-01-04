@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe CSVImport::MacAuthenticationBypassesImport, type: :model do
+describe CSVImport::MacAuthenticationBypasses, type: :model do
   subject { described_class.new(file_contents) }
 
   context "valid csv entries" do
