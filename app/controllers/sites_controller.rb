@@ -13,7 +13,7 @@ class SitesController < ApplicationController
            Site.ransack(params[:q])
          end
 
-    @sites = @q.result.page(params.dig(:q, :page))
+    @sites = @q.result(distinct: true).page(params.dig(:q, :page))
   end
 
   def show; end
