@@ -116,22 +116,14 @@ module CSVImport
     end
 
     def unwrap_responses(responses)
-      mab_responses = []
-
-      return mab_responses if responses.nil?
-
-      responses = responses.split(";")
-      responses.each do |r|
+      responses.to_s.split(";").map do |r|
         response_attribute, value = r.split("=")
-        mab_responses << CSVImport::MabResponse.new(response_attribute: response_attribute, value: value)
+        CSVImport::MabResponse.new(response_attribute: response_attribute, value: value)
       end
-      mab_responses
     end
 
     def valid_header?
-      return false if @csv_contents.nil?
-
-      @csv_contents.split("\n").first == CSV_HEADERS
+      @csv_contents.to_s.split("\n").first == CSV_HEADERS
     end
   end
 end
