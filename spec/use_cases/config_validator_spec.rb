@@ -10,6 +10,13 @@ describe UseCases::ConfigValidator do
   end
 
   context "with an invalid configration" do
+    before do
+      @orig_stderr = $stderr
+      $stderr = File.new('/dev/null', 'w')
+    end
+
+    after { $stderr = @orig_stderr }
+
     it "raises an error" do
       expect { described_class.new(config_file_path: config_file_path, content: "something invalid").call }.to raise_error(SystemExit)
     end
