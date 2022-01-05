@@ -12,7 +12,7 @@ describe UseCases::ConfigValidator do
   context "with an invalid configration" do
     before do
       @orig_stderr = $stderr
-      $stderr = File.new('/dev/null', 'w')
+      $stderr = File.new("/dev/null", "w")
     end
 
     after { $stderr = @orig_stderr }
