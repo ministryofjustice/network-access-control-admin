@@ -16,14 +16,14 @@ module CSVImport
     validate :validate_sites
 
     def initialize(csv_contents = nil)
-      @csv_contents = csv_contents
+      @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
       @records = []
       @sites_not_found = []
       @all_mac_addresses = MacAuthenticationBypass.all.map(&:address)
 
       return unless valid_header?
 
-      @records = parse_csv(csv_contents)
+      @records = parse_csv(@csv_contents)
     end
 
     def save
@@ -45,6 +45,12 @@ module CSVImport
     end
 
   private
+
+    def remove_utf8_byte_order_mark(content)
+      return content[3..] if "\xEF\xBB\xBFA".force_encoding("ASCII-8BIT") == content[0..3]
+
+      content
+    end
 
     def parse_csv(csv_contents)
       all_sites = Site.all
