@@ -40,4 +40,5 @@ group :test do
   gem "shoulda-matchers", "~> 5.1"
   gem "webdrivers"
   gem "webmock"
+  gem "timecop"
 end

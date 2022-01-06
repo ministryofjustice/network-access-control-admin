@@ -1,5 +1,15 @@
 require "omni_auth/strategies/cognito"
 
+class CustomFailure < Devise::FailureApp
+  def redirect_url
+     new_user_session_url
+  end
+
+  def respond
+    redirect
+  end
+end
+
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -275,6 +285,10 @@ Devise.setup do |config|
                                                                                     user_pool_id: ENV["COGNITO_USER_POOL_ID"],
                                                                                     aws_region: "eu-west-2", strategy_class: OmniAuth::Strategies::Cognito
   config.omniauth :developer
+
+  config.warden do |manager|
+    manager.failure_app = CustomFailure
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
