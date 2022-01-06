@@ -118,5 +118,18 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
 
       expect(page).to have_content("CSV is missing")
     end
+
+    it "can upload CRLF file format" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "Import bypasses"
+
+      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
+
+      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/valid_crlf.csv")
+      click_on "Upload"
+
+      expect(page).to have_content("Successfully imported bypasses")
+    end
   end
 end

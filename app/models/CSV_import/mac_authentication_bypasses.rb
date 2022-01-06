@@ -123,7 +123,7 @@ module CSVImport
     end
 
     def valid_header?
-      @csv_contents.to_s.split("\n").first == CSV_HEADERS
+      @csv_contents.to_s.lines.first&.strip == CSV_HEADERS
     end
   end
 end
