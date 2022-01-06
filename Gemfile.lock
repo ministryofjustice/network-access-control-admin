@@ -325,6 +325,7 @@ GEM
       sprockets (>= 3.0.0)
     thor (1.1.0)
     tilt (2.0.10)
+    timecop (0.9.4)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2021.5)
@@ -380,6 +381,7 @@ DEPENDENCIES
   sentry-ruby
   shoulda-matchers (~> 5.1)
   sprockets (~> 4.0.2)
+  timecop
   tzinfo-data
   webdrivers
   webmock
