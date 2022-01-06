@@ -54,7 +54,7 @@ Site.all.each do |site|
 end
 
 p "creating MABs"
-10000.times do |m|
+10_000.times do |m|
   MacAuthenticationBypass.create!(
     address: mac_address.to_s,
     name: "MAB#{m}",
