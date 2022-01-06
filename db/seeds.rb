@@ -18,7 +18,7 @@ end
 base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
 
 p "creating policies"
-300.times do |p|
+1000.times do |p|
   policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
 
   policy.rules.create!(request_attribute: "User-Name", operator: "equals", value: "Bob")
@@ -35,7 +35,7 @@ p "creating policies"
 end
 
 p "creating sites"
-200.times do |s|
+1000.times do |s|
   site = Site.create!(name: "Test site #{s}")
 
   10.times do |c|
@@ -54,7 +54,7 @@ Site.all.each do |site|
 end
 
 p "creating MABs"
-100.times do |m|
+10000.times do |m|
   MacAuthenticationBypass.create!(
     address: mac_address.to_s,
     name: "MAB#{m}",
