@@ -6,7 +6,7 @@ end
 
 describe "logged out response update attempt", type: :feature do
   let(:editor) { create(:user, :editor) }
-  let!(:mab_response) { create(:mab_response)}
+  let!(:mab_response) { create(:mab_response) }
 
   before do
     login_as editor

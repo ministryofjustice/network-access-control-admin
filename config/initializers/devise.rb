@@ -2,7 +2,7 @@ require "omni_auth/strategies/cognito"
 
 class CustomFailure < Devise::FailureApp
   def redirect_url
-     new_user_session_url
+    new_user_session_url
   end
 
   def respond

@@ -38,7 +38,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "selenium-webdriver"
   gem "shoulda-matchers", "~> 5.1"
+  gem "timecop"
   gem "webdrivers"
   gem "webmock"
-  gem "timecop"
 end
