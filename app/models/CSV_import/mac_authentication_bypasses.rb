@@ -90,6 +90,7 @@ module CSVImport
 
     def validate_csv
       return errors.add(:base, "CSV is missing") if @csv_contents.nil?
+      return errors.add(:base, "There is no data to be imported") unless @csv_contents.split("\n").second
 
       errors.add(:base, "The CSV header is invalid") unless valid_header?
     end
