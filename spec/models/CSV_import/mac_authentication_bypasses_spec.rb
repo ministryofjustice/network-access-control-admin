@@ -60,6 +60,21 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
   end
 
+  context "csv with empty list of attributes" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site"
+    end
+
+    it "records the validation errors" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "There is no data to be imported",
+        ],
+      )
+    end
+  end
+
   context "csv with invalid entries" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
