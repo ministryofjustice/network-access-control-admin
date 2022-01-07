@@ -1,10 +1,10 @@
-# def ip_range
-#   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
-# end
-
-def mac_address
-  6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
+def ip_range
+  sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
 end
+
+# def mac_address
+#   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
+# end
 
 # p "truncating rules, responses, policies, site policies, mab, clients and sites!"
 # base_connection = ActiveRecord::Base.connection
@@ -35,32 +35,32 @@ end
 # end
 
 
-# p "creating sites"
-# 200.times do |s|
-#   site = Site.create!(name: "Test site #{s}")
-#   10.times do |c|
-#     Client.create!(
-#       site: site,
-#       ip_range: "#{ip_range}/32",
-#       shared_secret: "secret#{s}#{c}",
-#       radsec: false,
-#     )
-#   end
-# end
+p "creating sites"
+750.times do |s|
+  site = Site.create!(name: "NEW test site #{s}")
+  10.times do |c|
+    Client.create!(
+      site: site,
+      ip_range: "#{ip_range}/32",
+      shared_secret: "secret#{s}#{c}",
+      radsec: false,
+    )
+  end
+end
 
 # p "assigning policies to sites"
 # Site.all.each do |site|
 #   site.policies << Policy.where(fallback: false).select(:id).sample(5)
 # end
 
-p "creating MABs"
-15000.times do |m|
-  MacAuthenticationBypass.create!(
-    address: mac_address.to_s,
-    name: "MAB#{m}",
-    description: "MAC Address for #{m}",
-  )
-end
+# p "creating MABs"
+# 15000.times do |m|
+#   MacAuthenticationBypass.create!(
+#     address: mac_address.to_s,
+#     name: "MAB#{m}",
+#     description: "MAC Address for #{m}",
+#   )
+# end
 
 # p "creating certificates"
 # 10.times do |c|
