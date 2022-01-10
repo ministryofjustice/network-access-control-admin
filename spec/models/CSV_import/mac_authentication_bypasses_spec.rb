@@ -44,6 +44,26 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
   end
 
+  context "valid csv entries with no responses" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
+bb-bb-cc-dd-ee-ff,Printer2,some test,,"
+    end
+
+    it "creates valid MABs" do
+      expect(subject).to be_valid
+      expect(subject.errors).to be_empty
+
+      expect(subject.save).to be_truthy
+      saved_bypass = MacAuthenticationBypass.last
+      expect(saved_bypass.id).to_not be_nil
+
+      saved_bypass.responses.each do |response|
+        expect(response.id).to be_nil
+      end
+    end
+  end
+
   context "csv with invalid header" do
     let(:file_contents) do
       "Description,Responses,Site

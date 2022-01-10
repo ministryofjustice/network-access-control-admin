@@ -40,8 +40,11 @@ module CSVImport
         end
       end
 
-      MacAuthenticationBypass.insert_all(records_to_save)
-      MabResponse.insert_all(responses_to_save)
+      ActiveRecord::Base.transaction do
+        saved_records = MacAuthenticationBypass.insert_all(records_to_save)
+        MabResponse.insert_all(responses_to_save) unless responses_to_save.empty?
+        saved_records
+      end
     end
 
   private
