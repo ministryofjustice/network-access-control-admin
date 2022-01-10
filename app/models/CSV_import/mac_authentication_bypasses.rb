@@ -12,7 +12,7 @@ module CSVImport
 
     validate :validate_csv
     validate :validate_records
-    validate :validate_radius_attributes
+    validate :validate_radius_attributes, unless: -> { errors.any? }
     validate :validate_sites
 
     def initialize(csv_contents = nil)

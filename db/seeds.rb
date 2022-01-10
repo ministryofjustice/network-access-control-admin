@@ -34,7 +34,6 @@ end
 #   policy.responses.create!(response_attribute: "Reply-Message", value: "Hello there!")
 # end
 
-
 p "creating sites"
 750.times do |s|
   site = Site.create!(name: "NEW test site #{s}")
