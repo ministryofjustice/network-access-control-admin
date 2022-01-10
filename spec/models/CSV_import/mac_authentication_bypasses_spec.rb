@@ -75,7 +75,25 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
   end
 
-  context "csv with invalid entries" do
+  context "csv with invalid content" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
+
+aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,"
+    end
+
+    it "records the validation errors" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 2: Address can't be blank",
+          "Error on row 2: Address is invalid",
+        ],
+      )
+    end
+  end
+
+  context "csv with invalid MAC address and unknown site" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
 aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,Unknown Site"
@@ -86,7 +104,6 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,
       expect(subject.errors.full_messages).to eq(
         [
           "Error on row 2: Address is invalid",
-          "Error on row 2: Unknown or invalid value \"ASASAS\" for attribute 3Com-Connect_Id",
           "Site \"Unknown Site\" is not found",
         ],
       )
@@ -94,6 +111,22 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,
 
     it "does not save the records" do
       expect(subject.save).to be_falsey
+    end
+  end
+
+  context "csv with invalid response attribute" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
+aa-bb-cc-dd-ee-ff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,"
+    end
+
+    it "records the validation errors" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 2: Unknown or invalid value \"ASASAS\" for attribute 3Com-Connect_Id",
+        ],
+      )
     end
   end
 
