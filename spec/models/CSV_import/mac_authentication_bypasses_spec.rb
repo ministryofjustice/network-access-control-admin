@@ -95,6 +95,26 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
   end
 
+  context "csv with empty lines" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
+
+aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,
+
+aa-bb-cc-11-22-33,Printer2,some test,Tunnel-Type=VLAN;Reply-Message=Bye to you;SG-Tunnel-Id=888,"
+    end
+
+    it "records the validation errors" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 2: Address can't be blank",
+          "Error on row 4: Address can't be blank",
+        ],
+      )
+    end
+  end
+
   context "csv with invalid content" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
@@ -107,7 +127,6 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
       expect(subject.errors.full_messages).to eq(
         [
           "Error on row 2: Address can't be blank",
-          "Error on row 2: Address is invalid",
         ],
       )
     end
