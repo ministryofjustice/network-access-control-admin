@@ -2,31 +2,56 @@ module UseCases
   class ValidateRadiusAttribute
     include RadiusHelper
 
-    def call(attribute:, value:)
-      write_tmp_config_file(AUTHORISED_MACS_PATH, mab_content(attribute, value))
+    DEFAULT_SITE_PATH = "/etc/raddb/sites-enabled/default".freeze
 
-      result = error_from_logs(boot_freeradius_to_validate_attributes)
-
-      result_payload(result, attribute, value)
+    def call(attribute:, value:, operator: nil)
+      write_tmp_config_file(DEFAULT_SITE_PATH, test_config(attribute, value, operator))
+      payload(error_from_logs(boot_freeradius_to_validate_attributes), attribute, value)
     end
 
   private
 
-    def mab_content(attribute, value)
+    def test_config(attribute, value, operator)
+      operator.present? ? rule_config(attribute, value, operator) : response_config(attribute, value)
+    end
+
+    def rule_config(attribute, value, operator)
+      test_operator = operator == "equals" ? "==" : "=~"
+      test_value = operator == "equals" ? "\"#{value}\"" : "/#{value}/"
+
       <<~HEREDOC
-        aa-bb-cc-77-88-99
-        \t#{attribute} = "#{value}"
+        server test_config {
+          authorize {
+            if ( #{attribute} #{test_operator} #{test_value} ) {
+              ok = 1
+            }
+          }
+        }
+      HEREDOC
+    end
+
+    def response_config(attribute, value)
+      <<~HEREDOC
+        server test_config {
+          authorize {
+            update reply {
+              #{attribute} = \"#{value}\"
+            }
+          }
+        }
       HEREDOC
     end
 
     def error_from_logs(output)
-      output.split("\n").select { |l| l.include?("error") }[0]
+      output.match(/\/etc\/raddb\/sites-enabled\/default\[\d\]:(.*)/)
+
+      Regexp.last_match(1).to_s.strip
     end
 
-    def result_payload(result, _attribute, _value)
-      return { success: true, message: "" } if result.nil?
+    def payload(result, _attribute, _value)
+      return { success: true, message: "" } if configuration_ok?
 
-      { success: false, message: result.match(/aa-bb-cc-77-88-99: (.*)/)[1] }
+      { success: false, message: result }
     end
   end
 end
