@@ -25,6 +25,8 @@ module NetworkAccessControlAdmin
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+    config.active_record.legacy_connection_handling = false
+
     # Force HTTPS for all requests except healthcheck endpoint
     config.force_ssl = true
     config.ssl_options = {
