@@ -92,4 +92,13 @@ describe Rule, type: :model do
     expect(first_rule.update(request_attribute: "User-Name")).to be true
     expect(first_rule.update(value: "Something else")).to be true
   end
+
+  it "allows partial values for rules with contains" do
+    policy = create(:policy)
+
+    rule = build(:rule, policy: policy, request_attribute: "Tunnel-Type", value: "VL", operator: "contains")
+    rule.validate
+
+    expect(rule).to be_valid
+  end
 end

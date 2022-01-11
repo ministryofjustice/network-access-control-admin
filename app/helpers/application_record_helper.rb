@@ -3,10 +3,10 @@ module ApplicationRecordHelper
     attr.each { |a| a.strip! if a.present? }
   end
 
-  def validate_radius_attribute(attribute, value)
+  def validate_radius_attribute(attribute, value, operator = nil)
     return if attribute.blank? || errors.key?(attribute.to_sym)
 
-    result = UseCases::ValidateRadiusAttribute.new.call(attribute: attribute, value: value)
+    result = UseCases::ValidateRadiusAttribute.new.call(attribute: attribute, value: value, operator: operator)
 
     unless result.fetch(:success)
       errors.add(attribute.to_sym, result.fetch(:message))

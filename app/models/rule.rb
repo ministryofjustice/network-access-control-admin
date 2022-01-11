@@ -9,7 +9,7 @@ class Rule < ApplicationRecord
   validates_presence_of :request_attribute, :operator, :value
   validates_inclusion_of :operator, in: %w[equals contains]
   validate :validate_uniqueness_of_request_attribute, on: %i[create update]
-  validate -> { validate_radius_attribute(request_attribute, value) }, on: %i[create update]
+  validate -> { validate_radius_attribute(request_attribute, value, operator) }, on: %i[create update]
 
   audited
 
