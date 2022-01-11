@@ -24,6 +24,8 @@ module UseCases
           @errors.add(:base, "Error on row #{i + 2}: #{message}")
         end
       end
+    ensure
+      clean_up_tmp_config_files(config_file_path)
     end
   end
 end
