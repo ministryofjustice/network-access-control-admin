@@ -18,7 +18,7 @@
         <td class="govuk-table__cell"><%= audit.email || "System" %></td>
         <td class="govuk-table__cell"><%= audit.action %></td>
         <td class="govuk-table__cell"><%= presenter.name %></td>
-        <td class="govuk-table__cell"><%= audit.created_at.to_s(:long) %></td>
+        <td class="govuk-table__cell"><%= audit.created_at.to_formatted_s(:long) %></td>
         <td class="govuk-table__cell"><%= link_to "Details", audit_path(audit), class: "govuk-link" %></td>
       </tr>
     <% end %>
