@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe CSVImport::MacAuthenticationBypasses, type: :model do
-  subject { described_class.new(file_contents) }
+  subject { described_class.new(build(:user), file_contents) }
 
   context "valid csv entries" do
     let(:file_contents) do
@@ -41,6 +41,42 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
       saved_bypass.responses.each do |response|
         expect(response.id).to_not be_nil
       end
+    end
+
+    it "creates an audit log" do
+      subject.save
+
+      last_mac_authentication_bypass = Audit.all[-4]
+      associated_first_mab_response_audit = Audit.all[-3]
+      associated_second_mab_response_audit = Audit.all[-2]
+      associated_third_mab_response_audit = Audit.last
+
+      expect(last_mac_authentication_bypass.auditable_type).to eq("MacAuthenticationBypass")
+      expect(last_mac_authentication_bypass.audited_changes).to eq({
+        "address" => "cc-bb-cc-dd-ee-ff",
+        "description" => "some test",
+        "id" => MacAuthenticationBypass.last.id,
+        "name" => "Printer3",
+        "site_id" => nil,
+      })
+      expect(associated_first_mab_response_audit.auditable_type).to eq("Response")
+      expect(associated_first_mab_response_audit.audited_changes).to eq({
+        "mac_authentication_bypass_id" => MacAuthenticationBypass.last.id,
+        "response_attribute" => "Tunnel-Type",
+        "value" => "VLAN",
+      })
+      expect(associated_second_mab_response_audit.auditable_type).to eq("Response")
+      expect(associated_second_mab_response_audit.audited_changes).to eq({
+        "mac_authentication_bypass_id" => MacAuthenticationBypass.last.id,
+        "response_attribute" => "Reply-Message",
+        "value" => "Hello to you",
+      })
+      expect(associated_third_mab_response_audit.auditable_type).to eq("Response")
+      expect(associated_third_mab_response_audit.audited_changes).to eq({
+        "mac_authentication_bypass_id" => MacAuthenticationBypass.last.id,
+        "response_attribute" => "SG-Tunnel-Id",
+        "value" => "777",
+      })
     end
   end
 
