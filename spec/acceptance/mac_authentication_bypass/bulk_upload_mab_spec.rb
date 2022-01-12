@@ -87,6 +87,9 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("Hello to you")
       expect(page).to have_content("SG-Tunnel-Id")
       expect(page).to have_content("999")
+
+      expect_audit_log_entry_for(editor.email, "create", "Mac authentication bypass")
+      expect_audit_log_entry_for(editor.email, "create", "Response")
     end
 
     it "shows errors when the CSV is invalid" do

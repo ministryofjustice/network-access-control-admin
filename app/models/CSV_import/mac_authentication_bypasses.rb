@@ -15,7 +15,8 @@ module CSVImport
     validate :validate_radius_attributes, unless: -> { errors.any? }
     validate :validate_sites
 
-    def initialize(csv_contents = nil)
+    def initialize(current_user, csv_contents = nil)
+      @current_user = current_user
       @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
       @records = []
       @sites_not_found = []
@@ -31,18 +32,46 @@ module CSVImport
 
       records_to_save = []
       responses_to_save = []
+      audits_to_save = []
       last_id = MacAuthenticationBypass.last&.id || 0
+      audit_id = (Audit.last&.id || 0) + 1
+
       @records.each_with_index do |record, i|
         record_id = last_id + i + 1
-        records_to_save << { id: record_id, address: record.address, name: record.name, description: record.description, site_id: record.site&.id }
+
+        mac_authentication_bypass = { id: record_id, address: record.address, name: record.name, description: record.description, site_id: record.site&.id }
+
+        records_to_save << mac_authentication_bypass
+        audits_to_save << {
+          auditable_id: audit_id,
+          action: "create",
+          audited_changes: mac_authentication_bypass,
+          auditable_type: "MacAuthenticationBypass",
+          user_id: @current_user.id,
+          user_type: "User"
+        }
+
         record.responses.each do |response|
-          responses_to_save << { mac_authentication_bypass_id: record_id, response_attribute: response.response_attribute, value: response.value }
+          mab_response = { mac_authentication_bypass_id: record_id, response_attribute: response.response_attribute, value: response.value }.freeze
+
+          responses_to_save << mab_response
+          audits_to_save << {
+            auditable_id: audit_id,
+            action: "create",
+            audited_changes: mab_response,
+            auditable_type: "Response",
+            user_id: @current_user.id,
+            user_type: "User"
+          }
         end
       end
 
       ActiveRecord::Base.transaction do
         saved_records = MacAuthenticationBypass.insert_all(records_to_save)
+
         MabResponse.insert_all(responses_to_save) unless responses_to_save.empty?
+        Audit.insert_all(audits_to_save)
+
         saved_records
       end
     end
