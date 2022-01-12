@@ -8,7 +8,10 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   def create
     contents = mac_authentication_bypasses_import_params&.dig(:bypasses)&.read
 
-    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(current_user, contents)
+    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(
+      UseCases::AuditMacAuthenticationBypassesImport.new(current_user),
+      contents,
+    )
 
     if @mac_authentication_bypasses_import.save
       publish_authorised_macs

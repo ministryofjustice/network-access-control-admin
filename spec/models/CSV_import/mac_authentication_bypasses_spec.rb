@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe CSVImport::MacAuthenticationBypasses, type: :model do
-  subject { described_class.new(build(:user), file_contents) }
+  subject { described_class.new(audit_mab_import, file_contents) }
+  let!(:audit_mab_import) { double(UseCases::AuditMacAuthenticationBypassesImport.new(build(:user))) }
 
   context "valid csv entries" do
     let(:file_contents) do
@@ -13,6 +14,7 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
 
     before do
       create(:site, name: "102 Petty France")
+      allow(audit_mab_import).to receive(:call)
     end
 
     it "creates valid MABs" do
@@ -44,39 +46,15 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
 
     it "creates an audit log" do
+      expect(audit_mab_import).to receive(:call).with(
+        [
+          CSVImport::MacAuthenticationBypass.new(id: 1, address: "aa-bb-cc-dd-ee-ff", name: "Printer1", description: "some test", created_at: nil, updated_at: nil, site_id: 371),
+          CSVImport::MacAuthenticationBypass.new(id: 2, address: "bb-bb-cc-dd-ee-ff", name: "Printer2", description: "some test", created_at: nil, updated_at: nil, site_id: 371),
+          CSVImport::MacAuthenticationBypass.new(id: 3, address: "cc-bb-cc-dd-ee-ff", name: "Printer3", description: "some test", created_at: nil, updated_at: nil, site_id: nil),
+        ],
+      )
+
       subject.save
-
-      last_mac_authentication_bypass = Audit.all[-4]
-      associated_first_mab_response_audit = Audit.all[-3]
-      associated_second_mab_response_audit = Audit.all[-2]
-      associated_third_mab_response_audit = Audit.last
-
-      expect(last_mac_authentication_bypass.auditable_type).to eq("MacAuthenticationBypass")
-      expect(last_mac_authentication_bypass.audited_changes).to eq({
-        "address" => "cc-bb-cc-dd-ee-ff",
-        "description" => "some test",
-        "id" => MacAuthenticationBypass.last.id,
-        "name" => "Printer3",
-        "site_id" => nil,
-      })
-      expect(associated_first_mab_response_audit.auditable_type).to eq("Response")
-      expect(associated_first_mab_response_audit.audited_changes).to eq({
-        "mac_authentication_bypass_id" => MacAuthenticationBypass.last.id,
-        "response_attribute" => "Tunnel-Type",
-        "value" => "VLAN",
-      })
-      expect(associated_second_mab_response_audit.auditable_type).to eq("Response")
-      expect(associated_second_mab_response_audit.audited_changes).to eq({
-        "mac_authentication_bypass_id" => MacAuthenticationBypass.last.id,
-        "response_attribute" => "Reply-Message",
-        "value" => "Hello to you",
-      })
-      expect(associated_third_mab_response_audit.auditable_type).to eq("Response")
-      expect(associated_third_mab_response_audit.audited_changes).to eq({
-        "mac_authentication_bypass_id" => MacAuthenticationBypass.last.id,
-        "response_attribute" => "SG-Tunnel-Id",
-        "value" => "777",
-      })
     end
   end
 
@@ -84,6 +62,10 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
 bb-bb-cc-dd-ee-ff,Printer2,some test,,"
+    end
+
+    before do
+      allow(audit_mab_import).to receive(:call)
     end
 
     it "creates valid MABs" do
