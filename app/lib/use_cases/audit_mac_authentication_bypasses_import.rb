@@ -5,13 +5,12 @@ class UseCases::AuditMacAuthenticationBypassesImport
 
   def call(records)
     audits_to_save = []
-    audit_id = (Audit.last&.id || 0) + 1
 
     records.each do |record|
       mac_authentication_bypass = { address: record.address, name: record.name, description: record.description, site_id: record.site_id }
 
       audits_to_save << {
-        auditable_id: audit_id,
+        auditable_id: record.id,
         action: "create",
         audited_changes: mac_authentication_bypass,
         auditable_type: "MacAuthenticationBypass",
@@ -23,7 +22,7 @@ class UseCases::AuditMacAuthenticationBypassesImport
         mab_response = { mac_authentication_bypass_id: record.id, response_attribute: response.response_attribute, value: response.value }
 
         audits_to_save << {
-          auditable_id: audit_id,
+          auditable_id: response.id,
           action: "create",
           audited_changes: mab_response,
           auditable_type: "Response",
