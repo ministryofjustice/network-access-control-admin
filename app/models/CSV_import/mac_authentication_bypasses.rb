@@ -62,6 +62,7 @@ module CSVImport
       all_sites = Site.all
       records = []
       last_id = MacAuthenticationBypass.last&.id || 0
+      last_response_id = Response.last&.id || 0
 
       CSV.parse(csv_contents, headers: true).each_with_index do |row, i|
         address = row["Address"]
@@ -86,9 +87,12 @@ module CSVImport
 
         @all_mac_addresses << address
 
-        unwrap_responses(responses).each do |response|
+        unwrap_responses(responses).each_with_index do |response, j|
+          response.id = last_response_id + j + 1
           record.responses << response
         end
+
+        last_response_id += record.responses.to_a.count
 
         records << record
       end

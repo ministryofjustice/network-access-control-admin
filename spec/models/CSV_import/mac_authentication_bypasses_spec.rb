@@ -45,6 +45,11 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
       end
     end
 
+    it "creates MAB responses with valid IDs" do
+      expect(subject.records.first.responses.first.id).to eq(1)
+      expect(subject.records.last.responses.last.id).to eq(6)
+    end
+
     it "creates an audit log" do
       expect(audit_mab_import).to receive(:call).with(
         [
