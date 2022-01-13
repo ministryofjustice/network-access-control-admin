@@ -17,11 +17,11 @@ module UseCases
 
       return if configuration_ok?
 
-      @records.each_with_index do |record, i|
+      @records.each.with_index(2) do |record, i|
         error_line = parsed_error.split("\n").select { |l| l.include?(record.address) }[0]
         if error_line
           message = error_line.match(/#{record.address}: (.*)/)[1]
-          @errors.add(:base, "Error on row #{i + 2}: #{message}")
+          @errors.add(:base, "Error on row #{i}: #{message}")
         end
       end
     ensure

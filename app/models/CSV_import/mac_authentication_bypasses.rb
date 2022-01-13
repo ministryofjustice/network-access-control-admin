@@ -64,7 +64,7 @@ module CSVImport
       last_id = MacAuthenticationBypass.last&.id || 0
       last_response_id = Response.last&.id || 0
 
-      CSV.parse(csv_contents, headers: true).each_with_index do |row, i|
+      CSV.parse(csv_contents, headers: true).each.with_index(1) do |row, i|
         address = row["Address"]
         name = row["Name"]
         description = row["Description"]
@@ -78,7 +78,7 @@ module CSVImport
         end
 
         record = CSVImport::MacAuthenticationBypass.new(
-          id: last_id + i + 1,
+          id: last_id + i,
           name: name,
           address: address,
           description: description,
@@ -87,8 +87,8 @@ module CSVImport
 
         @all_mac_addresses << address
 
-        unwrap_responses(responses).each_with_index do |response, j|
-          response.id = last_response_id + j + 1
+        unwrap_responses(responses).each.with_index(1) do |response, j|
+          response.id = last_response_id + j
           record.responses << response
         end
 
@@ -108,17 +108,17 @@ module CSVImport
     end
 
     def validate_records
-      @records.each_with_index do |record, i|
+      @records.each.with_index(2) do |record, i|
         record.validate
         record.validate_uniqueness_of_address(@all_mac_addresses)
 
         record.errors.full_messages.each do |message|
-          errors.add(:base, "Error on row #{i + 2}: #{message}")
+          errors.add(:base, "Error on row #{i}: #{message}")
         end
 
         record.responses.each do |response|
           response.errors.full_messages.each do |message|
-            errors.add(:base, "Error on row #{i + 2}: #{message}")
+            errors.add(:base, "Error on row #{i}: #{message}")
           end
         end
       end
