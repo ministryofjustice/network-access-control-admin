@@ -23,6 +23,7 @@ describe UseCases::AuditMacAuthenticationBypassesImport do
         second_audited_mab = Audit.last
 
         expect(first_audited_mab.auditable_type).to eq("MacAuthenticationBypass")
+        expect(first_audited_mab.auditable_id).to eq(first_mab.id)
         expect(first_audited_mab.audited_changes).to eq({
           "address" => first_mab.address,
           "description" => first_mab.description,
@@ -31,6 +32,7 @@ describe UseCases::AuditMacAuthenticationBypassesImport do
         })
 
         expect(second_audited_mab.auditable_type).to eq("MacAuthenticationBypass")
+        expect(second_audited_mab.auditable_id).to eq(second_mab.id)
         expect(second_audited_mab.audited_changes).to eq({
           "address" => second_mab.address,
           "description" => second_mab.description,
@@ -39,12 +41,14 @@ describe UseCases::AuditMacAuthenticationBypassesImport do
         })
 
         expect(first_audited_mab_response.auditable_type).to eq("Response")
+        expect(first_audited_mab_response.auditable_id).to eq(first_mab_response.id)
         expect(first_audited_mab_response.audited_changes).to eq({
           "mac_authentication_bypass_id" => first_mab.id,
           "response_attribute" => first_mab_response.response_attribute,
           "value" => first_mab_response.value,
         })
         expect(second_audited_mab_response.auditable_type).to eq("Response")
+        expect(second_audited_mab_response.auditable_id).to eq(second_mab_response.id)
         expect(second_audited_mab_response.audited_changes).to eq({
           "mac_authentication_bypass_id" => first_mab.id,
           "response_attribute" => second_mab_response.response_attribute,
