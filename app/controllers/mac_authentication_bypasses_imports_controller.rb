@@ -1,6 +1,8 @@
 class MacAuthenticationBypassesImportsController < ApplicationController
   def new
-    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(current_user)
+    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(
+      UseCases::AuditMacAuthenticationBypassesImport.new(current_user),
+    )
 
     authorize! :create, @mac_authentication_bypasses_import
   end
