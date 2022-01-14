@@ -16,9 +16,9 @@ private
 
     existing_clients = id.present? ? Client.where.not(id: id) : Client.all
     existing_clients.each do |client|
-      if IP::CIDR.new(ip_range).overlaps?(IP::CIDR.new(client.ip_range))
-        return errors.add(:ip_range, "IP overlaps with #{client.site.name} - #{client.ip_range}")
-      end
+      next unless IP::CIDR.new(ip_range).overlaps?(IP::CIDR.new(client.ip_range)) && radsec == client.radsec
+
+      return errors.add(:ip_range, "IP overlaps with #{client.site.name} - #{client.ip_range}")
     end
   end
 
