@@ -55,6 +55,22 @@ describe Client, type: :model do
       create(:client, ip_range: ip1)
       expect(build(:client, ip_range: ip2)).to be_invalid
     end
+
+    it "does allow overlapping IPs for a RadSec client" do
+      ip1 = "127.0.0.1/32"
+      ip2 = "127.0.0.1/16"
+
+      create(:client, ip_range: ip1)
+      expect(build(:client, ip_range: ip2, radsec: true)).to be_valid
+    end
+
+    it "does not allow overlapping IPs for multiple RadSec clients" do
+      ip1 = "127.0.0.1/32"
+      ip2 = "127.0.0.1/16"
+
+      create(:client, ip_range: ip1, radsec: true)
+      expect(build(:client, ip_range: ip2, radsec: true)).to be_invalid
+    end
   end
 
   context "updating a client" do
