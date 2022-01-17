@@ -44,6 +44,17 @@ describe "showing a certificate", type: :feature do
         click_on "Category"
         expect(page.text).to match(/RADSEC.*EAP/)
       end
+
+      it "orders by expiry date" do
+        second_certificate.update_attribute(:expiry_date, 10.minutes.ago)
+        first_certificate.update_attribute(:expiry_date, 2.minutes.ago)
+
+        click_on "Expiry date"
+        expect(page.text).to match(/#{second_certificate.expiry_date}.*#{first_certificate.expiry_date}/)
+
+        click_on "Expiry date"
+        expect(page.text).to match(/#{first_certificate.expiry_date}.*#{second_certificate.expiry_date}/)
+      end
     end
   end
 end
