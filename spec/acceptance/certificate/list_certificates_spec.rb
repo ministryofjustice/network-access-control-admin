@@ -55,6 +55,17 @@ describe "showing a certificate", type: :feature do
         click_on "Expiry date"
         expect(page.text).to match(/#{first_certificate.expiry_date}.*#{second_certificate.expiry_date}/)
       end
+
+      it "orders by created at" do
+        second_certificate.update_attribute(:created_at, 10.minutes.ago)
+        first_certificate.update_attribute(:created_at, 2.minutes.ago)
+
+        click_on "Created at"
+        expect(page.text).to match(/#{date_format(second_certificate.created_at)}.*#{date_format(first_certificate.created_at)}/)
+
+        click_on "Created at"
+        expect(page.text).to match(/#{date_format(first_certificate.created_at)}.*#{date_format(second_certificate.created_at)}/)
+      end
     end
   end
 end

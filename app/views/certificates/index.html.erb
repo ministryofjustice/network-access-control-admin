@@ -14,7 +14,7 @@
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :name) %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :category) %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :expiry_date) %></th>
-        <th scope="col" class="govuk-table__header">Created</th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :created_at) %></th>
         <th scope="col" class="govuk-table__header">
           <span class="govuk-visually-hidden">Actions</span>
         </th>
