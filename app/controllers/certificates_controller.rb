@@ -3,7 +3,8 @@ class CertificatesController < ApplicationController
   before_action :set_crumbs, only: %i[index new show destroy]
 
   def index
-    @certificates = Certificate.page params[:page]
+    @q = Certificate.ransack(params[:q])
+    @certificates = @q.result.page(params.dig(:q, :page))
   end
 
   def new
