@@ -33,6 +33,17 @@ describe "showing a certificate", type: :feature do
         click_on "Name"
         expect(page.text).to match(/BB Certificate.*AA Certificate/)
       end
+
+      it "orders by category" do
+        second_certificate.update_attribute(:category, "EAP")
+        first_certificate.update_attribute(:category, "RADSEC")
+
+        click_on "Category"
+        expect(page.text).to match(/EAP.*RADSEC/)
+
+        click_on "Category"
+        expect(page.text).to match(/RADSEC.*EAP/)
+      end
     end
   end
 end
