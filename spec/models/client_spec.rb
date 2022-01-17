@@ -14,7 +14,7 @@ describe Client, type: :model do
 
   it "has a valid IP range" do
     valid_ip_addresses = %i[
-      10.0.0.1/32
+      10.0.0.1
       10.0.0.2/24
     ]
 
@@ -35,6 +35,12 @@ describe Client, type: :model do
 
       expect(result).to be_invalid
     end
+  end
+
+  it "appends a valid IP with /32" do
+    client = build(:client, ip_range: "10.0.0.1")
+    client.save
+    expect(client.ip_range).to eq("10.0.0.1/32")
   end
 
   it "validates an updated IP range" do
