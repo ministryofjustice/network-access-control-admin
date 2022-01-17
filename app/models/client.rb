@@ -27,7 +27,7 @@ private
   def append_ip_range
     return if ip_range.nil?
 
-    self.ip_range = "#{ip_range}/32" unless ip_range.match?(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}\/[0-9]{1,2}$/)
+    self.ip_range = "#{ip_range}/32" unless ip_range.match?(/^.*\/[0-9]{1,2}$/)
   end
 
   audited
