@@ -12,7 +12,7 @@ private
   def validate_ip
     return if ip_range.blank?
 
-    unless IPAddress.valid_ipv4_subnet?(ip_range) || IPAddress.valid_ip?(ip_range)
+    unless IPAddress.valid_ipv4_subnet?(ip_range) || IPAddress.valid_ipv4?(ip_range)
       return errors.add(:ip_range, "is invalid")
     end
 
@@ -27,7 +27,8 @@ private
   def append_ip_range
     return if ip_range.nil?
 
-    self.ip_range = "#{ip_range}/32" unless ip_range.match?(/^.*\/[0-9]{1,2}$/)
+    ip = IPAddress::IPv4.new(ip_range)
+    self.ip_range = "#{ip}/#{ip.prefix}"
   end
 
   audited
