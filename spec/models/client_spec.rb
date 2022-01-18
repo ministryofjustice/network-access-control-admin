@@ -21,6 +21,7 @@ describe Client, type: :model do
     invalid_ip_addresses = %i[
       300.0.0.1/32
       300.0.0.2/100
+      2001:0db8:85a3:0000:0000:8a2e:0370:7334
       invalid
     ]
 
