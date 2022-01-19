@@ -63,6 +63,14 @@ describe Client, type: :model do
       expect(build(:client, ip_range: ip2)).to be_invalid
     end
 
+    it "does not allow overlapping IPs without a subnet" do
+      ip1 = "127.0.0.1/16"
+      ip2 = "127.0.0.1"
+
+      create(:client, ip_range: ip1)
+      expect(build(:client, ip_range: ip2)).to be_invalid
+    end
+
     it "does allow overlapping IPs for a RadSec client" do
       ip1 = "127.0.0.1/32"
       ip2 = "127.0.0.1/16"
