@@ -10,14 +10,11 @@ class ClientsController < ApplicationController
   end
 
   def create
-    pp "Creating CLIENT"
-    start_time = Time.now
     @client = Client.new(client_params.merge(site_id: @site.id, shared_secret: shared_secret))
 
     if @client.save
       publish_authorised_clients
       deploy_service
-      pp "Client created in #{Time.now - start_time}"
       redirect_to site_path(@site), notice: "Successfully created client."
     else
       render :new
@@ -86,9 +83,6 @@ private
       radsec_clients: Client.where(shared_secret: "radsec").includes(:site),
     )
 
-    start_time = Time.now
-    pp "Config validation and publish"
-
     UseCases::PublishToS3.new(
       config_validator: UseCases::ConfigValidator.new(
         config_file_path: RadiusHelper::AUTHORISED_CLIENTS_PATH,
@@ -101,8 +95,6 @@ private
         content_type: "text/plain",
       ),
     ).call(content)
-
-    pp "Config validation and publish completed in #{Time.now - start_time}"
   end
 
   def set_crumbs
