@@ -66,6 +66,7 @@ module CSVImport
       id_of_last_site = Site.last&.id || 0
       last_client_id = Client.last&.id || 0
       last_policy_id = Policy.last&.id || 0
+      last_response_id = Response.last&.id || 0
 
       CSV.parse(csv, headers: true).map.with_index(1) do |row, i|
         site_name = row["Site Name"]
@@ -86,7 +87,14 @@ module CSVImport
           fallback: true,
         )
 
-        record.policies.first.responses << unwrap_responses(fallback_policy)
+        unwrap_responses(fallback_policy).each.with_index(1) do |fallback_policy_response, fallback_policy_response_index|
+          fallback_policy_response.id = last_response_id + fallback_policy_response_index
+          fallback_policy_response.policy_id = record.policies.last.id
+
+          record.policies.first.responses << fallback_policy_response
+        end
+
+        last_response_id += record.policies.first.responses.to_a.count
 
         policies.split(";").each do |policy|
           record.policies << Policy.find_by(name: policy)
