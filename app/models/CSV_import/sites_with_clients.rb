@@ -64,6 +64,7 @@ module CSVImport
 
     def parse_csv(csv)
       id_of_last_site = Site.last&.id || 0
+      last_client_id = Client.last&.id || 0
       last_policy_id = Policy.last&.id || 0
 
       CSV.parse(csv, headers: true).map.with_index(1) do |row, i|
@@ -91,12 +92,12 @@ module CSVImport
           record.policies << Policy.find_by(name: policy)
         end
 
-        eap_clients.split(";").each do |eap_client|
-          record.clients << Client.new(ip_range: eap_client, radsec: false, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase)
+        eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
+          record.clients << Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase)
         end
 
-        radsec_clients.split(";").each do |radsec_client|
-          record.clients << Client.new(ip_range: radsec_client, radsec: true, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase)
+        radsec_clients.split(";").each.with_index(1) do |radsec_client, radsec_client_index|
+          record.clients << Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase)
         end
 
         record

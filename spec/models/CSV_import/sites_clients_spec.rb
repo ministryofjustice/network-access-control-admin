@@ -59,5 +59,10 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
         expect(client.id).to_not be_nil
       end
     end
+
+    it "creates sites and clients with valid IDs" do
+      expect(subject.records.first.clients.first.id).to eq(1)
+      expect(subject.records.last.clients.last.id).to eq(3)
+    end
   end
 end
