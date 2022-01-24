@@ -64,5 +64,14 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       expect(subject.records.first.clients.first.id).to eq(1)
       expect(subject.records.last.clients.last.id).to eq(3)
     end
+
+    it "creates fallback policy responses with valid IDs" do
+      fallback_policy_id = subject.records.first.policies.first.id
+
+      expect(subject.records.first.policies.first.responses.first.id).to eq(1)
+      expect(subject.records.first.policies.first.responses.first.policy_id).to eq(fallback_policy_id)
+      expect(subject.records.first.policies.first.responses.last.id).to eq(2)
+      expect(subject.records.first.policies.first.responses.last.policy_id).to eq(fallback_policy_id)
+    end
   end
 end
