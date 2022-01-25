@@ -30,7 +30,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       expect(expected_site.clients.first.radsec).to be_falsey
 
       expect(expected_site.clients.last.ip_range).to eq("128.0.0.1")
-      expect(expected_site.clients.last.shared_secret).to_not be_nil
+      expect(expected_site.clients.last.shared_secret).to eq "radsec"
       expect(expected_site.clients.last.radsec).to be true
 
       expect(expected_site.policies.first.responses.first.response_attribute).to eq("Dlink-VLAN-ID")

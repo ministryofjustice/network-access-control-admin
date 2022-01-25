@@ -4,8 +4,6 @@ module CSVImport
   class SitesWithClients
     include ActiveModel::Validations
 
-    SHARED_SECRET_BYTES = 10
-
     attr_accessor :records
 
     def initialize(csv)
@@ -101,11 +99,11 @@ module CSVImport
         end
 
         eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
-          record.clients << Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase)
+          record.clients << Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false)
         end
 
         radsec_clients.split(";").each.with_index(1) do |radsec_client, radsec_client_index|
-          record.clients << Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true, shared_secret: SecureRandom.hex(SHARED_SECRET_BYTES).upcase)
+          record.clients << Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true)
         end
 
         record

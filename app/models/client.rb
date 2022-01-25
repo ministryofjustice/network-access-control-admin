@@ -4,7 +4,7 @@ class Client < ApplicationRecord
 
   belongs_to :site
 
-  before_validation :generate_shared_secret
+  after_initialize :generate_shared_secret
 
   validates_presence_of :ip_range, :shared_secret
   validate :validate_ip, on: %i[create update]
