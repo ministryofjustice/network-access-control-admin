@@ -11,6 +11,7 @@ describe UseCases::CSVImport::ParseSitesWithClients do
         "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-VLAN-ID=888;Reply-Message=hi"
       end
+      let(:records) { subject.call }
 
       before do
         create(:policy, name: "Test Policy 1")
@@ -18,8 +19,6 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       end
 
       it "parses the file contents into sites and clients records" do
-        records = subject.call
-
         expect(records.count).to eq(1)
 
         expected_site = records.first
@@ -43,9 +42,20 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
         expect(expected_site.policies.first.responses.second.response_attribute).to eq("Reply-Message")
         expect(expected_site.policies.first.responses.second.value).to eq("hi")
       end
-    end
 
-    context "when the file is UTF8 BOM endcoded" do
+      it "creates sites and clients with valid IDs" do
+        expect(records.first.clients.first.id).to eq(1)
+        expect(records.last.clients.last.id).to eq(3)
+      end
+
+      it "creates fallback policy responses with valid IDs" do
+        fallback_policy_id = records.first.policies.first.id
+
+        expect(records.first.policies.first.responses.first.id).to eq(1)
+        expect(records.first.policies.first.responses.first.policy_id).to eq(fallback_policy_id)
+        expect(records.first.policies.first.responses.last.id).to eq(2)
+        expect(records.first.policies.first.responses.last.policy_id).to eq(fallback_policy_id)
+      end
     end
   end
 end
