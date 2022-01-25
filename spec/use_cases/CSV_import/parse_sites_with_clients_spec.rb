@@ -11,7 +11,7 @@ describe UseCases::CSVImport::ParseSitesWithClients do
         "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-VLAN-ID=888;Reply-Message=hi"
       end
-      let(:records) { subject.call[:success] }
+      let(:records) { subject.call[:records] }
 
       before do
         create(:policy, name: "Test Policy 1")
@@ -84,6 +84,17 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
 
       it "returns a validation error" do
         expect(subject.call[:errors]).to eq(["CSV is missing"])
+      end
+    end
+
+    context "csv with unknown policies" do
+      let(:file_contents) do
+        "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Unknown 1;Unknown 2,Dlink-VLAN-ID=888;Reply-Message=hi"
+      end
+
+      it "returns a validation error" do
+        expect(subject.call[:errors]).to eq(["Error on row 2: Policy Unknown 1 is not found", "Error on row 2: Policy Unknown 2 is not found"])
       end
     end
   end

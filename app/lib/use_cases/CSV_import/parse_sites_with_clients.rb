@@ -14,6 +14,7 @@ module UseCases
 
       return { errors: @errors } if @errors.any?
 
+      all_policies = Policy.all
       id_of_last_site = Site.last&.id || 0
       last_client_id = Client.last&.id || 0
       last_policy_id = Policy.last&.id || 0
@@ -47,8 +48,14 @@ module UseCases
 
         last_response_id += record.policies.first.responses.to_a.count
 
-        policies.split(";").each do |policy|
-          record.policies << Policy.find_by(name: policy)
+        policies.split(";").each do |policy_name|
+          policy = all_policies.detect { |p| p.name == policy_name }
+
+          if policy.present?
+            record.policies << policy
+          else
+            @errors << "Error on row #{i + 1}: Policy #{policy_name} is not found"
+          end
         end
 
         eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
@@ -61,7 +68,8 @@ module UseCases
 
         record
       end
-      { success: records }
+
+      { errors: @errors, records: records }
     end
 
   private
