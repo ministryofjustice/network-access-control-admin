@@ -78,5 +78,13 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
         expect(subject.call[:errors]).to eq(["There is no data to be imported"])
       end
     end
+
+    context "csv is not attached" do
+      let(:file_contents) { nil }
+
+      it "returns a validation error" do
+        expect(subject.call[:errors]).to eq(["CSV is missing"])
+      end
+    end
   end
 end
