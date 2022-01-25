@@ -4,8 +4,8 @@ module CSVImport
 
     attr_accessor :records
 
-    def initialize(csv)
-      @records = UseCases::CSVImport::ParseSitesWithClients.new(csv).call
+    def initialize(parse_csv)
+      @records = parse_csv.call
     end
 
     def save
