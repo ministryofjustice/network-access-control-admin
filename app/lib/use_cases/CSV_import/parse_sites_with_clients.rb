@@ -1,0 +1,75 @@
+module UseCases
+  require "csv"
+
+  class CSVImport::ParseSitesWithClients
+
+    def initialize(file_contents)
+      @file_contents = remove_utf8_byte_order_mark(file_contents) if file_contents
+    end
+
+    def call
+      id_of_last_site = Site.last&.id || 0
+      last_client_id = Client.last&.id || 0
+      last_policy_id = Policy.last&.id || 0
+      last_response_id = Response.last&.id || 0
+
+      CSV.parse(@file_contents, headers: true).map.with_index(1) do |row, i|
+        site_name = row["Site Name"]
+        eap_clients = row["EAP Clients"]
+        radsec_clients = row["RadSec Clients"]
+        policies = row["Policies"]
+        fallback_policy = row["Fallback Policy"]
+
+        record = Site.new(
+          id: id_of_last_site + i,
+          name: site_name,
+        )
+
+        record.policies << Policy.new(
+          id: last_policy_id + i,
+          name: "Fallback policy for #{site_name}",
+          description: "Default fallback policy for #{site_name}",
+          fallback: true,
+        )
+
+        unwrap_responses(fallback_policy).each.with_index(1) do |fallback_policy_response, fallback_policy_response_index|
+          fallback_policy_response.id = last_response_id + fallback_policy_response_index
+          fallback_policy_response.policy_id = record.policies.last.id
+
+          record.policies.first.responses << fallback_policy_response
+        end
+
+        last_response_id += record.policies.first.responses.to_a.count
+
+        policies.split(";").each do |policy|
+          record.policies << Policy.find_by(name: policy)
+        end
+
+        eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
+          record.clients << Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false)
+        end
+
+        radsec_clients.split(";").each.with_index(1) do |radsec_client, radsec_client_index|
+          record.clients << Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true)
+        end
+
+        record
+      end
+    end
+
+    private
+
+    def unwrap_responses(fallback_policy_responses)
+      fallback_policy_responses.to_s.split(";").map do |r|
+        response_attribute, value = r.split("=")
+        PolicyResponse.new(response_attribute: response_attribute, value: value)
+      end
+    end
+
+    def remove_utf8_byte_order_mark(content)
+      return content[3..] if "\xEF\xBB\xBFA".force_encoding("ASCII-8BIT") == content[0..3]
+
+      content
+    end
+  end
+end
