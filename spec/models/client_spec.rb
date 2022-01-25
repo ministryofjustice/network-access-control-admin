@@ -8,7 +8,6 @@ describe Client, type: :model do
   end
 
   it { is_expected.to belong_to :site }
-  it { is_expected.to validate_presence_of :shared_secret }
   it { is_expected.to validate_presence_of :ip_range }
   it { is_expected.to validate_uniqueness_of(:ip_range).scoped_to(:radsec).case_insensitive }
 
@@ -85,6 +84,26 @@ describe Client, type: :model do
 
       create(:client, ip_range: ip1, radsec: true)
       expect(build(:client, ip_range: ip2, radsec: true)).to be_invalid
+    end
+
+    it "generates a shared secret when a shared secret not provided" do
+      subject.shared_secret = nil
+      subject.save
+
+      expect(subject.shared_secret).to_not be_nil
+    end
+
+    it "generates appropriate shared secret for a RadSec client" do
+      client = build(:client, shared_secret: nil, radsec: true)
+      client.save
+
+      expect(client.shared_secret).to eq("radsec")
+    end
+
+    it "does not generate shared secret when a secret provided" do
+      client = create(:client, shared_secret: "secure-secret")
+
+      expect(client.shared_secret).to eq("secure-secret")
     end
   end
 
