@@ -11,7 +11,7 @@ describe UseCases::CSVImport::ParseSitesWithClients do
         "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-VLAN-ID=888;Reply-Message=hi"
       end
-      let(:records) { subject.call }
+      let(:records) { subject.call[:success] }
 
       before do
         create(:policy, name: "Test Policy 1")
@@ -55,6 +55,27 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
         expect(records.first.policies.first.responses.first.policy_id).to eq(fallback_policy_id)
         expect(records.first.policies.first.responses.last.id).to eq(2)
         expect(records.first.policies.first.responses.last.policy_id).to eq(fallback_policy_id)
+      end
+    end
+
+    context "when the CSV header is invalid" do
+      let(:file_contents) do
+        "Site NameInvalid
+Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-VLAN-ID=888;Reply-Message=hi"
+      end
+
+      it "returns a header validation error" do
+        expect(subject.call[:errors]).to eq(["The CSV header is invalid"])
+      end
+    end
+
+    context "csv with no content but headers" do
+      let(:file_contents) do
+        "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy"
+      end
+
+      it "returns a validation error" do
+        expect(subject.call[:errors]).to eq(["There is no data to be imported"])
       end
     end
   end

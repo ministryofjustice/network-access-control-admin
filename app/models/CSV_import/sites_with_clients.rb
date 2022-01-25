@@ -4,8 +4,13 @@ module CSVImport
 
     attr_accessor :records
 
+    validate :validate_csv_format
+
     def initialize(parse_csv)
-      @records = parse_csv.call
+      parsed_records = parse_csv.call
+
+      @records = parsed_records[:success]
+      @csv_parse_errors = parsed_records[:errors]
     end
 
     def save
@@ -50,6 +55,16 @@ module CSVImport
         Policy.insert_all(fallback_policies_to_save)
         PolicyResponse.insert_all(fallback_policy_responses_to_save)
         SitePolicy.insert_all(site_policies_to_save)
+      end
+    end
+
+  private
+
+    def validate_csv_format
+      return unless @csv_parse_errors.present?
+
+      @csv_parse_errors.each do |error|
+        errors.add(:base, error)
       end
     end
   end
