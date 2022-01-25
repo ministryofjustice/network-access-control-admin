@@ -42,4 +42,22 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       end
     end
   end
+
+  context "when CSV parser return errors" do
+    let(:file_contents) { "INVALID" }
+    let(:parse_sites_with_clients) { instance_double(UseCases::CSVImport::ParseSitesWithClients) }
+
+    before do
+      allow(parse_sites_with_clients).to receive(:call).and_return({ errors: ["Some CSV parse error"] })
+    end
+
+    it "records the validation errors" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Some CSV parse error",
+        ],
+      )
+    end
+  end
 end

@@ -2,17 +2,24 @@ module UseCases
   require "csv"
 
   class CSVImport::ParseSitesWithClients
+    CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
+
     def initialize(file_contents)
       @file_contents = remove_utf8_byte_order_mark(file_contents) if file_contents
+      @errors = []
     end
 
     def call
+      validate_csv
+
+      return { errors: @errors } if @errors.any?
+
       id_of_last_site = Site.last&.id || 0
       last_client_id = Client.last&.id || 0
       last_policy_id = Policy.last&.id || 0
       last_response_id = Response.last&.id || 0
 
-      CSV.parse(@file_contents, headers: true).map.with_index(1) do |row, i|
+      records = CSV.parse(@file_contents, headers: true).map.with_index(1) do |row, i|
         site_name = row["Site Name"]
         eap_clients = row["EAP Clients"]
         radsec_clients = row["RadSec Clients"]
@@ -54,6 +61,7 @@ module UseCases
 
         record
       end
+      { success: records }
     end
 
   private
@@ -69,6 +77,15 @@ module UseCases
       return content[3..] if "\xEF\xBB\xBFA".force_encoding("ASCII-8BIT") == content[0..3]
 
       content
+    end
+
+    def validate_csv
+      @errors << "The CSV header is invalid" unless valid_header?
+      @errors << "There is no data to be imported" unless @file_contents.split("\n").second
+    end
+
+    def valid_header?
+      @file_contents.to_s.lines.first&.strip == CSV_HEADERS
     end
   end
 end
