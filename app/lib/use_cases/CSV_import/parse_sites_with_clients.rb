@@ -80,7 +80,9 @@ module UseCases
     end
 
     def validate_csv
-      @errors << "The CSV header is invalid" unless valid_header?
+      return @errors << "CSV is missing" unless @file_contents
+      return @errors << "The CSV header is invalid" unless valid_header?
+
       @errors << "There is no data to be imported" unless @file_contents.split("\n").second
     end
 
