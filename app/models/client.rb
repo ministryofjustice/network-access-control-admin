@@ -1,5 +1,10 @@
 class Client < ApplicationRecord
+  SHARED_SECRET_BYTES = 10
+  RADSEC_SHARED_SECRET = "radsec".freeze
+
   belongs_to :site
+
+  before_validation :generate_shared_secret
 
   validates_presence_of :ip_range, :shared_secret
   validate :validate_ip, on: %i[create update]
@@ -23,6 +28,12 @@ private
 
       return errors.add(:ip_range, "IP overlaps with #{client.site.name} - #{client.ip_range}")
     end
+  end
+
+  def generate_shared_secret
+    return if shared_secret.present?
+
+    self.shared_secret = radsec? ? RADSEC_SHARED_SECRET : SecureRandom.hex(SHARED_SECRET_BYTES).upcase
   end
 
   audited
