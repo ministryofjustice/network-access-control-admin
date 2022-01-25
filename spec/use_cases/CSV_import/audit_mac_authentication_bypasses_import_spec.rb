@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe UseCases::AuditMacAuthenticationBypassesImport do
+describe UseCases::CSVImport::AuditMacAuthenticationBypassesImport do
   subject(:use_case) do
     described_class.new(user)
   end
