@@ -2,7 +2,6 @@ module UseCases
   require "csv"
 
   class CSVImport::ParseSitesWithClients
-
     def initialize(file_contents)
       @file_contents = remove_utf8_byte_order_mark(file_contents) if file_contents
     end
@@ -57,7 +56,7 @@ module UseCases
       end
     end
 
-    private
+  private
 
     def unwrap_responses(fallback_policy_responses)
       fallback_policy_responses.to_s.split(";").map do |r|

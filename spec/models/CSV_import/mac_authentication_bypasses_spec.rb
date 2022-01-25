@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe CSVImport::MacAuthenticationBypasses, type: :model do
   subject { described_class.new(audit_mab_import, file_contents) }
-  let!(:audit_mab_import) { double(UseCases::AuditMacAuthenticationBypassesImport.new(build(:user))) }
+  let!(:audit_mab_import) { double(UseCases::CSVImport::AuditMacAuthenticationBypassesImport.new(build(:user))) }
 
   context "valid csv entries" do
     let(:file_contents) do

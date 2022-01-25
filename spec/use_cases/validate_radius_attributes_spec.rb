@@ -6,7 +6,7 @@ describe UseCases::ValidateRadiusAttributes do
   end
 
   let(:errors) do
-    CSVImport::MacAuthenticationBypasses.new(double(UseCases::AuditMacAuthenticationBypassesImport)).errors
+    CSVImport::MacAuthenticationBypasses.new(double(UseCases::CSVImport::AuditMacAuthenticationBypassesImport)).errors
   end
 
   let(:invalid_response) do
