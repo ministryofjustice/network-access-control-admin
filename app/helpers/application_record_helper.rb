@@ -9,7 +9,7 @@ module ApplicationRecordHelper
     result = UseCases::ValidateRadiusAttribute.new.call(attribute: attribute, value: value, operator: operator)
 
     unless result.fetch(:success)
-      errors.add(attribute.to_sym, result.fetch(:message))
+      errors.add(:base, result.fetch(:message))
     end
   end
 end

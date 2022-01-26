@@ -61,7 +61,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
     context "when optional data is not provided" do
       let(:file_contents) do
         "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
-Petty France,,,"
+Petty France,,,,"
       end
 
       let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
