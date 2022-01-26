@@ -1,7 +1,8 @@
 class Site < ApplicationRecord
   paginates_per 50
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true
+  validates :name, uniqueness: { case_sensitive: false }, unless: :skip_uniqueness_validation?
 
   has_many :clients, dependent: :destroy
   has_many :mac_authentication_bypasses, dependent: :nullify
@@ -36,5 +37,9 @@ private
       errors.add :name, "Failed to generate fallback policy with error: #{fallback_policy.errors.full_messages.join(', ')}"
       raise ActiveRecord::RecordInvalid
     end
+  end
+
+  def skip_uniqueness_validation?
+    false
   end
 end

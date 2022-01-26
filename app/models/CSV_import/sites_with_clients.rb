@@ -72,16 +72,24 @@ module CSVImport
     def validate_records
       return unless @records
 
+      site_names = Site.pluck(:name)
+
       @records.each.with_index(2) do |record, row|
         record.validate
 
+        if site_names.detect { |site_name| site_name == record.name }
+          errors.add(:base, "Error on row #{row}: Site Name has already been taken")
+        else
+          site_names << record.name
+        end
+
         record.errors.full_messages.each do |error|
-          errors.add(:base, "Error on row #{row}: #{record.class} #{error}")
+          errors.add(:base, "Error on row #{row}: Site #{error}")
         end
 
         record.clients.each do |client|
           client.errors.full_messages.each do |client_error|
-            errors.add(:base, "Error on row #{row}: #{client.class} #{client_error}")
+            errors.add(:base, "Error on row #{row}: Client #{client_error}")
           end
         end
 

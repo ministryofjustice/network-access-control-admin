@@ -86,6 +86,25 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
     end
   end
 
+  context "when there are duplicate site records" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,,,,
+Petty France,,,,"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    it "show a validation error" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 3: Site Name has already been taken",
+        ],
+      )
+    end
+  end
+
   context "when a client ip range has already been taken" do
     let(:file_contents) do
       "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
