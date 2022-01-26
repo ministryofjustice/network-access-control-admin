@@ -58,6 +58,22 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       end
     end
 
+    context "when optional data is not provided" do
+      let(:file_contents) do
+        "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,,,"
+      end
+
+      let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+      let(:records) { subject.call[:records] }
+
+      it "creates a valid site with a fallback policy" do
+        expect(subject.call[:errors]).to be_empty
+        expect(records.first.name).to eq("Petty France")
+        expect(records.first.policies.first.name).to eq("Fallback policy for Petty France")
+      end
+    end
+
     context "when the CSV header is invalid" do
       let(:file_contents) do
         "Site NameInvalid
