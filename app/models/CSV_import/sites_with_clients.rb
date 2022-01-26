@@ -84,6 +84,12 @@ module CSVImport
             errors.add(:base, "Error on row #{row}: #{policy.class} #{policy_error}")
           end
         end
+
+        record.clients.each do |client|
+          client.errors.full_messages.each do |client_error|
+            errors.add(:base, "Error on row #{row}: #{client.class} #{client_error}")
+          end
+        end
       end
     end
   end
