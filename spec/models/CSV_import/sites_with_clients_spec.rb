@@ -80,7 +80,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
         [
           "Error on row 2: Site Name has already been taken",
           "Error on row 2: Site Policies is invalid",
-          "Error on row 2: Policy Name has already been taken",
+          "Error on row 2: Fallback Policy Name has already been taken",
         ],
       )
     end
@@ -129,6 +129,26 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
         [
           "Error on row 2: Site Clients is invalid",
           "Error on row 2: Client Ip range IP overlaps with Some Site Name - 128.0.0.1/16",
+        ],
+      )
+    end
+  end
+
+  context "when a fallback policy response is invalid" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+  Petty France,,,,Invalid-Attribute=888"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    it "show a validation error" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 2: Site Policies is invalid",
+          "Error on row 2: Fallback Policy Responses is invalid",
+          "Error on row 2: Unknown attribute 'Invalid-Attribute'",
         ],
       )
     end

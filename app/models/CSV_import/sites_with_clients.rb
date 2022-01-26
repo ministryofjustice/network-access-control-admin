@@ -79,15 +79,21 @@ module CSVImport
           errors.add(:base, "Error on row #{row}: #{record.class} #{error}")
         end
 
-        record.policies.each do |policy|
-          policy.errors.full_messages.each do |policy_error|
-            errors.add(:base, "Error on row #{row}: #{policy.class} #{policy_error}")
-          end
-        end
-
         record.clients.each do |client|
           client.errors.full_messages.each do |client_error|
             errors.add(:base, "Error on row #{row}: #{client.class} #{client_error}")
+          end
+        end
+
+        fallback_policy = record.policies.first
+
+        fallback_policy.errors.full_messages.each do |fallback_policy_error|
+          errors.add(:base, "Error on row #{row}: Fallback Policy #{fallback_policy_error}")
+        end
+
+        fallback_policy.responses.each do |response|
+          response.errors.full_messages.each do |response_error|
+            errors.add(:base, "Error on row #{row}: #{response_error}")
           end
         end
       end

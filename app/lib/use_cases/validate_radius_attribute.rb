@@ -5,8 +5,12 @@ module UseCases
     DEFAULT_SITE_PATH = "/etc/raddb/sites-enabled/default".freeze
 
     def call(attribute:, value:, operator: nil)
+      clean_up_tmp_config_files(DEFAULT_SITE_PATH)
+
       write_tmp_config_file(DEFAULT_SITE_PATH, test_config(attribute, value, operator))
       payload(error_from_logs(boot_freeradius_to_validate_attributes), attribute, value)
+    ensure
+      clean_up_tmp_config_files(DEFAULT_SITE_PATH)
     end
 
   private
