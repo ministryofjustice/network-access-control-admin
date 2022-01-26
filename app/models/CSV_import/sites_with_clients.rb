@@ -5,6 +5,7 @@ module CSVImport
     attr_accessor :records
 
     validate :validate_csv_format
+    validate :validate_records
 
     def initialize(parse_csv)
       parsed_records = parse_csv.call
@@ -65,6 +66,24 @@ module CSVImport
 
       @csv_parse_errors.each do |error|
         errors.add(:base, error)
+      end
+    end
+
+    def validate_records
+      return unless @records
+
+      @records.each.with_index(2) do |record, row|
+        record.validate
+
+        record.errors.full_messages.each do |error|
+          errors.add(:base, "Error on row #{row}: #{record.class} #{error}")
+        end
+
+        record.policies.each do |policy|
+          policy.errors.full_messages.each do |policy_error|
+            errors.add(:base, "Error on row #{row}: #{policy.class} #{policy_error}")
+          end
+        end
       end
     end
   end

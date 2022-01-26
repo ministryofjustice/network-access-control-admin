@@ -77,7 +77,7 @@ module UseCases
     def unwrap_responses(fallback_policy_responses)
       fallback_policy_responses.to_s.split(";").map do |r|
         response_attribute, value = r.split("=")
-        PolicyResponse.new(response_attribute: response_attribute, value: value)
+        Response.new(response_attribute: response_attribute, value: value)
       end
     end
 
