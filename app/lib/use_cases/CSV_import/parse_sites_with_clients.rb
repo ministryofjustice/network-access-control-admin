@@ -48,31 +48,45 @@ module UseCases
 
         last_response_id += record.policies.first.responses.to_a.count
 
-        policies.split(";").each do |policy_name|
-          policy = all_policies.detect { |p| p.name == policy_name }
+        assign_policies(policies, all_policies, record, i + 1)
 
-          if policy.present?
-            record.policies << policy
-          else
-            @errors << "Error on row #{i + 1}: Policy #{policy_name} is not found"
-          end
-        end
-
-        eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
-          record.clients << Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false)
-        end
-
-        radsec_clients.split(";").each.with_index(1) do |radsec_client, radsec_client_index|
-          record.clients << Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true)
-        end
+        map_clients(eap_clients, radsec_clients, record, last_client_id)
 
         record
       end
 
-      { errors: @errors, records: records }
+      { records: records, errors: @errors }
     end
 
   private
+
+    def assign_policies(policies, all_policies, record, row)
+      return unless policies
+
+      policies.split(";").each do |policy_name|
+        policy = all_policies.detect { |p| p.name == policy_name }
+
+        if policy.present?
+          record.policies << policy
+        else
+          @errors << "Error on row #{row}: Policy #{policy_name} is not found"
+        end
+      end
+    end
+
+    def map_clients(eap_clients, radsec_clients, record, last_client_id)
+      if eap_clients
+        eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
+          record.clients << Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false)
+        end
+      end
+
+      if radsec_clients
+        radsec_clients.split(";").each.with_index(1) do |radsec_client, radsec_client_index|
+          record.clients << Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true)
+        end
+      end
+    end
 
     def unwrap_responses(fallback_policy_responses)
       fallback_policy_responses.to_s.split(";").map do |r|
