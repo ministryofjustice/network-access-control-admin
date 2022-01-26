@@ -9,7 +9,7 @@ module CSVImport
     def initialize(parse_csv)
       parsed_records = parse_csv.call
 
-      @records = parsed_records[:success]
+      @records = parsed_records[:records]
       @csv_parse_errors = parsed_records[:errors]
     end
 
