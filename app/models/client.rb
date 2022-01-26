@@ -7,8 +7,9 @@ class Client < ApplicationRecord
   after_initialize :generate_shared_secret
 
   validates_presence_of :ip_range, :shared_secret
-  validate :validate_ip, on: %i[create update]
+  validate :validate_ip
   validates :ip_range, presence: true, uniqueness: { scope: :radsec }
+  validate :validate_ip_range_overlap, on: %i[create update]
 
 private
 
@@ -21,6 +22,10 @@ private
 
     ip = IPAddress::IPv4.new(ip_range)
     self.ip_range = "#{ip}/#{ip.prefix}"
+  end
+
+  def validate_ip_range_overlap
+    return if ip_range.blank? || errors[:ip_range].any?
 
     existing_clients = id.present? ? Client.where.not(id: id) : Client.all
     existing_clients.each do |client|

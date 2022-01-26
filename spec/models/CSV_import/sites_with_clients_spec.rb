@@ -85,4 +85,52 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
       )
     end
   end
+
+  context "when a client ip range has already been taken" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    before do
+      create(:client, ip_range: "128.0.0.1", site: create(:site, name: "Some Site Name"))
+      create(:policy, name: "Test Policy 1")
+    end
+
+    it "show a validation error" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 2: Site Clients is invalid",
+          "Error on row 2: Client Ip range has already been taken",
+        ],
+      )
+    end
+  end
+
+  context "when a client ip range overlaps" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    before do
+      create(:client, ip_range: "128.0.0.1/16", site: create(:site, name: "Some Site Name"))
+      create(:policy, name: "Test Policy 1")
+    end
+
+    it "show a validation error" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 2: Site Clients is invalid",
+          "Error on row 2: Client Ip range IP overlaps with Some Site Name - 128.0.0.1/16",
+        ],
+      )
+    end
+  end
 end
