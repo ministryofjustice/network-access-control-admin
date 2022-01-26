@@ -15,9 +15,9 @@ module UseCases
       return { errors: @errors } if @errors.any?
 
       all_policies = Policy.all
-      id_of_last_site = Site.last&.id || 0
+      last_site_id = Site.last&.id || 0
       last_client_id = Client.last&.id || 0
-      last_policy_id = Policy.last&.id || 0
+      last_policy_id = all_policies.last&.id || 0
       last_response_id = Response.last&.id || 0
 
       records = CSV.parse(@file_contents, headers: true).map.with_index(1) do |row, i|
@@ -28,7 +28,7 @@ module UseCases
         fallback_policy = row["Fallback Policy"]
 
         record = Site.new(
-          id: id_of_last_site + i,
+          id: last_site_id + i,
           name: site_name,
         )
 
