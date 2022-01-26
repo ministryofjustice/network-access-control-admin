@@ -1,6 +1,5 @@
 module UseCases
   require "csv"
-
   class CSVImport::ParseSitesWithClients
     CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
 
@@ -27,7 +26,7 @@ module UseCases
         policies = row["Policies"]
         fallback_policy = row["Fallback Policy"]
 
-        record = Site.new(
+        record = CSVImport::Site.new(
           id: last_site_id + i,
           name: site_name,
         )
