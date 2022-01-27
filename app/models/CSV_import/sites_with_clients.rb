@@ -73,6 +73,8 @@ module CSVImport
       return unless @records
 
       site_names = Site.pluck(:name)
+      eap_ip_ranges = Client.where(radsec: false).pluck(:ip_range)
+      radsec_ip_ranges = Client.where(radsec: true).pluck(:ip_range)
 
       @records.each.with_index(2) do |record, row|
         record.validate
@@ -82,6 +84,9 @@ module CSVImport
         else
           site_names << record.name
         end
+
+        validate_uniqueness_of_ip_ranges(record.clients.reject(&:radsec), eap_ip_ranges, row)
+        validate_uniqueness_of_ip_ranges(record.clients.select(&:radsec), radsec_ip_ranges, row)
 
         record.errors.full_messages.each do |error|
           errors.add(:base, "Error on row #{row}: Site #{error}")
@@ -105,6 +110,28 @@ module CSVImport
           end
         end
       end
+    end
+
+    def validate_uniqueness_of_ip_ranges(clients, ip_ranges, row)
+      clients.each do |client|
+        if ip_ranges.include?(client.ip_range)
+          return errors.add(:base, "Error on row #{row}: Client Ip range has already been taken")
+        elsif ip_range_overaps?(client.ip_range, ip_ranges)
+          return errors.add(:base, "Error on row #{row}: IP overlaps with another IP range - #{client.ip_range}")
+        else
+          ip_ranges << client.ip_range
+        end
+      end
+    end
+
+    def ip_range_overaps?(ip_range, existing_ip_ranges)
+      existing_ip_ranges.each do |existing_ip_range|
+        next unless IP::CIDR.new(ip_range).overlaps?(IP::CIDR.new(existing_ip_range))
+
+        return true
+      end
+
+      false
     end
   end
 end

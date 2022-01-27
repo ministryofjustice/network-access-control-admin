@@ -86,25 +86,6 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
     end
   end
 
-  context "when there are duplicate site records" do
-    let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
-Petty France,,,,
-Petty France,,,,"
-    end
-
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
-    it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
-        [
-          "Error on row 3: Site Name has already been taken",
-        ],
-      )
-    end
-  end
-
   context "when a client ip range has already been taken" do
     let(:file_contents) do
       "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
@@ -122,7 +103,6 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq(
         [
-          "Error on row 2: Site Clients is invalid",
           "Error on row 2: Client Ip range has already been taken",
         ],
       )
@@ -146,8 +126,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq(
         [
-          "Error on row 2: Site Clients is invalid",
-          "Error on row 2: Client Ip range IP overlaps with Some Site Name - 128.0.0.1/16",
+          "Error on row 2: IP overlaps with another IP range - 128.0.0.1/32",
         ],
       )
     end
@@ -168,6 +147,67 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
           "Error on row 2: Site Policies is invalid",
           "Error on row 2: Fallback Policy Responses is invalid",
           "Error on row 2: Unknown attribute 'Invalid-Attribute'",
+        ],
+      )
+    end
+  end
+
+  context "when there are duplicate site records in CSV" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,,,,
+Petty France,,,,"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    it "show a validation error" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 3: Site Name has already been taken",
+        ],
+      )
+    end
+  end
+
+  context "when there are duplicate EAP client ip ranges in CSV" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+First Site,128.0.0.1,128.0.0.1,,
+Site with same IP twice,128.0.0.2;128.0.0.2,128.0.0.3,,
+Site with duplicate ip,128.0.0.1,128.0.0.4,,"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    it "show a validation error" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 3: Client Ip range has already been taken",
+          "Error on row 4: Client Ip range has already been taken",
+        ],
+      )
+    end
+  end
+
+  context "when there are duplicate RadSec client ip ranges in CSV" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+First Site,128.0.0.1,128.0.0.1,,
+Site with same IP twice,128.0.0.2,128.0.0.2;128.0.0.2,,
+Site with duplicate ip,128.0.0.3,128.0.0.1,,"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    it "show a validation error" do
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq(
+        [
+          "Error on row 3: Client Ip range has already been taken",
+          "Error on row 4: Client Ip range has already been taken",
         ],
       )
     end
