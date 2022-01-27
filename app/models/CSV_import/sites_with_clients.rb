@@ -79,14 +79,9 @@ module CSVImport
       @records.each.with_index(2) do |record, row|
         record.validate
 
-        if site_names.detect { |site_name| site_name == record.name }
-          errors.add(:base, "Error on row #{row}: Site Name has already been taken")
-        else
-          site_names << record.name
-        end
-
-        validate_uniqueness_of_ip_ranges(record.clients.reject(&:radsec), eap_ip_ranges, row)
-        validate_uniqueness_of_ip_ranges(record.clients.select(&:radsec), radsec_ip_ranges, row)
+        validate_uniqueness_of_site_name(record.name, site_names, row)
+        validate_ip_ranges(record.clients.reject(&:radsec), eap_ip_ranges, row)
+        validate_ip_ranges(record.clients.select(&:radsec), radsec_ip_ranges, row)
 
         record.errors.full_messages.each do |error|
           errors.add(:base, "Error on row #{row}: Site #{error}")
@@ -112,7 +107,7 @@ module CSVImport
       end
     end
 
-    def validate_uniqueness_of_ip_ranges(clients, ip_ranges, row)
+    def validate_ip_ranges(clients, ip_ranges, row)
       clients.each do |client|
         if ip_ranges.include?(client.ip_range)
           return errors.add(:base, "Error on row #{row}: Client Ip range has already been taken")
@@ -132,6 +127,14 @@ module CSVImport
       end
 
       false
+    end
+
+    def validate_uniqueness_of_site_name(site_name, existing_site_names, row)
+      if existing_site_names.include?(site_name)
+        errors.add(:base, "Error on row #{row}: Site Name has already been taken")
+      else
+        existing_site_names << site_name
+      end
     end
   end
 end
