@@ -55,7 +55,7 @@ module CSVImport
         Site.insert_all(sites_to_save)
         Client.insert_all(clients_to_save) if clients_to_save.any?
         Policy.insert_all(fallback_policies_to_save)
-        PolicyResponse.insert_all(fallback_policy_responses_to_save)
+        PolicyResponse.insert_all(fallback_policy_responses_to_save) if fallback_policy_responses_to_save.any?
         SitePolicy.insert_all(site_policies_to_save)
       end
     end

@@ -73,6 +73,33 @@ Petty France,,,,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
   end
 
+  context "valid csv entries without fallback policy responses" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,128.0.0.1,,,"
+    end
+
+    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+
+    it "creates valid sites and fallback policies with no responses" do
+      expect(subject).to be_valid
+      expect(subject.errors).to be_empty
+      expect(subject.records.count).to be(1)
+
+      expect(subject.save).to be_truthy
+
+      saved_site = Site.last
+
+      expect(saved_site.id).to_not be_nil
+      expect(saved_site.tag).to eq("petty_france")
+      expect(saved_site.clients.count).to be(1)
+
+      expect(saved_site.policy_count).to eq(1)
+      expect(saved_site.fallback_policy.name).to eq("Fallback policy for Petty France")
+      expect(saved_site.fallback_policy.responses).to be_empty
+    end
+  end
+
   context "when CSV parser return errors" do
     let(:file_contents) { "INVALID" }
     let(:parse_sites_with_clients) { instance_double(UseCases::CSVImport::ParseSitesWithClients) }
