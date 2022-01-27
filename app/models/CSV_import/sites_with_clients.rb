@@ -34,6 +34,7 @@ module CSVImport
         site.policies.each do |policy|
           if policy.fallback?
             fallback_policies_to_save << {
+              id: policy.id,
               name: policy.name,
               description: policy.description,
               fallback: policy.fallback,
@@ -52,7 +53,7 @@ module CSVImport
 
       ActiveRecord::Base.transaction do
         Site.insert_all(sites_to_save)
-        Client.insert_all(clients_to_save)
+        Client.insert_all(clients_to_save) if clients_to_save.any?
         Policy.insert_all(fallback_policies_to_save)
         PolicyResponse.insert_all(fallback_policy_responses_to_save)
         SitePolicy.insert_all(site_policies_to_save)
