@@ -15,7 +15,8 @@ class SitesImportController < ApplicationController
     )
 
     if @sites_with_clients_import.save
-      redirect_to mac_authentication_bypasses_path, notice: "Successfully imported sites with clients"
+      deploy_service
+      redirect_to sites_path, notice: "Successfully imported sites with clients"
     else
       render :new
     end

@@ -95,9 +95,9 @@ module UseCases
     end
 
     def remove_utf8_byte_order_mark(content)
-      return content[3..] if "\xEF\xBB\xBFA".force_encoding("ASCII-8BIT") == content[0..3]
+      return content[3..].force_encoding("UTF-8") if content[0..3].include?("\xEF\xBB\xBF".force_encoding("ASCII-8BIT"))
 
-      content
+      content.force_encoding("UTF-8")
     end
 
     def validate_csv
