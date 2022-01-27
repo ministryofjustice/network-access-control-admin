@@ -1,0 +1,29 @@
+<%= render "layouts/form_errors", resource: @sites_with_clients_import %>
+
+<%= form_with model: @sites_with_clients_import, local: true, url: sites_import_index_path do |f| %>
+  <h2 class="govuk-heading-l">Import sites with clients</h2>
+
+  <div class="govuk-form-group">
+    <div id="csv-hint" class="govuk-hint">
+      Header must contain the following: "<%= UseCases::CSVImport::ParseSitesWithClients::CSV_HEADERS %>".<br /><br />
+      Clients must be separated by a semicolon.<br />
+      For example: 127.0.0.1/32;128.0.0.1/32<br /><br />
+      Fallback Policy Responses must be separated by a semicolon.<br />
+      For example: Tunnel-Type=VLAN;Reply-Message=Welcome;SG-Tunnel-Id=333<br /><br />
+      File must be a valid CSV with UTF-8 encoding.<br />
+    </div>
+    <%= f.file_field :sites_with_clients, id: :csv_file, class: "govuk-file-upload" %>
+  </div>
+
+  <%= f.submit "Upload", {
+    class: "govuk-button",
+    "data-module" => "govuk-button"
+  } %>
+
+  <%= link_to "Cancel", sites_path,
+    class: "govuk-button govuk-button--secondary",
+    data: {
+      module: "govuk-button"
+    }
+  %>
+<% end %>
