@@ -76,13 +76,13 @@ module UseCases
     def map_clients(eap_clients, radsec_clients, record, last_client_id)
       if eap_clients
         eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
-          record.clients << Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false)
+          record.clients << CSVImport::Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false)
         end
       end
 
       if radsec_clients
         radsec_clients.split(";").each.with_index(1) do |radsec_client, radsec_client_index|
-          record.clients << Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true)
+          record.clients << CSVImport::Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true)
         end
       end
     end

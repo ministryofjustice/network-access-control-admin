@@ -8,8 +8,8 @@ class Client < ApplicationRecord
 
   validates_presence_of :ip_range, :shared_secret
   validate :validate_ip
-  validates :ip_range, presence: true, uniqueness: { scope: :radsec }
-  validate :validate_ip_range_overlap, on: %i[create update]
+  validates :ip_range, presence: true, uniqueness: { scope: :radsec }, unless: :skip_validation?
+  validate :validate_ip_range_overlap, on: %i[create update], unless: :skip_validation?
 
 private
 
@@ -39,6 +39,10 @@ private
     return if shared_secret.present?
 
     self.shared_secret = radsec? ? RADSEC_SHARED_SECRET : SecureRandom.hex(SHARED_SECRET_BYTES).upcase
+  end
+
+  def skip_validation?
+    false
   end
 
   audited
