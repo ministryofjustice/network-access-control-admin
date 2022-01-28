@@ -141,8 +141,6 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
       expect(subject.errors.full_messages).to eq(
         [
           "Error on row 2: Site Name has already been taken",
-          "Error on row 2: Site Policies is invalid",
-          "Error on row 2: Fallback Policy Name has already been taken",
         ],
       )
     end
