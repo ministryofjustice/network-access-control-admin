@@ -26,7 +26,7 @@ module UseCases
           name: site_name,
         )
 
-        record.policies << Policy.new(
+        record.policies << CSVImport::Policy.new(
           name: "Fallback policy for #{site_name}",
           description: "Default fallback policy for #{site_name}",
           fallback: true,
