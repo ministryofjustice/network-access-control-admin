@@ -14,10 +14,6 @@ module UseCases
       return { errors: @errors } if @errors.any?
 
       all_policies = Policy.all
-      last_site_id = Site.last&.id || 0
-      last_client_id = Client.last&.id || 0
-      last_policy_id = all_policies.last&.id || 0
-      last_response_id = Response.last&.id || 0
 
       records = CSV.parse(@file_contents, headers: true).map.with_index(1) do |row, i|
         site_name = row["Site Name"]
@@ -27,29 +23,22 @@ module UseCases
         fallback_policy = row["Fallback Policy"]
 
         record = CSVImport::Site.new(
-          id: last_site_id + i,
           name: site_name,
         )
 
         record.policies << Policy.new(
-          id: last_policy_id + i,
           name: "Fallback policy for #{site_name}",
           description: "Default fallback policy for #{site_name}",
           fallback: true,
         )
 
-        unwrap_responses(fallback_policy).each.with_index(1) do |fallback_policy_response, fallback_policy_response_index|
-          fallback_policy_response.id = last_response_id + fallback_policy_response_index
-          fallback_policy_response.policy_id = record.policies.last.id
-
+        unwrap_responses(fallback_policy).each do |fallback_policy_response|
           record.policies.first.responses << fallback_policy_response
         end
 
-        last_response_id += record.policies.first.responses.to_a.count
-
         assign_policies(policies, all_policies, record, i + 1)
 
-        map_clients(eap_clients, radsec_clients, record, last_client_id)
+        map_clients(eap_clients, radsec_clients, record)
 
         record
       end
@@ -73,16 +62,16 @@ module UseCases
       end
     end
 
-    def map_clients(eap_clients, radsec_clients, record, last_client_id)
+    def map_clients(eap_clients, radsec_clients, record)
       if eap_clients
-        eap_clients.split(";").each.with_index(1) do |eap_client, eap_client_index|
-          record.clients << CSVImport::Client.new(id: last_client_id + eap_client_index, ip_range: eap_client, radsec: false)
+        eap_clients.split(";").each do |eap_client|
+          record.clients << CSVImport::Client.new(ip_range: eap_client, radsec: false)
         end
       end
 
       if radsec_clients
-        radsec_clients.split(";").each.with_index(1) do |radsec_client, radsec_client_index|
-          record.clients << CSVImport::Client.new(id: record.clients.last.id + radsec_client_index, ip_range: radsec_client, radsec: true)
+        radsec_clients.split(";").each do |radsec_client|
+          record.clients << CSVImport::Client.new(ip_range: radsec_client, radsec: true)
         end
       end
     end

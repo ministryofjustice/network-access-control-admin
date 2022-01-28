@@ -42,20 +42,6 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
         expect(expected_site.policies.first.responses.second.response_attribute).to eq("Reply-Message")
         expect(expected_site.policies.first.responses.second.value).to eq("hi")
       end
-
-      it "creates sites and clients with valid IDs" do
-        expect(records.first.clients.first.id).to eq(1)
-        expect(records.last.clients.last.id).to eq(3)
-      end
-
-      it "creates fallback policy responses with valid IDs" do
-        fallback_policy_id = records.first.policies.first.id
-
-        expect(records.first.policies.first.responses.first.id).to eq(1)
-        expect(records.first.policies.first.responses.first.policy_id).to eq(fallback_policy_id)
-        expect(records.first.policies.first.responses.last.id).to eq(2)
-        expect(records.first.policies.first.responses.last.policy_id).to eq(fallback_policy_id)
-      end
     end
 
     context "when optional data is not provided" do

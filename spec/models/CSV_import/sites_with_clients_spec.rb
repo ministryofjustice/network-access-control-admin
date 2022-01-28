@@ -31,6 +31,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       expect(saved_site.clients.last.ip_range).to eq("128.0.0.1/32")
 
       expect(saved_site.policy_count).to eq(3)
+      expect(saved_site.policies.count).to eq(3)
       expect(saved_site.fallback_policy.name).to eq("Fallback policy for Petty France")
       expect(saved_site.fallback_policy.responses.first.response_attribute).to eq("Dlink-VLAN-ID")
       expect(saved_site.fallback_policy.responses.first.value).to eq("888")
@@ -40,6 +41,10 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       saved_site.clients.each do |client|
         expect(client.id).to_not be_nil
       end
+
+      expect(saved_site.policies.first.name).to eq("Test Policy 1")
+      expect(saved_site.policies.second.name).to eq("Test Policy 2")
+      expect(saved_site.policies.third.name).to eq("Fallback policy for Petty France")
     end
   end
 

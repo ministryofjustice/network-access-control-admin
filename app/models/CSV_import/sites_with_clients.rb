@@ -17,6 +17,9 @@ module CSVImport
     def save
       return false unless valid?
 
+      last_site_id = Site.last&.id || 0
+      last_policy_id = Policy.last&.id || 0
+
       sites_to_save = []
       clients_to_save = []
       fallback_policies_to_save = []
@@ -24,30 +27,35 @@ module CSVImport
       site_policies_to_save = []
 
       @records.each do |site|
-        sites_to_save << { id: site.id, name: site.name, tag: site.name.parameterize(separator: "_"), policy_count: site.policies.to_a.count }
+        last_site_id += 1
+
+        sites_to_save << { id: last_site_id, name: site.name, tag: site.name.parameterize(separator: "_"), policy_count: site.policies.to_a.count }
 
         site.clients.each do |client|
           client.valid?
-          clients_to_save << { ip_range: client.ip_range, shared_secret: client.shared_secret, site_id: site.id, radsec: client.radsec }
+          clients_to_save << { ip_range: client.ip_range, shared_secret: client.shared_secret, site_id: last_site_id, radsec: client.radsec }
         end
 
         site.policies.each do |policy|
           if policy.fallback?
+            last_policy_id += 1
+
             fallback_policies_to_save << {
-              id: policy.id,
+              id: last_policy_id,
               name: policy.name,
               description: policy.description,
               fallback: policy.fallback,
-              rule_count: policy.rule_count,
               site_count: 1,
             }
 
             policy.responses.each do |response|
-              fallback_policy_responses_to_save << { policy_id: policy.id, response_attribute: response.response_attribute, value: response.value }
+              fallback_policy_responses_to_save << { policy_id: last_policy_id, response_attribute: response.response_attribute, value: response.value }
             end
-          end
 
-          site_policies_to_save << { site_id: site.id, policy_id: policy.id }
+            site_policies_to_save << { site_id: last_site_id, policy_id: last_policy_id }
+          else
+            site_policies_to_save << { site_id: last_site_id, policy_id: policy.id }
+          end
         end
       end
 
