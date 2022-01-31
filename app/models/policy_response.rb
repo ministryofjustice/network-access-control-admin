@@ -1,5 +1,5 @@
 class PolicyResponse < Response
-  belongs_to :policy
+  belongs_to :policy, optional: true
 
   validate :validate_uniqueness_of_response_attribute, on: %i[create update]
 

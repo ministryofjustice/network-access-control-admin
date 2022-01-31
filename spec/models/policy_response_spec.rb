@@ -7,7 +7,7 @@ describe PolicyResponse, type: :model do
     expect(subject).to be_valid
   end
 
-  it { is_expected.to belong_to :policy }
+  it { is_expected.to belong_to(:policy).optional }
   it { is_expected.to validate_presence_of :response_attribute }
   it { is_expected.to validate_presence_of :value }
 
