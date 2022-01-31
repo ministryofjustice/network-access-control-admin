@@ -26,6 +26,7 @@ db-setup: start-db
 
 serve: stop start-db
 	$(DOCKER_COMPOSE) up -d app
+	$(DOCKER_COMPOSE) up -d background_worker
 
 run: serve
 
