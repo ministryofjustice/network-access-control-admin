@@ -51,7 +51,6 @@ services:
     networks:
       - adminnet
 
-
 volumes:
   node_modules:
   datavolume:
