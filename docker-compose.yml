@@ -34,6 +34,24 @@ services:
     networks:
       - adminnet
 
+  background_worker:
+    build:
+      context: .
+      args:
+        UID: "${UID}"
+        BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5}"
+    user: "${UID}:${UID}"
+    command: bash -c "bundle exec rake jobs:work"
+    volumes:
+      - .:/home/app/moj-network-access-admin
+      - node_modules:/home/app/moj-network-access-admin/node_modules
+    links:
+      - db
+    env_file: .env.${ENV}
+    networks:
+      - adminnet
+
+
 volumes:
   node_modules:
   datavolume:

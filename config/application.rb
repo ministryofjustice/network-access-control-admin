@@ -41,6 +41,7 @@ module NetworkAccessControlAdmin
 
     # https://github.com/alphagov/govuk-frontend/issues/1350
     config.assets.css_compressor = nil
+    config.active_job.queue_adapter = :delayed_job
 
     config.generators do |g|
       g.test_framework :rspec

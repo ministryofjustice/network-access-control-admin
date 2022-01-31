@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_163401) do
+ActiveRecord::Schema.define(version: 2022_01_31_144107) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -56,6 +56,21 @@ ActiveRecord::Schema.define(version: 2022_01_11_163401) do
     t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "radsec", null: false
     t.index ["site_id"], name: "index_clients_on_site_id"
+  end
+
+  create_table "delayed_jobs", charset: "utf8", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", size: :long, null: false
+    t.text "last_error"
+    t.datetime "run_at", precision: 6
+    t.datetime "locked_at", precision: 6
+    t.datetime "failed_at", precision: 6
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "mac_authentication_bypasses", charset: "utf8", force: :cascade do |t|
