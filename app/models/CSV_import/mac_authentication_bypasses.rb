@@ -12,7 +12,6 @@ module CSVImport
 
     validate :validate_csv
     validate :validate_records
-    validate :validate_radius_attributes, unless: -> { errors.any? }
     validate :validate_sites
 
     def initialize(csv_contents = nil)
@@ -100,10 +99,6 @@ module CSVImport
       @sites_not_found.each do |site_name|
         errors.add(:base, "Site \"#{site_name}\" is not found")
       end
-    end
-
-    def validate_radius_attributes
-      UseCases::ValidateRadiusAttributes.new(records: @records, errors: errors).call
     end
 
     def unwrap_responses(responses)
