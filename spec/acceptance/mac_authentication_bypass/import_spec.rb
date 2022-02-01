@@ -34,6 +34,8 @@ describe "Import MAC Authentication Bypasses", type: :feature do
     end
 
     it "imports bypasses from a valid CSV" do
+      expect_any_instance_of(UseCases::GenerateAuthorisedMacs).to receive(:call)
+      expect_any_instance_of(UseCases::PublishToS3).to receive(:call)
       expect_service_deployment
 
       visit "/mac_authentication_bypasses"
@@ -51,7 +53,9 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       expect(Delayed::Job.count).to eq(0)
 
       expect(current_path).to eql("/mac_authentication_bypasses")
-      # expect(page).to have_content("Successfully imported bypasses")
+      expect(page).to have_content("Importing MAC addresses")
+
+      visit "/mac_authentication_bypasses"
 
       expect(page).to have_content("aa-bb-cc-dd-ee-ff")
       expect(page).to have_content("printer1")
@@ -93,8 +97,51 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("SG-Tunnel-Id")
       expect(page).to have_content("999")
 
-      expect_audit_log_entry_for(editor.email, "create", "Mac authentication bypass")
-      expect_audit_log_entry_for(editor.email, "create", "Response")
+      # revisit
+      expect_audit_log_entry_for("System", "create", "Mac authentication bypass")
+      expect_audit_log_entry_for("System", "create", "Response")
+    end
+
+    it "can upload CRLF file format" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "Import bypasses"
+
+      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
+
+      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/valid_crlf.csv")
+      click_on "Upload"
+
+      expect(page).to have_content("Importing MAC addresses")
+
+      Delayed::Worker.new.work_off
+
+      visit "/mac_authentication_bypasses"
+
+      expect(page).to have_content("aa-bb-cc-dd-ee-ff")
+      expect(page).to have_content("printer1")
+      expect(page).to have_content("some test1")
+    end
+
+    it "can upload a UTF8_BOM file (Windows support)" do
+      visit "/mac_authentication_bypasses"
+
+      click_on "Import bypasses"
+
+      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
+
+      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/valid_utf8_bom.csv")
+      click_on "Upload"
+
+      expect(page).to have_content("Importing MAC addresses")
+
+      Delayed::Worker.new.work_off
+
+      visit "/mac_authentication_bypasses"
+
+      expect(page).to have_content("aa-bb-cc-dd-ee-ff")
+      expect(page).to have_content("printer1")
+      expect(page).to have_content("some test1")
     end
 
     xit "shows errors when the CSV is invalid" do
@@ -113,44 +160,6 @@ describe "Import MAC Authentication Bypasses", type: :feature do
 
       expect(page).to have_content("Error on row 2: Address is invalid")
       expect(page).to have_content("Site \"Unknown Site\" is not found")
-    end
-
-    xit "shows errors when the CSV is missing" do
-      visit "/mac_authentication_bypasses"
-
-      click_on "Import bypasses"
-
-      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
-
-      click_on "Upload"
-
-      expect(page).to have_content("CSV is missing")
-    end
-
-    xit "can upload CRLF file format" do
-      visit "/mac_authentication_bypasses"
-
-      click_on "Import bypasses"
-
-      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
-
-      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/valid_crlf.csv")
-      click_on "Upload"
-
-      expect(page).to have_content("Successfully imported bypasses")
-    end
-
-    xit "can upload a UTF8_BOM file (Windows support)" do
-      visit "/mac_authentication_bypasses"
-
-      click_on "Import bypasses"
-
-      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
-
-      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/valid_utf8_bom.csv")
-      click_on "Upload"
-
-      expect(page).to have_content("Successfully imported bypasses")
     end
   end
 end

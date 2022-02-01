@@ -8,16 +8,9 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   def create
     contents = mac_authentication_bypasses_import_params.fetch(:file).read
 
-    MacAuthenticationBypassImportJob.perform_later
-    @mac_authentication_bypasses_import = UseCases::CSVImport::MacAuthenticationBypasses.new(contents)
+    MacAuthenticationBypassImportJob.perform_later(contents)
 
-    if @mac_authentication_bypasses_import.save
-      publish_authorised_macs
-      deploy_service
-      redirect_to mac_authentication_bypasses_path, notice: "Importing MAC addresses"
-    else
-      render :new
-    end
+    redirect_to mac_authentication_bypasses_path, notice: "Importing MAC addresses"
   end
 
 private
