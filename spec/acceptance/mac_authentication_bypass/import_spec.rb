@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "bulk upload MAC Authentication Bypasses", type: :feature do
+describe "Import MAC Authentication Bypasses", type: :feature do
   context "when the user is unauthenticated" do
     it "does not allow importing bypasses" do
       visit "/mac_authentication_bypasses_imports/new"
@@ -44,6 +44,11 @@ describe "bulk upload MAC Authentication Bypasses", type: :feature do
 
       attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/valid.csv")
       click_on "Upload"
+
+      expect(Delayed::Job.last.handler).to match(/job_class: MacAuthenticationBypassImportJob/)
+      expect(Delayed::Job.count).to eq(1)
+      Delayed::Worker.new.work_off
+      expect(Delayed::Job.count).to eq(0)
 
       expect(current_path).to eql("/mac_authentication_bypasses")
       expect(page).to have_content("Successfully imported bypasses")
