@@ -2,8 +2,6 @@ module UseCases
   require "csv"
 
   class CSVImport::MacAuthenticationBypasses
-    attr_reader :errors
-
     CSV_HEADERS = "Address,Name,Description,Responses,Site".freeze
 
     def initialize(csv_contents = nil)
@@ -14,13 +12,15 @@ module UseCases
 
       return unless valid_header?
 
-      @records = parse_csv(@csv_contents)
+      @records = save_csv
     end
 
     def save
-      return false unless valid?
+      return { errors: @errors } unless valid?
 
       @records.each(&:save)
+
+      { errors: [] }
     end
 
     def valid?
@@ -39,11 +39,15 @@ module UseCases
       content
     end
 
-    def parse_csv(csv_contents)
+    def parsed_csv
+      @parsed_csv ||= CSV.parse(@csv_contents, skip_blanks: true, headers: true)
+    end
+
+    def save_csv
       all_sites = Site.all
       records = []
 
-      CSV.parse(csv_contents, skip_blanks: true, headers: true).each do |row|
+      parsed_csv.each do |row|
         address = row["Address"]
         name = row["Name"]
         description = row["Description"]
@@ -73,9 +77,23 @@ module UseCases
       records
     end
 
+    def check_for_duplicates_in_csv
+      addresses = parsed_csv.map do |row|
+        row["Address"]
+      end
+
+      duplicate_addresses = addresses.select { |address| addresses.count(address) > 1 }.uniq
+
+      duplicate_addresses.each do |duplicate_address|
+        @errors << "Duplicate MAC address #{duplicate_address} found in CSV"
+      end
+    end
+
     def validate_csv
       return @errors << "CSV is missing" if @csv_contents.nil?
       return @errors << "There is no data to be imported" unless @csv_contents.split("\n").second
+
+      check_for_duplicates_in_csv
 
       @errors << "The CSV header is invalid" unless valid_header?
     end
