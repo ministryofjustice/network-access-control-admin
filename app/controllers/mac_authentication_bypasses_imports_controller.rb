@@ -10,6 +10,7 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   def create
     contents = mac_authentication_bypasses_import_params&.dig(:bypasses)&.read
 
+    MacAuthenticationBypassImportJob.perform_later
     @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(
       UseCases::CSVImport::AuditMacAuthenticationBypassesImport.new(current_user),
       contents,
