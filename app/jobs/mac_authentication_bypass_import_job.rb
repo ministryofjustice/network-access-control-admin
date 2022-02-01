@@ -1,5 +1,5 @@
 class MacAuthenticationBypassImportJob < ActiveJob::Base
   def perform
-    return "noop"
+    "noop"
   end
 end
