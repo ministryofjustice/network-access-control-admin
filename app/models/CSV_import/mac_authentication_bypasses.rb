@@ -19,7 +19,6 @@ module CSVImport
       @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
       @records = []
       @sites_not_found = []
-      @all_mac_addresses = MacAuthenticationBypass.all.map(&:address)
 
       return unless valid_header?
 
@@ -43,10 +42,8 @@ module CSVImport
     def parse_csv(csv_contents)
       all_sites = Site.all
       records = []
-      last_id = MacAuthenticationBypass.last&.id || 0
-      last_response_id = Response.last&.id || 0
 
-      CSV.parse(csv_contents, headers: true).each.with_index(1) do |row, i|
+      CSV.parse(csv_contents, headers: true).each do |row|
         address = row["Address"]
         name = row["Name"]
         description = row["Description"]
@@ -59,22 +56,16 @@ module CSVImport
           @sites_not_found << site_name
         end
 
-        record = CSVImport::MacAuthenticationBypass.new(
-          id: last_id + i,
+        record = MacAuthenticationBypass.new(
           name: name,
           address: address,
           description: description,
           site: site,
         )
 
-        @all_mac_addresses << address
-
-        unwrap_responses(responses).each.with_index(1) do |response, j|
-          response.id = last_response_id + j
+        unwrap_responses(responses).each do |response|
           record.responses << response
         end
-
-        last_response_id += record.responses.to_a.count
 
         records << record
       end
@@ -92,7 +83,6 @@ module CSVImport
     def validate_records
       @records.each.with_index(2) do |record, i|
         record.validate
-        record.validate_uniqueness_of_address(@all_mac_addresses)
 
         record.errors.full_messages.each do |message|
           errors.add(:base, "Error on row #{i}: #{message}")
@@ -119,7 +109,7 @@ module CSVImport
     def unwrap_responses(responses)
       responses.to_s.split(";").map do |r|
         response_attribute, value = r.split("=")
-        CSVImport::MabResponse.new(response_attribute: response_attribute, value: value)
+        MabResponse.new(response_attribute: response_attribute, value: value)
       end
     end
 
