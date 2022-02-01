@@ -1,22 +1,15 @@
-module CSVImport
+module UseCases
   require "csv"
 
-  class MacAuthenticationBypasses
-    attr_accessor :records
+  class CSVImport::MacAuthenticationBypasses
+    attr_reader :errors
 
     CSV_HEADERS = "Address,Name,Description,Responses,Site".freeze
-
-    include ActiveModel::Validations
-    include ActiveModel::Conversion
-    include ActiveModel::Naming
-
-    validate :validate_csv
-    validate :validate_records
-    validate :validate_sites
 
     def initialize(csv_contents = nil)
       @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
       @records = []
+      @errors = []
       @sites_not_found = []
 
       return unless valid_header?
@@ -28,6 +21,14 @@ module CSVImport
       return false unless valid?
 
       @records.each(&:save)
+    end
+
+    def valid?
+      validate_csv
+      validate_records
+      validate_sites
+
+      @errors.empty?
     end
 
   private
@@ -42,7 +43,7 @@ module CSVImport
       all_sites = Site.all
       records = []
 
-      CSV.parse(csv_contents, headers: true).each do |row|
+      CSV.parse(csv_contents, skip_blanks: true, headers: true).each do |row|
         address = row["Address"]
         name = row["Name"]
         description = row["Description"]
@@ -73,10 +74,10 @@ module CSVImport
     end
 
     def validate_csv
-      return errors.add(:base, "CSV is missing") if @csv_contents.nil?
-      return errors.add(:base, "There is no data to be imported") unless @csv_contents.split("\n").second
+      return @errors << "CSV is missing" if @csv_contents.nil?
+      return @errors << "There is no data to be imported" unless @csv_contents.split("\n").second
 
-      errors.add(:base, "The CSV header is invalid") unless valid_header?
+      @errors << "The CSV header is invalid" unless valid_header?
     end
 
     def validate_records
@@ -84,12 +85,12 @@ module CSVImport
         record.validate
 
         record.errors.full_messages.each do |message|
-          errors.add(:base, "Error on row #{i}: #{message}")
+          @errors << "Error on row #{i}: #{message}"
         end
 
         record.responses.each do |response|
           response.errors.full_messages.each do |message|
-            errors.add(:base, "Error on row #{i}: #{message}")
+            @errors << "Error on row #{i}: #{message}"
           end
         end
       end
@@ -97,7 +98,7 @@ module CSVImport
 
     def validate_sites
       @sites_not_found.each do |site_name|
-        errors.add(:base, "Site \"#{site_name}\" is not found")
+        @errors << "Site \"#{site_name}\" is not found"
       end
     end
 

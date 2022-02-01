@@ -1,19 +1,17 @@
-<%= render "layouts/form_errors", resource: @mac_authentication_bypasses_import %>
-
-<%= form_with model: @mac_authentication_bypasses_import, local: true, url: mac_authentication_bypasses_imports_path do |f| %>
+<%= form_tag(mac_authentication_bypasses_imports_path, multipart: true) do %>
   <h2 class="govuk-heading-l">Import bypasses</h2>
 
   <div class="govuk-form-group">
     <div id="csv-hint" class="govuk-hint">
-      Header must contain the following: "<%= CSVImport::MacAuthenticationBypasses::CSV_HEADERS %>".<br /><br />
+      Header must contain the following: "<%= UseCases::CSVImport::MacAuthenticationBypasses::CSV_HEADERS %>".<br /><br />
       Responses must be separated by a semicolon.<br />
       For example: Tunnel-Type=VLAN;Reply-Message=Welcome;SG-Tunnel-Id=333<br /><br />
       File must be a valid CSV with UTF-8 encoding.<br />
     </div>
-    <%= f.file_field :bypasses, id: :csv_file, class: "govuk-file-upload" %>
+    <%= file_field :bypasses, :file, { id: :csv_file, class: "govuk-file-upload", required: true } %>
   </div>
 
-  <%= f.submit "Upload", {
+  <%= submit_tag "Upload", {
     class: "govuk-button",
     "data-module" => "govuk-button"
   } %>
