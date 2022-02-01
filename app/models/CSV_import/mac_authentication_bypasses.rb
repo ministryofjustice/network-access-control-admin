@@ -15,8 +15,7 @@ module CSVImport
     validate :validate_radius_attributes, unless: -> { errors.any? }
     validate :validate_sites
 
-    def initialize(audit_mab_import, csv_contents = nil)
-      @audit_mab_import = audit_mab_import
+    def initialize(csv_contents = nil)
       @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
       @records = []
       @sites_not_found = []
@@ -30,24 +29,7 @@ module CSVImport
     def save
       return false unless valid?
 
-      records_to_save = []
-      responses_to_save = []
-
-      @records.each do |record|
-        records_to_save << { id: record.id, address: record.address, name: record.name, description: record.description, site_id: record.site&.id }
-
-        record.responses.each do |response|
-          responses_to_save << { mac_authentication_bypass_id: record.id, response_attribute: response.response_attribute, value: response.value }
-        end
-      end
-
-      ActiveRecord::Base.transaction do
-        saved_records = MacAuthenticationBypass.insert_all(records_to_save)
-        MabResponse.insert_all(responses_to_save) unless responses_to_save.empty?
-        @audit_mab_import.call(@records)
-
-        saved_records
-      end
+      @records.each(&:save)
     end
 
   private

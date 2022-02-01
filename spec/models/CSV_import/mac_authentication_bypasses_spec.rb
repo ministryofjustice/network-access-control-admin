@@ -1,8 +1,7 @@
 require "rails_helper"
 
 describe CSVImport::MacAuthenticationBypasses, type: :model do
-  subject { described_class.new(audit_mab_import, file_contents) }
-  let!(:audit_mab_import) { double(UseCases::CSVImport::AuditMacAuthenticationBypassesImport.new(build(:user))) }
+  subject { described_class.new(file_contents) }
 
   context "valid csv entries" do
     let(:file_contents) do
@@ -14,7 +13,6 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
 
     before do
       create(:site, name: "102 Petty France")
-      allow(audit_mab_import).to receive(:call)
     end
 
     it "creates valid MABs" do
@@ -49,28 +47,12 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
       expect(subject.records.first.responses.first.id).to eq(1)
       expect(subject.records.last.responses.last.id).to eq(6)
     end
-
-    it "creates an audit log" do
-      expect(audit_mab_import).to receive(:call).with(
-        [
-          CSVImport::MacAuthenticationBypass.new(id: 1, address: "aa-bb-cc-dd-ee-ff", name: "Printer1", description: "some test", created_at: nil, updated_at: nil, site_id: 371),
-          CSVImport::MacAuthenticationBypass.new(id: 2, address: "bb-bb-cc-dd-ee-ff", name: "Printer2", description: "some test", created_at: nil, updated_at: nil, site_id: 371),
-          CSVImport::MacAuthenticationBypass.new(id: 3, address: "cc-bb-cc-dd-ee-ff", name: "Printer3", description: "some test", created_at: nil, updated_at: nil, site_id: nil),
-        ],
-      )
-
-      subject.save
-    end
   end
 
   context "valid csv entries with no responses" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
 bb-bb-cc-dd-ee-ff,Printer2,some test,,"
-    end
-
-    before do
-      allow(audit_mab_import).to receive(:call)
     end
 
     it "creates valid MABs" do
