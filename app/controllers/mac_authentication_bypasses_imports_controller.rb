@@ -1,8 +1,6 @@
 class MacAuthenticationBypassesImportsController < ApplicationController
   def new
-    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(
-      UseCases::CSVImport::AuditMacAuthenticationBypassesImport.new(current_user),
-    )
+    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new
 
     authorize! :create, @mac_authentication_bypasses_import
   end
@@ -11,10 +9,7 @@ class MacAuthenticationBypassesImportsController < ApplicationController
     contents = mac_authentication_bypasses_import_params&.dig(:bypasses)&.read
 
     MacAuthenticationBypassImportJob.perform_later
-    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(
-      UseCases::CSVImport::AuditMacAuthenticationBypassesImport.new(current_user),
-      contents,
-    )
+    @mac_authentication_bypasses_import = CSVImport::MacAuthenticationBypasses.new(contents)
 
     if @mac_authentication_bypasses_import.save
       publish_authorised_macs
