@@ -42,11 +42,6 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
         expect(response.id).to_not be_nil
       end
     end
-
-    it "creates MAB responses with valid IDs" do
-      expect(subject.records.first.responses.first.id).to eq(1)
-      expect(subject.records.last.responses.last.id).to eq(6)
-    end
   end
 
   context "valid csv entries with no responses" do
@@ -140,7 +135,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
   context "csv with invalid MAC address and unknown site" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
-aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,Unknown Site"
+aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=1212,Unknown Site"
     end
 
     it "records the validation errors" do
@@ -168,6 +163,7 @@ aa-bb-cc-dd-ee-ff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,"
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq(
         [
+          "Error on row 2: Responses is invalid",
           "Error on row 2: Unknown or invalid value \"ASASAS\" for attribute 3Com-Connect_Id",
         ],
       )
@@ -188,7 +184,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,SG-Tunnel-Id=777"
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq(
         [
-          "Error on row 2: Address has already taken",
+          "Error on row 2: Address has already been taken",
         ],
       )
     end
