@@ -104,7 +104,6 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       # revisit
       expect_audit_log_entry_for("System", "create", "Mac authentication bypass")
       expect_audit_log_entry_for("System", "create", "Response")
-
     end
 
     it "can upload CRLF file format" do
