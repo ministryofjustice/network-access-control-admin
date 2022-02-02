@@ -1,4 +1,6 @@
 class MacAuthenticationBypassesImportsController < ApplicationController
+  before_action :set_crumbs, only: %i[new show]
+
   def new
     @mac_authentication_bypasses_import = UseCases::CSVImport::MacAuthenticationBypasses.new
 
@@ -19,6 +21,10 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   end
 
 private
+
+  def set_crumbs
+    @navigation_crumbs << ["MAC Authentication Bypasses", mac_authentication_bypasses_path]
+  end
 
   def mac_authentication_bypasses_import_params
     params.require(:bypasses).permit(:file)

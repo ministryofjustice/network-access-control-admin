@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_154503) do
+ActiveRecord::Schema.define(version: 2022_02_02_162307) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_154503) do
     t.text "import_errors"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "completed_at", precision: 6
   end
 
   create_table "delayed_jobs", charset: "utf8", force: :cascade do |t|

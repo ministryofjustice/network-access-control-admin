@@ -55,9 +55,12 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       expect(CsvImportResult.all.count).to eq(1)
       expect(CsvImportResult.first.errors).to be_empty
 
-      expect(page.current_path).to eq(mac_authentication_bypasses_import_path(CsvImportResult.last.id))
+      expect(page).to have_text("Import in progress.. Click here to refresh.")
 
-      expect(page).to have_content("Importing MAC addresses")
+      click_on "here"
+
+      expect(page.current_path).to eq(mac_authentication_bypasses_import_path(CsvImportResult.last.id))
+      expect(page).to have_content("CSV Successfully imported")
 
       visit "/mac_authentication_bypasses"
 
