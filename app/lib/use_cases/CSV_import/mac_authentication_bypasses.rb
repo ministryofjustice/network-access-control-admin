@@ -9,22 +9,21 @@ module UseCases
       @records = []
       @errors = []
       @sites_not_found = []
-
-      return unless valid_header?
-
-      @records = save_csv
     end
 
     def save
-      return { errors: @errors } unless valid?
+      return { errors: @errors } unless valid_csv?
+
+      map_csv_content
+
+      return { errors: @errors } unless valid_records?
 
       @records.each(&:save)
 
       { errors: [] }
     end
 
-    def valid?
-      validate_csv
+    def valid_records?
       validate_records
       validate_sites
 
@@ -43,9 +42,8 @@ module UseCases
       @parsed_csv ||= CSV.parse(@csv_contents, skip_blanks: true, headers: true)
     end
 
-    def save_csv
+    def map_csv_content
       all_sites = Site.all
-      records = []
 
       parsed_csv.each do |row|
         address = row["Address"]
@@ -71,10 +69,8 @@ module UseCases
           record.responses << response
         end
 
-        records << record
+        @records << record
       end
-
-      records
     end
 
     def check_for_duplicates_in_csv
@@ -89,13 +85,14 @@ module UseCases
       end
     end
 
-    def validate_csv
-      return @errors << "CSV is missing" if @csv_contents.nil?
-      return @errors << "There is no data to be imported" unless @csv_contents.split("\n").second
+    def valid_csv?
+      return @errors << "CSV is missing" && false if @csv_contents.nil?
+      return @errors << "The CSV header is invalid" && false unless valid_header?
+      return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicates_in_csv
 
-      @errors << "The CSV header is invalid" unless valid_header?
+      @errors.empty?
     end
 
     def validate_records
