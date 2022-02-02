@@ -8,9 +8,14 @@ class MacAuthenticationBypassesImportsController < ApplicationController
   def create
     contents = mac_authentication_bypasses_import_params.fetch(:file).read
 
-    MacAuthenticationBypassImportJob.perform_later(contents)
+    csv_import_result = CsvImportResult.create!
+    MacAuthenticationBypassImportJob.perform_later(contents, csv_import_result)
 
-    redirect_to mac_authentication_bypasses_path, notice: "Importing MAC addresses"
+    redirect_to mac_authentication_bypasses_import_path(csv_import_result), notice: "Importing MAC addresses"
+  end
+
+  def show
+    @csv_import_result = CsvImportResult.find(params.fetch(:id))
   end
 
 private
