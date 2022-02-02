@@ -52,7 +52,11 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       Delayed::Worker.new.work_off
       expect(Delayed::Job.count).to eq(0)
 
-      expect(current_path).to eql("/mac_authentication_bypasses")
+      expect(CsvImportResult.all.count).to eq(1)
+      expect(CsvImportResult.first.errors).to be_empty
+
+      expect(page.current_path).to eq(mac_authentication_bypasses_import_path(CsvImportResult.last.id))
+
       expect(page).to have_content("Importing MAC addresses")
 
       visit "/mac_authentication_bypasses"
@@ -100,6 +104,7 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       # revisit
       expect_audit_log_entry_for("System", "create", "Mac authentication bypass")
       expect_audit_log_entry_for("System", "create", "Response")
+
     end
 
     it "can upload CRLF file format" do

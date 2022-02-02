@@ -1,9 +1,9 @@
 class MacAuthenticationBypassImportJob < ActiveJob::Base
-  def perform(contents)
+  def perform(contents, csv_import_result)
     result = UseCases::CSVImport::MacAuthenticationBypasses.new(contents).save
 
     if result.fetch(:errors).any?
-      abort(result.fetch(:errors).join("\n"))
+      csv_import_result.update_attributes(import_errors: errors)
     else
       publish_authorised_macs
       deploy_service

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_144107) do
+ActiveRecord::Schema.define(version: 2022_02_02_154503) do
 
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
@@ -56,6 +56,12 @@ ActiveRecord::Schema.define(version: 2022_01_31_144107) do
     t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "radsec", null: false
     t.index ["site_id"], name: "index_clients_on_site_id"
+  end
+
+  create_table "csv_import_results", charset: "utf8", force: :cascade do |t|
+    t.text "import_errors"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "delayed_jobs", charset: "utf8", force: :cascade do |t|

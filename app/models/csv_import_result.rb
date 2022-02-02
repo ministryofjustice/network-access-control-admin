@@ -1,0 +1,2 @@
+class CsvImportResult < ApplicationRecord
+end
