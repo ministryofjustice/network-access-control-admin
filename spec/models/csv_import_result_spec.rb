@@ -5,8 +5,13 @@ describe CsvImportResult, type: :model do
 
   it "can save errors" do
     errors = %i[
-      Duplicate Client
-      CSV headers are not valid
+      Duplicate
+      Client
+      CSV
+      headers
+      are
+      not
+      valid
     ]
 
     subject.import_errors = errors
