@@ -29,21 +29,4 @@ private
   def mac_authentication_bypasses_import_params
     params.require(:bypasses).permit(:file)
   end
-
-  def publish_authorised_macs
-    content = UseCases::GenerateAuthorisedMacs.new.call(mac_authentication_bypasses: MacAuthenticationBypass.includes(:responses).all)
-
-    UseCases::PublishToS3.new(
-      config_validator: UseCases::ConfigValidator.new(
-        config_file_path: RadiusHelper::AUTHORISED_MACS_PATH,
-        content: content,
-      ),
-      destination_gateway: Gateways::S3.new(
-        bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),
-        key: "authorised_macs",
-        aws_config: Rails.application.config.s3_aws_config,
-        content_type: "text/plain",
-      ),
-    ).call(content)
-  end
 end
