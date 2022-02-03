@@ -10,6 +10,9 @@ class SitesImportController < ApplicationController
   def create
     contents = sites_import_params&.dig(:sites_with_clients)&.read
 
+    csv_import_result = CsvImportResult.create!
+    SitesWithClientsImportJob.perform_later(contents, csv_import_result)
+
     @sites_with_clients_import = CSVImport::SitesWithClients.new(
       UseCases::CSVImport::ParseSitesWithClients.new(contents),
     )

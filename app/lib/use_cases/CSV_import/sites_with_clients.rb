@@ -1,81 +1,88 @@
-module CSVImport
-  class SitesWithClients
-    include ActiveModel::Validations
+module UseCases
+  require "csv"
 
-    attr_accessor :records
+  class CSVImport::SitesWithClients
+    CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
 
-    validate :validate_csv_format
-    validate :validate_records
-
-    def initialize(parse_csv)
-      parsed_records = parse_csv.call
-
-      @records = parsed_records[:records]
-      @csv_parse_errors = parsed_records[:errors]
+    def initialize(csv_contents = nil)
+      @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
+      @records = []
+      @errors = []
     end
 
     def save
-      return false unless valid?
+      return { errors: @errors } unless valid_csv?
 
-      last_site_id = Site.last&.id || 0
-      last_policy_id = Policy.last&.id || 0
+      map_csv_content
 
-      sites_to_save = []
-      clients_to_save = []
-      fallback_policies_to_save = []
-      fallback_policy_responses_to_save = []
-      site_policies_to_save = []
+      return { errors: @errors } unless valid_records?
 
-      @records.each do |site|
-        last_site_id += 1
+      @records.each(&:save)
 
-        sites_to_save << { id: last_site_id, name: site.name, tag: site.name.parameterize(separator: "_"), policy_count: site.policies.to_a.count }
+      { errors: [] }
+    end
 
-        site.clients.each do |client|
-          client.valid?
-          clients_to_save << { ip_range: client.ip_range, shared_secret: client.shared_secret, site_id: last_site_id, radsec: client.radsec }
-        end
+    def valid_records?
+      validate_records
 
-        site.policies.each do |policy|
-          if policy.fallback?
-            last_policy_id += 1
-
-            fallback_policies_to_save << {
-              id: last_policy_id,
-              name: policy.name,
-              description: policy.description,
-              fallback: policy.fallback,
-              site_count: 1,
-            }
-
-            policy.responses.each do |response|
-              fallback_policy_responses_to_save << { policy_id: last_policy_id, response_attribute: response.response_attribute, value: response.value }
-            end
-
-            site_policies_to_save << { site_id: last_site_id, policy_id: last_policy_id }
-          else
-            site_policies_to_save << { site_id: last_site_id, policy_id: policy.id }
-          end
-        end
-      end
-
-      ActiveRecord::Base.transaction do
-        Site.insert_all(sites_to_save)
-        Client.insert_all(clients_to_save) if clients_to_save.any?
-        Policy.insert_all(fallback_policies_to_save)
-        PolicyResponse.insert_all(fallback_policy_responses_to_save) if fallback_policy_responses_to_save.any?
-        SitePolicy.insert_all(site_policies_to_save)
-      end
+      @errors.empty?
     end
 
   private
+    def remove_utf8_byte_order_mark(content)
+      return content[3..] if "\xEF\xBB\xBFA".force_encoding("ASCII-8BIT") == content[0..3]
 
-    def validate_csv_format
-      return unless @csv_parse_errors.present?
+      content
+    end
 
-      @csv_parse_errors.each do |error|
-        errors.add(:base, error)
+    def parsed_csv
+      @parsed_csv ||= CSV.parse(@csv_contents, skip_blanks: true, headers: true)
+    end
+
+    def map_csv_content
+      site_names = Site.pluck(:name)
+      eap_ip_ranges = Client.where(radsec: false).pluck(:ip_range)
+      radsec_ip_ranges = Client.where(radsec: true).pluck(:ip_range)
+
+      @records = parsed_csv.map do |row|
+        site_name = row["Site Name"]
+        eap_clients = row["EAP Clients"]
+        radsec_clients = row["RadSec Clients"]
+        policies = row["Policies"]
+        fallback_policy = row["Fallback Policy"]
+
+        record = CSVImport::Site.new(
+          name: site_name,
+        )
+
+        # record.policies << CSVImport::Policy.new(
+        #   name: "Fallback policy for #{site_name}",
+        #   description: "Default fallback policy for #{site_name}",
+        #   fallback: true,
+        # )
+
+        # unwrap_responses(fallback_policy).each do |fallback_policy_response|
+        #   record.policies.first.responses << fallback_policy_response
+        # end
+
+        # assign_policies(policies, all_policies, record, i + 1)
+
+        # map_clients(eap_clients, radsec_clients, record)
+
+        record
       end
+    end
+
+    def valid_csv?
+      return @errors << "CSV is missing" && false if @csv_contents.nil?
+      return @errors << "The CSV header is invalid" && false unless valid_header?
+      return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
+
+      @errors.empty?
+    end
+
+    def valid_header?
+      @csv_contents.to_s.lines.first&.strip == CSV_HEADERS
     end
 
     def validate_records
