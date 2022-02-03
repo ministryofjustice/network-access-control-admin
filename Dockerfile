@@ -1,4 +1,4 @@
-FROM ruby:3.0.2-alpine3.14
+FROM ruby:3.1.0-alpine3.14
 
 ARG UID=1001
 ARG GROUP=app
@@ -34,7 +34,7 @@ ENV LANG='C.UTF-8' \
   CLOUDWATCH_LINK=${CLOUDWATCH_LINK}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius
+  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius
 
 RUN groupadd -g $UID -o $GROUP && \
   useradd -m -u $UID -g $UID -o -s /bin/false $USER && \
