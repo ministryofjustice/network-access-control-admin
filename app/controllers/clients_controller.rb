@@ -78,7 +78,7 @@ private
     UseCases::PublishToS3.new(
       config_validator: UseCases::ConfigValidator.new(
         config_file_path: RadiusHelper::AUTHORISED_CLIENTS_PATH,
-        content: content,
+        content:,
       ),
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CONFIG_BUCKET_NAME"),

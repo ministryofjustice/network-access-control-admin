@@ -63,8 +63,8 @@ describe Rule, type: :model do
   it "perists the amount of rules when a policy is saved" do
     policy = create(:policy)
 
-    create(:rule, request_attribute: "User-Name", policy: policy)
-    create(:rule, request_attribute: "User-Password", policy: policy)
+    create(:rule, request_attribute: "User-Name", policy:)
+    create(:rule, request_attribute: "User-Password", policy:)
 
     expect(Rule.first.policy.rule_count).to eq(2)
   end
@@ -72,19 +72,19 @@ describe Rule, type: :model do
   it "validates the uniquness of request attribute per policy when creating" do
     policy = create(:policy)
 
-    rule = create(:rule, policy: policy, request_attribute: "User-Name", value: "Bob")
+    rule = create(:rule, policy:, request_attribute: "User-Name", value: "Bob")
 
     expect(rule).to be_truthy
 
-    duplicate_rule = build(:rule, policy: policy, request_attribute: "User-Name", value: "Bill")
+    duplicate_rule = build(:rule, policy:, request_attribute: "User-Name", value: "Bill")
     expect(duplicate_rule).to be_invalid
   end
 
   it "validates the uniqueness of the request attribute per policy when updating" do
     policy = create(:policy)
 
-    first_rule = create(:rule, policy: policy, request_attribute: "User-Name", value: "Bob")
-    create(:rule, policy: policy, request_attribute: "Class", value: "Something")
+    first_rule = create(:rule, policy:, request_attribute: "User-Name", value: "Bob")
+    create(:rule, policy:, request_attribute: "Class", value: "Something")
 
     expect(first_rule.update(request_attribute: "Class")).to be false
     expect(first_rule.errors.full_messages_for(:request_attribute)).to include("Request attribute has already been added")
@@ -96,7 +96,7 @@ describe Rule, type: :model do
   it "allows partial values for rules with contains" do
     policy = create(:policy)
 
-    rule = build(:rule, policy: policy, request_attribute: "Tunnel-Type", value: "VL", operator: "contains")
+    rule = build(:rule, policy:, request_attribute: "Tunnel-Type", value: "VL", operator: "contains")
     rule.validate
 
     expect(rule).to be_valid

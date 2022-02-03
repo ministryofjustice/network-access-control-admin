@@ -5,7 +5,7 @@ describe UseCases::ConfigValidator do
 
   context "with a valid configuration" do
     it "does not raise an error" do
-      expect { described_class.new(config_file_path: config_file_path, content: "").call }.to_not raise_error
+      expect { described_class.new(config_file_path:, content: "").call }.to_not raise_error
     end
   end
 
@@ -18,7 +18,7 @@ describe UseCases::ConfigValidator do
     after { $stderr = @orig_stderr }
 
     it "raises an error" do
-      expect { described_class.new(config_file_path: config_file_path, content: "something invalid").call }.to raise_error(SystemExit)
+      expect { described_class.new(config_file_path:, content: "something invalid").call }.to raise_error(SystemExit)
     end
   end
 end

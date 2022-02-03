@@ -91,7 +91,7 @@ class SitesController < ApplicationController
   def update_site_policies
     @site_policies.each do |site_policy|
       priority = site_policies_params.fetch(site_policy.id.to_s)
-      site_policy.update(priority: priority)
+      site_policy.update(priority:)
     end
 
     redirect_to site_path(@site), notice: "Successfully updated the order of site policies."

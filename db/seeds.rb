@@ -39,7 +39,7 @@ p "creating sites"
   site = Site.create!(name: "NEW test site #{s}")
   10.times do |c|
     Client.create!(
-      site: site,
+      site:,
       ip_range: "#{ip_range}/32",
       shared_secret: "secret#{s}#{c}",
       radsec: false,

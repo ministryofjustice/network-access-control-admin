@@ -2,8 +2,8 @@ require "rails_helper"
 
 describe Gateways::S3 do
   subject(:gateway) do
-    described_class.new(bucket: bucket, key: key,
-                        aws_config: aws_config, content_type: "application/json")
+    described_class.new(bucket:, key:,
+                        aws_config:, content_type: "application/json")
   end
 
   let(:bucket) { "StubBucket" }
@@ -24,7 +24,7 @@ describe Gateways::S3 do
   end
 
   it "writes the data to the S3 bucket" do
-    expect(gateway.write(data: data)).to eq({})
+    expect(gateway.write(data:)).to eq({})
   end
 
   it "removes the file from the S3 bucket" do

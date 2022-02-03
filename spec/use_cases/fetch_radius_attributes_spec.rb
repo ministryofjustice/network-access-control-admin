@@ -5,7 +5,7 @@ describe UseCases::FetchRadiusAttributes do
   subject(:use_case) do
     described_class.new(
       gateway: s3_gateway,
-      output: output,
+      output:,
     )
   end
 

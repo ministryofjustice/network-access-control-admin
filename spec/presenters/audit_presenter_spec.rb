@@ -11,7 +11,7 @@ describe AuditPresenter do
 
     it "appends the display name of the auditable presenter to the auditable type" do
       auditable = build_stubbed(:site, name: "Foobar")
-      audit = double(auditable_type: "Site", auditable: auditable)
+      audit = double(auditable_type: "Site", auditable:)
       presenter = AuditPresenter.new(audit)
 
       expect(presenter.name).to eq("Site (Foobar)")

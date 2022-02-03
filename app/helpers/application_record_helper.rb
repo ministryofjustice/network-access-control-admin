@@ -6,7 +6,7 @@ module ApplicationRecordHelper
   def validate_radius_attribute(attribute, value, operator = nil)
     return if attribute.blank? || errors.key?(attribute.to_sym)
 
-    result = UseCases::ValidateRadiusAttribute.new.call(attribute: attribute, value: value, operator: operator)
+    result = UseCases::ValidateRadiusAttribute.new.call(attribute:, value:, operator:)
 
     unless result.fetch(:success)
       errors.add(:base, result.fetch(:message))

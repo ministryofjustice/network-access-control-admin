@@ -25,7 +25,7 @@ describe "delete clients", type: :feature do
 
     context "when there is an existing site with a client" do
       let!(:site) { create(:site) }
-      let!(:client) { create(:client, site: site) }
+      let!(:client) { create(:client, site:) }
       let(:publish_to_s3) { instance_double(UseCases::PublishToS3) }
       let(:s3_gateway) { double(Gateways::S3) }
       let(:config_validator) { double(UseCases::ConfigValidator) }
@@ -46,7 +46,7 @@ describe "delete clients", type: :feature do
         expect(UseCases::ConfigValidator).to receive(:new).and_return(config_validator)
         expect(UseCases::PublishToS3).to receive(:new).with(
           destination_gateway: s3_gateway,
-          config_validator: config_validator,
+          config_validator:,
         ).and_return(publish_to_s3)
 
         visit "/sites/#{site.id}"

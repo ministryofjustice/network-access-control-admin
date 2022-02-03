@@ -41,7 +41,7 @@ class PoliciesController < ApplicationController
     authorize! :destroy, @policy
     if confirmed?
       if @policy.destroy
-        SitePolicy.where(policy_id: policy_id).delete_all
+        SitePolicy.where(policy_id:).delete_all
         redirect_to policies_path, notice: "Successfully deleted policy. "
       else
         redirect_to policy_path(@policy), error: "Failed to delete the policy"

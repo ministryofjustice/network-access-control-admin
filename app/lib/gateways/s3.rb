@@ -10,24 +10,24 @@ module Gateways
     def write(data:)
       client.put_object(
         body: data,
-        bucket: bucket,
-        key: key,
-        content_type: content_type,
+        bucket:,
+        key:,
+        content_type:,
       )
 
       {}
     end
 
     def read(file = key, target = nil)
-      client.get_object({ bucket: bucket, key: file }, target: target)
+      client.get_object({ bucket:, key: file }, target:)
     end
 
     def remove
-      client.delete_object(bucket: bucket, key: key).to_h
+      client.delete_object(bucket:, key:).to_h
     end
 
     def list_object_keys(prefix, max_keys = 1000)
-      client.list_objects_v2(bucket: bucket, max_keys: max_keys, prefix: prefix)
+      client.list_objects_v2(bucket:, max_keys:, prefix:)
     end
 
   private

@@ -59,10 +59,10 @@ module UseCases
         end
 
         record = MacAuthenticationBypass.new(
-          name: name,
-          address: address,
-          description: description,
-          site: site,
+          name:,
+          address:,
+          description:,
+          site:,
         )
 
         unwrap_responses(responses).each do |response|
@@ -120,7 +120,7 @@ module UseCases
     def unwrap_responses(responses)
       responses.to_s.split(";").map do |r|
         response_attribute, value = r.split("=")
-        MabResponse.new(response_attribute: response_attribute, value: value)
+        MabResponse.new(response_attribute:, value:)
       end
     end
 

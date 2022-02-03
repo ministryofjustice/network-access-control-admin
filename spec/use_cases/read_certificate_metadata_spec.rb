@@ -6,7 +6,7 @@ describe UseCases::ReadCertificateMetadata do
 
     subject(:use_case) do
       described_class.new(
-        certificate: certificate,
+        certificate:,
       )
     end
 
