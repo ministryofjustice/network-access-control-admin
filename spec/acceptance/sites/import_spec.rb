@@ -19,7 +19,7 @@ describe "Import Sites with Clients", type: :feature do
 
       expect(page).not_to have_content "Import sites with clients"
 
-      visit "/sites_import/new"
+      visit "/sites_imports/new"
 
       expect(page).to have_content "You are not authorized to access this page."
     end
@@ -44,7 +44,7 @@ describe "Import Sites with Clients", type: :feature do
 
       click_on "Import sites with clients"
 
-      expect(current_path).to eql("/sites_import/new")
+      expect(current_path).to eql("/sites_imports/new")
 
       attach_file("csv_file", "spec/fixtures/sites_csv/valid.csv")
       click_on "Upload"
@@ -52,7 +52,6 @@ describe "Import Sites with Clients", type: :feature do
       expect(Delayed::Job.last.handler).to match(/job_class: SitesWithClientsImportJob/)
       expect(Delayed::Job.count).to eq(1)
       Delayed::Worker.new.work_off
-      byebug
       expect(Delayed::Job.count).to eq(0)
 
       expect(page).to have_text("Import in progress.. Click here to refresh.")
@@ -63,8 +62,6 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("CSV Successfully imported")
 
       visit "/sites"
-
-      expect(page).to have_content("Successfully imported sites with clients")
 
       expect(page).to have_content("Site 1")
       expect(page).to have_content("Site 2")
@@ -106,22 +103,54 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("Fallback policy for Site 3")
     end
 
-    xit "can upload CRLF file format" do
-      visit "/sites_import/new"
+    it "can upload CRLF file format" do
+      visit "/sites_imports/new"
 
       attach_file("csv_file", "spec/fixtures/sites_csv/valid_crlf.csv")
       click_on "Upload"
 
-      expect(page).to have_content("Successfully imported sites with clients")
+      expect(page).to have_content("Importing sites with clients")
+
+      Delayed::Worker.new.work_off
+
+      visit "/sites"
+
+      expect(page).to have_content("Site 1")
     end
 
-    xit "can upload a UTF8_BOM file (Windows support)" do
-      visit "/sites_import/new"
+    it "can upload a UTF8_BOM file (Windows support)" do
+      visit "/sites_imports/new"
 
       attach_file("csv_file", "spec/fixtures/sites_csv/valid_utf8_bom.csv")
       click_on "Upload"
 
-      expect(page).to have_content("Successfully imported sites with clients")
+      expect(page).to have_content("Importing sites with clients")
+
+      Delayed::Worker.new.work_off
+
+      visit "/sites"
+
+      expect(page).to have_content("Site 1")
+    end
+
+    it "shows errors when the CSV is invalid" do
+      visit "/sites"
+
+      click_on "Import sites with clients"
+
+      attach_file("csv_file", "spec/fixtures/sites_csv/invalid.csv")
+      click_on "Upload"
+
+      expect(current_path).to eql(sites_import_path(CsvImportResult.first.id))
+
+      Delayed::Worker.new.work_off
+
+      click_on "here"
+
+      expect(page).to have_content("There is a problem")
+
+      expect(page).to have_content("Duplicate Site name \"Site 1\" found in CSV")
+      expect(page).to have_content("Overlapping EAP Clients IP ranges \"127.1.1.1\" - \"127.1.1.1\"")
     end
   end
 end

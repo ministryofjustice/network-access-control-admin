@@ -10,7 +10,7 @@ class Ability
       Certificate,
       MacAuthenticationBypass,
       UseCases::CSVImport::MacAuthenticationBypasses,
-      CSVImport::SitesWithClients,
+      UseCases::CSVImport::SitesWithClients,
       Client,
     ]
 
@@ -23,7 +23,7 @@ class Ability
         Certificate,
         MacAuthenticationBypass,
         UseCases::CSVImport::MacAuthenticationBypasses,
-        CSVImport::SitesWithClients,
+        UseCases::CSVImport::SitesWithClients,
         Client,
       ]
     end

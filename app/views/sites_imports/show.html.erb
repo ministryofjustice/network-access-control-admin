@@ -1,0 +1,21 @@
+<h2 class="govuk-heading-l">Import sites and clients</h2>
+<p class="govuk-body">
+  <% if @csv_import_result.completed_at.present? %>
+    <% if @csv_import_result.import_errors.present? %>
+      <div class="govuk-error-summary" id="error-summary">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <% @csv_import_result.import_errors.split(",").each do |error| %>
+              <li id="error-message"><%= error %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% else %>
+        CSV Successfully imported
+    <% end %>
+  <% else %>
+      Import in progress.. Click <%= link_to "here", sites_import_path(@csv_import_result), class: "govuk-link" %> to refresh.
+  <% end %>
+</p>
