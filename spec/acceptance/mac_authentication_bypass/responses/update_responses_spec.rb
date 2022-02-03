@@ -22,7 +22,7 @@ describe "logged out response update attempt", type: :feature do
 
     expect(page).to have_content("Response attribute has already been added")
 
-    Timecop.travel(6.minutes.from_now)
+    Timecop.travel(11.minutes.from_now)
 
     click_on "Create"
 
