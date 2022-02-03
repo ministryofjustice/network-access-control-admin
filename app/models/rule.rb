@@ -18,7 +18,7 @@ private
   def validate_uniqueness_of_request_attribute
     return if request_attribute.blank? || policy.nil?
 
-    matching_attribute = policy.rules.where(request_attribute: request_attribute).first
+    matching_attribute = policy.rules.where(request_attribute:).first
 
     errors.add(:request_attribute, "has already been added") if matching_attribute && matching_attribute.id != id
   end

@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe UseCases::GenerateAuthorisedMacs do
   subject(:result) do
-    described_class.new.call(mac_authentication_bypasses: mac_authentication_bypasses)
+    described_class.new.call(mac_authentication_bypasses:)
   end
 
   describe "#call" do
@@ -27,8 +27,8 @@ describe UseCases::GenerateAuthorisedMacs do
         let!(:second_mac_authentication_bypass) { create(:mac_authentication_bypass, address: "bb-cc-00-11-22-33") }
 
         before do
-          create(:mab_response, mac_authentication_bypass: mac_authentication_bypass, response_attribute: "Tunnel-Medium-Type", value: "IEEE-802")
-          create(:mab_response, mac_authentication_bypass: mac_authentication_bypass, response_attribute: "Tunnel-Private-Group-Id", value: "123456")
+          create(:mab_response, mac_authentication_bypass:, response_attribute: "Tunnel-Medium-Type", value: "IEEE-802")
+          create(:mab_response, mac_authentication_bypass:, response_attribute: "Tunnel-Private-Group-Id", value: "123456")
 
           create(:mab_response, mac_authentication_bypass: second_mac_authentication_bypass, response_attribute: "Tunnel-Medium-Type", value: "IEEE-802")
           create(:mab_response, mac_authentication_bypass: second_mac_authentication_bypass, response_attribute: "Tunnel-Private-Group-Id", value: "123456")

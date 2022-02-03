@@ -30,12 +30,12 @@ RSpec.describe OmniAuth::Strategies::Cognito do
       end
     end
 
-    let(:oauth_client) { double("OAuth2::Client", auth_code: auth_code) }
+    let(:oauth_client) { double("OAuth2::Client", auth_code:) }
     let(:auth_code) { double("OAuth2::AuthCode", get_token: access_token_object) }
     let(:access_token_object) { double("OAuth2::AccessToken") }
     let(:callback_url) { "http://localhost/auth/cognito/callback?code=1234" }
 
-    let(:request) { double("Rack::Request", params: params) }
+    let(:request) { double("Rack::Request", params:) }
     let(:params) { { "code" => "12345" } }
 
     it "does not send the query part of the request URL as callback URL" do
@@ -57,7 +57,7 @@ RSpec.describe OmniAuth::Strategies::Cognito do
     let(:env) { {} }
     let(:request) { double("Rack::Request", params: { "state" => strategy.session["omniauth.state"] }) }
     let(:session) { { "omniauth.state" => "some_state" } }
-    let(:oauth_client) { double("OAuth2::Client", auth_code: auth_code) }
+    let(:oauth_client) { double("OAuth2::Client", auth_code:) }
     let(:auth_code) { double("OAuth2::AuthCode") }
     let(:access_token_object) { OAuth2::AccessToken.from_hash(oauth_client, token_hash) }
 

@@ -34,7 +34,7 @@ describe "create clients", type: :feature do
 
         expect(UseCases::PublishToS3).to receive(:new).with(
           destination_gateway: s3_gateway,
-          config_validator: config_validator,
+          config_validator:,
         ).and_return(publish_to_s3)
 
         visit "/sites/#{site.id}"
@@ -73,7 +73,7 @@ clients radsec {
 
         expect(UseCases::PublishToS3).to receive(:new).with(
           destination_gateway: s3_gateway,
-          config_validator: config_validator,
+          config_validator:,
         ).and_return(publish_to_s3)
 
         expect_service_deployment

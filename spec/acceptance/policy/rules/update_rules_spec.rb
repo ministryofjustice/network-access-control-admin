@@ -2,8 +2,8 @@ require "rails_helper"
 
 describe "update rules", type: :feature do
   let(:policy) { create(:policy) }
-  let(:rule) { create(:rule, policy: policy) }
-  let(:custom_rule) { create(:rule, request_attribute: "3Com-User-Access-Level", value: "3Com-Administrator", policy: policy) }
+  let(:rule) { create(:rule, policy:) }
+  let(:custom_rule) { create(:rule, request_attribute: "3Com-User-Access-Level", value: "3Com-Administrator", policy:) }
 
   context "when the user is unauthenticated" do
     it "does not allow updating rules" do

@@ -88,7 +88,7 @@ private
     UseCases::PublishToS3.new(
       config_validator: UseCases::ConfigValidator.new(
         config_file_path: "/etc/raddb/certs/#{@certificate.filename}",
-        content: content,
+        content:,
       ),
       destination_gateway: Gateways::S3.new(
         bucket: ENV.fetch("RADIUS_CERTIFICATE_BUCKET_NAME"),

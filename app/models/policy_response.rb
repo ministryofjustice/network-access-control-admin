@@ -8,7 +8,7 @@ private
   def validate_uniqueness_of_response_attribute
     return if response_attribute.blank? || policy.nil?
 
-    matching_attribute = policy.responses.where(response_attribute: response_attribute).first
+    matching_attribute = policy.responses.where(response_attribute:).first
 
     errors.add(:response_attribute, "has already been added") if matching_attribute && matching_attribute.id != id
   end

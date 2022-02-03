@@ -27,7 +27,7 @@ private
   def validate_ip_range_overlap
     return if ip_range.blank? || errors[:ip_range].any?
 
-    existing_clients = id.present? ? Client.where.not(id: id) : Client.all
+    existing_clients = id.present? ? Client.where.not(id:) : Client.all
     existing_clients.each do |client|
       next unless IP::CIDR.new(ip_range).overlaps?(IP::CIDR.new(client.ip_range)) && radsec == client.radsec
 

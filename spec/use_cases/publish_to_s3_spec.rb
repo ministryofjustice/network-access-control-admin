@@ -14,7 +14,7 @@ describe UseCases::PublishToS3 do
   let(:s3_gateway) { instance_spy(Gateways::S3) }
   let(:config) { "some file contents" }
 
-  subject(:use_case) { described_class.new(destination_gateway: s3_gateway, config_validator: config_validator) }
+  subject(:use_case) { described_class.new(destination_gateway: s3_gateway, config_validator:) }
 
   context "with a valid configuration" do
     let(:config_validator) { FakeValidConfigValidator.new(config_file_path: "/something", contents: "stub") }

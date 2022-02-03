@@ -58,19 +58,19 @@ describe PolicyResponse, type: :model do
   it "validates the uniquness of response attribute per policy when creating" do
     policy = create(:policy)
 
-    policy_response = create(:policy_response, policy: policy, response_attribute: "User-Name", value: "Bob")
+    policy_response = create(:policy_response, policy:, response_attribute: "User-Name", value: "Bob")
 
     expect(policy_response).to be_truthy
 
-    duplicate_policy_response = build(:policy_response, policy: policy, response_attribute: "User-Name", value: "Bill")
+    duplicate_policy_response = build(:policy_response, policy:, response_attribute: "User-Name", value: "Bill")
     expect(duplicate_policy_response).to be_invalid
   end
 
   it "validates the uniqueness of the response attribute per policy when updating" do
     policy = create(:policy)
 
-    first_policy_response = create(:policy_response, policy: policy, response_attribute: "User-Name", value: "Bob")
-    create(:policy_response, policy: policy, response_attribute: "Class", value: "Something")
+    first_policy_response = create(:policy_response, policy:, response_attribute: "User-Name", value: "Bob")
+    create(:policy_response, policy:, response_attribute: "Class", value: "Something")
 
     expect(first_policy_response.update(response_attribute: "Class")).to be false
     expect(first_policy_response.errors.full_messages_for(:response_attribute)).to include("Response attribute has already been added")

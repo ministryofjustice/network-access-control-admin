@@ -17,9 +17,9 @@ module DeploymentFeatureHelpers
     }
 
     expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config).and_return(ecs_gateway)
-    expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
+    expect(UseCases::DeployService).to receive(:new).with(ecs_gateway:).and_return(deploy_service)
 
     expect(Gateways::Ecs).to receive(:new).with(expected_ecs_gateway_config_internal).and_return(ecs_gateway)
-    expect(UseCases::DeployService).to receive(:new).with(ecs_gateway: ecs_gateway).and_return(deploy_service)
+    expect(UseCases::DeployService).to receive(:new).with(ecs_gateway:).and_return(deploy_service)
   end
 end

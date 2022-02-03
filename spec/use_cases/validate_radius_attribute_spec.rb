@@ -60,12 +60,12 @@ private
 
       if value.is_a?(Array)
         value.each do |list_value|
-          result = subject.call(attribute: attribute.fetch(:key), value: list_value, operator: operator)
-          expect(result).to eq({ success: success, message: message })
+          result = subject.call(attribute: attribute.fetch(:key), value: list_value, operator:)
+          expect(result).to eq({ success:, message: })
         end
       else
-        result = subject.call(attribute: attribute.fetch(:key), value: value, operator: operator)
-        expect(result).to eq({ success: success, message: message })
+        result = subject.call(attribute: attribute.fetch(:key), value:, operator:)
+        expect(result).to eq({ success:, message: })
       end
     end
   end

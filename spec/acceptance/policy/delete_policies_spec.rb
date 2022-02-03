@@ -41,7 +41,7 @@ describe "delete policies", type: :feature do
 
     context "When a policy has rules" do
       before do
-        create(:rule, policy: policy)
+        create(:rule, policy:)
       end
 
       it "can delete the policy and the rules" do

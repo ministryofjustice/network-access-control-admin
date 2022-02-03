@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe UseCases::GenerateAuthorisedClients do
   subject(:result) do
-    described_class.new.call(clients: clients, radsec_clients: radsec_clients)
+    described_class.new.call(clients:, radsec_clients:)
   end
 
   describe "#call" do
