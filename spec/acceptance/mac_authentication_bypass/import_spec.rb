@@ -150,15 +150,21 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("some test1")
     end
 
-    xit "shows errors when the CSV is invalid" do
+    it "shows errors when the CSV is invalid" do
       visit "/mac_authentication_bypasses"
 
       click_on "Import bypasses"
 
-      expect(current_path).to eql("/mac_authentication_bypasses_imports/new")
+      expect(current_path).to eql(new_mac_authentication_bypasses_import_path)
 
       attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/invalid.csv")
       click_on "Upload"
+
+      expect(current_path).to eql(mac_authentication_bypasses_import_path(CsvImportResult.first.id))
+
+      Delayed::Worker.new.work_off
+
+      click_on "here"
 
       expect(page).to_not have_content("Valid Printer")
 
