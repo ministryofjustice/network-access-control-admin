@@ -1,5 +1,6 @@
 class MacAuthenticationBypassesImportsController < ApplicationController
-  before_action :set_crumbs, only: %i[new show]
+  before_action :set_bypasses_crumbs, only: %i[new show]
+  before_action :set_bypasses_imports_crumbs, only: %i[show]
 
   def new
     @mac_authentication_bypasses_import = UseCases::CSVImport::MacAuthenticationBypasses.new
@@ -22,8 +23,12 @@ class MacAuthenticationBypassesImportsController < ApplicationController
 
 private
 
-  def set_crumbs
+  def set_bypasses_crumbs
     @navigation_crumbs << ["MAC Authentication Bypasses", mac_authentication_bypasses_path]
+  end
+
+  def set_bypasses_imports_crumbs
+    @navigation_crumbs << ["MAC Authentication Bypasses Imports", new_mac_authentication_bypasses_import_path]
   end
 
   def mac_authentication_bypasses_import_params
