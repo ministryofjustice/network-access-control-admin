@@ -19,24 +19,30 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       result = Site.find_by_name("Petty France")
       expect(result.id).to_not be_nil
       expect(result.tag).to eq("petty_france")
-      expect(result.clients.first.ip_range).to eq("128.0.0.1/32")
-      expect(result.clients.last.ip_range).to eq("128.0.0.1/32")
 
-      expect(result.policy_count).to eq(3)
       expect(result.policies.count).to eq(3)
+      expect(result.policy_count).to eq(result.policies.count)
+
       expect(result.fallback_policy.name).to eq("Fallback policy for Petty France")
       expect(result.fallback_policy.responses.first.response_attribute).to eq("Dlink-VLAN-ID")
       expect(result.fallback_policy.responses.first.value).to eq("888")
       expect(result.fallback_policy.responses.second.response_attribute).to eq("Reply-Message")
       expect(result.fallback_policy.responses.second.value).to eq("hi")
 
-      result.clients.each do |client|
-        expect(client.id).to_not be_nil
-      end
-
       expect(result.policies.first.name).to eq("Test Policy 1")
       expect(result.policies.second.name).to eq("Test Policy 2")
       expect(result.policies.third.name).to eq("Fallback policy for Petty France")
+
+      expect(result.clients.first.radsec).to be_falsey
+      expect(result.clients.first.ip_range).to eq("128.0.0.1/32")
+      expect(result.clients.second.radsec).to be_falsey
+      expect(result.clients.second.ip_range).to eq("10.0.0.1/32")
+      expect(result.clients.last.radsec).to be_truthy
+      expect(result.clients.last.ip_range).to eq("128.0.0.1/32")
+
+      result.clients.each do |client|
+        expect(client.id).to_not be_nil
+      end
     end
   end
 
@@ -46,16 +52,12 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
 Petty France,,,,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+    before do
+      subject.save
+    end
 
     it "creates valid sites and fallback policies" do
-      expect(subject).to be_valid
-      expect(subject.errors).to be_empty
-      expect(subject.records.count).to be(1)
-
-      expect(subject.save).to be_truthy
-
-      saved_site = Site.last
+      saved_site = Site.find_by_name("Petty France")
 
       expect(saved_site.id).to_not be_nil
       expect(saved_site.tag).to eq("petty_france")
@@ -76,16 +78,12 @@ Petty France,,,,Dlink-VLAN-ID=888;Reply-Message=hi"
 Petty France,128.0.0.1,,,"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
+    before do
+      subject.save
+    end
 
     it "creates valid sites and fallback policies with no responses" do
-      expect(subject).to be_valid
-      expect(subject.errors).to be_empty
-      expect(subject.records.count).to be(1)
-
-      expect(subject.save).to be_truthy
-
-      saved_site = Site.last
+      saved_site = Site.find_by_name("Petty France")
 
       expect(saved_site.id).to_not be_nil
       expect(saved_site.tag).to eq("petty_france")
@@ -97,19 +95,13 @@ Petty France,128.0.0.1,,,"
     end
   end
 
-  context "when CSV parser return errors" do
-    let(:file_contents) { "INVALID" }
-    let(:parse_sites_with_clients) { instance_double(UseCases::CSVImport::ParseSitesWithClients) }
-
-    before do
-      allow(parse_sites_with_clients).to receive(:call).and_return({ errors: ["Some CSV parse error"] })
-    end
+  context "csv with invalid header" do
+    let(:file_contents) { "INVALID HEADER" }
 
     it "records the validation errors" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
-          "Some CSV parse error",
+          "The CSV header is invalid",
         ],
       )
     end
@@ -121,18 +113,17 @@ Petty France,128.0.0.1,,,"
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
     before do
       create(:site, name: "Petty France")
       create(:policy, name: "Test Policy 1")
     end
 
     it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
           "Error on row 2: Site Name has already been taken",
+          "Error on row 2: Site Policies is invalid",
+          "Error on row 2: Fallback Policy Name has already been taken",
         ],
       )
     end
@@ -144,17 +135,15 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
     before do
       create(:client, ip_range: "128.0.0.1", site: create(:site, name: "Some Site Name"))
       create(:policy, name: "Test Policy 1")
     end
 
     it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
+          "Error on row 2: Site Clients is invalid",
           "Error on row 2: Client Ip range has already been taken",
         ],
       )
@@ -167,18 +156,16 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
     before do
       create(:client, ip_range: "128.0.0.1/16", site: create(:site, name: "Some Site Name"))
       create(:policy, name: "Test Policy 1")
     end
 
     it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
-          "Error on row 2: IP overlaps with another IP range - 128.0.0.1/32",
+          "Error on row 2: Site Clients is invalid",
+          "Error on row 2: Client Ip range IP overlaps with Some Site Name - 128.0.0.1/16",
         ],
       )
     end
@@ -190,11 +177,8 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
   Petty France,,,,Invalid-Attribute=888"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
     it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
           "Error on row 2: Site Policies is invalid",
           "Error on row 2: Fallback Policy Responses is invalid",
@@ -211,13 +195,10 @@ Petty France,,,,
 Petty France,,,,"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
     it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
-          "Error on row 3: Site Name has already been taken",
+          "Duplicate Site name \"Petty France\" found in CSV",
         ],
       )
     end
@@ -231,14 +212,11 @@ Site with same IP twice,128.0.0.2;128.0.0.2,128.0.0.3,,
 Site with duplicate ip,128.0.0.1,128.0.0.4,,"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
     it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
-          "Error on row 3: Client Ip range has already been taken",
-          "Error on row 4: Client Ip range has already been taken",
+          "Overlapping EAP Clients IP ranges \"128.0.0.1\" - \"128.0.0.1\" found in CSV",
+          "Overlapping EAP Clients IP ranges \"128.0.0.2\" - \"128.0.0.2\" found in CSV",
         ],
       )
     end
@@ -252,14 +230,11 @@ Site with same IP twice,128.0.0.2,128.0.0.2;128.0.0.2,,
 Site with duplicate ip,128.0.0.3,128.0.0.1,,"
     end
 
-    let(:parse_sites_with_clients) { UseCases::CSVImport::ParseSitesWithClients.new(file_contents) }
-
     it "show a validation error" do
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq(
+      expect(subject.save.fetch(:errors)).to eq(
         [
-          "Error on row 3: Client Ip range has already been taken",
-          "Error on row 4: Client Ip range has already been taken",
+          "Overlapping RadSec Clients IP ranges \"128.0.0.1\" - \"128.0.0.1\" found in CSV",
+          "Overlapping RadSec Clients IP ranges \"128.0.0.2\" - \"128.0.0.2\" found in CSV",
         ],
       )
     end
