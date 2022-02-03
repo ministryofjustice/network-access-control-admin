@@ -3,11 +3,13 @@ class MacAuthenticationBypassImportJob < ActiveJob::Base
     result = UseCases::CSVImport::MacAuthenticationBypasses.new(contents).save
 
     if result.fetch(:errors).any?
-      csv_import_result.update_attributes(import_errors: errors)
+      csv_import_result.update!(import_errors: result.fetch(:errors).join(","))
     else
       publish_authorised_macs
       deploy_service
     end
+
+    csv_import_result.update!(completed_at: Time.now)
   end
 
 private
