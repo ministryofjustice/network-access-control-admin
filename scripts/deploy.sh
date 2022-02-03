@@ -15,18 +15,20 @@ assume_deploy_role() {
 }
 
 deploy() {
-  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${TERRAFORM_OUTPUTS}" )
-  service_name=$( jq -r '.admin.ecs.service_name' <<< "${TERRAFORM_OUTPUTS}" )
-
   aws ecs update-service \
-    --cluster $cluster_name \
-    --service $service_name \
+    --cluster $1 \
+    --service $2 \
     --force-new-deployment
 }
 
 main() {
+  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${TERRAFORM_OUTPUTS}" )
+  service_name=$( jq -r '.admin.ecs.service_name' <<< "${TERRAFORM_OUTPUTS}" )
+  backrgound_service_name=$( jq -r '.admin.ecs.background_worker_service_name' <<< "${TERRAFORM_OUTPUTS}" )
+
   assume_deploy_role
-  deploy
+  deploy $cluster_name $service_name
+  deploy $cluster_name $backrgound_service_name
 }
 
 main
