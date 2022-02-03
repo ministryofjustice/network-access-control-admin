@@ -104,9 +104,8 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("SG-Tunnel-Id")
       expect(page).to have_content("999")
 
-      # revisit
-      expect_audit_log_entry_for("System", "create", "Mac authentication bypass")
-      expect_audit_log_entry_for("System", "create", "Response")
+      expect_audit_log_entry_for(editor.email, "create", "Mac authentication bypass")
+      expect_audit_log_entry_for(editor.email, "create", "Response")
     end
 
     it "can upload CRLF file format" do
