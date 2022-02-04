@@ -1,25 +1,13 @@
 module UseCases
   require "csv"
 
-  class CSVImport::SitesWithClients
+  class CSVImport::SitesWithClients < CSVImport::Base
     CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
 
     def initialize(csv_contents = nil)
       @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
       @records = []
       @errors = []
-    end
-
-    def save
-      return { errors: @errors } unless valid_csv?
-
-      map_csv_content
-
-      return { errors: @errors } unless valid_records?
-
-      @records.each(&:save)
-
-      { errors: [] }
     end
 
     def valid_records?
@@ -29,16 +17,6 @@ module UseCases
     end
 
   private
-
-    def remove_utf8_byte_order_mark(content)
-      return content[3..].force_encoding("UTF-8") if content[0..3].include?("\xEF\xBB\xBF".force_encoding("ASCII-8BIT"))
-
-      content.force_encoding("UTF-8")
-    end
-
-    def parsed_csv
-      @parsed_csv ||= CSV.parse(@csv_contents, skip_blanks: true, headers: true)
-    end
 
     def map_csv_content
       @records = parsed_csv.map.with_index(1) do |row, i|
@@ -71,17 +49,13 @@ module UseCases
 
     def valid_csv?
       return @errors << "CSV is missing" && false if @csv_contents.nil?
-      return @errors << "The CSV header is invalid" && false unless valid_header?
+      return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicate_site_names_in_csv
       check_for_ip_range_overlap
 
       @errors.empty?
-    end
-
-    def valid_header?
-      @csv_contents.to_s.lines.first&.strip == CSV_HEADERS
     end
 
     def validate_records
@@ -123,13 +97,6 @@ module UseCases
         else
           @errors << "Error on row #{row}: Policy #{policy_name} is not found"
         end
-      end
-    end
-
-    def unwrap_responses(fallback_policy_responses)
-      fallback_policy_responses.to_s.split(";").map do |r|
-        response_attribute, value = r.split("=")
-        Response.new(response_attribute:, value:)
       end
     end
 

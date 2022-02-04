@@ -1,7 +1,7 @@
 module UseCases
   require "csv"
 
-  class CSVImport::MacAuthenticationBypasses
+  class CSVImport::MacAuthenticationBypasses < CSVImport::Base
     CSV_HEADERS = "Address,Name,Description,Responses,Site".freeze
 
     def initialize(csv_contents = nil)
@@ -9,18 +9,6 @@ module UseCases
       @records = []
       @errors = []
       @sites_not_found = []
-    end
-
-    def save
-      return { errors: @errors } unless valid_csv?
-
-      map_csv_content
-
-      return { errors: @errors } unless valid_records?
-
-      @records.each(&:save)
-
-      { errors: [] }
     end
 
     def valid_records?
@@ -31,16 +19,6 @@ module UseCases
     end
 
   private
-
-    def remove_utf8_byte_order_mark(content)
-      return content[3..] if "\xEF\xBB\xBFA".force_encoding("ASCII-8BIT") == content[0..3]
-
-      content
-    end
-
-    def parsed_csv
-      @parsed_csv ||= CSV.parse(@csv_contents, skip_blanks: true, headers: true)
-    end
 
     def map_csv_content
       all_sites = Site.all
@@ -87,7 +65,7 @@ module UseCases
 
     def valid_csv?
       return @errors << "CSV is missing" && false if @csv_contents.nil?
-      return @errors << "The CSV header is invalid" && false unless valid_header?
+      return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicates_in_csv
@@ -117,15 +95,6 @@ module UseCases
       end
     end
 
-    def unwrap_responses(responses)
-      responses.to_s.split(";").map do |r|
-        response_attribute, value = r.split("=")
-        MabResponse.new(response_attribute:, value:)
-      end
-    end
 
-    def valid_header?
-      @csv_contents.to_s.lines.first&.strip == CSV_HEADERS
-    end
   end
 end
