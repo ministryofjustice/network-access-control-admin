@@ -1,4 +1,6 @@
 class Client < ApplicationRecord
+  include ApplicationRecordHelper
+
   SHARED_SECRET_BYTES = 10
   RADSEC_SHARED_SECRET = "radsec".freeze
 
@@ -16,12 +18,11 @@ private
   def validate_ip
     return if ip_range.blank?
 
-    unless IPAddress.valid_ipv4_subnet?(ip_range) || IPAddress.valid_ipv4?(ip_range)
+    unless valid_ip_range?(ip_range)
       return errors.add(:ip_range, "is invalid")
     end
 
-    ip = IPAddress::IPv4.new(ip_range)
-    self.ip_range = "#{ip}/#{ip.prefix}"
+    self.ip_range = format_ip_range(ip_range)
   end
 
   def validate_ip_range_overlap

@@ -2,6 +2,8 @@ module UseCases
   require "csv"
 
   class CSVImport::SitesWithClients < CSVImport::Base
+    include ApplicationRecordHelper
+
     CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
 
     def valid_records?
@@ -133,18 +135,13 @@ module UseCases
       ip_ranges.each do |ip_range_a|
         ip_ranges.each_with_index do |ip_range_b, i|
           next if i == ip_ranges.index(ip_range_a)
-          next unless IPAddress.valid_ipv4_subnet?(ip_range_b) || IPAddress.valid_ipv4?(ip_range_b)
+          next unless valid_ip_range?(ip_range_b)
           next unless IP::CIDR.new(format_ip_range(ip_range_a)).overlaps?(IP::CIDR.new(format_ip_range(ip_range_b)))
 
           ip_ranges.delete(ip_range_a)
           @errors << "Overlapping #{clients} IP ranges \"#{ip_range_a}\" - \"#{ip_range_b}\" found in CSV"
         end
       end
-    end
-
-    def format_ip_range(ip_range)
-      ip = IPAddress::IPv4.new(ip_range)
-      "#{ip}/#{ip.prefix}"
     end
   end
 end
