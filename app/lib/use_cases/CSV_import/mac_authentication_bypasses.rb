@@ -63,6 +63,7 @@ module UseCases
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicates_in_csv
+      check_for_duplicate_response_attributes("Responses")
 
       @errors.empty?
     end

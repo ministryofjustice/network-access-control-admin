@@ -159,4 +159,21 @@ aa-bb-cc-dd-ee-cc,Printer2,some test2,SG-Tunnel-Id=888"
       )
     end
   end
+
+  context "when there are duplicate response attributes in CSV" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
+aa-bb-cc-dd-ee-ff,Printer1,some test,Reply-Message=Hello to you;Reply-Message=Hello to you,
+cc-bb-cc-dd-ee-ff,Printer3,some test,Reply-Message=Hello to you;Reply-Message=Hello to you,"
+    end
+
+    it "show a validation error" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "Error on row 1: Duplicate response attribute \"Reply-Message\" found in CSV",
+          "Error on row 2: Duplicate response attribute \"Reply-Message\" found in CSV",
+        ],
+      )
+    end
+  end
 end
