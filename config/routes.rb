@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :clients, except: %i[index show]
   end
 
-  resources :sites_import
+  resources :sites_imports
 
   get "/sites/:id/policies", to: "sites#site_policies", as: "site_policies"
   post "/sites/:id/policies", to: "sites#attach_site_policies", as: "attach_site_policies"

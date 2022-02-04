@@ -8,11 +8,11 @@ class SitePolicy < ApplicationRecord
   audited
 
   def update_site_count
-    policy.update_attribute(:site_count, policy.sites.count)
+    policy.update_attribute(:site_count, policy.reload.sites.count)
   end
 
   def update_policy_count
-    site.update_attribute(:policy_count, site.policies.count)
+    site.update_attribute(:policy_count, site.reload.policies.count)
   end
 
   def destroy_fallback_policy

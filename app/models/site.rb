@@ -25,6 +25,8 @@ private
   end
 
   def create_fallback_policy
+    return if policies.detect(&:fallback)
+
     fallback_policy =
       Policy.new(
         name: "Fallback policy for #{name}",
