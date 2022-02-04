@@ -4,12 +4,6 @@ module UseCases
   class CSVImport::SitesWithClients < CSVImport::Base
     CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
 
-    def initialize(csv_contents = nil)
-      @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
-      @records = []
-      @errors = []
-    end
-
     def valid_records?
       validate_records
 

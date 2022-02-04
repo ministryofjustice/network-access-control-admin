@@ -4,13 +4,6 @@ module UseCases
   class CSVImport::MacAuthenticationBypasses < CSVImport::Base
     CSV_HEADERS = "Address,Name,Description,Responses,Site".freeze
 
-    def initialize(csv_contents = nil)
-      @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
-      @records = []
-      @errors = []
-      @sites_not_found = []
-    end
-
     def valid_records?
       validate_records
       validate_sites
@@ -21,6 +14,7 @@ module UseCases
   private
 
     def map_csv_content
+      @sites_not_found = []
       all_sites = Site.all
 
       parsed_csv.each do |row|
@@ -94,7 +88,5 @@ module UseCases
         @errors << "Site \"#{site_name}\" is not found"
       end
     end
-
-
   end
 end
