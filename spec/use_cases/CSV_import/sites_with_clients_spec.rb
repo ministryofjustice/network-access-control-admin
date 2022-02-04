@@ -239,4 +239,21 @@ Site with duplicate ip,128.0.0.3,128.0.0.1,,"
       )
     end
   end
+
+  context "when there are duplicate response attributes in CSV" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,128.0.0.1,128.0.0.1,,Dlink-VLAN-ID=888;Dlink-VLAN-ID=777
+Another Site,123.0.0.1,123.0.0.1,,Dlink-VLAN-ID=888;Dlink-VLAN-ID=777"
+    end
+
+    it "show a validation error" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "Error on row 1: Duplicate response attribute \"Dlink-VLAN-ID\" found in CSV",
+          "Error on row 2: Duplicate response attribute \"Dlink-VLAN-ID\" found in CSV",
+        ],
+      )
+    end
+  end
 end
