@@ -38,5 +38,18 @@ module UseCases
     def valid_header?(csv_headers)
       @csv_contents.to_s.lines.first&.strip == csv_headers
     end
+
+    def check_for_duplicate_response_attributes(column)
+      responses = parsed_csv.map { |row| row[column] }.compact
+      response_attributes = responses.map { |line| line.split("\;").map { |att| att.split("=").first } }
+
+      response_attributes.each.with_index(1) do |line, i|
+        duplicate_response_attribute = line.select { |attribute| line.count(attribute) > 1 }.uniq
+
+        duplicate_response_attribute.each do |duplicate_attr|
+          @errors << "Error on row #{i}: Duplicate response attribute \"#{duplicate_attr}\" found in CSV"
+        end
+      end
+    end
   end
 end

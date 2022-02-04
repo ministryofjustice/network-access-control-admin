@@ -49,7 +49,7 @@ module UseCases
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicate_site_names_in_csv
-      check_for_duplicate_response_attributes
+      check_for_duplicate_response_attributes("Fallback Policy")
       check_for_ip_range_overlap
 
       @errors.empty?
@@ -120,19 +120,6 @@ module UseCases
 
       duplicate_site_names.each do |duplicate_site_name|
         @errors << "Duplicate Site name \"#{duplicate_site_name}\" found in CSV"
-      end
-    end
-
-    def check_for_duplicate_response_attributes
-      responses = parsed_csv.map { |row| row["Fallback Policy"] }.compact
-      response_attributes = responses.map { |line| line.split("\;").map { |att| att.split("=").first } }
-
-      response_attributes.each.with_index(1) do |line, i|
-        duplicate_response_attribute = line.select { |attribute| line.count(attribute) > 1 }.uniq
-
-        duplicate_response_attribute.each do |duplicate_attr|
-          @errors << "Error on row #{i}: Duplicate response attribute \"#{duplicate_attr}\" found in CSV"
-        end
       end
     end
 
