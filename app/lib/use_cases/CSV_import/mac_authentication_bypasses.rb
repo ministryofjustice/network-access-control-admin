@@ -45,7 +45,7 @@ module UseCases
       end
     end
 
-    def check_for_duplicates_in_csv
+    def check_for_duplicates_mac_addresses
       addresses = parsed_csv.map do |row|
         row["Address"]
       end
@@ -62,7 +62,7 @@ module UseCases
       return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
-      check_for_duplicates_in_csv
+      check_for_duplicates_mac_addresses
       check_for_duplicate_response_attributes("Responses")
 
       @errors.empty?

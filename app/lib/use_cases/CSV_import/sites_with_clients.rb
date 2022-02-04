@@ -48,7 +48,7 @@ module UseCases
       return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
-      check_for_duplicate_site_names_in_csv
+      check_for_duplicate_site_names
       check_for_duplicate_response_attributes("Fallback Policy")
       check_for_ip_range_overlap
 
@@ -111,7 +111,7 @@ module UseCases
       end
     end
 
-    def check_for_duplicate_site_names_in_csv
+    def check_for_duplicate_site_names
       site_names = parsed_csv.map do |row|
         row["Site Name"]
       end
