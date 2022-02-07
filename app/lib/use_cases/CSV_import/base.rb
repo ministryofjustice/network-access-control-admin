@@ -36,6 +36,8 @@ module UseCases
     end
 
     def valid_header?(csv_headers)
+      return false unless @csv_contents.to_s.lines.first&.valid_encoding?
+
       @csv_contents.to_s.lines.first&.strip == csv_headers
     end
 
