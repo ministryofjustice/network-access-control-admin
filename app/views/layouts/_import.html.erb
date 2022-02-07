@@ -1,4 +1,4 @@
-<h2 class="govuk-heading-l">title</h2>
+<h2 class="govuk-heading-l"><%= title %></h2>
 <p class="govuk-body">
     <% if @csv_import_result.completed_at.present? %>
         <% if @csv_import_result.import_errors.present? %>
