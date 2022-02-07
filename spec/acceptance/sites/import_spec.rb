@@ -101,6 +101,10 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("Test Policy 1")
       expect(page).to have_content("Test Policy 2")
       expect(page).to have_content("Fallback policy for Site 3")
+
+      expect_audit_log_entry_for(editor.email, "create", "Site")
+      expect_audit_log_entry_for(editor.email, "create", "Site policy")
+      expect_audit_log_entry_for(editor.email, "create", "Client")
     end
 
     it "can upload CRLF file format" do
