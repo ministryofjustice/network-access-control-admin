@@ -83,7 +83,7 @@ private
   end
 
   def publish_certificate(certificate_file, filename)
-    content = certificate_file.to_io
+    content = IO.read(certificate_file.to_io)
 
     UseCases::PublishToS3.new(
       config_validator: UseCases::ConfigValidator.new(
