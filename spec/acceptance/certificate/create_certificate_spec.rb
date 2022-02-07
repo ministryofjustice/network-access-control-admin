@@ -50,7 +50,7 @@ describe "create certificates", type: :feature do
         expect(page).to have_content("My test server certificate description details 2")
         expect(page).to have_content("Server certificate")
         expect(page).to have_content("Yes")
-        expect(page).to have_content("17-7-2021 00:00")
+        expect(page).to have_content("17/07/2021 00:00")
         expect(page).to have_content("server.pem")
 
         expect_audit_log_entry_for(editor.email, "create", "Certificate")
