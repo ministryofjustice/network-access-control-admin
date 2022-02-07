@@ -27,7 +27,7 @@
 <dl class="govuk-summary-list">
   <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Expiry Date</dt>
-    <dd class="govuk-summary-list__value"><%= @certificate.expiry_date %></dd>
+    <dd class="govuk-summary-list__value"><%= date_format(@certificate.expiry_date) %></dd>
   </div>
 </dl>
 

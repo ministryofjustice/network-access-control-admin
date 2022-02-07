@@ -12,7 +12,7 @@ describe "showing a certificate", type: :feature do
       visit "/certificates"
 
       expect(page).to have_content certificate.name
-      expect(page).to have_content certificate.expiry_date
+      expect(page).to have_content date_format(certificate.expiry_date)
       expect(page).to have_content certificate.category
       expect(page).to have_content date_format(certificate.created_at)
     end
@@ -50,10 +50,10 @@ describe "showing a certificate", type: :feature do
         first_certificate.update_attribute(:expiry_date, 2.minutes.ago)
 
         click_on "Expiry date"
-        expect(page.text).to match(/#{second_certificate.expiry_date}.*#{first_certificate.expiry_date}/)
+        expect(page.text).to match(/#{date_format(second_certificate.expiry_date)}.*#{date_format(first_certificate.expiry_date)}/)
 
         click_on "Expiry date"
-        expect(page.text).to match(/#{first_certificate.expiry_date}.*#{second_certificate.expiry_date}/)
+        expect(page.text).to match(/#{date_format(first_certificate.expiry_date)}.*#{date_format(second_certificate.expiry_date)}/)
       end
 
       it "orders by created at" do

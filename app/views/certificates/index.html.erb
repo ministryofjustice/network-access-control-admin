@@ -25,7 +25,7 @@
         <tr class="govuk-table__row">
           <td class="govuk-table__cell"><%= certificate.name %></td>
           <td class="govuk-table__cell"><%= certificate.category %></td>
-          <td class="govuk-table__cell"><%= certificate.expiry_date %></td>
+          <td class="govuk-table__cell"><%= date_format(certificate.expiry_date) %></td>
           <td class="govuk-table__cell"><%= date_format(certificate.created_at) %></td>
           <td class="govuk-table__cell">
             <% if can? :manage, Certificate %>

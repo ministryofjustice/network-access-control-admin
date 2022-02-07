@@ -22,7 +22,7 @@ describe "showing a certificate", type: :feature do
 
         expect(page).to have_content certificate.name
         expect(page).to have_content certificate.category
-        expect(page).to have_content certificate.expiry_date
+        expect(page).to have_content date_format(certificate.expiry_date)
       end
 
       it "allows viewing the details of a certificate" do
@@ -30,7 +30,7 @@ describe "showing a certificate", type: :feature do
 
         expect(page).to have_content certificate.name
         expect(page).to have_content certificate.category
-        expect(page).to have_content certificate.expiry_date
+        expect(page).to have_content date_format(certificate.expiry_date)
         expect(page).to have_content certificate.subject
         expect(page).to have_content certificate.issuer
         expect(page).to have_content certificate.serial
