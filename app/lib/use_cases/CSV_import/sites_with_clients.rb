@@ -44,6 +44,8 @@ module UseCases
     end
 
     def valid_csv?
+      start_time = Time.now
+      pp "Start validating CSV format#{start_time}"
       return @errors << "CSV is missing" && false if @csv_contents.nil?
       return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
@@ -52,11 +54,16 @@ module UseCases
       check_for_duplicate_response_attributes("Fallback Policy")
       check_for_ip_range_overlap
 
+      pp "Completed validating CSV format in #{Time.now - start_time}"
       @errors.empty?
     end
 
     def validate_records
+      start_time = Time.now
+      pp "Start validating records#{start_time}"
+
       @records.each.with_index(2) do |record, row|
+        pp "Validating record: #{record} in row: #{row}"
         record.validate
 
         record.errors.full_messages.each do |error|
@@ -81,6 +88,9 @@ module UseCases
           end
         end
       end
+
+      pp "Completed validating records in #{Time.now - start_time}"
+      @errors.empty?
     end
 
     def assign_policies(policies, record, row)
