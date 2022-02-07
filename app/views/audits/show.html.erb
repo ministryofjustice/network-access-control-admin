@@ -41,7 +41,7 @@
       Datetime
     </dt>
     <dd class="govuk-summary-list__value">
-      <%= @audit.created_at.to_s(:long) %>
+      <%= date_format(@audit.created_at) %>
     </dd>
   </div>
 </dl>
