@@ -1,8 +1,6 @@
 class SitesWithClientsImportJob < ActiveJob::Base
   def perform(contents, csv_import_result, user)
     Audited.audit_class.as_user(user) do
-      start_time = Time.now
-      pp "Start importing sites #{start_time}"
       result = UseCases::CSVImport::SitesWithClients.new(contents).save
 
       if result.fetch(:errors).any?
@@ -12,7 +10,6 @@ class SitesWithClientsImportJob < ActiveJob::Base
         deploy_service
       end
 
-      pp "Completed importing sites in #{Time.now - start_time}"
       csv_import_result.update!(completed_at: Time.now)
     end
   end
