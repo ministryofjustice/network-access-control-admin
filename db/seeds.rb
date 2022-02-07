@@ -1,19 +1,19 @@
-def ip_range
-  sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
-end
+# def ip_range
+#   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
+# end
 
 # def mac_address
 #   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
 # end
 
-# p "truncating rules, responses, policies, site policies, mab, clients and sites!"
-# base_connection = ActiveRecord::Base.connection
+p "truncating site policies, clients and sites!"
+base_connection = ActiveRecord::Base.connection
 
-# base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
 
-# %w[rules responses policies site_policies sites clients mac_authentication_bypasses].each do |table_name|
-#   base_connection.truncate(table_name)
-# end
+%w[site_policies sites clients].each do |table_name|
+  base_connection.truncate(table_name)
+end
 
 # base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
 
@@ -34,18 +34,18 @@ end
 #   policy.responses.create!(response_attribute: "Reply-Message", value: "Hello there!")
 # end
 
-p "creating sites"
-750.times do |s|
-  site = Site.create!(name: "NEW test site #{s}")
-  10.times do |c|
-    Client.create!(
-      site:,
-      ip_range: "#{ip_range}/32",
-      shared_secret: "secret#{s}#{c}",
-      radsec: false,
-    )
-  end
-end
+# p "creating sites"
+# 750.times do |s|
+#   site = Site.create!(name: "NEW test site #{s}")
+#   10.times do |c|
+#     Client.create!(
+#       site:,
+#       ip_range: "#{ip_range}/32",
+#       shared_secret: "secret#{s}#{c}",
+#       radsec: false,
+#     )
+#   end
+# end
 
 # p "assigning policies to sites"
 # Site.all.each do |site|
