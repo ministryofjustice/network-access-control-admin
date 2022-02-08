@@ -11,6 +11,10 @@ class SitesWithClientsImportJob < ActiveJob::Base
       end
 
       csv_import_result.update!(completed_at: Time.now)
+    rescue StandardError => e
+      csv_import_result.update!(import_errors: "Error while importing data from CSV: #{e.message}", completed_at: Time.now)
+
+      raise e
     end
   end
 

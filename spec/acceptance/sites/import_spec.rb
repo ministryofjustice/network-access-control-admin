@@ -156,5 +156,26 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("Duplicate Site name \"Site 1\" found in CSV")
       expect(page).to have_content("Overlapping EAP Clients IP ranges \"127.1.1.1\" - \"127.1.1.1\"")
     end
+
+    it "shows errors when the use-case returns an unexpected error" do
+      allow_any_instance_of(UseCases::CSVImport::SitesWithClients).to receive(:save).and_raise("something bad")
+
+      visit "/sites"
+
+      click_on "Import sites with clients"
+
+      attach_file("csv_file", "spec/fixtures/sites_csv/invalid.csv")
+      click_on "Upload"
+
+      expect(current_path).to eql(sites_import_path(CsvImportResult.first.id))
+
+      Delayed::Worker.new.work_off
+
+      click_on "here"
+
+      expect(page).to have_content("There is a problem")
+
+      expect(page).to have_content("Error while importing data from CSV: something bad")
+    end
   end
 end

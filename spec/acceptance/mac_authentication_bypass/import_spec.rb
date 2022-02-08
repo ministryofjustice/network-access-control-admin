@@ -173,5 +173,26 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       expect(page).to have_content("Error on row 2: Address is invalid")
       expect(page).to have_content("Site \"Unknown Site\" is not found")
     end
+
+    it "shows errors when the use-case returns an unexpected error" do
+      allow_any_instance_of(UseCases::CSVImport::MacAuthenticationBypasses).to receive(:save).and_raise("something bad")
+
+      visit "/mac_authentication_bypasses"
+
+      click_on "Import bypasses"
+
+      attach_file("csv_file", "spec/fixtures/mac_authentication_bypasses_csv/invalid.csv")
+      click_on "Upload"
+
+      expect(current_path).to eql(mac_authentication_bypasses_import_path(CsvImportResult.first.id))
+
+      Delayed::Worker.new.work_off
+
+      click_on "here"
+
+      expect(page).to have_content("There is a problem")
+
+      expect(page).to have_content("Error while importing data from CSV: something bad")
+    end
   end
 end
