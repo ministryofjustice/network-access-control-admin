@@ -37,7 +37,7 @@ module UseCases
     end
 
     def valid_file_extension?
-      @filename.split(".")[1] == "csv"
+      File.extname(@filename) == ".csv"
     end
 
     def valid_header?(csv_headers)

@@ -12,7 +12,7 @@
       For example: Tunnel-Type=VLAN;Reply-Message=Welcome;SG-Tunnel-Id=333<br /><br />
       File must be a valid CSV with UTF-8 encoding.<br />
     </div>
-    <%= file_field :sites_with_clients, :file, { id: :csv_file, class: "govuk-file-upload", required: true } %>
+    <%= file_field :sites_with_clients, :file, { id: :csv_file, accept: ".csv", class: "govuk-file-upload", required: true } %>
   </div>
 
   <%= submit_tag "Upload", {
