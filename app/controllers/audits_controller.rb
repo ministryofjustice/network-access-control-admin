@@ -2,7 +2,7 @@ class AuditsController < ApplicationController
   before_action :set_crumbs, only: %i[index show]
 
   def index
-    @q = Audit.order(created_at: "DESC").ransack(params[:q])
+    @q = Audit.ransack(params[:q])
     @audits = @q.result.page(params.dig(:q, :page))
   end
 
