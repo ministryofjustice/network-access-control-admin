@@ -1,7 +1,8 @@
 module UseCases
   class CSVImport::Base
     def initialize(csv_contents = nil)
-      @csv_contents = remove_utf8_byte_order_mark(csv_contents) if csv_contents
+      @csv_contents = remove_utf8_byte_order_mark(csv_contents&.fetch(:contents)) if csv_contents&.fetch(:contents)
+      @filename = csv_contents&.fetch(:filename)
       @records = []
       @errors = []
     end
@@ -33,6 +34,10 @@ module UseCases
         response_attribute, value = r.split("=")
         Response.new(response_attribute:, value:)
       end
+    end
+
+    def valid_file_extension?
+      @filename.split(".")[1] == "csv"
     end
 
     def valid_header?(csv_headers)

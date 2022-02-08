@@ -9,10 +9,11 @@ class SitesImportsController < ApplicationController
   end
 
   def create
+    filename = params&.dig(:sites_with_clients, :file)&.original_filename
     contents = params&.dig(:sites_with_clients, :file)&.read
 
     csv_import_result = CsvImportResult.create!
-    SitesWithClientsImportJob.perform_later(contents, csv_import_result, current_user)
+    SitesWithClientsImportJob.perform_later({ contents: contents, filename: filename }, csv_import_result, current_user)
 
     redirect_to sites_import_path(csv_import_result), notice: "Importing sites with clients"
   end

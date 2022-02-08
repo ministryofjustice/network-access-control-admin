@@ -59,6 +59,7 @@ module UseCases
 
     def valid_csv?
       return @errors << "CSV is missing" && false if @csv_contents.nil?
+      return @errors << "The file extension is invalid" && false unless valid_file_extension?
       return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
