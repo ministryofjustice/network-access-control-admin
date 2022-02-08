@@ -36,6 +36,16 @@ describe "listing sites", type: :feature do
         visit "/sites"
       end
 
+      it "orders sites by create date by default" do
+        first_site.update(created_at: DateTime.now - 2.hours)
+        second_site.update(created_at: DateTime.now - 1.hour)
+        third_site.update(created_at: DateTime.now - 3.hours)
+
+        visit "/sites"
+
+        expect(page.text).to match(/#{second_site.name}.*#{first_site.name}.*#{third_site.name}/)
+      end
+
       it "searches by name" do
         expect(page).to have_content first_site.name
         expect(page).to have_content second_site.name
@@ -79,17 +89,17 @@ describe "listing sites", type: :feature do
 
     context "pagination" do
       it "paginates" do
-        52.times do |t|
-          create(:site, name: "Site #{t}")
-        end
+        50.times { create(:site) }
+
+        create(:site, name: "Last Site", created_at: DateTime.now - 2.hours)
 
         visit "/sites"
 
-        expect(page.text).to_not include("Site 51")
+        expect(page.text).to_not include("Last Site")
 
         click_on "2"
 
-        expect(page.text).to include("Site 51")
+        expect(page.text).to include("Last Site")
       end
     end
   end

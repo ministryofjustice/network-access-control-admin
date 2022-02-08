@@ -13,6 +13,7 @@ class SitesController < ApplicationController
            Site.ransack(params[:q])
          end
 
+    @q.sorts = params.dig(:q, :s) || "created_at desc"
     @sites = @q.result(distinct: true).page(params.dig(:q, :page))
   end
 
