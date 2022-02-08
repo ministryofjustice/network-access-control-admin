@@ -28,7 +28,7 @@ RSpec.describe "GET /sign_in", type: :feature do
       Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:cognito]
 
       visit "/sign_in"
-      click_button("Sign in")
+      click_button("Sign in with SSO")
     end
 
     it "redirects to the root path" do
