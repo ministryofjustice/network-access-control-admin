@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UseCases::CSVImport::MacAuthenticationBypasses do
-  subject { described_class.new(file_contents) }
+  subject { described_class.new({ contents: file_contents, filename: "dummy.csv" }) }
 
   context "valid csv entries" do
     before do
