@@ -37,9 +37,9 @@ describe "listing sites", type: :feature do
       end
 
       it "orders sites by create date by default" do
-        first_site.update(created_at: DateTime.now - 2.hours)
-        second_site.update(created_at: DateTime.now - 1.hour)
-        third_site.update(created_at: DateTime.now - 3.hours)
+        first_site.update(created_at: Time.now - 2.hours)
+        second_site.update(created_at: Time.now - 1.hour)
+        third_site.update(created_at: Time.now - 3.hours)
 
         visit "/sites"
 
@@ -91,7 +91,7 @@ describe "listing sites", type: :feature do
       it "paginates" do
         50.times { create(:site) }
 
-        create(:site, name: "Last Site", created_at: DateTime.now - 2.hours)
+        create(:site, name: "Last Site", created_at: Time.now - 2.hours)
 
         visit "/sites"
 
