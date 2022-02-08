@@ -12,7 +12,7 @@ authenticate-docker:
 	./scripts/authenticate_docker.sh
 
 build:
-	docker build -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PORT --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg CLOUDWATCH_LINK
+	docker build --platform linux/x86_64 -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PORT --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg CLOUDWATCH_LINK
 
 build-dev:
 	$(DOCKER_COMPOSE) build
