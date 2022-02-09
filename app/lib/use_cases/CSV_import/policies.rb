@@ -49,6 +49,8 @@ module UseCases
       return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
+      check_for_duplicate_policy_names
+
       @errors.empty?
     end
 
@@ -59,6 +61,18 @@ module UseCases
         record.errors.full_messages.each do |error|
           @errors << "Error on row #{row}: Policy #{error}"
         end
+      end
+    end
+
+    def check_for_duplicate_policy_names
+      names = parsed_csv.map do |row|
+        row["Name"]
+      end
+
+      duplicate_names = names.select { |name| names.count(name) > 1 }.uniq
+
+      duplicate_names.each do |duplicate_name|
+        @errors << "Duplicate Policy name \"#{duplicate_name}\" found in CSV"
       end
     end
   end

@@ -109,4 +109,20 @@ MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunne
       )
     end
   end
+
+  context "when there are duplicate policy names in the CSV" do
+    let(:file_contents) do
+      "Name,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,
+MOJO_LAN_VLAN101,Another description,,"
+    end
+
+    it "records the validation errors" do
+      expect(subject.call.fetch(:errors)).to eq(
+        [
+          "Duplicate Policy name \"MOJO_LAN_VLAN101\" found in CSV",
+        ],
+      )
+    end
+  end
 end
