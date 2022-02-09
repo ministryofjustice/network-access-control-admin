@@ -63,18 +63,14 @@ module UseCases
     end
 
     def validate_records
-      @records.each.with_index(2) do |record, i|
+      @records.each.with_index(2) do |record, row|
         record.validate
 
         record.errors.full_messages.each do |message|
-          @errors << "Error on row #{i}: #{message}"
+          @errors << "Error on row #{row}: #{message}"
         end
 
-        record.responses.each do |response|
-          response.errors.full_messages.each do |message|
-            @errors << "Error on row #{i}: #{message}"
-          end
-        end
+        fetch_validation_errors(record.responses, row)
       end
 
       @sites_not_found.each do |site_name|

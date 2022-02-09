@@ -58,11 +58,7 @@ module UseCases
           @errors << "Error on row #{row}: Site #{error}"
         end
 
-        record.clients.each do |client|
-          client.errors.full_messages.each do |client_error|
-            @errors << "Error on row #{row}: Client #{client_error}"
-          end
-        end
+        fetch_validation_errors(record.clients, row, "Client")
 
         fallback_policy = record.policies.first
 
@@ -70,11 +66,7 @@ module UseCases
           @errors << "Error on row #{row}: Fallback Policy #{fallback_policy_error}"
         end
 
-        fallback_policy.responses.each do |response|
-          response.errors.full_messages.each do |response_error|
-            @errors << "Error on row #{row}: #{response_error}"
-          end
-        end
+        fetch_validation_errors(fallback_policy.responses, row)
       end
     end
 

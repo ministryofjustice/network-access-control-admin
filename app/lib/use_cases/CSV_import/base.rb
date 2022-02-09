@@ -66,5 +66,15 @@ module UseCases
         end
       end
     end
+
+    def fetch_validation_errors(association, row, model = nil)
+      association.each do |field|
+        field.errors.full_messages.each do |error|
+          message = model ? [model, error].join(" ") : error
+
+          @errors << "Error on row #{row}: #{message}"
+        end
+      end
+    end
   end
 end

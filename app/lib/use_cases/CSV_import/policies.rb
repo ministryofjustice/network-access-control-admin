@@ -69,14 +69,6 @@ module UseCases
       end
     end
 
-    def fetch_validation_errors(association, row)
-      association.each do |field|
-        field.errors.full_messages.each do |message|
-          @errors << "Error on row #{row}: #{message}"
-        end
-      end
-    end
-
     def check_for_duplicate_policy_names
       names = parsed_csv.map do |row|
         row["Name"]
