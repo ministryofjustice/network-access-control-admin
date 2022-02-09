@@ -50,6 +50,8 @@ module UseCases
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicate_policy_names
+      check_for_duplicate_attributes("Rules")
+      check_for_duplicate_attributes("Responses")
 
       @errors.empty?
     end

@@ -44,7 +44,7 @@ module UseCases
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicate_site_names
-      check_for_duplicate_response_attributes("Fallback Policy")
+      check_for_duplicate_attributes("Fallback Policy")
       check_for_ip_range_overlap
 
       @errors.empty?

@@ -169,8 +169,8 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Reply-Message=Hello to you;Reply-Message=He
     it "show a validation error" do
       expect(subject.call.fetch(:errors)).to eq(
         [
-          "Error on row 2: Duplicate response attribute \"Reply-Message\" found in CSV",
-          "Error on row 3: Duplicate response attribute \"Reply-Message\" found in CSV",
+          "Error on row 2: Duplicate attribute \"Reply-Message\" found in CSV",
+          "Error on row 3: Duplicate attribute \"Reply-Message\" found in CSV",
         ],
       )
     end
