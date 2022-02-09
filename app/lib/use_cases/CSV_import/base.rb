@@ -7,7 +7,7 @@ module UseCases
       @errors = []
     end
 
-    def save
+    def call
       return { errors: @errors } unless valid_csv?
 
       map_csv_content

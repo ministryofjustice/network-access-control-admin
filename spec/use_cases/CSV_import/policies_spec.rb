@@ -6,7 +6,7 @@ describe UseCases::CSVImport::Policies do
 
   context "valid csv entries" do
     before do
-      subject.save
+      subject.call
     end
 
     let(:file_contents) do
@@ -41,7 +41,7 @@ MOJO_LAN_VLAN101,Some description,,"
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "The CSV header is invalid",
         ],
@@ -53,7 +53,7 @@ MOJO_LAN_VLAN101,Some description,,"
     let(:file_contents) { nil }
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "CSV is missing",
         ],
@@ -69,7 +69,7 @@ MOJO_LAN_VLAN101,Some description,,,"
     let(:filename) { "inva.lid" }
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "The file extension is invalid",
         ],
@@ -83,7 +83,7 @@ MOJO_LAN_VLAN101,Some description,,,"
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "There is no data to be imported",
         ],
@@ -102,7 +102,7 @@ MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunne
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Policy Name has already been taken",
         ],

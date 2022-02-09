@@ -8,7 +8,7 @@ describe UseCases::CSVImport::SitesWithClients do
     before do
       create(:policy, name: "Test Policy 1")
       create(:policy, name: "Test Policy 2")
-      subject.save
+      subject.call
     end
 
     let(:file_contents) do
@@ -54,7 +54,7 @@ Petty France,,,,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
     before do
-      subject.save
+      subject.call
     end
 
     it "creates valid sites and fallback policies" do
@@ -80,7 +80,7 @@ Petty France,128.0.0.1,,,"
     end
 
     before do
-      subject.save
+      subject.call
     end
 
     it "creates valid sites and fallback policies with no responses" do
@@ -100,7 +100,7 @@ Petty France,128.0.0.1,,,"
     let(:file_contents) { "INVALID HEADER" }
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "The CSV header is invalid",
         ],
@@ -116,7 +116,7 @@ Petty France,128.0.0.1,,,"
     let(:filename) { "inva.lid" }
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "The file extension is invalid",
         ],
@@ -136,7 +136,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Site Name has already been taken",
           "Error on row 2: Site Policies is invalid",
@@ -158,7 +158,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Site Clients is invalid",
           "Error on row 2: Client Ip range has already been taken",
@@ -179,7 +179,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Site Clients is invalid",
           "Error on row 2: Client Ip range IP overlaps with Some Site Name - 128.0.0.1/16",
@@ -195,7 +195,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Site Policies is invalid",
           "Error on row 2: Fallback Policy Responses is invalid",
@@ -213,7 +213,7 @@ Petty France,,,,"
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Duplicate Site name \"Petty France\" found in CSV",
         ],
@@ -230,7 +230,7 @@ Site with duplicate ip,128.0.0.1,128.0.0.4,,"
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Overlapping EAP Clients IP ranges \"128.0.0.1\" - \"128.0.0.1\" found in CSV",
           "Overlapping EAP Clients IP ranges \"128.0.0.2\" - \"128.0.0.2\" found in CSV",
@@ -248,7 +248,7 @@ Site with duplicate ip,128.0.0.3,128.0.0.1,,"
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Overlapping RadSec Clients IP ranges \"128.0.0.1\" - \"128.0.0.1\" found in CSV",
           "Overlapping RadSec Clients IP ranges \"128.0.0.2\" - \"128.0.0.2\" found in CSV",
@@ -265,7 +265,7 @@ Another Site,123.0.0.1,123.0.0.1,,Dlink-VLAN-ID=888;Dlink-VLAN-ID=777"
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 1: Duplicate response attribute \"Dlink-VLAN-ID\" found in CSV",
           "Error on row 2: Duplicate response attribute \"Dlink-VLAN-ID\" found in CSV",
