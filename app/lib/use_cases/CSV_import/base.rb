@@ -29,8 +29,8 @@ module UseCases
       content.force_encoding("UTF-8")
     end
 
-    def unwrap_responses(fallback_policy_responses)
-      fallback_policy_responses.to_s.split(";").map do |r|
+    def unwrap_responses(responses)
+      responses.to_s.split(";").map do |r|
         response_attribute, value = r.split("=")
         Response.new(response_attribute:, value:)
       end
