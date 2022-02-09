@@ -8,12 +8,6 @@ module UseCases
 
   private
 
-    def valid_records?
-      validate_records
-
-      @errors.empty?
-    end
-
     def map_csv_content
       @records = parsed_csv.map.with_index(1) do |row, i|
         site_name = row["Site Name"]

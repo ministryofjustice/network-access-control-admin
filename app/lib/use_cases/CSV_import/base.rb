@@ -48,6 +48,12 @@ module UseCases
       @csv_contents.to_s.lines.first&.strip == csv_headers
     end
 
+    def valid_records?
+      validate_records
+
+      @errors.empty?
+    end
+
     def check_for_duplicate_response_attributes(column)
       responses = parsed_csv.map { |row| row[column] }.compact
       response_attributes = responses.map { |line| line.split("\;").map { |att| att.split("=").first } }
