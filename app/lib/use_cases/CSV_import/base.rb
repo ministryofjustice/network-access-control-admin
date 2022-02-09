@@ -58,7 +58,7 @@ module UseCases
       responses = parsed_csv.map { |row| row[column] }.compact
       response_attributes = responses.map { |line| line.split("\;").map { |att| att.split("=").first } }
 
-      response_attributes.each.with_index(1) do |line, i|
+      response_attributes.each.with_index(2) do |line, i|
         duplicate_response_attribute = line.select { |attribute| line.count(attribute) > 1 }.uniq
 
         duplicate_response_attribute.each do |duplicate_attr|

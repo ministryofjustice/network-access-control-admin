@@ -38,7 +38,7 @@ module UseCases
       end
     end
 
-    def check_for_duplicates_mac_addresses
+    def check_for_duplicate_mac_addresses
       addresses = parsed_csv.map do |row|
         row["Address"]
       end
@@ -46,7 +46,7 @@ module UseCases
       duplicate_addresses = addresses.select { |address| addresses.count(address) > 1 }.uniq
 
       duplicate_addresses.each do |duplicate_address|
-        @errors << "Duplicate MAC address #{duplicate_address} found in CSV"
+        @errors << "Duplicate MAC Address \"#{duplicate_address}\" found in CSV"
       end
     end
 
@@ -56,7 +56,7 @@ module UseCases
       return @errors << "The CSV header is invalid" && false unless valid_header?(CSV_HEADERS)
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
-      check_for_duplicates_mac_addresses
+      check_for_duplicate_mac_addresses
       check_for_duplicate_response_attributes("Responses")
 
       @errors.empty?
@@ -81,9 +81,5 @@ module UseCases
         @errors << "Site \"#{site_name}\" is not found"
       end
     end
-
-    # def validate_sites
-
-    # end
   end
 end
