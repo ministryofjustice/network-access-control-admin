@@ -6,13 +6,13 @@ module UseCases
 
     CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
 
+  private
+
     def valid_records?
       validate_records
 
       @errors.empty?
     end
-
-  private
 
     def map_csv_content
       @records = parsed_csv.map.with_index(1) do |row, i|

@@ -19,6 +19,8 @@ module UseCases
       { errors: [] }
     end
 
+  private
+
     def parsed_csv
       @parsed_csv ||= CSV.parse(@csv_contents, skip_blanks: true, headers: true)
     end

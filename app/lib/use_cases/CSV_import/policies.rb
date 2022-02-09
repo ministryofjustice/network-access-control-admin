@@ -4,13 +4,13 @@ module UseCases
   class CSVImport::Policies < CSVImport::Base
     CSV_HEADERS = "Name,Description,Rules,Responses".freeze
 
+  private
+
     def valid_records?
       validate_records
 
       @errors.empty?
     end
-
-  private
 
     def map_csv_content
       parsed_csv.each do |row|
