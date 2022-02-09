@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe UseCases::CSVImport::Policies do
-  subject { described_class.new({ contents: file_contents, filename: "dummy.csv" }) }
+  subject { described_class.new({ contents: file_contents, filename: }) }
+  let(:filename) { "dummy.csv" }
 
   context "valid csv entries" do
     before do
@@ -30,6 +31,63 @@ MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunne
       expect(saved_policy.responses.first.value).to eq("VLAN")
       expect(saved_policy.responses.second.response_attribute).to eq("Reply-Message")
       expect(saved_policy.responses.second.value).to eq("Hello to you")
+    end
+  end
+
+  context "csv with invalid header" do
+    let(:file_contents) do
+      "INVALID,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,"
+    end
+
+    it "records the validation errors" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "The CSV header is invalid",
+        ],
+      )
+    end
+  end
+
+  context "when the file is missing" do
+    let(:file_contents) { nil }
+
+    it "records the validation errors" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "CSV is missing",
+        ],
+      )
+    end
+  end
+
+  context "when the file extention is invalid" do
+    let(:file_contents) do
+      "Name,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,,"
+    end
+    let(:filename) { "inva.lid" }
+
+    it "records the validation errors" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "The file extension is invalid",
+        ],
+      )
+    end
+  end
+
+  context "when there is no data to be imported" do
+    let(:file_contents) do
+      "Name,Description,Rules,Responses"
+    end
+
+    it "records the validation errors" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "There is no data to be imported",
+        ],
+      )
     end
   end
 end
