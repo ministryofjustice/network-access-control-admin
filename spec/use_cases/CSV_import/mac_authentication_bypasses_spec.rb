@@ -153,7 +153,7 @@ aa-bb-cc-dd-ee-cc,Printer2,some test2,SG-Tunnel-Id=888"
     it "records the validation errors" do
       expect(subject.call.fetch(:errors)).to eq(
         [
-          "Duplicate MAC address aa-bb-cc-dd-ee-cc found in CSV",
+          "Duplicate MAC Address \"aa-bb-cc-dd-ee-cc\" found in CSV",
         ],
       )
     end
@@ -169,8 +169,8 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Reply-Message=Hello to you;Reply-Message=He
     it "show a validation error" do
       expect(subject.call.fetch(:errors)).to eq(
         [
-          "Error on row 1: Duplicate response attribute \"Reply-Message\" found in CSV",
           "Error on row 2: Duplicate response attribute \"Reply-Message\" found in CSV",
+          "Error on row 3: Duplicate response attribute \"Reply-Message\" found in CSV",
         ],
       )
     end
