@@ -4,14 +4,14 @@ module UseCases
   class CSVImport::MacAuthenticationBypasses < CSVImport::Base
     CSV_HEADERS = "Address,Name,Description,Responses,Site".freeze
 
+  private
+
     def valid_records?
       validate_records
       validate_sites
 
       @errors.empty?
     end
-
-  private
 
     def map_csv_content
       @sites_not_found = []
