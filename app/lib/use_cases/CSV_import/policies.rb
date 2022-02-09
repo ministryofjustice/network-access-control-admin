@@ -64,10 +64,15 @@ module UseCases
           @errors << "Error on row #{row}: #{error}"
         end
 
-        record.responses.each do |response|
-          response.errors.full_messages.each do |message|
-            @errors << "Error on row #{row}: #{message}"
-          end
+        fetch_validation_errors(record.rules, row)
+        fetch_validation_errors(record.responses, row)
+      end
+    end
+
+    def fetch_validation_errors(association, row)
+      association.each do |field|
+        field.errors.full_messages.each do |message|
+          @errors << "Error on row #{row}: #{message}"
         end
       end
     end
