@@ -267,8 +267,8 @@ Another Site,123.0.0.1,123.0.0.1,,Dlink-VLAN-ID=888;Dlink-VLAN-ID=777"
     it "show a validation error" do
       expect(subject.call.fetch(:errors)).to eq(
         [
-          "Error on row 2: Duplicate response attribute \"Dlink-VLAN-ID\" found in CSV",
-          "Error on row 3: Duplicate response attribute \"Dlink-VLAN-ID\" found in CSV",
+          "Error on row 2: Duplicate attribute \"Dlink-VLAN-ID\" found in CSV",
+          "Error on row 3: Duplicate attribute \"Dlink-VLAN-ID\" found in CSV",
         ],
       )
     end

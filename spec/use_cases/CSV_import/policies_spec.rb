@@ -141,4 +141,20 @@ MOJO_LAN_VLAN101,Some description,,3Com-Connect_Id=ASASAS"
       )
     end
   end
+
+  context "when there are duplicate attributes in the CSV" do
+    let(:file_contents) do
+      "Name,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,User-Name=~Bo;User-Name=Bob,Tunnel-Type=VLAN;Tunnel-Type=VLAN"
+    end
+
+    it "records the validation errors" do
+      expect(subject.call.fetch(:errors)).to eq(
+        [
+          "Error on row 2: Duplicate attribute \"User-Name\" found in CSV",
+          "Error on row 2: Duplicate attribute \"Tunnel-Type\" found in CSV",
+        ],
+      )
+    end
+  end
 end

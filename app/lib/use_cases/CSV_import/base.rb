@@ -54,7 +54,7 @@ module UseCases
       @errors.empty?
     end
 
-    def check_for_duplicate_response_attributes(column)
+    def check_for_duplicate_attributes(column)
       responses = parsed_csv.map { |row| row[column] }.compact
       response_attributes = responses.map { |line| line.split("\;").map { |att| att.split("=").first } }
 
@@ -62,7 +62,7 @@ module UseCases
         duplicate_response_attribute = line.select { |attribute| line.count(attribute) > 1 }.uniq
 
         duplicate_response_attribute.each do |duplicate_attr|
-          @errors << "Error on row #{i}: Duplicate response attribute \"#{duplicate_attr}\" found in CSV"
+          @errors << "Error on row #{i}: Duplicate attribute \"#{duplicate_attr}\" found in CSV"
         end
       end
     end
