@@ -126,6 +126,22 @@ MOJO_LAN_VLAN101,Another description,,"
     end
   end
 
+  context "csv with invalid rule attribute" do
+    let(:file_contents) do
+      "Name,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,Invalid-Attribute=Invalid,"
+    end
+
+    it "records the validation errors" do
+      expect(subject.call.fetch(:errors)).to eq(
+        [
+          "Error on row 2: Rules is invalid",
+          "Error on row 2: Unknown attribute 'Invalid-Attribute'",
+        ],
+      )
+    end
+  end
+
   context "csv with invalid response attribute" do
     let(:file_contents) do
       "Name,Description,Rules,Responses
