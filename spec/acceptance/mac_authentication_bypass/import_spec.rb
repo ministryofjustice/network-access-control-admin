@@ -194,22 +194,5 @@ describe "Import MAC Authentication Bypasses", type: :feature do
 
       expect(page).to have_content("Error while importing data from CSV: something bad")
     end
-
-    it "shows error when the file extension is not .csv" do
-      visit "/mac_authentication_bypasses"
-
-      click_on "Import bypasses"
-
-      attach_file("csv_file", "spec/fixtures/shared/invalid.ext")
-      click_on "Upload"
-
-      Delayed::Worker.new.work_off
-
-      click_on "here"
-
-      expect(page).to have_content("There is a problem")
-
-      expect(page).to have_content("The file extension is invalid")
-    end
   end
 end

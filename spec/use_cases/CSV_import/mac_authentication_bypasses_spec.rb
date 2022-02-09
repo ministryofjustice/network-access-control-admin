@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe UseCases::CSVImport::MacAuthenticationBypasses do
-  subject { described_class.new({ contents: file_contents, filename: "dummy.csv" }) }
+  subject { described_class.new({ contents: file_contents, filename: }) }
+  let(:filename) { "dummy.csv" }
 
   context "valid csv entries" do
     before do
@@ -31,24 +32,6 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
   end
 
-  context "valid csv entries with no responses" do
-    let(:file_contents) do
-      "Address,Name,Description,Responses,Site
-bb-bb-cc-dd-ee-ff,Printer2,some test,,"
-    end
-
-    it "creates valid MABs" do
-      expect(subject.save).to eq({ errors: [] })
-
-      saved_bypass = MacAuthenticationBypass.last
-      expect(saved_bypass.id).to_not be_nil
-
-      saved_bypass.responses.each do |response|
-        expect(response.id).to be_nil
-      end
-    end
-  end
-
   context "valid csv with empty lines" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
@@ -74,6 +57,22 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
       expect(subject.save.fetch(:errors)).to eq(
         [
           "The CSV header is invalid",
+        ],
+      )
+    end
+  end
+
+  context "when the file extention is invalid" do
+    let(:file_contents) do
+      "Address,Name,Description,Responses,Site
+aa-bb-cc-dd-ee-ff,Printer1,some test,,"
+    end
+    let(:filename) { "inva.lid" }
+
+    it "records the validation errors" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "The file extension is invalid",
         ],
       )
     end

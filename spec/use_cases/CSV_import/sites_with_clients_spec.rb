@@ -1,7 +1,8 @@
 require "rails_helper"
 
 describe UseCases::CSVImport::SitesWithClients do
-  subject { described_class.new({ contents: file_contents, filename: "dummy.csv" }) }
+  subject { described_class.new({ contents: file_contents, filename: }) }
+  let(:filename) { "dummy.csv" }
 
   context "valid csv entries" do
     before do
@@ -102,6 +103,22 @@ Petty France,128.0.0.1,,,"
       expect(subject.save.fetch(:errors)).to eq(
         [
           "The CSV header is invalid",
+        ],
+      )
+    end
+  end
+
+  context "when the file extention is invalid" do
+    let(:file_contents) do
+      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+Petty France,128.0.0.1,,,"
+    end
+    let(:filename) { "inva.lid" }
+
+    it "records the validation errors" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "The file extension is invalid",
         ],
       )
     end
