@@ -59,7 +59,13 @@ module UseCases
         record.validate
 
         record.errors.full_messages.each do |error|
-          @errors << "Error on row #{row}: Policy #{error}"
+          @errors << "Error on row #{row}: #{error}"
+        end
+
+        record.responses.each do |response|
+          response.errors.full_messages.each do |message|
+            @errors << "Error on row #{row}: #{message}"
+          end
         end
       end
     end
