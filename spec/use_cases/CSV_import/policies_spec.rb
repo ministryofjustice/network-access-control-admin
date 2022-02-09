@@ -90,4 +90,23 @@ MOJO_LAN_VLAN101,Some description,,,"
       )
     end
   end
+
+  context "when policy name is already taken" do
+    before do
+      create(:policy, name: "MOJO_LAN_VLAN101")
+    end
+
+    let(:file_contents) do
+      "Name,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you"
+    end
+
+    it "records the validation errors" do
+      expect(subject.save.fetch(:errors)).to eq(
+        [
+          "Error on row 2: Policy Name has already been taken",
+        ],
+      )
+    end
+  end
 end

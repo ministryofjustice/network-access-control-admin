@@ -3,15 +3,14 @@ module UseCases
 
   class CSVImport::Policies < CSVImport::Base
     CSV_HEADERS = "Name,Description,Rules,Responses".freeze
-    def save
-      return { errors: @errors } unless valid_csv?
 
-      map_csv_content
+    def valid_records?
+      validate_records
 
-      @records.each(&:save)
-
-      { errors: [] }
+      @errors.empty?
     end
+
+  private
 
     def map_csv_content
       parsed_csv.each do |row|
@@ -57,6 +56,16 @@ module UseCases
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       @errors.empty?
+    end
+
+    def validate_records
+      @records.each.with_index(2) do |record, row|
+        record.validate
+
+        record.errors.full_messages.each do |error|
+          @errors << "Error on row #{row}: Policy #{error}"
+        end
+      end
     end
   end
 end
