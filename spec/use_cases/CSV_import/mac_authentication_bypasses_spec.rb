@@ -7,7 +7,7 @@ describe UseCases::CSVImport::MacAuthenticationBypasses do
   context "valid csv entries" do
     before do
       create(:site, name: "102 Petty France")
-      subject.save
+      subject.call
     end
 
     let(:file_contents) do
@@ -42,7 +42,7 @@ aa-bb-cc-11-22-33,Printer2,some test,Tunnel-Type=VLAN;Reply-Message=Bye to you;S
     end
 
     it "ignores blank lines in a CSV" do
-      expect(subject.save).to eq({ errors: [] })
+      expect(subject.call).to eq({ errors: [] })
       expect(MacAuthenticationBypass.all.count).to eq(2)
     end
   end
@@ -54,7 +54,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "The CSV header is invalid",
         ],
@@ -70,7 +70,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,,"
     let(:filename) { "inva.lid" }
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "The file extension is invalid",
         ],
@@ -84,7 +84,7 @@ aa-bb-cc-dd-ee-ff,Printer1,some test,,"
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "There is no data to be imported",
         ],
@@ -99,7 +99,7 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=1212,Un
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Address is invalid",
           "Site \"Unknown Site\" is not found",
@@ -115,7 +115,7 @@ aa-bb-cc-dd-ee-ff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,"
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Responses is invalid",
           "Error on row 2: Unknown or invalid value \"ASASAS\" for attribute 3Com-Connect_Id",
@@ -135,7 +135,7 @@ aa-bb-cc-dd-ee-cc,Printer1,some test,SG-Tunnel-Id=777"
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Address has already been taken",
         ],
@@ -151,7 +151,7 @@ aa-bb-cc-dd-ee-cc,Printer2,some test2,SG-Tunnel-Id=888"
     end
 
     it "records the validation errors" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Duplicate MAC address aa-bb-cc-dd-ee-cc found in CSV",
         ],
@@ -167,7 +167,7 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Reply-Message=Hello to you;Reply-Message=He
     end
 
     it "show a validation error" do
-      expect(subject.save.fetch(:errors)).to eq(
+      expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 1: Duplicate response attribute \"Reply-Message\" found in CSV",
           "Error on row 2: Duplicate response attribute \"Reply-Message\" found in CSV",

@@ -175,7 +175,7 @@ describe "Import MAC Authentication Bypasses", type: :feature do
     end
 
     it "shows errors when the use-case returns an unexpected error" do
-      allow_any_instance_of(UseCases::CSVImport::MacAuthenticationBypasses).to receive(:save).and_raise("something bad")
+      allow_any_instance_of(UseCases::CSVImport::MacAuthenticationBypasses).to receive(:call).and_raise("something bad")
 
       visit "/mac_authentication_bypasses"
 
