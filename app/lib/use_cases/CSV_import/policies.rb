@@ -6,12 +6,6 @@ module UseCases
 
   private
 
-    def valid_records?
-      validate_records
-
-      @errors.empty?
-    end
-
     def map_csv_content
       parsed_csv.each do |row|
         name = row["Name"]

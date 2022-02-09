@@ -6,13 +6,6 @@ module UseCases
 
   private
 
-    def valid_records?
-      validate_records
-      validate_sites
-
-      @errors.empty?
-    end
-
     def map_csv_content
       @sites_not_found = []
       all_sites = Site.all
@@ -83,12 +76,14 @@ module UseCases
           end
         end
       end
-    end
 
-    def validate_sites
       @sites_not_found.each do |site_name|
         @errors << "Site \"#{site_name}\" is not found"
       end
     end
+
+    # def validate_sites
+
+    # end
   end
 end
