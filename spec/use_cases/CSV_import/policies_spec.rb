@@ -104,7 +104,7 @@ MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunne
     it "records the validation errors" do
       expect(subject.call.fetch(:errors)).to eq(
         [
-          "Error on row 2: Policy Name has already been taken",
+          "Error on row 2: Name has already been taken",
         ],
       )
     end
@@ -121,6 +121,22 @@ MOJO_LAN_VLAN101,Another description,,"
       expect(subject.call.fetch(:errors)).to eq(
         [
           "Duplicate Policy name \"MOJO_LAN_VLAN101\" found in CSV",
+        ],
+      )
+    end
+  end
+
+  context "csv with invalid response attribute" do
+    let(:file_contents) do
+      "Name,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,3Com-Connect_Id=ASASAS"
+    end
+
+    it "records the validation errors" do
+      expect(subject.call.fetch(:errors)).to eq(
+        [
+          "Error on row 2: Responses is invalid",
+          "Error on row 2: Unknown or invalid value \"ASASAS\" for attribute 3Com-Connect_Id",
         ],
       )
     end
