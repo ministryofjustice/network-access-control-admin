@@ -58,20 +58,20 @@ p "creating MABs"
     address: mac_address.to_s,
     name: "MAB#{m}",
     description: "MAC Address for #{m}",
-    responses: [
-      MabResponse.create!(
-        response_attribute: "Tunnel-Type",
-        value: "VLAN",
-      ),
-      MabResponse.create!(
-        response_attribute: "Tunnel-Medium-Type",
-        value: "IEEE-802",
-      ),
-      MabResponse.create!(
-        response_attribute: "Tunnel-Private-Group-Id",
-        value: "777",
-      ),
-    ],
+    # responses: [
+    #   MabResponse.create!(
+    #     response_attribute: "Tunnel-Type",
+    #     value: "VLAN"
+    #   ),
+    #   MabResponse.create!(
+    #     response_attribute: "Tunnel-Medium-Type",
+    #     value: "IEEE-802"
+    #   ),
+    #   MabResponse.create!(
+    #     response_attribute: "Tunnel-Private-Group-Id",
+    #     value: "777"
+    #   ),
+    # ]
   )
 end
 
