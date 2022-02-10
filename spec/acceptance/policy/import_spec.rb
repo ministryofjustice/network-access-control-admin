@@ -57,6 +57,45 @@ describe "Import Policies", type: :feature do
 
       expect(page.current_path).to eq(policies_import_path(CsvImportResult.last.id))
       expect(page).to have_content("CSV Successfully imported")
+
+      visit "/policies"
+
+      expect(page).to have_content("MOJO_LAN_VLAN101")
+      expect(page).to have_content("Some description")
+      expect(page).to have_content("MOJO_LAN_VLAN202")
+      expect(page).to have_content("Some description2")
+
+      visit "/policies/#{Policy.first.id}"
+
+      expect(page).to have_content("TLS-Cert-Common-Name")
+      expect(page).to have_content("contains")
+      expect(page).to have_content("hihi")
+      expect(page).to have_content("User-Name")
+      expect(page).to have_content("equals")
+      expect(page).to have_content("Bob")
+      
+      expect(page).to have_content("Tunnel-Type")
+      expect(page).to have_content("VLAN")
+      expect(page).to have_content("Reply-Message")
+      expect(page).to have_content("Hello to you")
+
+      visit "/policies/#{Policy.last.id}"
+
+      expect(page).to have_content("TLS-Cert-Common-Name")
+      expect(page).to have_content("contains")
+      expect(page).to have_content("hihi2")
+      expect(page).to have_content("User-Name")
+      expect(page).to have_content("equals")
+      expect(page).to have_content("Bob2")
+      
+      expect(page).to have_content("Tunnel-Type")
+      expect(page).to have_content("VLAN")
+      expect(page).to have_content("Reply-Message")
+      expect(page).to have_content("Bye to you")
+
+      expect_audit_log_entry_for(editor.email, "create", "Policy")
+      expect_audit_log_entry_for(editor.email, "create", "Rule")
+      expect_audit_log_entry_for(editor.email, "create", "Response")
     end
   end
 end
