@@ -4,6 +4,11 @@
     <div class="govuk-form-group">
       <div id="csv-hint" class="govuk-hint">
         Header must contain the following: "<%= UseCases::CSVImport::Policies::CSV_HEADERS %>".<br /><br />
+        Rules are request attributes and have two operators: "=" for equals and "=~" for partial matching.<br />
+        For example: TLS-Cert-Common-Name=~Common-Name<br /><br />
+        Rules and Responses must be separated by a semicolon.<br />
+        For example: Tunnel-Type=VLAN;Reply-Message=Welcome;SG-Tunnel-Id=333<br /><br />
+        File must be a valid CSV with UTF-8 encoding.<br />
       </div>
       <%= file_field :policies, :file, { id: :csv_file, accept: ".csv", class: "govuk-file-upload", required: true } %>
     </div>
