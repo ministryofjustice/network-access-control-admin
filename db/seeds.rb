@@ -61,17 +61,17 @@ p "creating MABs"
     responses: [
       MabResponse.create!(
         response_attribute: "Tunnel-Type",
-        value: "VLAN"
+        value: "VLAN",
       ),
       MabResponse.create!(
         response_attribute: "Tunnel-Medium-Type",
-        value: "IEEE-802"
+        value: "IEEE-802",
       ),
       MabResponse.create!(
         response_attribute: "Tunnel-Private-Group-Id",
-        value: "777"
+        value: "777",
       ),
-    ]
+    ],
   )
 end
 
