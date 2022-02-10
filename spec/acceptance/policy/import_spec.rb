@@ -40,6 +40,23 @@ describe "Import Policies", type: :feature do
       expect(current_path).to eql("/policies_imports/new")
 
       attach_file("csv_file", "spec/fixtures/policies_csv/valid.csv")
+
+      click_on "Upload"
+
+      expect(Delayed::Job.last.handler).to match(/job_class: PolicyImportJob/)
+      expect(Delayed::Job.count).to eq(1)
+      Delayed::Worker.new.work_off
+      expect(Delayed::Job.count).to eq(0)
+
+      expect(CsvImportResult.all.count).to eq(1)
+      expect(CsvImportResult.first.errors).to be_empty
+
+      expect(page).to have_text("Import in progress.. Click here to refresh.")
+
+      click_on "here"
+
+      expect(page.current_path).to eq(policies_import_path(CsvImportResult.last.id))
+      expect(page).to have_content("CSV Successfully imported")
     end
   end
 end
