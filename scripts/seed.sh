@@ -24,7 +24,7 @@ seed() {
 }
 
 main() {
-  if [ "$ENV" == "development" ]; then
+  if [ "$ENV" == "pre-production" ]; then
     assume_deploy_role
     seed
   fi
