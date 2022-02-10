@@ -56,7 +56,7 @@ p "creating MABs"
 100_000.times do |m|
   MacAuthenticationBypass.create!(
     address: mac_address.to_s,
-    name: "MAB#{m}",
+    name: "Performance MAB#{m}",
     description: "MAC Address for #{m}",
     # responses: [
     #   MabResponse.create!(
