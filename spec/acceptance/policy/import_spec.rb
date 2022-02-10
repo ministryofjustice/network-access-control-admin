@@ -98,6 +98,46 @@ describe "Import Policies", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Response")
     end
 
+    it "can upload CRLF file format" do
+      visit "/policies"
+
+      click_on "Import policies"
+
+      expect(current_path).to eql("/policies_imports/new")
+
+      attach_file("csv_file", "spec/fixtures/policies_csv/valid_crlf.csv")
+      click_on "Upload"
+
+      expect(page).to have_content("Importing policies")
+
+      Delayed::Worker.new.work_off
+
+      visit "/policies"
+
+      expect(page).to have_content("MOJO_LAN_VLAN101")
+      expect(page).to have_content("Some description")
+    end
+
+    it "can upload a UTF8_BOM file (Windows support)" do
+      visit "/policies"
+
+      click_on "Import policies"
+
+      expect(current_path).to eql("/policies_imports/new")
+
+      attach_file("csv_file", "spec/fixtures/policies_csv/valid_utf8_bom.csv")
+      click_on "Upload"
+
+      expect(page).to have_content("Importing policies")
+
+      Delayed::Worker.new.work_off
+
+      visit "/policies"
+
+      expect(page).to have_content("MOJO_LAN_VLAN101")
+      expect(page).to have_content("Some description")
+    end
+
     it "shows errors when the CSV is invalid" do
       visit "/policies"
 
