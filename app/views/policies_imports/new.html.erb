@@ -1,0 +1,23 @@
+<%= form_tag(policies_imports_path, multipart: true) do %>
+    <h2 class="govuk-heading-l">Import policies</h2>
+  
+    <div class="govuk-form-group">
+      <div id="csv-hint" class="govuk-hint">
+        Header must contain the following: "<%= UseCases::CSVImport::Policies::CSV_HEADERS %>".<br /><br />
+      </div>
+      <%= file_field :policies, :file, { id: :csv_file, accept: ".csv", class: "govuk-file-upload", required: true } %>
+    </div>
+  
+    <%= submit_tag "Upload", {
+      class: "govuk-button",
+      "data-module" => "govuk-button"
+    } %>
+  
+    <%= link_to "Cancel", sites_path,
+      class: "govuk-button govuk-button--secondary",
+      data: {
+        module: "govuk-button"
+      }
+    %>
+  <% end %>
+  

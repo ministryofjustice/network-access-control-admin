@@ -24,4 +24,22 @@ describe "Import Policies", type: :feature do
       expect(page).to have_content "You are not authorized to access this page."
     end
   end
+
+  context "when the user is an editor" do
+    let(:editor) { create(:user, :editor) }
+
+    before do
+      login_as editor
+    end
+
+    it "imports policies from a valid CSV" do
+      visit "/policies"
+
+      click_on "Import policies"
+
+      expect(current_path).to eql("/policies_imports/new")
+
+      attach_file("csv_file", "spec/fixtures/policies_csv/valid.csv")
+    end
+  end
 end
