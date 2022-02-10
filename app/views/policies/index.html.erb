@@ -6,6 +6,7 @@
       <div>
         <% if can? :create, Policy %>
           <%= link_to "Create a new policy", new_policy_path, class: "govuk-button" %>
+          <%= link_to "Import policies", new_policies_import_path, class: "govuk-button"%>
         <% end %>
         </div>
     </div>
