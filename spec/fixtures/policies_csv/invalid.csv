@@ -1,0 +1,3 @@
+Name,Description,Rules,Responses
+MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you
+MOJO_LAN_VLAN202,Some description,Invalid-Attribute=~hihi,

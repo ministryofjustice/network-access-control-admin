@@ -97,5 +97,48 @@ describe "Import Policies", type: :feature do
       expect_audit_log_entry_for(editor.email, "create", "Rule")
       expect_audit_log_entry_for(editor.email, "create", "Response")
     end
+
+    it "shows errors when the CSV is invalid" do
+      visit "/policies"
+
+      click_on "Import policies"
+
+      expect(current_path).to eql(new_policies_import_path)
+
+      attach_file("csv_file", "spec/fixtures/policies_csv/invalid.csv")
+      click_on "Upload"
+
+      expect(current_path).to eql(policies_import_path(CsvImportResult.first.id))
+
+      Delayed::Worker.new.work_off
+
+      click_on "here"
+
+      expect(page).to have_content("There is a problem")
+
+      expect(page).to have_content("Error on row 3: Rules is invalid")
+      expect(page).to have_content("Error on row 3: Unknown attribute 'Invalid-Attribute'")
+    end
+
+    it "shows errors when the use-case returns an unexpected error" do
+      allow_any_instance_of(UseCases::CSVImport::Policies).to receive(:call).and_raise("something bad")
+
+      visit "/policies"
+
+      click_on "Import policies"
+
+      attach_file("csv_file", "spec/fixtures/policies_csv/invalid.csv")
+      click_on "Upload"
+
+      expect(current_path).to eql(policies_import_path(CsvImportResult.first.id))
+
+      Delayed::Worker.new.work_off
+
+      click_on "here"
+
+      expect(page).to have_content("There is a problem")
+
+      expect(page).to have_content("Error while importing data from CSV: something bad")
+    end
   end
 end
