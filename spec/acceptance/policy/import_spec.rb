@@ -73,7 +73,7 @@ describe "Import Policies", type: :feature do
       expect(page).to have_content("User-Name")
       expect(page).to have_content("equals")
       expect(page).to have_content("Bob")
-      
+
       expect(page).to have_content("Tunnel-Type")
       expect(page).to have_content("VLAN")
       expect(page).to have_content("Reply-Message")
@@ -87,7 +87,7 @@ describe "Import Policies", type: :feature do
       expect(page).to have_content("User-Name")
       expect(page).to have_content("equals")
       expect(page).to have_content("Bob2")
-      
+
       expect(page).to have_content("Tunnel-Type")
       expect(page).to have_content("VLAN")
       expect(page).to have_content("Reply-Message")
