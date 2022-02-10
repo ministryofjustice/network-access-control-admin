@@ -2,20 +2,20 @@
 #   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
 # end
 
-# def mac_address
-#   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
-# end
-
-p "truncating rules, responses, policies, site policies, clients and sites!"
-base_connection = ActiveRecord::Base.connection
-
-base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
-
-%w[rules responses policies site_policies sites clients].each do |table_name|
-  base_connection.truncate(table_name)
+def mac_address
+  6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
 end
 
-base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+# p "truncating rules, responses, policies, site policies, clients and sites!"
+# base_connection = ActiveRecord::Base.connection
+
+# base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+
+# %w[rules responses policies site_policies sites clients].each do |table_name|
+#   base_connection.truncate(table_name)
+# end
+
+# base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
 
 # p "creating policies"
 # 300.times do |p|
@@ -52,14 +52,28 @@ base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
 #   site.policies << Policy.where(fallback: false).select(:id).sample(5)
 # end
 
-# p "creating MABs"
-# 15000.times do |m|
-#   MacAuthenticationBypass.create!(
-#     address: mac_address.to_s,
-#     name: "MAB#{m}",
-#     description: "MAC Address for #{m}",
-#   )
-# end
+p "creating MABs"
+100_000.times do |m|
+  MacAuthenticationBypass.create!(
+    address: mac_address.to_s,
+    name: "MAB#{m}",
+    description: "MAC Address for #{m}",
+    responses: [
+      MabResponse.create!(
+        response_attribute: "Tunnel-Type",
+        value: "VLAN"
+      ),
+      MabResponse.create!(
+        response_attribute: "Tunnel-Medium-Type",
+        value: "IEEE-802"
+      ),
+      MabResponse.create!(
+        response_attribute: "Tunnel-Private-Group-Id",
+        value: "777"
+      ),
+    ]
+  )
+end
 
 # p "creating certificates"
 # 10.times do |c|
