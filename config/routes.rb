@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   resources :sites_imports
+  resources :policies_imports
 
   get "/sites/:id/policies", to: "sites#site_policies", as: "site_policies"
   post "/sites/:id/policies", to: "sites#attach_site_policies", as: "attach_site_policies"
