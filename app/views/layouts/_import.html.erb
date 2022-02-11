@@ -13,10 +13,10 @@
                 </div>
             </div>
         <% else %>
-            <span id="success">CSV Successfully imported</span>
+            <span id="success">CSV successfully imported!</span>
         <% end %>
     <% else %>
-        Import in progress... <noscript>Click <%= link_to "here", path, class: "govuk-link" %> to refresh.</noscript>
+        Import is in progress, please wait... <noscript>Click <%= link_to "here", path, class: "govuk-link" %> to refresh.</noscript>
     <% end %>
 </p>
 
