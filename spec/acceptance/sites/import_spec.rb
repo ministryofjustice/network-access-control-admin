@@ -54,13 +54,13 @@ describe "Import Sites with Clients", type: :feature do
       Delayed::Worker.new.work_off
       expect(Delayed::Job.count).to eq(0)
 
-      expect(page).to have_text("Import in progress...")
+      expect(page).to have_text("Import is in progress, please wait...")
       expect(page).to have_text("Click here to refresh.")
 
       click_on "here"
 
       expect(page.current_path).to eq(sites_import_path(CsvImportResult.last.id))
-      expect(page).to have_content("CSV Successfully imported")
+      expect(page).to have_content("CSV successfully imported!")
 
       visit "/sites"
 
