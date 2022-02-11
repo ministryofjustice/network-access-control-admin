@@ -55,7 +55,8 @@ describe "Import MAC Authentication Bypasses", type: :feature do
       expect(CsvImportResult.all.count).to eq(1)
       expect(CsvImportResult.first.errors).to be_empty
 
-      expect(page).to have_text("Import in progress.. Click here to refresh.")
+      expect(page).to have_text("Import in progress...")
+      expect(page).to have_text("Click here to refresh.")
 
       click_on "here"
 
