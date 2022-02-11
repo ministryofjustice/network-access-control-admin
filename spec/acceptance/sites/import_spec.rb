@@ -54,7 +54,8 @@ describe "Import Sites with Clients", type: :feature do
       Delayed::Worker.new.work_off
       expect(Delayed::Job.count).to eq(0)
 
-      expect(page).to have_text("Import in progress.. Click here to refresh.")
+      expect(page).to have_text("Import in progress...")
+      expect(page).to have_text("Click here to refresh.")
 
       click_on "here"
 
