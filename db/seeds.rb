@@ -52,12 +52,13 @@ end
 #   site.policies << Policy.where(fallback: false).select(:id).sample(5)
 # end
 
-# p "creating MABs"
-# 100_000.times do |m|
-# MacAuthenticationBypass.create!(
-#   address: "aa-bb-cc-dd-ee-ff",
-#   name: "Performance",
-#   description: "MAC Address ",
+p "creating MABs"
+100_000.times do |m|
+MacAuthenticationBypass.create!(
+  address: mac_address,
+  name: "Performance testing #{m}",
+  description: "MAC Address Testing #{m}",
+)
 # responses: [
 #   MabResponse.create!(
 #     response_attribute: "Tunnel-Type",
@@ -87,15 +88,15 @@ end
 #   )
 # end
 
-MacAuthenticationBypass.all.each do |mab|
-  next unless mab.responses.empty?
+# MacAuthenticationBypass.all.each do |mab|
+#   next unless mab.responses.empty?
 
-  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Type', 'VLAN', #{mab.id})"
-  ActiveRecord::Base.connection.execute(sql)
+#   sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Type', 'VLAN', #{mab.id})"
+#   ActiveRecord::Base.connection.execute(sql)
 
-  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Medium-Type', 'IEEE-802', #{mab.id})"
-  ActiveRecord::Base.connection.execute(sql)
+#   sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Medium-Type', 'IEEE-802', #{mab.id})"
+#   ActiveRecord::Base.connection.execute(sql)
 
-  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Private-Group-Id', '777', #{mab.id})"
-  ActiveRecord::Base.connection.execute(sql)
-end
+#   sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Private-Group-Id', '777', #{mab.id})"
+#   ActiveRecord::Base.connection.execute(sql)
+# end
