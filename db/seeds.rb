@@ -2,9 +2,9 @@
 #   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
 # end
 
-def mac_address
-  6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
-end
+# def mac_address
+#   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
+# end
 
 # p "truncating rules, responses, policies, site policies, clients and sites!"
 # base_connection = ActiveRecord::Base.connection
@@ -52,14 +52,14 @@ end
 #   site.policies << Policy.where(fallback: false).select(:id).sample(5)
 # end
 
-p "creating MABs"
-100_000.times do |m|
-MacAuthenticationBypass.create!(
-  address: mac_address,
-  name: "Performance testing #{m}",
-  description: "MAC Address Testing #{m}",
-)
-end
+# p "creating MABs"
+# 100_000.times do |m|
+# MacAuthenticationBypass.create!(
+#   address: mac_address,
+#   name: "Performance testing #{m}",
+#   description: "MAC Address Testing #{m}",
+# )
+# end
 # responses: [
 #   MabResponse.create!(
 #     response_attribute: "Tunnel-Type",
@@ -89,15 +89,15 @@ end
 #   )
 # end
 
-# MacAuthenticationBypass.all.each do |mab|
-#   next unless mab.responses.empty?
+MacAuthenticationBypass.all.each do |mab|
+  next unless mab.responses.empty?
 
-#   sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Type', 'VLAN', #{mab.id})"
-#   ActiveRecord::Base.connection.execute(sql)
+  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Type', 'VLAN', #{mab.id})"
+  ActiveRecord::Base.connection.execute(sql)
 
-#   sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Medium-Type', 'IEEE-802', #{mab.id})"
-#   ActiveRecord::Base.connection.execute(sql)
+  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Medium-Type', 'IEEE-802', #{mab.id})"
+  ActiveRecord::Base.connection.execute(sql)
 
-#   sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Private-Group-Id', '777', #{mab.id})"
-#   ActiveRecord::Base.connection.execute(sql)
-# end
+  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Private-Group-Id', '777', #{mab.id})"
+  ActiveRecord::Base.connection.execute(sql)
+end
