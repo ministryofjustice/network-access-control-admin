@@ -54,11 +54,11 @@ end
 
 p "creating MABs"
 100_000.times do |m|
-MacAuthenticationBypass.create!(
-  address: mac_address,
-  name: "Performance testing #{m}",
-  description: "MAC Address Testing #{m}",
-)
+  MacAuthenticationBypass.create!(
+    address: mac_address,
+    name: "Performance testing #{m}",
+    description: "MAC Address Testing #{m}",
+  )
 end
 # responses: [
 #   MabResponse.create!(
