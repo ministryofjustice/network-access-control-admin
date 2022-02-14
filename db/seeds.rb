@@ -59,6 +59,7 @@ MacAuthenticationBypass.create!(
   name: "Performance testing #{m}",
   description: "MAC Address Testing #{m}",
 )
+end
 # responses: [
 #   MabResponse.create!(
 #     response_attribute: "Tunnel-Type",
