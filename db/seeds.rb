@@ -1,103 +1,116 @@
-# def ip_range
-#   sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
-# end
+class SeedNacs
+  def run
+    # truncate(%w[rules responses policies site_policies sites clients mac_authentication_bypasses])
+    truncate(%w[mac_authentication_bypasses])
+    # create_policies
+    # create_sites
+    # assign_policies_to_sites
+    # create_mabs
+    # create_certificates
+  end
 
-# def mac_address
-#   6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
-# end
+  private
 
-# p "truncating rules, responses, policies, site policies, clients and sites!"
-# base_connection = ActiveRecord::Base.connection
+  def ip_range
+    sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
+  end
 
-# base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+  def mac_address
+    6.times.map { sprintf("%02x", rand(0..255)) }.join("-")
+  end
 
-# %w[rules responses policies site_policies sites clients].each do |table_name|
-#   base_connection.truncate(table_name)
-# end
+  def truncate(tables)
+    p "truncating #{tables.join(" ")}"
 
-# base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+    base_connection = ActiveRecord::Base.connection
+    base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
+    tables.each { |table_name| base_connection.truncate(table_name) }
+    base_connection.execute("SET FOREIGN_KEY_CHECKS = 1")
+  end
 
-# p "creating policies"
-# 300.times do |p|
-#   policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
+  def create_policies
+    p "creating policies"
 
-#   policy.rules.create!(request_attribute: "User-Name", operator: "equals", value: "Bob")
-#   policy.rules.create!(request_attribute: "3Com-User-Access-Level", operator: "equals", value: "3Com-Visitor")
-#   policy.rules.create!(request_attribute: "Zyxel-Callback-Phone-Source", operator: "equals", value: "User")
-#   policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE")
-#   policy.rules.create!(request_attribute: "User-Password", operator: "equals", value: "super secure pass")
+    300.times do |p|
+      policy = Policy.create!(name: "Policy: #{p}", description: "Some policy description", fallback: false)
 
-#   policy.responses.create!(response_attribute: "ARAP-Password", value: "supe secure pass")
-#   policy.responses.create!(response_attribute: "Acct-Delay-Time", value: "1234")
-#   policy.responses.create!(response_attribute: "Acct-Input-Octets", value: "2323")
-#   policy.responses.create!(response_attribute: "EAP-Message", value: "some EAP message")
-#   policy.responses.create!(response_attribute: "Reply-Message", value: "Hello there!")
-# end
+      policy.rules.create!(request_attribute: "User-Name", operator: "equals", value: "Bob")
+      policy.rules.create!(request_attribute: "3Com-User-Access-Level", operator: "equals", value: "3Com-Visitor")
+      policy.rules.create!(request_attribute: "Zyxel-Callback-Phone-Source", operator: "equals", value: "User")
+      policy.rules.create!(request_attribute: "Aruba-AP-Group", operator: "equals", value: "SetMeUp-C7:7D:EE")
+      policy.rules.create!(request_attribute: "User-Password", operator: "equals", value: "super secure pass")
 
-# p "creating sites"
-# 750.times do |s|
-#   site = Site.create!(name: "NEW test site #{s}")
-#   10.times do |c|
-#     Client.create!(
-#       site:,
-#       ip_range: "#{ip_range}/32",
-#       shared_secret: "secret#{s}#{c}",
-#       radsec: false,
-#     )
-#   end
-# end
+      policy.responses.create!(response_attribute: "ARAP-Password", value: "supe secure pass")
+      policy.responses.create!(response_attribute: "Acct-Delay-Time", value: "1234")
+      policy.responses.create!(response_attribute: "Acct-Input-Octets", value: "2323")
+      policy.responses.create!(response_attribute: "EAP-Message", value: "some EAP message")
+      policy.responses.create!(response_attribute: "Reply-Message", value: "Hello there!")
+    end
+  end
 
-# p "assigning policies to sites"
-# Site.all.each do |site|
-#   site.policies << Policy.where(fallback: false).select(:id).sample(5)
-# end
+  def create_sites
+    p "creating sites"
 
-# p "creating MABs"
-# 100_000.times do |m|
-# MacAuthenticationBypass.create!(
-#   address: mac_address,
-#   name: "Performance testing #{m}",
-#   description: "MAC Address Testing #{m}",
-# )
-# end
-# responses: [
-#   MabResponse.create!(
-#     response_attribute: "Tunnel-Type",
-#     value: "VLAN"
-#   ),
-#   MabResponse.create!(
-#     response_attribute: "Tunnel-Medium-Type",
-#     value: "IEEE-802"
-#   ),
-#   MabResponse.create!(
-#     response_attribute: "Tunnel-Private-Group-Id",
-#     value: "777"
-#   ),
-# ]
-#   )
-# end
+    750.times do |s|
+      site = Site.create!(name: "NEW test site #{s}")
+      10.times do |c|
+        Client.create!(
+          site:,
+          ip_range: "#{ip_range}/32",
+          shared_secret: "secret#{s}#{c}",
+          radsec: false,
+        )
+      end
+    end
+  end
 
-# p "creating certificates"
-# 10.times do |c|
-#   Certificate.create!(
-#     name: "Certificate#{c}",
-#     description: "Certificate No. #{c}",
-#     subject: "Common-Name=Certificate#{c}",
-#     expiry_date: Date.today + 1,
-#     category: "EAP",
-#     filename: "#{c}.pem",
-#   )
-# end
+  def assign_policies_to_sites
+    p "assigning policies to sites"
+    Site.all.each do |site|
+      site.policies << Policy.where(fallback: false).select(:id).sample(5)
+    end
+  end
 
-MacAuthenticationBypass.all.each do |mab|
-  next unless mab.responses.empty?
+  def create_mabs
+    p "creating MABs"
 
-  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Type', 'VLAN', #{mab.id})"
-  ActiveRecord::Base.connection.execute(sql)
+    100_000.times do |m|
+    MacAuthenticationBypass.create!(
+      address: mac_address,
+      name: "Performance testing #{m}",
+      description: "MAC Address Testing #{m}",
+      responses: [
+        MabResponse.create!(
+          response_attribute: "Tunnel-Type",
+          value: "VLAN"
+        ),
+        MabResponse.create!(
+          response_attribute: "Tunnel-Medium-Type",
+          value: "IEEE-802"
+        ),
+        MabResponse.create!(
+          response_attribute: "Tunnel-Private-Group-Id",
+          value: "777"
+        ),
+      ]
+      )
+    end
+  end
 
-  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Medium-Type', 'IEEE-802', #{mab.id})"
-  ActiveRecord::Base.connection.execute(sql)
+  def create_certificates
+    p "creating certificates"
 
-  sql = "insert into responses(response_attribute, value, mac_authentication_bypass_id) VALUES ('Tunnel-Private-Group-Id', '777', #{mab.id})"
-  ActiveRecord::Base.connection.execute(sql)
+    10.times do |c|
+      Certificate.create!(
+        name: "Certificate#{c}",
+        description: "Certificate No. #{c}",
+        subject: "Common-Name=Certificate#{c}",
+        expiry_date: Date.today + 1,
+        category: "EAP",
+        filename: "#{c}.pem",
+      )
+    end
+  end
 end
+
+SeedNacs.new.run
