@@ -9,7 +9,7 @@ class SeedNacs
     # create_certificates
   end
 
-  private
+private
 
   def ip_range
     sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
@@ -20,7 +20,7 @@ class SeedNacs
   end
 
   def truncate(tables)
-    p "truncating #{tables.join(" ")}"
+    p "truncating #{tables.join(' ')}"
 
     base_connection = ActiveRecord::Base.connection
     base_connection.execute("SET FOREIGN_KEY_CHECKS = 0")
@@ -75,24 +75,24 @@ class SeedNacs
     p "creating MABs"
 
     100_000.times do |m|
-    MacAuthenticationBypass.create!(
-      address: mac_address,
-      name: "Performance testing #{m}",
-      description: "MAC Address Testing #{m}",
-      responses: [
-        MabResponse.create!(
-          response_attribute: "Tunnel-Type",
-          value: "VLAN"
-        ),
-        MabResponse.create!(
-          response_attribute: "Tunnel-Medium-Type",
-          value: "IEEE-802"
-        ),
-        MabResponse.create!(
-          response_attribute: "Tunnel-Private-Group-Id",
-          value: "777"
-        ),
-      ]
+      MacAuthenticationBypass.create!(
+        address: mac_address,
+        name: "Performance testing #{m}",
+        description: "MAC Address Testing #{m}",
+        responses: [
+          MabResponse.create!(
+            response_attribute: "Tunnel-Type",
+            value: "VLAN",
+          ),
+          MabResponse.create!(
+            response_attribute: "Tunnel-Medium-Type",
+            value: "IEEE-802",
+          ),
+          MabResponse.create!(
+            response_attribute: "Tunnel-Private-Group-Id",
+            value: "777",
+          ),
+        ],
       )
     end
   end
