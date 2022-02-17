@@ -4,7 +4,14 @@ class CertificatesController < ApplicationController
 
   def index
     @q = Certificate
-    @q = @q.where(filename: "server.pem") unless params.dig(:q, :filename).nil?
+    @selected_server_filter = params.dig(:q, :filename)
+    
+    if @selected_server_filter == "Server"
+     @q = @q.where(filename: "server.pem")
+    elsif @selected_server_filter == "CA"
+      @q = @q.where.not(filename: "server.pem")
+    end
+
     @q = @q.ransack(params[:q])
 
     @certificates = @q.result.page(params.dig(:q, :page))

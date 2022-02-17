@@ -10,7 +10,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third">
       <%= search_form_for @q do |f| %>
-        <%= f.select(:filename, ["All", "Server", "CA"],{ selected: "Server" }, { class: "govuk-select" }) %>
+        <%= f.select(:filename, ["All", "Server", "CA"],{ selected: @selected_server_filter }, { class: "govuk-select" }) %>
         <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %> 
       <% end %>
     </div>

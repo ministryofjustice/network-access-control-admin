@@ -30,6 +30,13 @@ describe "showing a certificate", type: :feature do
 
         expect(page).to have_content first_certificate.name
         expect(page).to_not have_content second_certificate.name
+
+        select "CA", from: "q_filename"
+
+        click_on "Search"
+
+        expect(page).to have_content second_certificate.name
+        expect(page).to_not have_content first_certificate.name
       end
     end
 
