@@ -7,6 +7,8 @@ class Certificate < ApplicationRecord
   validates_inclusion_of :category, in: %w[EAP RADSEC]
   validates_uniqueness_of :filename, scope: :category
   validates_format_of :filename, with: /\A.+(.pem)+\z/
+  scope :server_certificates, -> { where(filename: "server.pem") }
+  scope :ca_certificates, -> { where.not(filename: "server.pem") }
 
   def server_certificate?
     filename == "server.pem"

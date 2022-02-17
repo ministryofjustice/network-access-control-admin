@@ -8,9 +8,9 @@ class CertificatesController < ApplicationController
 
     case @selected_server_filter
     when "Server"
-      @q = @q.where(filename: "server.pem")
+      @q = @q.server_certificates
     when "Certificate Authority"
-      @q = @q.where.not(filename: "server.pem")
+      @q = @q.ca_certificates
     end
 
     @q = @q.ransack(params[:q])
