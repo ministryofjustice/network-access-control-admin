@@ -2,7 +2,7 @@ class Certificate < ApplicationRecord
   paginates_per 50
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
-  validates_presence_of :description
+  validates_presence_of :description, :certificate_type
   validate :fields_from_certificate_file, on: :create
   validates_inclusion_of :category, in: %w[EAP RADSEC]
   validates_uniqueness_of :filename, scope: :category

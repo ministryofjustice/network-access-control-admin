@@ -8,6 +8,7 @@ FactoryBot.define do
     sequence(:serial) { |n| "Certificate serial #{n}" }
     sequence(:extensions) { |n| "Certificate extensions #{n}" }
     sequence(:filename) { |n| "ca#{n}.pem" }
+    certificate_type { :server }
     category { "EAP" }
   end
 end
