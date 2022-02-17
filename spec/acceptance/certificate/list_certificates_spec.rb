@@ -17,6 +17,22 @@ describe "showing a certificate", type: :feature do
       expect(page).to have_content date_format(certificate.created_at)
     end
 
+    context "allows filtering by certificate type" do
+      let!(:first_certificate) { create(:certificate, name: "AA Certificate", filename: "server.pem") }
+      let!(:second_certificate) { create(:certificate, name: "BB Certificate") }
+
+      before { visit "/certificates" }
+
+      it "filters by server certificate" do
+        select "Server", from: "q_filename"
+
+        click_on "Search"
+
+        expect(page).to have_content first_certificate.name
+        expect(page).to_not have_content second_certificate.name
+      end
+    end
+
     context "when ordering" do
       let!(:first_certificate) { create(:certificate, name: "AA Certificate") }
       let!(:second_certificate) { create(:certificate, name: "BB Certificate") }

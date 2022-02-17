@@ -3,7 +3,10 @@ class CertificatesController < ApplicationController
   before_action :set_crumbs, only: %i[index new show destroy]
 
   def index
-    @q = Certificate.ransack(params[:q])
+    @q = Certificate
+    @q = @q.where(filename: "server.pem") unless params.dig(:q, :filename).nil?
+    @q = @q.ransack(params[:q])
+
     @certificates = @q.result.page(params.dig(:q, :page))
   end
 
