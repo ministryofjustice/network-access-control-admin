@@ -5,10 +5,11 @@ class CertificatesController < ApplicationController
   def index
     @q = Certificate
     @selected_server_filter = params.dig(:q, :filename)
-    
-    if @selected_server_filter == "Server"
-     @q = @q.where(filename: "server.pem")
-    elsif @selected_server_filter == "CA"
+
+    case @selected_server_filter
+    when "Server"
+      @q = @q.where(filename: "server.pem")
+    when "Certificate Authority"
       @q = @q.where.not(filename: "server.pem")
     end
 
