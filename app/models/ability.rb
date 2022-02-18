@@ -11,6 +11,7 @@ class Ability
       MacAuthenticationBypass,
       UseCases::CSVImport::MacAuthenticationBypasses,
       UseCases::CSVImport::SitesWithClients,
+      UseCases::CSVExport::SitesWithClients,
       UseCases::CSVImport::Policies,
       Client,
     ]
@@ -25,6 +26,7 @@ class Ability
         MacAuthenticationBypass,
         UseCases::CSVImport::MacAuthenticationBypasses,
         UseCases::CSVImport::SitesWithClients,
+        UseCases::CSVExport::SitesWithClients,
         UseCases::CSVImport::Policies,
         Client,
       ]
