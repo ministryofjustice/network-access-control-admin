@@ -8,6 +8,7 @@
         <% elsif can? :create, Site %>
           <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>
           <%= link_to "Import sites with clients", new_sites_import_path, class: "govuk-button"%>
+          <%= link_to "Export sites with clients", new_sites_export_path, class: "govuk-button"%>
         <% end %>
       </th>
       <th scope="col" class="govuk-table__header search_bar">
