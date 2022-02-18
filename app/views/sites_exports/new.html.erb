@@ -1,15 +1,10 @@
-<%= form_tag(sites_exports_path, multipart: true) do %>
-  <h2 class="govuk-heading-l">Export sites with clients</h2>
+<h2 class="govuk-heading-l">Export sites with clients</h2>
 
-  <%= submit_tag "Download CSV", {
-    class: "govuk-button",
-    "data-module" => "govuk-button"
-  } %>
+<%= link_to "Download CSV", sites_exports_path, class: "govuk-button", method: :post %>
 
-  <%= link_to "Cancel", sites_path,
-    class: "govuk-button govuk-button--secondary",
-    data: {
-      module: "govuk-button"
-    }
-  %>
-<% end %>
+<%= link_to "Cancel", sites_path,
+  class: "govuk-button govuk-button--secondary",
+  data: {
+    module: "govuk-button"
+  }
+%>
