@@ -1,5 +1,10 @@
 <h2 class="govuk-heading-l">Export sites with clients</h2>
 
+<p id="csv-export-hint" class="govuk-hint">
+  Export sites with EAP/RadSec clients in CSV format.<br />
+  This will contain IP ranges, shared secrets and sites.
+</p>
+
 <%= link_to "Download CSV", sites_exports_path, class: "govuk-button", method: :post %>
 
 <%= link_to "Cancel", sites_path,
