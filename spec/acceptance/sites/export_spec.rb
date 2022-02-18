@@ -1,16 +1,5 @@
 require "rails_helper"
 
-Capybara.register_driver :selenium_chrome_headless do |app|
-  browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-    opts.args << "--headless"
-    opts.args << "--disable-site-isolation-trials"
-  end
-  browser_options.add_preference(:download, prompt_for_download: false, default_directory: "spec/tmp")
-
-  browser_options.add_preference(:browser, set_download_behavior: { behavior: "allow" })
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
-end
-
 describe "Export Sites with Clients", type: :feature do
   context "when the user is unauthenticated" do
     it "does not allow exporting sites" do
@@ -53,12 +42,9 @@ describe "Export Sites with Clients", type: :feature do
 
       expect(current_path).to eql("/sites_exports/new")
       expect(page).to have_text("Export sites with clients")
+      expect_any_instance_of(UseCases::CSVExport::SitesWithClients).to receive(:call).once
 
       click_on "Download CSV"
-
-      # file_content = File.read("spec/tmp/sites_with_clients.csv")
-
-      # expect(file_content).to include(site.name)
     end
   end
 end
