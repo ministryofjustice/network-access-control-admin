@@ -1,5 +1,5 @@
 class SitesExportsController < ApplicationController
-  before_action :set_sites_crumbs, only: %i[new show]
+  before_action :set_sites_crumbs, only: %i[new]
 
   def new
     sites_with_clients_export = UseCases::CSVExport::SitesWithClients.new
