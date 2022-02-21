@@ -6,9 +6,9 @@
         <% if @policy %>
           <h4 class="govuk-heading-m">For policy: <%= link_to @policy.name, policy_path(@policy), class: "govuk-link" %>
         <% elsif can? :create, Site %>
-          <%= link_to "Create a new site", new_site_path, class: "govuk-button" %>
-          <%= link_to "Import sites with clients", new_sites_import_path, class: "govuk-button"%>
-          <%= link_to "Export sites with clients", new_sites_export_path, class: "govuk-button"%>
+          <%= link_to "Create a new site", new_site_path, class: "govuk-button" %><br />
+          <%= link_to "Import sites with clients", new_sites_import_path, class: "govuk-button govuk-button--secondary"%>
+          <%= link_to "Export sites with clients", new_sites_export_path, class: "govuk-button govuk-button--secondary"%>
         <% end %>
       </th>
       <th scope="col" class="govuk-table__header search_bar">
