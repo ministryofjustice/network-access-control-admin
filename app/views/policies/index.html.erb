@@ -6,38 +6,37 @@
       <div>
         <% if can? :create, Policy %>
           <%= link_to "Create a new policy", new_policy_path, class: "govuk-button" %>
-          <%= link_to "Import policies", new_policies_import_path, class: "govuk-button"%>
+          <%= link_to "Import policies", new_policies_import_path, class: "govuk-button govuk-button--secondary"%>
         <% end %>
         </div>
     </div>
     <div class="govuk-grid-column-full">
       <div class="govuk-grid-row">
         <%= search_form_for @q do |f| %>
-          <div class="govuk-grid-column-one-third">
-            <%= render "shared/type_ahead",
-              form: f,
-              field_name: :site_id,
-              select_options: @sites.unshift(["All Sites (type to filter)", "All"]),
-              options: { selected: @site_id },
-              html_options: { id: "filter" },
-              selector: "#filter"
-            %>
-          </div>
-          <div class="govuk-grid-column-one-third">
-            <% 
-              selected_policy_type = @fallback ? "Fallback" : "Non Fallback"
-              selected_policy_type = "All Policies" if @fallback.nil? 
-            %>
-            <%= f.select(:fallback, ["All Policies", "Fallback", "Non Fallback"], { selected: selected_policy_type }, { class: "govuk-select" }) %>
-          </div>
-          <div class="govuk-grid-column-one-third">
+          <div class="govuk-grid-column-one-half">
             <div class="govuk-grid-column-two-thirds">
-              <%= f.search_field :name_or_description_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
+              <%= render "shared/type_ahead",
+                form: f,
+                field_name: :site_id,
+                select_options: @sites.unshift(["All Sites (type to filter)", "All"]),
+                options: { selected: @site_id },
+                html_options: { id: "filter" },
+                selector: "#filter"
+              %>
             </div>
-            <div class="govuk-grid-column-one-thirds">
-              <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %> 
+            <div class="govuk-grid-column-one-third">
+              <%
+                selected_policy_type = @fallback ? "Fallback" : "Non Fallback"
+                selected_policy_type = "All Policies" if @fallback.nil?
+              %>
+              <%= f.select(:fallback, ["All Policies", "Fallback", "Non Fallback"], { selected: selected_policy_type }, { class: "govuk-select" }) %>
             </div>
           </div>
+          <div class="govuk-grid-column-one-half search_bar">
+              <%= f.search_field :name_or_description_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
+              <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
+          </div>
+
         <% end %>
       </div>
     </div>
