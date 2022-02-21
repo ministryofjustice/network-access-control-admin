@@ -29,13 +29,13 @@ describe "showing a MAC authentication bypass", type: :feature do
       expect(page).to have_content a_mab.site.name
       expect(page).to have_content b_mab.site.name
 
-      within ".govuk-grid-row" do
+      within ".govuk-table" do
         first(:link, "Site").click
       end
 
       expect(page.text).to match(/#{a_mab.name}.*#{b_mab.name}/)
 
-      within ".govuk-grid-row" do
+      within ".govuk-table" do
         first(:link, "Site").click
       end
 
