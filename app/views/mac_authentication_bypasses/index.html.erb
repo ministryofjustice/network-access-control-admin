@@ -1,13 +1,13 @@
 <div>
   <h2 class="govuk-heading-l">MAC Authentication Bypasses</h2>
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
+    <div class="govuk-grid-column-one-half">
         <% if can? :create, MacAuthenticationBypass %>
           <%= link_to "Create a new bypass", new_mac_authentication_bypass_path, class: "govuk-button"%>
           <%= link_to "Import bypasses", new_mac_authentication_bypasses_import_path, class: "govuk-button govuk-button--secondary"%>
         <% end %>
     </div>
-    <div class="govuk-grid-column-two-thirds search_bar">
+    <div class="govuk-grid-column-one-half search_bar">
       <%= search_form_for @q do |f| %>
         <%= f.search_field :name_or_description_or_address_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
         <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
