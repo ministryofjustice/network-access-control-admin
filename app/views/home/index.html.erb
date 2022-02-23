@@ -1,63 +1,76 @@
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Network Access Control Service</h1>
-        <p class="govuk-body">Welcome to the NACS Admin Portal.<br /><br /><strong>This service will allow you to:</strong>
-          <ul class="govuk-list govuk-list--bullet">
-            <li>Onboard new sites</li>
-            <li>Support new PKIs</li>
-            <li>Configure policies</li>
-            <li>Create new MAC authentication bypasses</li>
-            <li>View audit logs</li>
-          </ul>
-        </p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Network Access Control Service</h1>
+    <p class="govuk-body">Welcome to the NACS Admin Portal.<br /><br /><strong>This service will allow you to:</strong>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>Onboard new sites</li>
+        <li>Support new PKIs</li>
+        <li>Configure policies</li>
+        <li>Create new MAC authentication bypasses</li>
+        <li>View audit logs</li>
+      </ul>
+    </p>
 
-        <h2 class="govuk-heading-m">Current Configuration</h2>
-        <dl class="govuk-summary-list">
-          <% @stats.each do |stat| %>
-            <div class="govuk-summary-list__row">
-              <dt class="govuk-summary-list__key">
-                <strong><%= stat.fetch(:label) %></strong>
-              </dt>
-              <dd class="govuk-summary-list__value">
-                <%= stat.fetch(:count)%>
-              </dd>
-              <dd class="govuk-summary-list__actions">
-                <% if stat[:link] %>
-                  <%= link_to "View", stat[:link], class: "govuk-link" %>
-                <% end %>
-              </dd>
-            </div>
-          <% end%>
-        </dl>
-      </div>
+    <h2 class="govuk-heading-m">Current Configuration</h2>
+    <dl class="govuk-summary-list">
+      <% @stats.each do |stat| %>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            <strong><%= stat.fetch(:label) %></strong>
+          </dt>
+          <dd class="govuk-summary-list__value">
+            <%= stat.fetch(:count)%>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <% if stat[:link] %>
+              <%= link_to "View", stat[:link], class: "govuk-link" %>
+            <% end %>
+          </dd>
+        </div>
+      <% end%>
+    </dl>
+  </div>
 
-      <div class="govuk-grid-column-one-third">
-        <aside class="app-related-items" role="complementary">
-          <h2 class="govuk-heading-m" id="subsection-title">
-            Links
-          </h2>
-          <p class="govuk-body govuk-!-font-size-16">The following links open in a new tab.</p>
-          <nav role="navigation" aria-labelledby="subsection-title">
-            <ul class="govuk-list govuk-!-font-size-16">
-              <li><a class="govuk-link" href="<%= ENV["CLOUDWATCH_LINK"] %>" rel="noreferrer noopener" target="_blank">Server Logs <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
-            </ul>
-          </nav>
-        </aside>
+  <div class="govuk-grid-column-one-third">
+    <aside class="app-related-items" role="complementary">
+      <h2 class="govuk-heading-m" id="subsection-title">
+        Links
+      </h2>
+      <p class="govuk-body govuk-!-font-size-16">The following links open in a new tab.</p>
+      <nav role="navigation" aria-labelledby="subsection-title">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li><a class="govuk-link" href="<%= ENV["CLOUDWATCH_LINK"] %>" rel="noreferrer noopener" target="_blank">Server Logs <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+        </ul>
+      </nav>
+    </aside>
 
-        <aside class="app-related-items" role="complementary">
-          <h3 class="govuk-heading-s" id="subsection-title">
-            Github Repositories
-          </h3>
-          <nav role="navigation" aria-labelledby="subsection-title">
-            <ul class="govuk-list govuk-!-font-size-16">
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-infrastructure" rel="noreferrer noopener" target="_blank">Infrastructure <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-server" rel="noreferrer noopener" target="_blank">Server <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-admin" rel="noreferrer noopener" target="_blank">Admin <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-integration-tests" rel="noreferrer noopener" target="_blank">Integration tests <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-device-shared-services-infrastructure" rel="noreferrer noopener" target="_blank">Build pipelines <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
-              <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-infrastructure-monitoring-config" rel="noreferrer noopener" target="_blank">Monitoring and Alerting <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
-            </ul>
-          </nav>
-        </aside>
-      </div>
-    </div>
+    <aside class="app-related-items" role="complementary">
+      <h3 class="govuk-heading-s" id="subsection-title">
+        Github Repositories
+      </h3>
+      <nav role="navigation" aria-labelledby="subsection-title">
+        <ul class="govuk-list govuk-!-font-size-16">
+          <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-infrastructure" rel="noreferrer noopener" target="_blank">Infrastructure <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+          <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-server" rel="noreferrer noopener" target="_blank">Server <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+          <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-admin" rel="noreferrer noopener" target="_blank">Admin <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+          <li><a class="govuk-link" href="https://github.com/ministryofjustice/network-access-control-integration-tests" rel="noreferrer noopener" target="_blank">Integration tests <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+          <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-device-shared-services-infrastructure" rel="noreferrer noopener" target="_blank">Build pipelines <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+          <li><a class="govuk-link" href="https://github.com/ministryofjustice/staff-infrastructure-monitoring-config" rel="noreferrer noopener" target="_blank">Monitoring and Alerting <span class="govuk-visually-hidden">(opens in new tab)</span></a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <aside class="app-related-items" role="complementary">
+      <h3 class="govuk-heading-m" id="subsection-title">
+        Server IPs
+      </h3>
+      <nav role="navigation" aria-labelledby="subsection-title">
+        <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+          <% ENV["SERVER_IPS"].split(",").each do |server_ip| %>
+            <li><%= server_ip %></li>
+          <% end %>
+        </ul>
+      </nav>
+    </aside>
+  </div>
+</div>
