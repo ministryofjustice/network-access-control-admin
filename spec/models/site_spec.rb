@@ -33,6 +33,18 @@ RSpec.describe Site, type: :model do
     expect(site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id).first).to be_nil
   end
 
+  it "updates the fallback policy when a site is updated" do
+    site = create(:site)
+
+    expect(site.fallback_policy).to_not be_nil
+    expect(site.fallback_policy.name).to eq("Fallback policy for #{site.name}")
+
+    site.update(name: "New Site Name")
+
+    expect(site.fallback_policy.name).to eq("Fallback policy for New Site Name")
+    expect(site.fallback_policy.description).to eq("Default fallback policy for New Site Name")
+  end
+
   it "persist and updates the policy count" do
     site = create(:site)
     policy = create(:policy)
