@@ -26,7 +26,7 @@ private
   end
 
   def create_fallback_policy
-    return if policies.detect(&:fallback)
+    return if policies.find_by(fallback: true)
 
     fallback_policy =
       Policy.new(
@@ -43,7 +43,9 @@ private
   end
 
   def update_fallback_policy
-    policies.detect(&:fallback)&.update(
+    fallback_policy = policies.find_by(fallback: true)
+
+    fallback_policy&.update(
       name: "Fallback policy for #{name}",
       description: "Default fallback policy for #{name}",
     )
