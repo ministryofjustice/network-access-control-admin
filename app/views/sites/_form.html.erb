@@ -5,7 +5,7 @@
       Must contain the FITS ID, and location in the following format: "FITS_XXX_LOCATION"<br />
       For example: FITS_4591_MAIDSTONE
     </div>
-    <%= f.text_field :name, maxlength: 255, class: "govuk-input" %>
+    <%= f.text_field :name, maxlength: 230, class: "govuk-input" %>
   </div>
 
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
