@@ -28,18 +28,59 @@
       </tr>
     </thead>
     <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-font-weight-bold" colspan="2" style="text-align:center">SERVER CERTIFICATES</td>
+      </tr>
       <% @certificates.each do |certificate| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell"><%= certificate.name %></td>
-          <td class="govuk-table__cell"><%= certificate.category %></td>
-          <td class="govuk-table__cell"><%= date_format(certificate.expiry_date) %></td>
-          <td class="govuk-table__cell"><%= date_format(certificate.created_at) %></td>
-          <td class="govuk-table__cell">
-            <% if can? :manage, Certificate %>
-              <%= link_to "View", certificate_path(certificate), class:"govuk-link" %>
-            <% end %>
-          </td>
-        </tr>
+        <% if certificate.filename == "server.pem" %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><%= certificate.name %></td>
+            <td class="govuk-table__cell"><%= certificate.category %></td>
+            <td class="govuk-table__cell"><%= date_format(certificate.expiry_date) %></td>
+            <td class="govuk-table__cell"><%= date_format(certificate.created_at) %></td>
+            <td class="govuk-table__cell">
+              <% if can? :manage, Certificate %>
+                <%= link_to "View", certificate_path(certificate), class:"govuk-link" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-font-weight-bold" colspan="2" style="text-align:center">END-USER TRUST CERTIFICATES</td>
+      </tr>
+      <% @certificates.each do |certificate| %>
+        <% if certificate.category == "EAP" && certificate.filename != "server.pem" %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><%= certificate.name %></td>
+            <td class="govuk-table__cell"><%= certificate.category %></td>
+            <td class="govuk-table__cell"><%= date_format(certificate.expiry_date) %></td>
+            <td class="govuk-table__cell"><%= date_format(certificate.created_at) %></td>
+            <td class="govuk-table__cell">
+              <% if can? :manage, Certificate %>
+                <%= link_to "View", certificate_path(certificate), class:"govuk-link" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-!-font-weight-bold" colspan="2" style="text-align:center">INFRASTRUCTURE CERTIFICATES</td>
+      </tr>
+      <% @certificates.each do |certificate| %>
+        <% if certificate.category == "RADSEC" && certificate.filename != "server.pem" %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><%= certificate.name %></td>
+            <td class="govuk-table__cell"><%= certificate.category %></td>
+            <td class="govuk-table__cell"><%= date_format(certificate.expiry_date) %></td>
+            <td class="govuk-table__cell"><%= date_format(certificate.created_at) %></td>
+            <td class="govuk-table__cell">
+              <% if can? :manage, Certificate %>
+                <%= link_to "View", certificate_path(certificate), class:"govuk-link" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

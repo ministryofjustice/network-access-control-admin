@@ -65,8 +65,8 @@ describe "showing a certificate", type: :feature do
       end
 
       it "orders by category" do
-        second_certificate.update_attribute(:category, "EAP")
-        first_certificate.update_attribute(:category, "RADSEC")
+        second_certificate.update(category: "EAP", filename: "server.pem")
+        first_certificate.update(category: "RADSEC", filename: "server.pem")
 
         click_on "Category"
         expect(page.text).to match(/EAP.*RADSEC/)
