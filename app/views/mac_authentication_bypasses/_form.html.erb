@@ -14,12 +14,12 @@
       Must contain the make, model, and hostname in the following format: "MAKE_MODEL_HOSTNAME"<br />
       For example: XEROX_7835_MFD001
     </div>
-    <%= f.text_field :name, class: "govuk-input" %>
+    <%= f.text_field :name, maxlength: 255, class: "govuk-input" %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :description) %>">
     <%= f.label :description, class: "govuk-label" %>
-    <%= f.text_area :description, class: "govuk-input" %>
+    <%= f.text_area :description, maxlength: 1000, class: "govuk-input" %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :site) %>">

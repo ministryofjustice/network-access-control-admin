@@ -5,12 +5,12 @@
       Must contain the usage, environment, and VLAN ID in the following format: "USAGE_ENVIRONMENT_VLANXXX"<br />
       For example: MOJO_LAN_VLAN101, or DOM1_MOJWIFI_VLAN102
     </div>
-    <%= f.text_field :name, class: "govuk-input" %>
+    <%= f.text_field :name, maxlength: 255, class: "govuk-input" %>
   </div>
 
   <div class="govuk-form-group <%= field_error(f.object, :description) %>">
     <%= f.label :description, class: "govuk-label" %>
-    <%= f.text_area :description, class: "govuk-input" %>
+    <%= f.text_area :description, maxlength: 1000, class: "govuk-input" %>
   </div>
 
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
