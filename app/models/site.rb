@@ -11,6 +11,7 @@ class Site < ApplicationRecord
 
   before_save :generate_tag
   after_create :create_fallback_policy
+  after_update :update_fallback_policy
 
   audited
 
@@ -39,6 +40,13 @@ private
       errors.add :name, "Failed to generate fallback policy with error: #{fallback_policy.errors.full_messages.join(', ')}"
       raise ActiveRecord::RecordInvalid
     end
+  end
+
+  def update_fallback_policy
+    policies.detect(&:fallback)&.update(
+      name: "Fallback policy for #{name}",
+      description: "Default fallback policy for #{name}",
+    )
   end
 
   def skip_uniqueness_validation?
