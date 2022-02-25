@@ -3,17 +3,7 @@ class CertificatesController < ApplicationController
   before_action :set_crumbs, only: %i[index new show destroy]
 
   def index
-    @q = Certificate
-    @selected_server_filter = params.dig(:q, :filename)
-
-    case @selected_server_filter
-    when "Server"
-      @q = @q.server_certificates
-    when "Certificate Authority"
-      @q = @q.ca_certificates
-    end
-
-    @q = @q.ransack(params[:q])
+    @q = Certificate.ransack(params[:q])
 
     @certificates = @q.result.page(params.dig(:q, :page))
   end
