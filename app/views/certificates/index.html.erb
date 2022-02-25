@@ -6,12 +6,6 @@
           <%= link_to "Upload a new certificate", new_certificate_path, class: "govuk-button" %>
         <% end %>
     </div>
-    <div class="govuk-grid-column-one-third search_bar">
-      <%= search_form_for @q do |f| %>
-        <%= f.select(:filename, ["All", "Server", "Certificate Authority"],{ selected: @selected_server_filter }, { class: "govuk-select" }) %>
-        <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
-      <% end %>
-    </div>
   </div>
 
   <table class="govuk-table">
