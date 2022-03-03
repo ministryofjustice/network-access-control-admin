@@ -90,12 +90,16 @@ class SitesController < ApplicationController
   end
 
   def update_site_policies
-    @site_policies.each do |site_policy|
-      priority = site_policies_params.fetch(site_policy.id.to_s)
-      site_policy.update(priority:)
-    end
+    if site_policies_params.values == site_policies_params.values.uniq
+      @site_policies.each do |site_policy|
+        priority = site_policies_params.fetch(site_policy.id.to_s)
+        site_policy.update(priority:)
+      end
 
-    redirect_to site_path(@site), notice: "Successfully updated the order of site policies."
+      redirect_to site_path(@site), notice: "Successfully updated the order of site policies."
+    else
+      redirect_to edit_site_policies_path(@site), alert: "Duplicate values entered for order priority."
+    end
   end
 
 private
