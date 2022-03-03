@@ -61,6 +61,19 @@ describe "order site policies", type: :feature do
       end
     end
 
+    it "does not allow same order priority" do
+      visit "/sites/#{site.id}"
+
+      click_on "Change priorities"
+
+      fill_in "Most Important Policy", with: "10"
+      fill_in "Least Important Policy", with: "10"
+
+      click_on "Update"
+
+      expect(page).to have_content("Duplicate values entered for order priority.")
+    end
+
     context "when there is a fallback policy" do
       let(:fallback_policy) { create(:policy, name: "Fallback Policy", fallback: true) }
 
