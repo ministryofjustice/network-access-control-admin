@@ -4,17 +4,19 @@ describe UseCases::CSVImport::MacAuthenticationBypasses do
   subject { described_class.new({ contents: file_contents, filename: }) }
   let(:filename) { "dummy.csv" }
 
+  before do
+    create(:site, name: "102 Petty France")
+  end
+
   context "valid csv entries" do
     before do
-      create(:site, name: "102 Petty France")
       subject.call
     end
 
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
 aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,102 Petty France
-bb-bb-cc-dd-ee-ff,Printer2,some test,,102 Petty France
-cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777"
+bb-bb-cc-dd-ee-ff,Printer2,some test,,102 Petty France"
     end
 
     it "creates valid MABs" do
@@ -36,9 +38,9 @@ cc-bb-cc-dd-ee-ff,Printer3,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
 
-aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,
+aa-bb-cc-dd-ee-ff,Printer1,some test,Tunnel-Type=VLAN;Reply-Message=Hello to you;SG-Tunnel-Id=777,102 Petty France
 
-aa-bb-cc-11-22-33,Printer2,some test,Tunnel-Type=VLAN;Reply-Message=Bye to you;SG-Tunnel-Id=888,"
+aa-bb-cc-11-22-33,Printer2,some test,Tunnel-Type=VLAN;Reply-Message=Bye to you;SG-Tunnel-Id=888,102 Petty France"
     end
 
     it "ignores blank lines in a CSV" do
@@ -101,6 +103,7 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=1212,Un
     it "records the validation errors" do
       expect(subject.call.fetch(:errors)).to eq(
         [
+          "Error on row 2: Site must exist",
           "Error on row 2: Address is invalid",
           "Site \"Unknown Site\" is not found",
         ],
@@ -111,7 +114,7 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=1212,Un
   context "csv with invalid response attribute" do
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
-aa-bb-cc-dd-ee-ff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,"
+aa-bb-cc-dd-ee-ff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,102 Petty France"
     end
 
     it "records the validation errors" do
@@ -131,7 +134,7 @@ aa-bb-cc-dd-ee-ff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=ASASAS,"
 
     let(:file_contents) do
       "Address,Name,Description,Responses,Site
-aa-bb-cc-dd-ee-cc,Printer1,some test,SG-Tunnel-Id=777"
+aa-bb-cc-dd-ee-cc,Printer1,some test,SG-Tunnel-Id=777,102 Petty France"
     end
 
     it "records the validation errors" do
