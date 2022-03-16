@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_162307) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_02_02_162307) do
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -26,7 +25,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_162307) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -39,8 +38,8 @@ ActiveRecord::Schema.define(version: 2022_02_02_162307) do
     t.text "description", null: false
     t.date "expiry_date"
     t.text "subject"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "filename", null: false
     t.string "category", null: false
     t.text "issuer"
@@ -60,9 +59,9 @@ ActiveRecord::Schema.define(version: 2022_02_02_162307) do
 
   create_table "csv_import_results", charset: "utf8", force: :cascade do |t|
     t.text "import_errors"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "completed_at", precision: 6
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "completed_at"
   end
 
   create_table "delayed_jobs", charset: "utf8", force: :cascade do |t|
@@ -70,13 +69,13 @@ ActiveRecord::Schema.define(version: 2022_02_02_162307) do
     t.integer "attempts", default: 0, null: false
     t.text "handler", size: :long, null: false
     t.text "last_error"
-    t.datetime "run_at", precision: 6
-    t.datetime "locked_at", precision: 6
-    t.datetime "failed_at", precision: 6
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
     t.string "locked_by"
     t.string "queue"
-    t.datetime "created_at", precision: 6
-    t.datetime "updated_at", precision: 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
@@ -144,8 +143,8 @@ ActiveRecord::Schema.define(version: 2022_02_02_162307) do
     t.string "uid"
     t.boolean "editor", default: false
     t.string "email"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "clients", "sites"

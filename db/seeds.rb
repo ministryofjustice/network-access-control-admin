@@ -1,7 +1,8 @@
 class SeedNacs
   def run
     # truncate(%w[rules responses policies site_policies sites clients mac_authentication_bypasses])
-    truncate(%w[mac_authentication_bypasses])
+    ensure_mac_addresses_belong_to_sites
+    # truncate(%w[mac_authentication_bypasses])
     # create_policies
     # create_sites
     # assign_policies_to_sites
@@ -10,6 +11,13 @@ class SeedNacs
   end
 
 private
+
+  def ensure_mac_addresses_belong_to_sites
+    MacAuthenticationBypass.where(site: nil).each do |bypass|
+      bypass.site = Site.first
+      bypass.save!
+    end
+  end
 
   def ip_range
     sprintf("%d.%d.%d.%d", rand(256), rand(256), rand(256), rand(256))
