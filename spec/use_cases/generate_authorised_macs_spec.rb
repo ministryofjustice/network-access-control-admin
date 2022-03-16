@@ -13,8 +13,8 @@ describe UseCases::GenerateAuthorisedMacs do
 
       context "when there are no MAB responses" do
         before do
-          create(:mac_authentication_bypass, address: "aa-11-22-33-44-55", site: site)
-          create(:mac_authentication_bypass, address: "ff-99-88-77-66-55", site: site)
+          create(:mac_authentication_bypass, address: "aa-11-22-33-44-55", site:)
+          create(:mac_authentication_bypass, address: "ff-99-88-77-66-55", site:)
         end
 
         it "generates a authorised_macs configuration file" do
@@ -25,8 +25,8 @@ describe UseCases::GenerateAuthorisedMacs do
       end
 
       context "when there are MAB responses" do
-        let!(:mac_authentication_bypass) { create(:mac_authentication_bypass, address: "aa-66-77-88-99-00", site: site) }
-        let!(:second_mac_authentication_bypass) { create(:mac_authentication_bypass, address: "bb-cc-00-11-22-33", site: site) }
+        let!(:mac_authentication_bypass) { create(:mac_authentication_bypass, address: "aa-66-77-88-99-00", site:) }
+        let!(:second_mac_authentication_bypass) { create(:mac_authentication_bypass, address: "bb-cc-00-11-22-33", site:) }
 
         before do
           create(:mab_response, mac_authentication_bypass:, response_attribute: "Tunnel-Medium-Type", value: "IEEE-802")
