@@ -6,6 +6,8 @@ module UseCases
 
     def call
       ecs_gateway.update_service
+    rescue RuntimeError
+      p "NOOP: Deployments have already been scheduled"
     end
 
   private

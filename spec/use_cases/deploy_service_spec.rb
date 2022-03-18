@@ -7,13 +7,24 @@ describe UseCases::DeployService do
     )
   end
 
-  let(:ecs_gateway) { instance_spy(Gateways::Ecs) }
+  context "when there are no in flight deployments" do
+    let(:ecs_gateway) { instance_double(Gateways::Ecs, update_service: nil) }
 
-  before do
-    use_case.call
+    it "deploys the network access control admin service" do
+      use_case.call
+      expect(ecs_gateway).to have_received(:update_service)
+    end
   end
 
-  it "deploys the network access control admin service" do
-    expect(ecs_gateway).to have_received(:update_service)
+  context "when the maximum number of deployments has been reached" do
+    let(:ecs_gateway) { instance_double(Gateways::Ecs, update_service: nil) }
+
+    before do
+      allow(ecs_gateway).to receive(:update_service).and_raise("Aws::ECS::Errors::InvalidParameterException")
+    end
+
+    it "does not schedule another deployment" do
+      expect { use_case.call }.not_to raise_error
+    end
   end
 end
