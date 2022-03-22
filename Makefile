@@ -24,7 +24,7 @@ start-db:
 db-setup: start-db
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails RAILS_ENV=${ENV} db:drop db:create db:migrate
 
-serve: stop start-db
+serve: stop db-setup
 	$(DOCKER_COMPOSE) up -d app
 	$(DOCKER_COMPOSE) up -d background_worker
 
