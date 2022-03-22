@@ -1,8 +1,8 @@
 class SeedNacs
   def run
-    # truncate(%w[rules responses policies site_policies sites clients mac_authentication_bypasses])
-    ensure_mac_addresses_belong_to_sites
-    # truncate(%w[mac_authentication_bypasses])
+    # truncate(%w[responses policies site_policies sites clients mac_authentication_bypasses])
+    # ensure_mac_addresses_belong_to_sites
+    truncate(%w[responses mac_authentication_bypasses])
     # create_policies
     # create_sites
     # assign_policies_to_sites
