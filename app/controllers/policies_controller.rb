@@ -14,7 +14,7 @@ class PoliciesController < ApplicationController
     @policy = Policy.new(policy_params)
     authorize! :create, @policy
 
-    if @policy.save 
+    if @policy.save
       redirect_to policy_path(@policy), notice: "Successfully created #{@policy.default_type} policy."
     else
       render :new

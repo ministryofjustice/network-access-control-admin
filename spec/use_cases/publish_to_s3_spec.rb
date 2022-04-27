@@ -2,12 +2,12 @@ require "rails_helper"
 
 class FakeValidConfigValidator
   def initialize(config_file_path:, contents:); end
-  def call() = nil
+  def call = nil
 end
 
 class FakeInvalidConfigValidator
   def initialize(config_file_path:, contents:); end
-  def call() = abort("error")
+  def call = abort("error")
 end
 
 describe UseCases::PublishToS3 do

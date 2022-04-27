@@ -20,7 +20,6 @@ class Policy < ApplicationRecord
     default_accept? ? "accept" : "reject"
   end
 
-
 private
 
   def skip_uniqueness_validation?

@@ -39,5 +39,4 @@ describe Policy, type: :model do
     expect(policy.default_reject?).to eq(true)
     expect(policy.default_type).to eq("reject")
   end
-
 end
