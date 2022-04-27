@@ -14,8 +14,8 @@ class PoliciesController < ApplicationController
     @policy = Policy.new(policy_params)
     authorize! :create, @policy
 
-    if @policy.save
-      redirect_to policy_path(@policy), notice: "Successfully created policy. "
+    if @policy.save 
+      redirect_to policy_path(@policy), notice: "Successfully created #{@policy.default_type} policy."
     else
       render :new
     end
@@ -87,7 +87,7 @@ class PoliciesController < ApplicationController
 private
 
   def policy_params
-    params.require(:policy).permit(:name, :description, :fallback)
+    params.require(:policy).permit(:name, :description, :fallback, :default_accept)
   end
 
   def sites_params

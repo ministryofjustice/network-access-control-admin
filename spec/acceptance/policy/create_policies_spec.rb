@@ -32,22 +32,40 @@ describe "create policies", type: :feature do
       login_as editor
     end
 
-    it "creates a new policy" do
+    it "creates a new accept policy" do
       visit "/policies"
 
       click_on "Create a new policy"
 
       expect(current_path).to eql("/policies/new")
+      expect(page).to have_content("Policy Type.")
+
 
       fill_in "Name", with: "My Test Policy"
       fill_in "Description", with: "This is a test policy"
 
       click_on "Create"
 
-      expect(page).to have_content("Successfully created policy.")
+      expect(page).to have_content("Successfully created accept policy.")
       expect(page).to have_content("My Test Policy")
 
       expect_audit_log_entry_for(editor.email, "create", "Policy")
+    end
+
+    it "creates a new reject policy" do
+      visit "/policies"
+
+      click_on "Create a new policy"
+     
+
+      fill_in "Name", with: "My Test Policy"
+      fill_in "Description", with: "This is a test policy"
+
+      choose("policy_default_accept_false")
+
+      click_on "Create"
+
+      expect(page).to have_content("Successfully created reject policy.")
     end
 
     it "displays error if form cannot be submitted" do

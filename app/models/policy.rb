@@ -12,6 +12,15 @@ class Policy < ApplicationRecord
 
   audited
 
+  def default_reject?
+    !default_accept?
+  end
+
+  def default_type
+    default_accept? ? "accept" : "reject"
+  end
+
+
 private
 
   def skip_uniqueness_validation?

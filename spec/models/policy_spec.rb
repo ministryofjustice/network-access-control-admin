@@ -27,5 +27,17 @@ describe Policy, type: :model do
     policy.save
 
     expect(policy.site_count).to eq(0)
+    expect(policy.default_accept?).to eq(true)
+    expect(policy.default_reject?).to eq(false)
+    expect(policy.default_type).to eq("accept")
   end
+
+  it "persist a default reject policy" do
+    policy = create(:policy, default_accept: false)
+
+    expect(policy.default_accept?).to eq(false)
+    expect(policy.default_reject?).to eq(true)
+    expect(policy.default_type).to eq("reject")
+  end
+
 end
