@@ -8,7 +8,7 @@ describe "showing a client", type: :feature do
 
     context "when a site has a client" do
       let!(:site) { create :site }
-      let!(:client) { create :client, site: site }
+      let!(:client) { create :client, site: }
 
       it "allows viewing clients" do
         visit "/sites/#{site.id}"

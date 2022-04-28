@@ -29,7 +29,7 @@ describe "showing a MAC authentication bypass", type: :feature do
 
     context "when the MAC authentication bypass exists with a site" do
       let!(:site) { create :site }
-      let!(:mac_authentication_bypass) { create :mac_authentication_bypass, site: site }
+      let!(:mac_authentication_bypass) { create :mac_authentication_bypass, site: }
 
       it "allows viewing bypasses" do
         visit "/mac_authentication_bypasses/#{mac_authentication_bypass.id}"

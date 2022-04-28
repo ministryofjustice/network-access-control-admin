@@ -42,6 +42,7 @@ describe Policy, type: :model do
     expect(policy.responses.first.response_attribute).to eq("Post-Auth-Type")
     expect(policy.responses.first.value).to eq("Reject")
   end
+<<<<<<< HEAD
 
   it "updates a accept policy to an reject policy"
   
@@ -76,4 +77,6 @@ describe Policy, type: :model do
 
 
 
+=======
+>>>>>>> b366b0f78a8898e134fc46b13c6bc27a74af5bac
 end

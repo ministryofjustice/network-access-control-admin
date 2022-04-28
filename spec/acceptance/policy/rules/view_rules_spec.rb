@@ -8,7 +8,7 @@ describe "showing a rule", type: :feature do
 
     context "when a policy exists with a rule" do
       let!(:policy) { create :policy }
-      let!(:rule) { create :rule, policy: policy }
+      let!(:rule) { create :rule, policy: }
 
       it "allows viewing rules on the policy page" do
         visit "/policies/#{policy.id}"
