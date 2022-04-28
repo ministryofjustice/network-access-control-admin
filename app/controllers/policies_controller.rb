@@ -15,7 +15,7 @@ class PoliciesController < ApplicationController
     authorize! :create, @policy
 
     if @policy.save
-      set_default_policy_type
+      set_policy_action
       redirect_to policy_path(@policy), notice: "Successfully created #{@policy.default_type} policy."
     else
       render :new
@@ -61,7 +61,7 @@ class PoliciesController < ApplicationController
     @policy.assign_attributes(policy_params)
 
     if @policy.save
-      set_default_policy_type
+      set_policy_action
       redirect_to policy_path(@policy), notice: "Successfully updated policy. "
     else
       render :edit
@@ -127,7 +127,7 @@ private
                 end
   end
 
-  def set_default_policy_type
+  def set_policy_action
     @policy.responses.find_by(response_attribute: "Post-Auth-Type").try(:delete)
 
     if params.dig("policy", "default_accept") == "false"
