@@ -15,7 +15,8 @@ class PoliciesController < ApplicationController
     authorize! :create, @policy
 
     if @policy.save
-      redirect_to policy_path(@policy), notice: "Successfully created policy. "
+      set_policy_action
+      redirect_to policy_path(@policy), notice: "Successfully created #{@policy.action} policy."
     else
       render :new
     end
@@ -60,6 +61,7 @@ class PoliciesController < ApplicationController
     @policy.assign_attributes(policy_params)
 
     if @policy.save
+      set_policy_action
       redirect_to policy_path(@policy), notice: "Successfully updated policy. "
     else
       render :edit
@@ -87,7 +89,7 @@ class PoliciesController < ApplicationController
 private
 
   def policy_params
-    params.require(:policy).permit(:name, :description, :fallback)
+    params.require(:policy).permit(:name, :description, :fallback, :action_accept?)
   end
 
   def sites_params
@@ -123,5 +125,13 @@ private
                 when "Non Fallback"
                   false
                 end
+  end
+
+  def set_policy_action
+    @policy.responses.find_by(response_attribute: "Post-Auth-Type").try(:delete)
+
+    if params.dig("policy", "action_accept") == "false"
+      @policy.responses << Response.create!(response_attribute: "Post-Auth-Type", value: "Reject")
+    end
   end
 end

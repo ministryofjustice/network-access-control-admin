@@ -44,6 +44,8 @@ describe "update policies", type: :feature do
 
       fill_in "Name", with: "My London Policy"
 
+      choose("policy_action_accept_false")
+
       click_on "Update"
 
       expect(current_path).to eq("/policies/#{policy.id}")
@@ -51,6 +53,9 @@ describe "update policies", type: :feature do
       expect(page).to have_content("My London Policy")
       expect(page).to have_content("Successfully updated policy.")
 
+      first(:link, "Change").click
+
+      expect(page).to have_checked_field("policy_action_accept_false")
       expect_audit_log_entry_for(editor.email, "update", "Policy")
     end
   end

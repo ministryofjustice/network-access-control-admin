@@ -12,6 +12,18 @@ class Policy < ApplicationRecord
 
   audited
 
+  def action_reject?
+    responses.find_by(response_attribute: "Post-Auth-Type", value: "Reject") ? true : false
+  end
+
+  def action_accept?
+    !action_reject?
+  end
+
+  def action
+    action_accept? ? "accept" : "reject"
+  end
+
 private
 
   def skip_uniqueness_validation?

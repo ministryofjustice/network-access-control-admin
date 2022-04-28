@@ -13,6 +13,21 @@
     <%= f.text_area :description, maxlength: 1000, class: "govuk-input" %>
   </div>
 
+  <div class="govuk-form-group">
+   <div id="action-hint" class="govuk-label">Action</div>
+   <div class="govuk-radios" data-module="govuk-radios">
+      <div class="govuk-radios__item">
+        <%= f.radio_button :action_accept?, true, checked: policy.action_accept?, class: "govuk-radios__input" %>
+        <%= f.label :action_accept?, "Accept", class: "govuk-label govuk-radios__label" %>
+      </div>
+      <div class="govuk-radios__item">
+        <%= f.radio_button :action_accept?, false, checked: policy.action_reject?, class: "govuk-radios__input" %>
+        <%= f.label :action_accept?, "Reject", class: "govuk-label govuk-radios__label" %>
+      </div>
+    </div>
+  </div>
+
+
   <%= f.submit f.object.new_record? ? "Create" : "Update", {
     class: "govuk-button",
     "data-module" => "govuk-button"

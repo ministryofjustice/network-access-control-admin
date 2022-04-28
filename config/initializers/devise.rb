@@ -352,7 +352,7 @@ Warden::Manager.after_set_user do |record, warden, options|
 
     if record.hard_timedout?(signed_in_at)
       Devise.sign_out_all_scopes ? proxy.sign_out : proxy.sign_out(scope)
-      throw :warden, scope: scope, message: :timeout
+      throw :warden, scope:, message: :timeout
     end
 
     # Only set this once (to represent when the user signed in)
