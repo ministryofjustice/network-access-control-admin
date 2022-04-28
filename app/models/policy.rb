@@ -20,7 +20,7 @@ class Policy < ApplicationRecord
     !default_reject?
   end
 
-  def default_type
+  def action
     default_accept? ? "accept" : "reject"
   end
 

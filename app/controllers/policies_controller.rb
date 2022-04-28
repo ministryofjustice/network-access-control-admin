@@ -16,7 +16,7 @@ class PoliciesController < ApplicationController
 
     if @policy.save
       set_policy_action
-      redirect_to policy_path(@policy), notice: "Successfully created #{@policy.default_type} policy."
+      redirect_to policy_path(@policy), notice: "Successfully created #{@policy.action} policy."
     else
       render :new
     end
