@@ -10,6 +10,7 @@ class Policy < ApplicationRecord
   has_many :site_policy
   has_many :sites, through: :site_policy, dependent: :destroy
 
+  after_save :ensure_policy_type_responses
   audited
 
   def default_reject?
@@ -25,5 +26,12 @@ private
 
   def skip_uniqueness_validation?
     false
+  end
+
+  def ensure_policy_type_responses
+    responses.find_by(response_attribute: "Post-Auth-Type").try(:delete)
+    if default_reject?
+      responses << Response.create!(response_attribute: "Post-Auth-Type", value: "Reject")
+    end
   end
 end

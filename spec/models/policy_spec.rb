@@ -32,12 +32,48 @@ describe Policy, type: :model do
     expect(policy.default_type).to eq("accept")
   end
 
-  it "persist a default reject policy" do
+  it "persist a new reject policy" do
     policy = create(:policy, default_accept: false)
 
     expect(policy.default_accept?).to eq(false)
     expect(policy.default_reject?).to eq(true)
     expect(policy.default_type).to eq("reject")
+    expect(policy.responses.count).to eq(1)
+    expect(policy.responses.first.response_attribute).to eq("Post-Auth-Type")
+    expect(policy.responses.first.value).to eq("Reject")
   end
+
+  it "updates a accept policy to an reject policy"
+  
+
+  it "updates a reject policy to an accept policy" do
+    policy = create(:policy, default_accept: false)
+    expect(policy.responses.first.response_attribute).to eq("Post-Auth-Type")
+    expect(policy.responses.first.value).to eq("Reject")
+    policy.default_accept = true
+    policy.save!
+
+    expect(policy.default_accept?).to eq(true)
+    expect(policy.responses.count).to eq(0)
+  end
+
+
+  it "persists an existing reject policy"
+
+  it "persists an existing policy containing Post-Auth-Type atrribute in responses" do
+    policy = create(:policy)
+    policy.responses << create(:response, response_attribute: "Post-Auth-Type", value: "Reject")
+    policy.default_accept = false
+    policy.save!
+    expect(policy.responses.count).to eq(1)
+    expect(policy.responses.first.response_attribute).to eq("Post-Auth-Type")
+    expect(policy.responses.first.value).to eq("Reject")
+  end
+
+
+
+
+
+
 
 end

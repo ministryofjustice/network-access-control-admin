@@ -17,11 +17,11 @@
    <div id="name-hint" class="govuk-hint">Policy Type.</div>
    <div class="govuk-radios" data-module="govuk-radios">
       <div class="govuk-radios__item">
-        <%= f.radio_button :default_accept, true, checked: true, class: "govuk-radios__input" %>
+        <%= f.radio_button :default_accept, true, checked: policy.default_accept?, class: "govuk-radios__input" %>
         <%= f.label :default_accept, "Default Accept", class: "govuk-label govuk-radios__label" %>
       </div>
       <div class="govuk-radios__item">
-        <%= f.radio_button :default_accept, false, checked: false, class: "govuk-radios__input" %>
+        <%= f.radio_button :default_accept, false, checked: policy.default_reject?, class: "govuk-radios__input" %>
         <%= f.label :default_accept, "Default Reject", class: "govuk-label govuk-radios__label" %>
       </div>
     </div>
