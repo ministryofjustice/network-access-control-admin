@@ -38,7 +38,7 @@ describe "create policies", type: :feature do
       click_on "Create a new policy"
 
       expect(current_path).to eql("/policies/new")
-      expect(page).to have_content("Policy Type.")
+      expect(page).to have_content("Action")
 
       fill_in "Name", with: "My Test Policy"
       fill_in "Description", with: "This is a test policy"
