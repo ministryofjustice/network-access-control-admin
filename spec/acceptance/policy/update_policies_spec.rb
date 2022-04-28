@@ -54,8 +54,8 @@ describe "update policies", type: :feature do
       expect(page).to have_content("Successfully updated policy.")
 
       first(:link, "Change").click
-      
-      expect(page).to have_checked_field('policy_default_accept_false')
+
+      expect(page).to have_checked_field("policy_default_accept_false")
       expect_audit_log_entry_for(editor.email, "update", "Policy")
     end
   end
