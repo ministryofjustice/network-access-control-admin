@@ -27,8 +27,8 @@ describe Policy, type: :model do
     policy.save
 
     expect(policy.site_count).to eq(0)
-    expect(policy.default_accept?).to eq(true)
-    expect(policy.default_reject?).to eq(false)
+    expect(policy.action_accept?).to eq(true)
+    expect(policy.action_reject?).to eq(false)
     expect(policy.action).to eq("accept")
   end
 
@@ -36,8 +36,8 @@ describe Policy, type: :model do
     policy = create(:policy)
     policy.responses << create(:response, response_attribute: "Post-Auth-Type", value: "Reject")
 
-    expect(policy.default_accept?).to eq(false)
-    expect(policy.default_reject?).to eq(true)
+    expect(policy.action_accept?).to eq(false)
+    expect(policy.action_reject?).to eq(true)
     expect(policy.action).to eq("reject")
   end
 end

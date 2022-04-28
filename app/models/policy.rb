@@ -12,16 +12,16 @@ class Policy < ApplicationRecord
 
   audited
 
-  def default_reject?
+  def action_reject?
     responses.find_by(response_attribute: "Post-Auth-Type", value: "Reject") ? true : false
   end
 
-  def default_accept?
-    !default_reject?
+  def action_accept?
+    !action_reject?
   end
 
   def action
-    default_accept? ? "accept" : "reject"
+    action_accept? ? "accept" : "reject"
   end
 
 private

@@ -89,7 +89,7 @@ class PoliciesController < ApplicationController
 private
 
   def policy_params
-    params.require(:policy).permit(:name, :description, :fallback, :default_accept?)
+    params.require(:policy).permit(:name, :description, :fallback, :action_accept?)
   end
 
   def sites_params
@@ -130,7 +130,7 @@ private
   def set_policy_action
     @policy.responses.find_by(response_attribute: "Post-Auth-Type").try(:delete)
 
-    if params.dig("policy", "default_accept") == "false"
+    if params.dig("policy", "action_accept") == "false"
       @policy.responses << Response.create!(response_attribute: "Post-Auth-Type", value: "Reject")
     end
   end
