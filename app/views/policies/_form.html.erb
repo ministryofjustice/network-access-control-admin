@@ -17,12 +17,12 @@
    <div id="action-hint" class="govuk-label">Action</div>
    <div class="govuk-radios" data-module="govuk-radios">
       <div class="govuk-radios__item">
-        <%= f.radio_button :action_accept?, true, checked: policy.action_accept?, class: "govuk-radios__input" %>
-        <%= f.label :action_accept?, "Accept", class: "govuk-label govuk-radios__label" %>
+        <%= f.radio_button :action, "accept", checked: policy.action == "accept" ? true : false, class: "govuk-radios__input" %>
+        <%= f.label :action, "Accept", class: "govuk-label govuk-radios__label" %>
       </div>
       <div class="govuk-radios__item">
-        <%= f.radio_button :action_accept?, false, checked: policy.action_reject?, class: "govuk-radios__input" %>
-        <%= f.label :action_accept?, "Reject", class: "govuk-label govuk-radios__label" %>
+        <%= f.radio_button :action, "reject", checked: policy.action == "reject" ? true : false, class: "govuk-radios__input" %>
+        <%= f.label :action, "Reject", class: "govuk-label govuk-radios__label" %>
       </div>
     </div>
   </div>

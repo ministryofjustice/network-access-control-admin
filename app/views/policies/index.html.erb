@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="govuk-grid-column-one-half search_bar">
-              <%= f.search_field :name_or_description_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
+              <%= f.search_field :name_or_description_or_action_cont, class: "govuk-input govuk-input--width-10", id: "search" %>
               <%= f.submit "Search", { class: "govuk-button", "data-module" => "govuk-button" } %>
           </div>
 
@@ -50,6 +50,7 @@
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :description) %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :fallback) %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :site_count, "Sites") %></th>
+        <th scope="col" class="govuk-table__header"><%= sort_link(@q, :action, "Action") %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :created_at, "Created") %></th>
         <th scope="col" class="govuk-table__header"><%= sort_link(@q, :updated_at, "Updated") %></th>
         <th scope="col" class="govuk-table__header govuk-table__narrow">
@@ -64,6 +65,7 @@
           <td class="govuk-table__cell"><%= policy.description %></td>
           <td class="govuk-table__cell"><%= policy.fallback ? "Yes" : "No" %></td>
           <td class="govuk-table__cell"><%= link_to policy.site_count, sites_path(:q => { :policy_id => policy.id }), class: "govuk-link" %></td>
+          <td class="govuk-table__cell"><%= policy.action.capitalize %></td>
           <td class="govuk-table__cell"><%= date_format(policy.created_at) %></td>
           <td class="govuk-table__cell"><%= date_format(policy.updated_at) %></td>
           <td class="govuk-table__cell">
