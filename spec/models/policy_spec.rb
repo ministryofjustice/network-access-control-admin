@@ -32,8 +32,7 @@ describe Policy, type: :model do
 
   it "updates an accept policy to a reject policy" do
     policy = create(:policy)
-    policy.responses << create(:response, response_attribute: "Post-Auth-Type", value: "Reject")
-
+    create(:policy_response, policy: policy, response_attribute: "Post-Auth-Type", value: "Reject")
     expect(policy.action).to eq("reject")
   end
 end

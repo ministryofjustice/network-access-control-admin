@@ -59,7 +59,7 @@ describe "create policies", type: :feature do
       fill_in "Name", with: "My Test Policy"
       fill_in "Description", with: "This is a test policy"
 
-      choose("policy_action_false")
+      choose("policy_action_reject")
 
       click_on "Create"
 

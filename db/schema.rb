@@ -98,6 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_28_153153) do
     t.boolean "fallback", default: false, null: false
     t.integer "rule_count", default: 0
     t.bigint "site_count", default: 0
+    t.boolean "default_accept", default: true
     t.string "action", default: "accept"
   end
 
