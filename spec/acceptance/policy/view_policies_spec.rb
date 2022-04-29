@@ -24,6 +24,7 @@ describe "showing a policy", type: :feature do
 
         expect(page).to have_content policy.name
         expect(page).to have_content policy.description
+        expect(page).to have_content policy.action.capitalize
       end
     end
 

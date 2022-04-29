@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_02_162307) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_28_153153) do
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -98,6 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_02_162307) do
     t.boolean "fallback", default: false, null: false
     t.integer "rule_count", default: 0
     t.bigint "site_count", default: 0
+    t.string "action", default: "accept"
   end
 
   create_table "responses", charset: "utf8", force: :cascade do |t|

@@ -44,7 +44,7 @@ describe "update policies", type: :feature do
 
       fill_in "Name", with: "My London Policy"
 
-      choose("policy_action_accept_false")
+      choose("policy_action_reject")
 
       click_on "Update"
 
@@ -55,7 +55,7 @@ describe "update policies", type: :feature do
 
       first(:link, "Change").click
 
-      expect(page).to have_checked_field("policy_action_accept_false")
+      expect(page).to have_checked_field("policy_action_reject")
       expect_audit_log_entry_for(editor.email, "update", "Policy")
     end
   end

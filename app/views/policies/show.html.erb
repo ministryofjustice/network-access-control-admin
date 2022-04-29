@@ -18,6 +18,17 @@
     </dd>
   </div>
   <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">Action</dt>
+    <dd class="govuk-summary-list__value"><%= @policy.action.capitalize %></dd>
+    <dd class="govuk-summary-list__actions">
+      <% if can? :manage, Policy %>
+        <%= link_to edit_policy_path(@policy), class: "govuk-link" do %>
+          Change<span class="govuk-visually-hidden"> Action</span>
+        <% end %>
+      <% end %>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">Sites</dt>
     <dd class="govuk-summary-list__value"><%= @policy.site_count %></dd>
     <dd class="govuk-summary-list__actions">
@@ -96,9 +107,11 @@
           <td class="govuk-table__cell"><%= date_format(response.created_at) %></td>
           <td class="govuk-table__cell"><%= date_format(response.updated_at) %></td>
           <td class="govuk-table__cell">
-            <% if can? :manage, Response %>
-              <%= link_to "Edit", edit_policy_policy_response_path(policy_id: @policy, id: response), class:"govuk-link" %>
-              <%= link_to "Delete", policy_policy_response_path(policy_id: @policy, id: response), class:"govuk-link", method: :delete %>
+            <% if can? :manage, Response  %>
+              <% if response.response_attribute != "Post-Auth-Type" %>
+                <%= link_to "Edit", edit_policy_policy_response_path(policy_id: @policy, id: response), class:"govuk-link" %>
+                <%= link_to "Delete", policy_policy_response_path(policy_id: @policy, id: response), class:"govuk-link", method: :delete %>
+              <% end %>
             <% end %>
           </td>
         </tr>
