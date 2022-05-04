@@ -94,6 +94,9 @@ clients radsec {
 \t\tsecret = radsec
 \t\tshortname = your_site
 \t\tproto = tls
+\t\tlimit {
+\t\t\tmax_connections = 0
+\t\t}
 \t}\n
 }"
 
