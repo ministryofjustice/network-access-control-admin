@@ -27,6 +27,9 @@ private
     str << "\n\t\tsecret = #{client.shared_secret}"
     str << "\n\t\tshortname = #{client.site.tag}"
     str << "\n\t\tproto = tls"
+    str << "\n\t\tlimit {"
+    str << "\n\t\t\tmax_connections = 0"
+    str << "\n\t\t}"
     str << "\n\t}\n"
   end
 end

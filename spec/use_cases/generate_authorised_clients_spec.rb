@@ -59,6 +59,9 @@ clients radsec {
 \t\tsecret = radsec
 \t\tshortname = #{first_radsec_client.site.tag}
 \t\tproto = tls
+\t\tlimit {
+\t\t\tmax_connections = 0
+\t\t}
 \t}
 
 \tclient #{second_radsec_client.ip_range} {
@@ -66,6 +69,9 @@ clients radsec {
 \t\tsecret = radsec
 \t\tshortname = #{second_radsec_client.site.tag}
 \t\tproto = tls
+\t\tlimit {
+\t\t\tmax_connections = 0
+\t\t}
 \t}\n
 }"
           expect(result).to eq(expected_config)
