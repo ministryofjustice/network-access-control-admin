@@ -17,13 +17,16 @@ class CertificatesController < ApplicationController
     uploaded_certificate_file = params["certificate"]["certificate"]
 
     if uploaded_certificate_file.present?
-      certificate_metadata = UseCases::ReadCertificateMetadata.new(certificate: uploaded_certificate_file.read).call
+      certificate_contents = uploaded_certificate_file.read
+
+      certificate_metadata = UseCases::ReadCertificateMetadata.new(certificate: certificate_contents).call
       @certificate.expiry_date = certificate_metadata[:expiry_date]
       @certificate.subject = certificate_metadata[:subject]
       @certificate.issuer = certificate_metadata[:issuer]
       @certificate.serial = certificate_metadata[:serial]
       @certificate.extensions = certificate_metadata[:extensions]
       @certificate.filename = server_certificate? ? "server.pem" : uploaded_certificate_file.original_filename
+      @certificate.contents = certificate_contents
     end
 
     if @certificate.save

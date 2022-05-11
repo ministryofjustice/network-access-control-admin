@@ -38,7 +38,7 @@ describe "create certificates", type: :feature do
     end
 
     context "when the certificate is missing a private key" do
-      let(:cert_missing_private_key_path) { "./spec/acceptance/certificate/dummy_certificate/cert_missing_private_key.pem" }
+      let(:cert_missing_private_key_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/cert_missing_private_key.pem" }
 
       before do
         File.open(cert_missing_private_key_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert)) }
