@@ -46,3 +46,5 @@ coverage
 
 .DS_Store
 **/.DS_Store
+
+/spec/acceptance/certificate/dummy_certificate/server_certificate/*
