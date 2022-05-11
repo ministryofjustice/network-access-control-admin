@@ -12,14 +12,16 @@ describe Certificate, type: :model do
   it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
 
   describe "validate uniquness of filename" do
+    let(:contents) { generate_self_signed_certificate.fetch(:cert_and_key) }
+
     it "rejects duplicate filenames of the same category" do
-      create(:certificate, filename: "server.pem", category: "EAP")
-      expect { create(:certificate, filename: "server.pem", category: "EAP") }.to raise_error(ActiveRecord::RecordInvalid)
+      create(:certificate, filename: "server.pem", category: "EAP", contents:)
+      expect { create(:certificate, filename: "server.pem", category: "EAP", contents:) }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
     it "allows duplicate filenames of the different categories" do
-      create(:certificate, filename: "server.pem", category: "RADSEC")
-      expect { create(:certificate, filename: "server.pem", category: "EAP") }.not_to raise_error
+      create(:certificate, filename: "server.pem", category: "RADSEC", contents:)
+      expect { create(:certificate, filename: "server.pem", category: "EAP", contents:) }.not_to raise_error
     end
   end
 

@@ -27,7 +27,8 @@ module CreateCertificateHelpers
 
     {
       cert: cert.to_pem,
-      key: key.to_pem
+      key: key.to_pem,
+      cert_and_key: cert.to_pem + "\n" + key.to_pem
     }
   end
 end
