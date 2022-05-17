@@ -10,6 +10,11 @@ describe "create certificates", type: :feature do
 
     context "when uploading a new certificate" do
       context "when a server certificate includes a valid private key" do
+        let(:valid_certificate_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/valid_certificate.pem" }
+
+        before do
+          File.open(valid_certificate_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert_and_key)) }
+        end
         it "does upload a server certificate" do
           visit "/certificates"
 
@@ -19,7 +24,7 @@ describe "create certificates", type: :feature do
           check "Server certificate"
           fill_in "Name", with: "My Test Server Certificate 2"
           fill_in "Description", with: "My test server certificate description details 2"
-          attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/mytestcertificate.pem")
+          attach_file("Certificate", valid_certificate_path)
 
           click_on "Upload"
 
@@ -29,7 +34,6 @@ describe "create certificates", type: :feature do
           expect(page).to have_content("My test server certificate description details 2")
           expect(page).to have_content("Server certificate")
           expect(page).to have_content("Yes")
-          expect(page).to have_content("17/07/2021 00:00")
           expect(page).to have_content("server.pem")
 
           expect_audit_log_entry_for(editor.email, "create", "Certificate")
