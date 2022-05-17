@@ -4,21 +4,16 @@ module UseCases
   class ValidateServerCertificate
     def initialize(certificate:)
       @certificate = certificate
-      @errors = []
     end
 
     def call(passphrase = nil)
-      check_certificate_contains_valid_private_key(passphrase)
-      
-      @errors
-    end
+      unless OpenSSL::X509::Certificate.new(@certificate).check_private_key(OpenSSL::PKey::RSA.new(@certificate, passphrase))
+        return ["Certificate does not contain a matching private key"]
+      end
 
-    private
-
-    def check_certificate_contains_valid_private_key(passphrase)
-      OpenSSL::PKey::RSA.new(@certificate, passphrase)
+      []
     rescue OpenSSL::PKey::RSAError
-      @errors << "Certificate does not contain a valid private key"
+      ["Certificate does not contain a valid private key"]
     end
   end
 end

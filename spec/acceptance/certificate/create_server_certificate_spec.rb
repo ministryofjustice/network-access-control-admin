@@ -15,6 +15,7 @@ describe "create certificates", type: :feature do
         before do
           File.open(valid_certificate_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert_and_key)) }
         end
+
         it "does upload a server certificate" do
           visit "/certificates"
 
@@ -68,7 +69,7 @@ describe "create certificates", type: :feature do
         let(:valid_certificate_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/valid_certificate.pem" }
 
         before do
-          ENV['EAP_SERVER_PRIVATE_KEY_PASSPHRASE'] = "notwhatever"
+          stub_const("ENV", { "EAP_SERVER_PRIVATE_KEY_PASSPHRASE" => "notwhatever" })
 
           File.open(valid_certificate_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert_and_key)) }
         end
@@ -92,7 +93,7 @@ describe "create certificates", type: :feature do
         let(:valid_certificate_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/valid_certificate.pem" }
 
         before do
-          ENV['RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE'] = "notwhatever"
+          stub_const("ENV", { "RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE" => "notwhatever" })
 
           File.open(valid_certificate_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert_and_key)) }
         end
@@ -115,18 +116,24 @@ describe "create certificates", type: :feature do
     end
 
     context "when the certificate has a private key but it doesn't match the certificate" do
+      let(:invalid_certificate_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/invalid_certificate.pem" }
+
+      before do
+        File.open(invalid_certificate_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert_and_invalid_key)) }
+      end
+
       it "displays an error message to the user" do
         visit "/certificates/new"
 
         check "Server certificate"
         fill_in "Name", with: "My Test Certificate"
         fill_in "Description", with: "My test certificate description details"
-        attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/invalid_certificate")
+        attach_file("Certificate", invalid_certificate_path)
 
         click_on "Upload"
 
         expect(page).to have_content "There is a problem"
-        expect(page).to have_content "Private Key does not match the certificate"
+        expect(page).to have_content "Certificate does not contain a matching private key"
       end
     end
   end
