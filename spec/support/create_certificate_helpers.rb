@@ -3,6 +3,10 @@ module CreateCertificateHelpers
     key = OpenSSL::PKey::RSA.new(4096)
     public_key = key.public_key
 
+    cipher = OpenSSL::Cipher::Cipher.new("AES-128-CBC")
+    pass_phrase = "secret"
+    key_with_passphrase = key.to_pem(cipher, pass_phrase)
+
     subject = "/C=BE/O=Test/OU=Test/CN=Test"
 
     cert = OpenSSL::X509::Certificate.new
@@ -27,8 +31,8 @@ module CreateCertificateHelpers
 
     {
       cert: cert.to_pem,
-      key: key.to_pem,
-      cert_and_key: cert.to_pem + "\n" + key.to_pem
+      key: key_with_passphrase,
+      cert_and_key: cert.to_pem + "\n" + key_with_passphrase
     }
   end
 end
