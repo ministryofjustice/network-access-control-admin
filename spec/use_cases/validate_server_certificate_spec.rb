@@ -15,7 +15,7 @@ describe UseCases::ValidateServerCertificate do
     end
 
     it "fails validation" do
-      expect(use_case.call).to include("Certificate does not contain a valid private key")
+      expect(use_case.call).to include("Certificate does not contain a valid private key, see #{Rails.application.config.server_certificate_documentation}")
     end
   end
 
@@ -33,7 +33,7 @@ describe UseCases::ValidateServerCertificate do
     end
 
     it "fails validation" do
-      expect(use_case.call("invalidpassphrase")).to include("Certificate does not contain a valid private key")
+      expect(use_case.call("invalidpassphrase")).to include("Certificate does not contain a valid private key, see #{Rails.application.config.server_certificate_documentation}")
     end
   end
 
@@ -51,7 +51,7 @@ describe UseCases::ValidateServerCertificate do
     end
 
     it "fails validation" do
-      expect(use_case.call(ENV.fetch("EAP_SERVER_PRIVATE_KEY_PASSPHRASE"))).to include("Certificate does not contain a matching private key")
+      expect(use_case.call(ENV.fetch("EAP_SERVER_PRIVATE_KEY_PASSPHRASE"))).to include("Certificate does not contain a matching private key, see #{Rails.application.config.server_certificate_documentation}")
     end
   end
 end
