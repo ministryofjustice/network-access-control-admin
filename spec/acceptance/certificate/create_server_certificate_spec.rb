@@ -5,6 +5,9 @@ describe "create certificates", type: :feature do
     let(:editor) { create(:user, :editor) }
 
     before do
+      ENV['RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE'] = "secret"
+      ENV['EAP_SERVER_PRIVATE_KEY_PASSPHRASE'] = "secret"
+
       login_as editor
     end
 
@@ -59,28 +62,58 @@ describe "create certificates", type: :feature do
         click_on "Upload"
 
         expect(page).to have_content "There is a problem"
-        expect(page).to have_content "Certificate is missing a private key"
+        expect(page).to have_content "Certificate does not contain a valid private key"
       end
     end
 
     context "when the passphrase for the private key doesn't match" do
-      before do
-        ENV['RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE'] = "notwhatever"
-        ENV['EAP_SERVER_PRIVATE_KEY_PASSPHRASE'] = "notwhatever"
+      context "when the category is EAP" do
+        let(:valid_certificate_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/valid_certificate.pem" }
+
+        before do
+          ENV['EAP_SERVER_PRIVATE_KEY_PASSPHRASE'] = "notwhatever"
+
+          File.open(valid_certificate_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert_and_key)) }
+        end
+
+        it "displays an error message to the user" do
+          visit "/certificates/new"
+
+          check "Server certificate"
+          fill_in "Name", with: "My Test Certificate"
+          fill_in "Description", with: "My test certificate description details"
+          attach_file("Certificate", valid_certificate_path)
+
+          click_on "Upload"
+
+          expect(page).to have_content "There is a problem"
+          expect(page).to have_content "Certificate does not contain a valid private key"
+        end
       end
 
-      it "displays an error message to the user" do
-        visit "/certificates/new"
+      context "when the category is RADSEC" do
+        let(:valid_certificate_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/valid_certificate.pem" }
 
-        check "Server certificate"
-        fill_in "Name", with: "My Test Certificate"
-        fill_in "Description", with: "My test certificate description details"
-        attach_file("Certificate", "spec/acceptance/certificate/dummy_certificate/invalid_certificate")
+        before do
+          ENV['RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE'] = "notwhatever"
 
-        click_on "Upload"
+          File.open(valid_certificate_path, "w") { |f| f.write(generate_self_signed_certificate.fetch(:cert_and_key)) }
+        end
 
-        expect(page).to have_content "There is a problem"
-        expect(page).to have_content "Passphrase does not match, please ..."
+        it "displays an error message to the user" do
+          visit "/certificates/new"
+
+          select "RADSEC", from: "certificate_category"
+          check "Server certificate"
+          fill_in "Name", with: "My Test Certificate"
+          fill_in "Description", with: "My test certificate description details"
+          attach_file("Certificate", valid_certificate_path)
+
+          click_on "Upload"
+
+          expect(page).to have_content "There is a problem"
+          expect(page).to have_content "Certificate does not contain a valid private key"
+        end
       end
     end
 

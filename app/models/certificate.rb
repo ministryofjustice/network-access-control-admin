@@ -16,10 +16,16 @@ class Certificate < ApplicationRecord
   def validate_server_certificate
     return unless server_certificate?
 
-    results = UseCases::ValidateServerCertificate.new(certificate: contents).call
+    passphrase = if category == "EAP"
+      ENV.fetch("EAP_SERVER_PRIVATE_KEY_PASSPHRASE")
+    elsif category == "RADSEC"
+      ENV.fetch("RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE")
+    end
 
-    results.each do |result|
-      errors.add :base, result
+    validation_errors = UseCases::ValidateServerCertificate.new(certificate: contents).call(passphrase)
+
+    validation_errors.each do |error|
+      errors.add :base, error
     end
   end
 
