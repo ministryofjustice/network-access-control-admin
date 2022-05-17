@@ -5,9 +5,6 @@ describe "create certificates", type: :feature do
     let(:editor) { create(:user, :editor) }
 
     before do
-      ENV['RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE'] = "secret"
-      ENV['EAP_SERVER_PRIVATE_KEY_PASSPHRASE'] = "secret"
-
       login_as editor
     end
 
