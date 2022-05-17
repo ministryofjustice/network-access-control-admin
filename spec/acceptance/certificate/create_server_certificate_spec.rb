@@ -60,7 +60,7 @@ describe "create certificates", type: :feature do
         click_on "Upload"
 
         expect(page).to have_content "There is a problem"
-        expect(page).to have_content "Certificate does not contain a valid private key"
+        expect(page).to have_content "Certificate does not contain a valid private key, see #{Rails.application.config.server_certificate_documentation}"
       end
     end
 
@@ -85,7 +85,7 @@ describe "create certificates", type: :feature do
           click_on "Upload"
 
           expect(page).to have_content "There is a problem"
-          expect(page).to have_content "Certificate does not contain a valid private key"
+          expect(page).to have_content "Certificate does not contain a valid private key, see #{Rails.application.config.server_certificate_documentation}"
         end
       end
 
@@ -110,7 +110,7 @@ describe "create certificates", type: :feature do
           click_on "Upload"
 
           expect(page).to have_content "There is a problem"
-          expect(page).to have_content "Certificate does not contain a valid private key"
+          expect(page).to have_content "Certificate does not contain a valid private key, see #{Rails.application.config.server_certificate_documentation}"
         end
       end
     end
@@ -133,7 +133,7 @@ describe "create certificates", type: :feature do
         click_on "Upload"
 
         expect(page).to have_content "There is a problem"
-        expect(page).to have_content "Certificate does not contain a matching private key"
+        expect(page).to have_content "Certificate does not contain a matching private key, see #{Rails.application.config.server_certificate_documentation}"
       end
     end
   end

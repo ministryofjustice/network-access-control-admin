@@ -24,6 +24,7 @@ module NetworkAccessControlAdmin
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    config.server_certificate_documentation = "https://github.com/ministryofjustice/network-access-control-admin#certificate-management"
 
     config.active_record.legacy_connection_handling = false
 
