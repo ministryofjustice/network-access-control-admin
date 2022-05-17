@@ -7,25 +7,18 @@ module UseCases
       @errors = []
     end
 
-    def call
-      check_certificate_contains_private_key
-      # check_certificate_passphrase
+    def call(passphrase = nil)
+      check_certificate_contains_valid_private_key(passphrase)
       
       @errors
     end
 
     private
 
-    def check_certificate_contains_private_key
-      OpenSSL::PKey::RSA.new(@certificate)
+    def check_certificate_contains_valid_private_key(passphrase)
+      OpenSSL::PKey::RSA.new(@certificate, passphrase)
     rescue OpenSSL::PKey::RSAError
-      @errors << "Certificate is missing a private key"
-    end
-
-    def check_certificate_passphrase
-      OpenSSL::PKey::RSA.new(@certificate, "secret")
-    rescue OpenSSL::PKey::RSAError
-      @errors << "Certificate passphrase does not match"
+      @errors << "Certificate does not contain a valid private key"
     end
   end
 end

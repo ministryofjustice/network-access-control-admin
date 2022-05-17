@@ -15,7 +15,7 @@ describe UseCases::ValidateServerCertificate do
     end
 
     it "can handle invalid certificates" do
-      expect(use_case.call).to include("Certificate is missing a private key")
+      expect(use_case.call).to include("Certificate does not contain a valid private key")
     end
   end
 
@@ -34,7 +34,7 @@ describe UseCases::ValidateServerCertificate do
     end
 
     it "can handle incorrect passphrase" do
-      expect(use_case.call).to include("Certificate passphrase does not match")
+      expect(use_case.call("invalidpassphrase")).to include("Certificate does not contain a valid private key")
     end
   end
 end
