@@ -119,3 +119,30 @@ When run locally, you need to target the AWS account directly with AWS Vault.
 ```bash
   aws-vault exec [target_aws_account_profile] -- make deploy
 ```
+
+## Certificate management
+
+There are 3 types of certificates required to allow authentications:
+- End-User trust certificates
+- Infrastructure certificates
+- Server certificates
+
+### End-User trust certificates
+
+These are the certificate authorities (CAs) of the end user device certificates installed on the NACS server to establish trust and only allow authorised devices to connect. This can contain root and any intermediate certificates, uploaded as separate PEM files. No encrypted private key is required.
+
+### Infrastructure certificates
+
+These are the certificate authorities (CAs) of the network authenticator vendors, installed on the NACS server and used to establish trust between authenticators and the server. These used for RADSEC connections exclusively. No encrypted private key is required.
+
+### Server certificates
+
+There are 2 types of server certificates uploaded to NACS. 
+The first is used for RADSEC, and sent to the authenticators. The second is used for authentication and sent to the end user devices. This is to establish trust and ensure that the devices / authenticators are communicating with the actual Network Access Control Service. 
+These certificates are uploaded as PEM files. 
+
+To upload a new server certificate, follow these steps:
+
+1. Ensure the encrypted private key is included in the PEM file
+2. Ensure the passphrase for the key is up to date in SSM parameter store in the Shared Services AWS account. If this has changed, a deployment of the admin pipeline is required. Validations are in place to only allow uploading certificates with encrypted private keys that match the current passphrase.
+3. Ensure the "Server Certificate" checkbox is selected when uploading these certificates.
