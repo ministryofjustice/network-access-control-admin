@@ -20,7 +20,6 @@ describe UseCases::ValidateServerCertificate do
   end
 
   context "when the passphrase does not match" do
-
     let(:valid_certificate_path) { "./spec/acceptance/certificate/dummy_certificate/server_certificate/valid_certificate.pem" }
 
     before do
