@@ -19,6 +19,8 @@ env:
     DOCKER_USERNAME: "/moj-network-access-control/docker/username"
     DOCKER_PASSWORD: "/moj-network-access-control/docker/password"
     CLOUDWATCH_LINK: "/moj-network-access-control/$ENV/cloudwatch_link"
+    EAP_SERVER_PRIVATE_KEY_PASSPHRASE: "/moj-network-access-control/$ENV/eap_private_key_password"
+    RADSEC_SERVER_PRIVATE_KEY_PASSPHRASE: "/moj-network-access-control/$ENV/radsec_private_key_password"
 
 phases:
   build:
