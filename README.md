@@ -143,6 +143,8 @@ These certificates are uploaded as PEM files.
 
 To upload a new server certificate, follow these steps:
 
-1. Ensure the encrypted private key is included in the PEM file
-2. Ensure the passphrase for the key is up to date in SSM parameter store in the Shared Services AWS account. If this has changed, a deployment of the admin pipeline is required. Validations are in place to only allow uploading certificates with encrypted private keys that match the current passphrase.
+1. Ensure the encrypted private key is included in the PEM file.
+2. Ensure the passphrase for the key is up to date in AWS Systems Manager Parameter Store in the Shared Services AWS account.
+    - If the passphrase has changed, a deployment of the infrastructure pipeline followed by a deployment of the admin pipeline is required.
+    - Validations are in place to only allow uploading certificates with encrypted private keys that match the current passphrase.
 3. Ensure the "Server Certificate" checkbox is selected when uploading these certificates.
