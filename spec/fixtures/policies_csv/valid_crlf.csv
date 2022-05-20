@@ -1,2 +1,2 @@
-Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,,
+Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,,
