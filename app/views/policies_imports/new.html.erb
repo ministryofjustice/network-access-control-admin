@@ -4,6 +4,7 @@
     <div class="govuk-form-group">
       <div id="csv-hint" class="govuk-hint">
         Header must contain the following: "<%= UseCases::CSVImport::Policies::CSV_HEADERS %>".<br /><br />
+        Action is either "accept" or "reject" (case-sensitive) to determine what type of policy it is.<br /><br />
         Rules are request attributes and have two operators: "=" for equals and "=~" for partial matching.<br />
         For example: TLS-Cert-Common-Name=~Common-Name<br /><br />
         Rules and Responses must be separated by a semicolon.<br />
