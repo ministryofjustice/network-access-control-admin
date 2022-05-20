@@ -62,6 +62,10 @@ module UseCases
       @records.each.with_index(2) do |record, row|
         record.validate
 
+        unless record.action == "accept" || record.action == "reject"
+          @errors << "Error on row #{row}: Action is invalid"
+        end
+
         record.errors.full_messages.each do |error|
           @errors << "Error on row #{row}: #{error}"
         end

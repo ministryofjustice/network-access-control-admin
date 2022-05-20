@@ -127,6 +127,21 @@ MOJO_LAN_VLAN101,Another description,,,"
     end
   end
 
+  context "csv with invalid action value" do
+    let(:file_contents) do
+      "Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,invalid action,,"
+    end
+
+    it "records the validation errors" do
+      expect(subject.call.fetch(:errors)).to eq(
+        [
+          "Error on row 2: Action is invalid",
+        ],
+      )
+    end
+  end
+
   context "csv with invalid rule attribute" do
     let(:file_contents) do
       "Name,Description,Action,Rules,Responses
