@@ -1,3 +1,4 @@
-Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you
-MOJO_LAN_VLAN202,Some description2,TLS-Cert-Common-Name=~hihi2;User-Name=Bob2,Tunnel-Type=VLAN;Reply-Message=Bye to you
+Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,accept,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you
+MOJO_LAN_VLAN202,Some description2,,TLS-Cert-Common-Name=~hihi2;User-Name=Bob2,Tunnel-Type=VLAN;Reply-Message=Bye to you
+MOJO_LAN_VLAN303,Some description3,reject,,

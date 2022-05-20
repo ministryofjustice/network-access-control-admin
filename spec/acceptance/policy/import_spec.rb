@@ -63,8 +63,13 @@ describe "Import Policies", type: :feature do
 
       expect(page).to have_content("MOJO_LAN_VLAN101")
       expect(page).to have_content("Some description")
+      expect(page).to have_content("Accept")
       expect(page).to have_content("MOJO_LAN_VLAN202")
       expect(page).to have_content("Some description2")
+      expect(page).to have_content("Accept")
+      expect(page).to have_content("MOJO_LAN_VLAN303")
+      expect(page).to have_content("Some description3")
+      expect(page).to have_content("Reject")
 
       visit "/policies/#{Policy.first.id}"
 
@@ -80,7 +85,7 @@ describe "Import Policies", type: :feature do
       expect(page).to have_content("Reply-Message")
       expect(page).to have_content("Hello to you")
 
-      visit "/policies/#{Policy.last.id}"
+      visit "/policies/#{Policy.second.id}"
 
       expect(page).to have_content("TLS-Cert-Common-Name")
       expect(page).to have_content("contains")
@@ -94,6 +99,15 @@ describe "Import Policies", type: :feature do
       expect(page).to have_content("Reply-Message")
       expect(page).to have_content("Bye to you")
 
+      expect_audit_log_entry_for(editor.email, "create", "Policy")
+      expect_audit_log_entry_for(editor.email, "create", "Rule")
+      expect_audit_log_entry_for(editor.email, "create", "Response")
+
+      visit "/policies/#{Policy.last.id}"
+
+      expect(page).to have_content("Post-Auth-Type")
+      expect(page).to have_content("Reject")
+  
       expect_audit_log_entry_for(editor.email, "create", "Policy")
       expect_audit_log_entry_for(editor.email, "create", "Rule")
       expect_audit_log_entry_for(editor.email, "create", "Response")

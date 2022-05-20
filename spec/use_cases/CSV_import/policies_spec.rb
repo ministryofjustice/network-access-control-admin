@@ -10,8 +10,8 @@ describe UseCases::CSVImport::Policies do
     end
 
     let(:file_contents) do
-      "Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you"
+      "Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you"
     end
 
     it "creates valid Policies" do
@@ -19,6 +19,7 @@ MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunne
 
       expect(saved_policy.name).to eq("MOJO_LAN_VLAN101")
       expect(saved_policy.description).to eq("Some description")
+      expect(saved_policy.action).to eq("accept")
 
       expect(saved_policy.rules.first.request_attribute).to eq("TLS-Cert-Common-Name")
       expect(saved_policy.rules.first.operator).to eq("contains")
@@ -79,7 +80,7 @@ MOJO_LAN_VLAN101,Some description,,,"
 
   context "when there is no data to be imported" do
     let(:file_contents) do
-      "Name,Description,Rules,Responses"
+      "Name,Description,Action,Rules,Responses"
     end
 
     it "records the validation errors" do
@@ -97,8 +98,8 @@ MOJO_LAN_VLAN101,Some description,,,"
     end
 
     let(:file_contents) do
-      "Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you"
+      "Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunnel-Type=VLAN;Reply-Message=Hello to you"
     end
 
     it "records the validation errors" do
@@ -112,9 +113,9 @@ MOJO_LAN_VLAN101,Some description,TLS-Cert-Common-Name=~hihi;User-Name=Bob,Tunne
 
   context "when there are duplicate policy names in the CSV" do
     let(:file_contents) do
-      "Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,,
-MOJO_LAN_VLAN101,Another description,,"
+      "Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,,
+MOJO_LAN_VLAN101,Another description,,,"
     end
 
     it "records the validation errors" do
@@ -128,8 +129,8 @@ MOJO_LAN_VLAN101,Another description,,"
 
   context "csv with invalid rule attribute" do
     let(:file_contents) do
-      "Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,Invalid-Attribute=Invalid,"
+      "Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,Invalid-Attribute=Invalid,"
     end
 
     it "records the validation errors" do
@@ -144,8 +145,8 @@ MOJO_LAN_VLAN101,Some description,Invalid-Attribute=Invalid,"
 
   context "csv with invalid response attribute" do
     let(:file_contents) do
-      "Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,,3Com-Connect_Id=ASASAS"
+      "Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,,3Com-Connect_Id=ASASAS"
     end
 
     it "records the validation errors" do
@@ -160,8 +161,8 @@ MOJO_LAN_VLAN101,Some description,,3Com-Connect_Id=ASASAS"
 
   context "when there are duplicate attributes in the CSV" do
     let(:file_contents) do
-      "Name,Description,Rules,Responses
-MOJO_LAN_VLAN101,Some description,User-Name=~Bo;User-Name=Bob,Tunnel-Type=VLAN;Tunnel-Type=VLAN"
+      "Name,Description,Action,Rules,Responses
+MOJO_LAN_VLAN101,Some description,,User-Name=~Bo;User-Name=Bob,Tunnel-Type=VLAN;Tunnel-Type=VLAN"
     end
 
     it "records the validation errors" do

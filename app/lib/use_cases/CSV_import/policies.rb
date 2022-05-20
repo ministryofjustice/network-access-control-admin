@@ -2,7 +2,7 @@ module UseCases
   require "csv"
 
   class CSVImport::Policies < CSVImport::Base
-    CSV_HEADERS = "Name,Description,Rules,Responses".freeze
+    CSV_HEADERS = "Name,Description,Action,Rules,Responses".freeze
 
   private
 
@@ -10,12 +10,14 @@ module UseCases
       parsed_csv.each do |row|
         name = row["Name"]
         description = row["Description"]
+        action = row["Action"]
         rules = row["Rules"]
         responses = row["Responses"]
 
         record = Policy.new(
           name:,
           description:,
+          action: action.nil? ? "accept" : action
         )
 
         unwrap_rules(rules).each do |rule|
