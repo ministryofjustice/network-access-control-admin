@@ -107,7 +107,7 @@ describe "Import Policies", type: :feature do
 
       expect(page).to have_content("Post-Auth-Type")
       expect(page).to have_content("Reject")
-  
+
       expect_audit_log_entry_for(editor.email, "create", "Policy")
       expect_audit_log_entry_for(editor.email, "create", "Rule")
       expect_audit_log_entry_for(editor.email, "create", "Response")

@@ -17,7 +17,7 @@ module UseCases
         record = Policy.new(
           name:,
           description:,
-          action: action.nil? ? "accept" : action
+          action: action.nil? ? "accept" : action,
         )
 
         unwrap_rules(rules).each do |rule|
