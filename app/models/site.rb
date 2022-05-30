@@ -33,6 +33,7 @@ private
         name: "Fallback policy for #{name}",
         description: "Default fallback policy for #{name}",
         fallback: true,
+        action: "reject"
       )
     if fallback_policy.save
       policies << fallback_policy

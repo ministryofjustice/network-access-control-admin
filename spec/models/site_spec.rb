@@ -33,6 +33,11 @@ RSpec.describe Site, type: :model do
     expect(site.site_policy.where(site_id: site.id, policy_id: fallback_policy_id).first).to be_nil
   end
 
+  it "creates a reject fallback policy when a site is created" do
+    site = create(:site)
+    expect(site.fallback_policy.action).to eq("reject")
+  end
+
   it "updates the fallback policy when a site is updated" do
     site = create(:site)
 
