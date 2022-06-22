@@ -83,7 +83,7 @@ Petty France,128.0.0.1,,,"
       subject.call
     end
 
-    it "creates valid sites and fallback policies with no responses" do
+    it "creates valid sites with default reject fallback policy" do
       saved_site = Site.find_by_name("Petty France")
 
       expect(saved_site.id).to_not be_nil
@@ -92,7 +92,8 @@ Petty France,128.0.0.1,,,"
 
       expect(saved_site.policy_count).to eq(1)
       expect(saved_site.fallback_policy.name).to eq("Fallback policy for Petty France")
-      expect(saved_site.fallback_policy.responses).to be_empty
+      expect(saved_site.fallback_policy.responses.first.response_attribute).to eq("Post-Auth-Type")
+      expect(saved_site.fallback_policy.responses.first.value).to eq("Reject")
     end
   end
 

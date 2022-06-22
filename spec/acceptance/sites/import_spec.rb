@@ -76,6 +76,8 @@ describe "Import Sites with Clients", type: :feature do
 
       click_on "Fallback policy for Site 1"
 
+      expect(page).to have_content("Action")
+      expect(page).to have_content("Accept")
       expect(page).to have_content("Dlink-VLAN-ID")
       expect(page).to have_content("888")
       expect(page).to have_content("Reply-Message")
@@ -89,6 +91,8 @@ describe "Import Sites with Clients", type: :feature do
 
       click_on "Fallback policy for Site 2"
 
+      expect(page).to have_content("Action")
+      expect(page).to have_content("Accept")
       expect(page).to have_content("Dlink-VLAN-ID")
       expect(page).to have_content("888")
       expect(page).to have_content("Reply-Message")
@@ -103,6 +107,11 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("Test Policy 2")
       expect(page).to have_content("Fallback policy for Site 3")
 
+      click_on "Fallback policy for Site 3"
+
+      expect(page).to have_content("Post-Auth-Type")
+      expect(page).to have_content("Reject")
+      
       expect_audit_log_entry_for(editor.email, "create", "Site")
       expect_audit_log_entry_for(editor.email, "create", "Site policy")
       expect_audit_log_entry_for(editor.email, "create", "Client")

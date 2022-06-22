@@ -14,7 +14,7 @@ module UseCases
         eap_clients = row["RADIUS Clients"]
         radsec_clients = row["RadSec Clients"]
         policies = row["Policies"]
-        fallback_policy = row["Fallback Policy Responses"]
+        fallback_policy_responses = row["Fallback Policy Responses"]
 
         record = Site.new(
           name: site_name,
@@ -24,9 +24,10 @@ module UseCases
           name: "Fallback policy for #{site_name}",
           description: "Default fallback policy for #{site_name}",
           fallback: true,
+          action: fallback_policy_responses.nil? ? "reject" : "accept"
         )
 
-        unwrap_responses(fallback_policy).each do |fallback_policy_response|
+        unwrap_responses(fallback_policy_responses).each do |fallback_policy_response|
           record.policies.first.responses << fallback_policy_response
         end
 
