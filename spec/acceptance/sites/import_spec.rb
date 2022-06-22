@@ -155,7 +155,7 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("There is a problem")
 
       expect(page).to have_content("Duplicate Site name \"Site 1\" found in CSV")
-      expect(page).to have_content("Overlapping EAP Clients IP ranges \"127.1.1.1\" - \"127.1.1.1\"")
+      expect(page).to have_content("Overlapping RADIUS Clients IP ranges \"127.1.1.1\" - \"127.1.1.1\"")
     end
 
     it "shows errors when the use-case returns an unexpected error" do

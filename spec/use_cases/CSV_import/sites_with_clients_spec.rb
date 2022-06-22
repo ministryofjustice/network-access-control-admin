@@ -12,7 +12,7 @@ describe UseCases::CSVImport::SitesWithClients do
     end
 
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
@@ -49,7 +49,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
 
   context "valid csv entries without clients or policies" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,,,,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
@@ -75,7 +75,7 @@ Petty France,,,,Dlink-VLAN-ID=888;Reply-Message=hi"
 
   context "valid csv entries without fallback policy responses" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,128.0.0.1,,,"
     end
 
@@ -110,7 +110,7 @@ Petty France,128.0.0.1,,,"
 
   context "when the file extention is invalid" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,128.0.0.1,,,"
     end
     let(:filename) { "inva.lid" }
@@ -126,7 +126,7 @@ Petty France,128.0.0.1,,,"
 
   context "when a site already exists" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
@@ -148,7 +148,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
 
   context "when a client ip range has already been taken" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
@@ -169,7 +169,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
 
   context "when a client ip range overlaps" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Reply-Message=hi"
     end
 
@@ -190,7 +190,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
 
   context "when a fallback policy response is invalid" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
   Petty France,,,,Invalid-Attribute=888"
     end
 
@@ -207,7 +207,7 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1,Dlink-VLAN-ID=888;Rep
 
   context "when there are duplicate site records in CSV" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,,,,
 Petty France,,,,"
     end
@@ -221,9 +221,9 @@ Petty France,,,,"
     end
   end
 
-  context "when there are duplicate EAP client ip ranges in CSV" do
+  context "when there are duplicate RADIUS client ip ranges in CSV" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 First Site,128.0.0.1,128.0.0.1,,
 Site with same IP twice,128.0.0.2;128.0.0.2,128.0.0.3,,
 Site with duplicate ip,128.0.0.1,128.0.0.4,,"
@@ -232,8 +232,8 @@ Site with duplicate ip,128.0.0.1,128.0.0.4,,"
     it "show a validation error" do
       expect(subject.call.fetch(:errors)).to eq(
         [
-          "Overlapping EAP Clients IP ranges \"128.0.0.1\" - \"128.0.0.1\" found in CSV",
-          "Overlapping EAP Clients IP ranges \"128.0.0.2\" - \"128.0.0.2\" found in CSV",
+          "Overlapping RADIUS Clients IP ranges \"128.0.0.1\" - \"128.0.0.1\" found in CSV",
+          "Overlapping RADIUS Clients IP ranges \"128.0.0.2\" - \"128.0.0.2\" found in CSV",
         ],
       )
     end
@@ -241,7 +241,7 @@ Site with duplicate ip,128.0.0.1,128.0.0.4,,"
 
   context "when there are duplicate RadSec client ip ranges in CSV" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 First Site,128.0.0.1,128.0.0.1,,
 Site with same IP twice,128.0.0.2,128.0.0.2;128.0.0.2,,
 Site with duplicate ip,128.0.0.3,128.0.0.1,,"
@@ -259,7 +259,7 @@ Site with duplicate ip,128.0.0.3,128.0.0.1,,"
 
   context "when there are duplicate response attributes in CSV" do
     let(:file_contents) do
-      "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy
+      "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses
 Petty France,128.0.0.1,128.0.0.1,,Dlink-VLAN-ID=888;Dlink-VLAN-ID=777
 Another Site,123.0.0.1,123.0.0.1,,Dlink-VLAN-ID=888;Dlink-VLAN-ID=777"
     end
