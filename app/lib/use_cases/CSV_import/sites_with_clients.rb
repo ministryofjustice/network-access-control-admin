@@ -4,17 +4,17 @@ module UseCases
   class CSVImport::SitesWithClients < CSVImport::Base
     include ApplicationRecordHelper
 
-    CSV_HEADERS = "Site Name,EAP Clients,RadSec Clients,Policies,Fallback Policy".freeze
+    CSV_HEADERS = "Site Name,RADIUS Clients,RadSec Clients,Policies,Fallback Policy Responses".freeze
 
   private
 
     def map_csv_content
       @records = parsed_csv.map.with_index(1) do |row, i|
         site_name = row["Site Name"]
-        eap_clients = row["EAP Clients"]
+        eap_clients = row["RADIUS Clients"]
         radsec_clients = row["RadSec Clients"]
         policies = row["Policies"]
-        fallback_policy = row["Fallback Policy"]
+        fallback_policy = row["Fallback Policy Responses"]
 
         record = Site.new(
           name: site_name,
@@ -44,7 +44,7 @@ module UseCases
       return @errors << "There is no data to be imported" && false unless @csv_contents.split("\n").second
 
       check_for_duplicate_site_names
-      check_for_duplicate_attributes("Fallback Policy")
+      check_for_duplicate_attributes("Fallback Policy Responses")
       check_for_ip_range_overlap
 
       @errors.empty?
@@ -111,7 +111,7 @@ module UseCases
     end
 
     def check_for_ip_range_overlap
-      find_ip_range_overlap("EAP Clients")
+      find_ip_range_overlap("RADIUS Clients")
       find_ip_range_overlap("RadSec Clients")
     end
 
