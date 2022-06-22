@@ -24,7 +24,7 @@ module UseCases
           name: "Fallback policy for #{site_name}",
           description: "Default fallback policy for #{site_name}",
           fallback: true,
-          action: fallback_policy_responses.nil? ? "reject" : "accept"
+          action: fallback_policy_responses.nil? ? "reject" : "accept",
         )
 
         unwrap_responses(fallback_policy_responses).each do |fallback_policy_response|
