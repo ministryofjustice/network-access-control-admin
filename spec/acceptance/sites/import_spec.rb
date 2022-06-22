@@ -111,7 +111,7 @@ describe "Import Sites with Clients", type: :feature do
 
       expect(page).to have_content("Post-Auth-Type")
       expect(page).to have_content("Reject")
-      
+
       expect_audit_log_entry_for(editor.email, "create", "Site")
       expect_audit_log_entry_for(editor.email, "create", "Site policy")
       expect_audit_log_entry_for(editor.email, "create", "Client")
