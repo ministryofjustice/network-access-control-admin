@@ -22,7 +22,7 @@ gem "ransack"
 gem "sassc-rails", "~> 2.1.0"
 gem "sentry-rails"
 gem "sentry-ruby"
-gem "sprockets", "~> 4.1.0"
+gem "sprockets", "~> 4.1.1"
 gem "tzinfo-data"
 
 group :development, :test do
