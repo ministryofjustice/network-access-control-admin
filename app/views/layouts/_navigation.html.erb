@@ -26,6 +26,10 @@
       </li>
 
       <li class="govuk-header__navigation-item">
+      <%= link_to "Grafana", ENV["GRAFANA_DASHBOARD_LINK"], target: "_blank", class: "govuk-header__link" %>
+      </li>
+
+      <li class="govuk-header__navigation-item">
         <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "govuk-header__link" %>
       </li>
     <% end %>
