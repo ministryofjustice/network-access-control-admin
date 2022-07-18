@@ -32,6 +32,7 @@ module UseCases
         end
 
         assign_policies(policies, record, i)
+        prioritise_policies(record, policies)
         map_clients(eap_clients, radsec_clients, record)
 
         record
@@ -81,6 +82,21 @@ module UseCases
           record.policies << policy
         else
           @errors << "Error on row #{row}: Policy #{policy_name} is not found"
+        end
+      end
+    end
+
+    def prioritise_policies(site, policies)
+      return unless policies
+      policies.split(";").each do |policy_name|
+        policy = Policy.find_by_name(policy_name)
+        unless policy.id.nil?
+          site.site_policy.each.with_index do |site_policy, index|
+            p index
+            p site_policy
+            priority = index * 10
+            site_policy.priority = priority
+          end
         end
       end
     end

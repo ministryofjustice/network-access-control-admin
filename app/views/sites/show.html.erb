@@ -44,7 +44,7 @@
           <td class="govuk-table__cell"><%= date_format(sp.created_at) %></td>
           <td class="govuk-table__cell"><%= date_format(sp.updated_at) %></td>
           <td class="govuk-table__cell"><%= link_to "View", policy_path(sp.policy), class: "govuk-link" %></td>
-          <td class="govuk-table__cell"><%= sp.priority || "Not set" %></td>
+          <td id="site-policy-priority-<%= sp.policy_id %>" class="govuk-table__cell"><%= sp.priority || "Not set" %></td>
         </tr>
       <% end %>
     </tbody>
