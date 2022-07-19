@@ -18,4 +18,8 @@ class SitePolicy < ApplicationRecord
   def destroy_fallback_policy
     policy.destroy if policy.fallback?
   end
+
+  def fallback?
+    policy.fallback?
+  end
 end
