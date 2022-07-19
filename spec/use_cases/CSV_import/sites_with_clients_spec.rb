@@ -31,9 +31,9 @@ Petty France,128.0.0.1;10.0.0.1/32,128.0.0.1,Test Policy 1;Test Policy 2,Dlink-V
       expect(result.fallback_policy.responses.second.value).to eq("hi")
 
       expect(result.policies.first.name).to eq("Test Policy 1")
-      expect(result.site_policy.first.priority).to eq(0)
+      expect(result.site_policy.second.priority).to eq(0)
       expect(result.policies.second.name).to eq("Test Policy 2")
-      expect(result.site_policy.second.priority).to eq(10)
+      expect(result.site_policy.third.priority).to eq(10)
       expect(result.policies.third.name).to eq("Fallback policy for Petty France")
 
       expect(result.clients.first.radsec).to be_falsey

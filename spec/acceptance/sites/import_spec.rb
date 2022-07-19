@@ -48,13 +48,12 @@ describe "Import Sites with Clients", type: :feature do
 
       attach_file("csv_file", "spec/fixtures/sites_csv/valid.csv")
       click_on "Upload"
-      
+
       expect(Delayed::Job.last.handler).to match(/job_class: SitesWithClientsImportJob/)
       expect(Delayed::Job.count).to eq(1)
       Delayed::Worker.new.work_off
-      byebug
       expect(Delayed::Job.count).to eq(0)
-      
+
       expect(page).to have_text("Import is in progress, please wait...")
       expect(page).to have_text("Click here to refresh.")
 
@@ -109,17 +108,17 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("127.3.3.3/32")
       expect(page).to have_content("128.4.4.4/32")
       expect(page).to have_content("Test Policy 1")
-      
+
       within "#site-policy-priority-#{Site.third.policies.first.id}" do
         expect(page).to have_content("0")
       end
-      
+
       expect(page).to have_content("Test Policy 2")
-      
+
       within "#site-policy-priority-#{Site.third.policies.second.id}" do
         expect(page).to have_content("10")
       end
-      
+
       expect(page).to have_content("Fallback policy for Site 3")
 
       click_on "Fallback policy for Site 3"
