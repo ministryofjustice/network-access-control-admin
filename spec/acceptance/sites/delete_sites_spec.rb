@@ -44,7 +44,7 @@ describe "delete sites", type: :feature do
         destination_gateway: s3_gateway,
         config_validator:,
       ).and_return(publish_to_s3)
-      
+
       visit "/sites/#{site.id}"
 
       find_link("Delete site", href: "/sites/#{site.id}").click
