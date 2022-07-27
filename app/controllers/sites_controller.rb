@@ -58,6 +58,8 @@ class SitesController < ApplicationController
 
     if confirmed?
       if @site.destroy
+        publish_authorised_clients
+        deploy_service
         redirect_to sites_path, notice: "Successfully deleted site. #{CONFIG_UPDATE_DELAY_NOTICE}"
       else
         redirect_to site_path(@site), error: "Failed to delete the site"
