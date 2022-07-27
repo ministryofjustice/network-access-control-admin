@@ -45,6 +45,8 @@ class SitesController < ApplicationController
     @site.assign_attributes(site_params)
 
     if @site.save
+      publish_authorised_clients
+      deploy_service
       redirect_to site_path(@site), notice: "Successfully updated site. #{CONFIG_UPDATE_DELAY_NOTICE}"
     else
       render :edit
