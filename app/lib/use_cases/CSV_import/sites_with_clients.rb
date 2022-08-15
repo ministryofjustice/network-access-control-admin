@@ -89,7 +89,7 @@ module UseCases
     def prioritise_policies(site)
       site_policies = site.site_policy.reject(&:fallback?)
 
-      site_policies.each.with_index do |site_policy, index|
+      site_policies.each.with_index(1) do |site_policy, index|
         site_policy.priority = index * 10
       end
     end

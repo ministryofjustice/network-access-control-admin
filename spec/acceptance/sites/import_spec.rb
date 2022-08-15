@@ -75,7 +75,7 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("Test Policy 1")
 
       within "#site-policy-priority-#{Site.first.policies.first.id}" do
-        expect(page).to have_content("0")
+        expect(page).to have_content("10")
       end
 
       click_on "Fallback policy for Site 1"
@@ -110,13 +110,13 @@ describe "Import Sites with Clients", type: :feature do
       expect(page).to have_content("Test Policy 1")
 
       within "#site-policy-priority-#{Site.third.policies.first.id}" do
-        expect(page).to have_content("0")
+        expect(page).to have_content("10")
       end
 
       expect(page).to have_content("Test Policy 2")
 
       within "#site-policy-priority-#{Site.third.policies.second.id}" do
-        expect(page).to have_content("10")
+        expect(page).to have_content("20")
       end
 
       expect(page).to have_content("Fallback policy for Site 3")
