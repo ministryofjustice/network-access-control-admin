@@ -5,7 +5,7 @@ class Site < ApplicationRecord
   validates :name, uniqueness: { case_sensitive: false }, unless: :skip_uniqueness_validation?
 
   has_many :clients, dependent: :destroy
-  has_many :mac_authentication_bypasses, dependent: :nullify
+  has_many :mac_authentication_bypasses, dependent: :destroy
   has_many :site_policy
   has_many :policies, through: :site_policy, dependent: :destroy
 

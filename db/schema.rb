@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_11_144443) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_11_144443) do
     t.text "description"
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.bigint "site_id"
+    t.bigint "site_id", null: false
     t.index ["address"], name: "index_mac_authentication_bypasses_on_address"
     t.index ["site_id"], name: "index_mac_authentication_bypasses_on_site_id"
   end
