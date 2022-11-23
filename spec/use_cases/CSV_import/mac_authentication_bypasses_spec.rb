@@ -104,6 +104,7 @@ aa-bb-cc-dd-ee-ffff,Printer3,some test3,Tunnel-Type=VLAN;3Com-Connect_Id=1212,Un
       expect(subject.call.fetch(:errors)).to eq(
         [
           "Error on row 2: Site must exist",
+          "Error on row 2: Site can't be blank",
           "Error on row 2: Address is invalid",
           "Site \"Unknown Site\" is not found",
         ],

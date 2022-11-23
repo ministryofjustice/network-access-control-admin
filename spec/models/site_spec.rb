@@ -10,7 +10,7 @@ RSpec.describe Site, type: :model do
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
   it { is_expected.to have_many(:clients) }
-  it { is_expected.to have_many(:mac_authentication_bypasses).dependent(:nullify) }
+  it { is_expected.to have_many(:mac_authentication_bypasses).dependent(:destroy) }
   it { is_expected.to have_many(:site_policy) }
   it { is_expected.to have_many(:policies) }
 
