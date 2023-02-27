@@ -5,7 +5,10 @@
       <caption class="govuk-table__caption govuk-table__caption--m">Priority of policies
       <div id="priority-hint" class="govuk-hint">
           Must be a number between 1 and 1000, where 1 is the highest and 1000 is the lowest priority.
-          To allow for individual policy reordering, maintain gaps of ten. For example: First policy = 10, Second policy = 20...
+          To allow for individual policy reordering, maintain gaps of ten. For example: First policy = 10, Second policy = 20.
+          Policies with a priority configured are always evaluated before those that do not. Where there are only policies
+          without a priority configured, policies are evaluated in order of the time they were attached to the site.
+          It is recommended that on attaching any new Policies, that Priority is set immediately....
       </div>
       </caption>
         <thead class="govuk-table__head">
