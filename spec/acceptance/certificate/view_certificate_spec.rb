@@ -39,11 +39,12 @@ describe "showing a certificate", type: :feature do
     end
 
     context "when a certificate exists but is out of date" do
-      let!(:certificate) { create :certificate }
+      let!(:certificate) { create :certificate, expiry_date: Date.today - 3.months }
 
       it "shows a banner which notifies the user that a certificate is out of date" do
         visit root_path
-        expect(page).to have_content "123123123123."
+
+        expect(page).to have_content "456456."
       end
     end
   end
