@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_09_151440) do
   create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
@@ -138,6 +138,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.string "tag", null: false
     t.bigint "policy_count", default: 0
     t.index ["name"], name: "index_sites_on_name"
+  end
+
+  create_table "upcoming_expiring_certificates", charset: "utf8", force: :cascade do |t|
+    t.date "expiry_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
