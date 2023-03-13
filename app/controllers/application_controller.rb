@@ -98,7 +98,7 @@ private
   end
 
   def certificate_expiry_check
-    UpcomingExpiringCertificate.last.expiry_date <= Date.today + 3.months
+    Certificate.where('expiry_date >= ? AND expiry_date <= ?', Date.today, 30.months.from_now.to_date).exists?
   end
 
   CONFIG_UPDATE_DELAY_NOTICE = " This could take up to 10 minutes to apply.".freeze

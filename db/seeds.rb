@@ -121,15 +121,6 @@ private
     end
   end
 
-  def populate_certificate_expiry_date_table
-    p "populating the certificate_expiry_date field"
-
-    1.times do |c|
-      UpcomingExpiringCertificate.create!(
-        expiry_date: "13/03/2025",
-      )
-    end
-  end
 end
 
 SeedNacs.new.run
