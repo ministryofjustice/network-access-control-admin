@@ -93,7 +93,7 @@ GEM
     bcrypt (3.1.18)
     builder (3.2.4)
     byebug (11.1.3)
-    cancancan (3.4.0)
+    cancancan (3.5.0)
     capybara (3.38.0)
       addressable
       matrix
@@ -365,7 +365,7 @@ DEPENDENCIES
   aws-sdk-ecs (~> 1.111)
   aws-sdk-s3 (~> 1.117)
   byebug
-  cancancan (~> 3.4)
+  cancancan (~> 3.5)
   capybara (>= 2.15)
   delayed_job_active_record (= 4.1.7)
   devise
