@@ -43,7 +43,7 @@ describe "showing a certificate", type: :feature do
 
       it "shows a banner which notifies the user that a certificate is out of date" do
         visit root_path
-        expect(page).to have_content "A certificate will expire in less that four months."
+        expect(page).to have_content "A certificate will expire in less than four months."
       end
     end
   end
