@@ -58,6 +58,10 @@
         </p>
       </div>
 
+      <% if user_signed_in? and certificate_expiry_check %>
+        <%= render "layouts/certificate_banner" %>
+      <% end %>
+
       <% if user_signed_in? %>
         <hr class="govuk-section-break govuk-section-break--xs govuk-section-break--visible">
         <%= render "layouts/breadcrumbs", crumbs: navigation_crumbs %>

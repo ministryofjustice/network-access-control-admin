@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, :set_default_breadcrumbs, :set_radius_attributes
   after_action :set_expect_ct_header
 
+  helper_method :certificate_expiry_check
+
   rescue_from ActionController::InvalidAuthenticityToken do
     redirect_to new_user_session_path
   end
@@ -93,6 +95,10 @@ private
 
   def set_radius_attributes
     @radius_attributes = Rails.application.config.radius_attributes
+  end
+
+  def certificate_expiry_check
+    Certificate.where("expiry_date >= ? AND expiry_date <= ?", Date.today, 4.months.from_now.to_date).exists?
   end
 
   CONFIG_UPDATE_DELAY_NOTICE = " This could take up to 10 minutes to apply.".freeze
