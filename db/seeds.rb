@@ -120,7 +120,6 @@ private
       )
     end
   end
-
 end
 
 SeedNacs.new.run
