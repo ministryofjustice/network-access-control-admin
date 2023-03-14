@@ -6,7 +6,7 @@ ruby File.read(".ruby-version").strip
 gem "audited", "5.0.2"
 gem "aws-sdk-ecs", "~> 1.111"
 gem "aws-sdk-s3", "~> 1.117"
-gem "cancancan", "~> 3.4"
+gem "cancancan", "~> 3.5"
 gem "delayed_job_active_record", "4.1.7"
 gem "devise"
 gem "ip", "~> 0.3.1"
