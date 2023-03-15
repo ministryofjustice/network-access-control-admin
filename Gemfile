@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby File.read(".ruby-version").strip
 
-gem "audited", "5.0.2"
+gem "audited", "5.3.2"
 gem "aws-sdk-ecs", "~> 1.111"
 gem "aws-sdk-s3", "~> 1.119"
 gem "cancancan", "~> 3.5"
