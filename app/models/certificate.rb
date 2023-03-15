@@ -38,5 +38,9 @@ private
     end
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["category", "contents", "created_at", "description", "expiry_date", "extensions", "filename", "id", "issuer", "name", "serial", "subject", "updated_at"]
+  end
+
   audited
 end

@@ -27,4 +27,12 @@ private
       responses << Response.create!(response_attribute: "Post-Auth-Type", value: "Reject")
     end
   end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["action", "created_at", "description", "fallback", "id", "name", "rule_count", "site_count", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["audits", "responses", "rules", "site_policy", "sites"]
+  end
 end

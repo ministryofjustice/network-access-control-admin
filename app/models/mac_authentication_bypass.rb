@@ -11,6 +11,14 @@ class MacAuthenticationBypass < ApplicationRecord
 
   audited
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "created_at", "description", "id", "name", "site_id", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["audits", "responses", "site"]
+  end
+
   def skip_uniqueness_validation?
     false
   end
