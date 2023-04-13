@@ -71,5 +71,6 @@ lint:
 
 implode:
 	$(DOCKER_COMPOSE) rm
+	
 
 .PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker start-db db-setup run shell lint bootstrap integration-test clone-integration-test
