@@ -150,3 +150,9 @@ To upload a new server certificate, follow these steps:
     - If the passphrase has changed, a deployment of the infrastructure pipeline followed by a deployment of the admin pipeline is required.
     - Validations are in place to only allow uploading certificates with encrypted private keys that match the current passphrase.
 3. Ensure the "Server Certificate" checkbox is selected when uploading these certificates.
+## CI/CD
+
+- [CI Terraform code - network-access-control-admin](https://github.com/ministryofjustice/network-access-control-admin)
+- Terraform module - module "network-access-control-admin"
+- AWS Account - MOJ Official (Shared Services)
+- [Pipeline "network-access-control-server"](https://eu-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/network-access-control-admin/view?region=eu-west-2)
