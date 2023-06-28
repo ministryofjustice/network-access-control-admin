@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby File.read(".ruby-version").strip
 
 gem "audited", "5.3.3"
-gem "aws-sdk-ecs", "~> 1.118"
+gem "aws-sdk-ecs", "~> 1.123"
 gem "aws-sdk-s3", "~> 1.122"
 gem "cancancan", "~> 3.5"
 gem "delayed_job_active_record", "4.1.7"
