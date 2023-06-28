@@ -23,4 +23,4 @@ jobs:
         bundle --quiet
         bundle exec rubocop -a
         git config --global user.name "Rubocop"
-        git add . && git commit -m"Commit changes made by Rubocop" && git push || echo "Nothing to fix"
+        git add . && git commit -m"Commit changes made by Rubocop" && git push || echo "Nothing to fix" 
