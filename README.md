@@ -8,7 +8,6 @@ This is the web frontend for managing Network Access Control
 
 ### Authenticating with DockerHub
 
-
 Local development shouldn't go over the download limits of Dockerhub.
 https://docs.docker.com/docker-hub/download-rate-limit/
 
