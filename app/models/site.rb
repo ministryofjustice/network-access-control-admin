@@ -56,12 +56,12 @@ private
     false
   end
 
-  
-  def self.ransackable_associations(auth_object = nil)
+
+  def self.ransackable_associations(_auth_object = nil)
     ["audits", "clients", "mac_authentication_bypasses", "policies", "site_policy"]
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     ["created_at", "id", "name", "policy_count", "tag", "updated_at"]
   end
 end
