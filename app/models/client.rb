@@ -46,10 +46,10 @@ private
     false
   end
   class << self
-    private
+  private
 
     def ransackable_attributes(_auth_object = nil)
-      ["created_at", "id", "ip_range", "radsec", "shared_secret", "site_id", "updated_at"]
+      %w[created_at id ip_range radsec shared_secret site_id updated_at]
     end
   end
   audited
