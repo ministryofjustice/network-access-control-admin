@@ -55,13 +55,17 @@ private
   def skip_uniqueness_validation?
     false
   end
+  
 
+  class << self
+    private
 
-  def self.ransackable_associations(_auth_object = nil)
+    def self.ransackable_associations(_auth_object = nil)
     %w[audits clients mac_authentication_bypasses policies site_policy]
-  end
+    end
 
-  def self.ransackable_attributes(_auth_object = nil)
+    def self.ransackable_attributes(_auth_object = nil)
     %w[created_at id name policy_count tag updated_at]
-  end
+    end
+  end  
 end
