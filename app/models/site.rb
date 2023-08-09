@@ -56,6 +56,7 @@ private
     false
   end
 
+  
   def self.ransackable_associations(auth_object = nil)
     ["audits", "clients", "mac_authentication_bypasses", "policies", "site_policy"]
   end
