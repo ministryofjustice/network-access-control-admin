@@ -19,7 +19,7 @@ class Site < ApplicationRecord
     policies.where(fallback: true).first
   end
 
-private
+  private
 
   def generate_tag
     self.tag = name.parameterize(separator: "_")
@@ -28,13 +28,12 @@ private
   def create_fallback_policy
     return if policies.find_by(fallback: true)
 
-    fallback_policy =
-      Policy.new(
-        name: "Fallback policy for #{name}",
-        description: "Default fallback policy for #{name}",
-        fallback: true,
-        action: "reject",
-      )
+    fallback_policy = Policy.new(
+      name: "Fallback policy for #{name}",
+      description: "Default fallback policy for #{name}",
+      fallback: true,
+      action: "reject",
+    )
     if fallback_policy.save
       policies << fallback_policy
     else
@@ -56,11 +55,11 @@ private
     false
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     ["audits", "clients", "mac_authentication_bypasses", "policies", "site_policy"]
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     ["created_at", "id", "name", "policy_count", "tag", "updated_at"]
   end
 end

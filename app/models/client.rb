@@ -46,7 +46,7 @@ private
     false
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     ["created_at", "id", "ip_range", "radsec", "shared_secret", "site_id", "updated_at"]
   end
 
