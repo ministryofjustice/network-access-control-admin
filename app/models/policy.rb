@@ -14,7 +14,7 @@ class Policy < ApplicationRecord
 
   audited
 
-  private
+private
 
   def skip_uniqueness_validation?
     false
@@ -27,8 +27,8 @@ class Policy < ApplicationRecord
       responses << Response.create!(response_attribute: "Post-Auth-Type", value: "Reject")
     end
   end
-
   
+
   def self.ransackable_attributes(auth_object = nil)
     %w[action created_at description fallback id name rule_count site_count updated_at]
   end
