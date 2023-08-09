@@ -14,7 +14,7 @@ class Policy < ApplicationRecord
 
   audited
 
-private
+  private
 
   def skip_uniqueness_validation?
     false
@@ -28,8 +28,7 @@ private
     end
   end
 
-  private
-
+  
   def self.ransackable_attributes(auth_object = nil)
     %w[action created_at description fallback id name rule_count site_count updated_at]
   end
