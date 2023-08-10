@@ -1,4 +1,4 @@
-# rubocop:disable Layout/AccessModifierIndentation
+# rubocop:disable Lint/IneffectiveAccessModifier
 class Site < ApplicationRecord
   paginates_per 50
 
@@ -66,4 +66,4 @@ private
   end
 end
 
-# rubocop:enable Layout/AccessModifierIndentation
+# rubocop:enable Lint/IneffectiveAccessModifier
