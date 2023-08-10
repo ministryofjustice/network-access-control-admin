@@ -38,12 +38,8 @@ private
     end
   end
 
-  class << self
-  private
-
-    def ransackable_attributes(_auth_object = nil)
-      %w[category contents created_at description expiry_date extensions filename id issuer name serial subject updated_at]
-    end
+  def self.ransackable_attributes(auth_object = nil)
+    ["category", "contents", "created_at", "description", "expiry_date", "extensions", "filename", "id", "issuer", "name", "serial", "subject", "updated_at"]
   end
 
   audited
