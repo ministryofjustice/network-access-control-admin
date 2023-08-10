@@ -1,3 +1,4 @@
+# rubocop:disable Layout/AccessModifierIndentation
 class Site < ApplicationRecord
   paginates_per 50
 
@@ -64,3 +65,5 @@ private
     ["created_at", "id", "name", "policy_count", "tag", "updated_at"]
   end
 end
+
+# rubocop:enable Layout/AccessModifierIndentation
