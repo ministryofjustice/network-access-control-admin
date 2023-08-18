@@ -56,6 +56,8 @@ private
     false
   end
 
+  # rubocop:disable Lint/IneffectiveAccessModifier
+
   def self.ransackable_associations(auth_object = nil)
     ["audits", "clients", "mac_authentication_bypasses", "policies", "site_policy"]
   end
@@ -63,4 +65,6 @@ private
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "id", "name", "policy_count", "tag", "updated_at"]
   end
+  
+  # rubocop:disable Lint/IneffectiveAccessModifier
 end
