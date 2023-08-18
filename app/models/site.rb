@@ -66,5 +66,5 @@ private
     ["created_at", "id", "name", "policy_count", "tag", "updated_at"]
   end
   
-  # rubocop:disable Lint/IneffectiveAccessModifier
+  # rubocop:enable Lint/IneffectiveAccessModifier
 end

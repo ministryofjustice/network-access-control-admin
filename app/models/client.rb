@@ -49,7 +49,7 @@ private
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "id", "ip_range", "radsec", "shared_secret", "site_id", "updated_at"]
   end
-  # rubocop:disable Lint/IneffectiveAccessModifier
+  # rubocop:enable Lint/IneffectiveAccessModifier
 
   audited
 end
