@@ -28,11 +28,13 @@ private
     end
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["action", "created_at", "description", "fallback", "id", "name", "rule_count", "site_count", "updated_at"]
+  # rubocop:disable Lint/IneffectiveAccessModifier
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[action created_at description fallback id name rule_count site_count updated_at]
   end
 
-  def self.ransackable_associations(auth_object = nil)
-    ["audits", "responses", "rules", "site_policy", "sites"]
+  def self.ransackable_associations(_auth_object = nil)
+    %w[audits responses rules site_policy sites]
   end
+  # rubocop:enable Lint/IneffectiveAccessModifier
 end
