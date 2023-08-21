@@ -45,9 +45,10 @@ private
   def skip_validation?
     false
   end
+
   # rubocop:disable Lint/IneffectiveAccessModifier
-  def self.ransackable_attributes(auth_object = nil)
-    ["created_at", "id", "ip_range", "radsec", "shared_secret", "site_id", "updated_at"]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[created_at id ip_range radsec shared_secret site_id updated_at]
   end
   # rubocop:enable Lint/IneffectiveAccessModifier
 
