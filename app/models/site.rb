@@ -1,3 +1,4 @@
+# rubocop:disable Lint/IneffectiveAccessModifier
 class Site < ApplicationRecord
   paginates_per 50
 
@@ -68,3 +69,5 @@ private
 
   # rubocop:enable Lint/IneffectiveAccessModifier
 end
+
+# rubocop:enable Lint/IneffectiveAccessModifier
