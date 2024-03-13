@@ -2,75 +2,105 @@ ifndef ENV
 ENV=development
 endif
 
+.DEFAULT_GOAL := help
+
 UID=$(shell id -u)
 DOCKER_COMPOSE = env ENV=${ENV} UID=$(UID) docker-compose -f docker-compose.yml
 BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
-authenticate-docker:
+.PHONY: authenticate_docker
+authenticate-docker: ## Authenticate docker script
 	./scripts/authenticate_docker.sh
 
-build:
+.PHONY: build
+build: ## Docker build image
 	docker build --platform linux/x86_64 -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PORT --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg CLOUDWATCH_LINK
 
-build-dev:
+.PHONY: build-dev
+build-dev: ## Build-dev image
 	$(DOCKER_COMPOSE) build
 
-start-db:
+.PHONY: start-db
+start-db: ## Start database
 	$(DOCKER_COMPOSE) up -d db
 	ENV=${ENV} ./scripts/wait_for_db.sh
 
-db-setup: start-db
+.PHONY: db-setup
+db-setup: ## Setup database
+	$(MAKE) start-db
 	$(DOCKER_COMPOSE) run --rm app ./bin/rails RAILS_ENV=${ENV} db:drop db:create db:migrate
 
-serve: stop db-setup
+.PHONY: serve
+serve: ## Start application 
+	$(MAKE) stop 
+	$(MAKE) db-setup
 	$(DOCKER_COMPOSE) up -d app
 	$(DOCKER_COMPOSE) up -d background_worker
 
-run: serve
+# TODO - this is potentially not needed, but we should check by running tests before removing
+# run: serve
 
-clone-integration-test:
+.PHONY: clone-integration-test
+clone-integration-test: ## Clone nacs integration tests 
 	git clone https://github.com/ministryofjustice/network-access-control-integration-tests.git
 
-integration-test-schema: clone-integration-test
+.PHONY: integration-test-schema
+integration-test-schema: ## Clone nacs integration tests and test schema 
+	$(MAKE) clone-integration-test
 	cd network-access-control-integration-tests && make clone-server test-schema
 
-test: export ENV=test
-test:
+.PHONY: test
+test: ## Build and run tests
+	export ENV=test
 	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rspec --format documentation
 
-shell:
+.PHONY: shell
+shell: ## Run application and start shell
 	$(DOCKER_COMPOSE) run --rm app sh
 
-stop:
+.PHONY: stop
+stop: ## Docker compose down
 	$(DOCKER_COMPOSE) down
 
-migrate:
+.PHONY: migrate
+migrate: ## Run rails migrate script 
 	./scripts/migrate.sh
 
-seed:
+.PHONY: seed
+seed: ## Run seed script
 	./scripts/seed.sh
 
-migrate-dev: start-db
+.PHONY: migrate-dev
+migrate-dev: ## Run rails migrate dev 
+	$(MAKE) start-db
 	$(DOCKER_COMPOSE) run --rm app bundle exec rake db:migrate
 
-bootstrap:
+.PHONY: bootstrap
+bootstrap: ## Run bootstrap script
 	./scripts/bootstrap.sh
 
-deploy:
+.PHONY: deploy
+deploy: ## Deploy image to ECS
 	./scripts/deploy.sh
 
-push:
+.PHONY: push
+push: ## Push image to ECR
 	./scripts/publish.sh
 
-publish: build push
+.PHONY: publish
+publish: ## Run build and push targets
+	$(MAKE) build 
+	$(MAKE) push
 
-lint:
+.PHONY: lint
+lint: ## Code lint
 	$(DOCKER_COMPOSE) run --rm app bundle exec rubocop -a
 
-implode:
+.PHONY: implode
+implode: ## Remove docker container
 	$(DOCKER_COMPOSE) rm
 	
-
-.PHONY: build serve stop test deploy migrate migrate-dev build-dev push publish implode authenticate-docker start-db db-setup run shell lint bootstrap integration-test clone-integration-test
+help:
+	@grep -h -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
