@@ -12,7 +12,7 @@ This is the web frontend for managing Network Access Control
 Local development shouldn't go over the download limits of Dockerhub.
 https://docs.docker.com/docker-hub/download-rate-limit/
 
-If these limits are encountered, authenticating with Docker is required:
+If these limits are encountered, authentication with Docker is required:
 
 ```
 export DOCKER_USERNAME=your-docker-hub-username
@@ -21,39 +21,45 @@ export DOCKER_PASSWORD=your-docker-hub-password
 make authenticate-docker
 ```
 
-### Starting the App
+### Prepare the Variables
 
-1. Clone the repository
-1. Create a `.env` file in the root directory
-1. If this is the first time you have setup the project:
+1. Clone the repository to a local directory
+1. Create a `.env` file in the root directory and populate with the required values for the environment
 
-   1. Build the base containers
 
-      ```sh
-      make build-dev
-      ```
 
-   2. Setup the database
+### Build the Containers
+3. Build the base images on your local docker
 
-      ```sh
-      make db-setup
-      ```
+```sh
+make build-dev
+```
 
-1. Start the application
+### Setup Database
+
+4. Start the database image and run setup
+
+```sh
+make db-setup
+```
+
+### Run the Application
+
+5. Start the application on your local docker
 
 ```sh
 $ make serve
 ```
 
-### Running Tests
+### Running Tests Locally
 
-1. Setup the test database
+6. Setup the test database
 
 ```sh
 ENV=test make db-setup
 ```
 
-2. Run the entire test suite
+7. Run the entire test suite
 
 ```sh
 ENV=test make test
@@ -61,13 +67,13 @@ ENV=test make test
 
 To run individual tests:
 
-1. Shell onto a test container
+8. Shell onto a test container
 
 ```sh
 ENV=test make shell
 ```
 
-2. Run the test file or folder
+9. Run the test file or folder
 
 ```sh
 bundle exec rspec path/to/spec/file
