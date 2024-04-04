@@ -50,13 +50,13 @@ $ make serve
 1. Setup the test database
 
 ```sh
-make db-setup
+ENV=test make db-setup
 ```
 
 2. Run the entire test suite
 
 ```sh
-make test
+ENV=test make test
 ```
 
 To run individual tests:
