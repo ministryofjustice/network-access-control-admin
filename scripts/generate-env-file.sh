@@ -49,8 +49,9 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 SCRIPT_PATH="${SCRIPT_DIR}/aws_ssm_get_parameters.sh"
 . "${SCRIPT_PATH}"
 
+FILE_NAME="./.env.TEST1"
 
-cat << EOF > ./.env
+cat << EOF > ${FILE_NAME}
 # env file
 # regenerate by running "./scripts/generate-env-file.sh"
 # defaults to "development"
@@ -60,47 +61,13 @@ cat << EOF > ./.env
 # then run "make init"
 
 
-AWS_PROFILE=mojo-shared-services-cli
-AWS_VAULT_PROFILE=mojo-shared-services-cli
 
-### ${ENV} ###
-ENV=${ENV}
-
-
-## buildspec defaults
-
-## We do not want to disable prompt for local builds.
-## https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_input
-##TF_INPUT: 0 ## We wnat this locally to ensure we have provided all
-
-## This value has been applied to the envs via AWS CodePipeline CI.
-## We don't want to use the default variable's value here.
-TF_VAR_owner_email=nac@justice.gov.uk
-
-## This value has been applied to the envs via AWS CodePipeline CI.
-## There is no default value set in the variables.tf.
-TF_VAR_enable_authentication=true
-
-## This value has been applied to the envs via AWS CodePipeline CI.
-TF_VAR_enable_hosted_zone=true
-
-## This value has been applied to the envs via AWS CodePipeline CI.
-TF_VAR_enable_nac_transit_gateway_attachment=true
 
 EOF
 
 for key in "${!parameters[@]}"
 do
-    ## uppercase key do not prefix with TF_VAR
-    if [[ "${key}" =~ [A-Z] ]]; then
-        echo "${key}=${parameters[${key}]}"  >> ./.env
-    else
-        echo "TF_VAR_${key}=${parameters[${key}]}"  >> ./.env
-    fi
+  echo "${key}=${parameters[${key}]}"  >> ${FILE_NAME}
 done
 
 chmod u+x ./.env
-
-rm -rf .terraform/ terraform.tfstate*
-
-printf "\n\n run \"make init\"\n\n"
