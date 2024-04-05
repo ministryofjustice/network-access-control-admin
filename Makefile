@@ -3,6 +3,7 @@ ENV=development
 endif
 
 .DEFAULT_GOAL := help
+SHELL := '/bin/bash'
 
 UID=$(shell id -u)
 DOCKER_COMPOSE = env ENV=${ENV} UID=$(UID) docker-compose -f docker-compose.yml
@@ -10,9 +11,22 @@ BUNDLE_FLAGS=
 
 DOCKER_BUILD_CMD = BUNDLE_INSTALL_FLAGS="$(BUNDLE_FLAGS)" $(DOCKER_COMPOSE) build
 
+DOCKER_IMAGE := ghcr.io/ministryofjustice/nvvs/terraforms:latest
+
+DOCKER_RUN_GEN_ENV := docker run --rm -it \
+				--env-file <(aws-vault exec $$AWS_PROFILE -- env | grep ^AWS_) \
+				-v `pwd`:/data \
+				--workdir /data \
+				--platform linux/amd64 \
+				$(DOCKER_IMAGE)
+
+.PHONY: shell
+shell-aws: ## Run Docker container with interactive terminal
+	$(DOCKER_RUN_GEN_ENV) /bin/bash
+
 .PHONY: gen-env
-gen-env: ## generate a ".env" file with the correct TF_VARS for the environment e.g. (make gen-env ENV=pre-production)
-	/bin/bash -c "./scripts/generate-env-file.sh ${ENV}"
+gen-env: ## generate a ".env" file with the correct vars for the environment e.g. (make gen-env ENV=TEST)
+	$(DOCKER_RUN_GEN_ENV) /bin/bash -c "./scripts/generate-env-file.sh ${ENV}"
 
 .PHONY: authenticate_docker
 authenticate-docker: ## Authenticate docker script
