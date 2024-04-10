@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-## This script will generate .env file for use with the Makefile
-## or to export the TF_VARS into the environment
+## This script will generate checking the AWS environment configuration values
 
 set -x
 
@@ -49,18 +48,15 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 SCRIPT_PATH="${SCRIPT_DIR}/aws_ssm_get_parameters.sh"
 . "${SCRIPT_PATH}"
 
-FILE_NAME="./.env.TEST1"
+FILE_NAME="./.env.ssm.${ENV}"
 
 cat << EOF > ${FILE_NAME}
 # env file
+# For checking the AWS environment configuration values
 # regenerate by running "./scripts/generate-env-file.sh"
 # defaults to "development"
 # To test against another environment
 # regenerate by running "./scripts/generate-env-file.sh [pre-production | production]"
-# Also run "make clean"
-# then run "make init"
-
-
 
 
 EOF
@@ -70,4 +66,4 @@ do
   echo "${key}=${parameters[${key}]}"  >> ${FILE_NAME}
 done
 
-chmod u+x ./.env
+chmod u+x ${FILE_NAME}

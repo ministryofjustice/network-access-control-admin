@@ -1,9 +1,9 @@
+.DEFAULT_GOAL := help
+SHELL := '/bin/bash'
+
 ifndef ENV
 ENV=development
 endif
-
-.DEFAULT_GOAL := help
-SHELL := '/bin/bash'
 
 UID=$(shell id -u)
 DOCKER_COMPOSE = env ENV=${ENV} UID=$(UID) docker-compose -f docker-compose.yml
@@ -25,7 +25,7 @@ shell-aws: ## Run Docker container with interactive terminal
 	$(DOCKER_RUN_GEN_ENV) /bin/bash
 
 .PHONY: gen-env
-gen-env: ## generate a ".env" file with the correct vars for the environment e.g. (make gen-env ENV=TEST)
+gen-env: ## generate a ".env.ssm.ENV" file checking the AWS environment configuration values e.g. (make gen-env ENV=development|pre-production)
 	$(DOCKER_RUN_GEN_ENV) /bin/bash -c "./scripts/generate-env-file.sh ${ENV}"
 
 .PHONY: authenticate_docker
@@ -71,7 +71,6 @@ integration-test-schema: ## Clone nacs integration tests and test schema
 
 .PHONY: test
 test: ## Build and run tests
-	export ENV=test
 	$(DOCKER_COMPOSE) run -e COVERAGE=true --rm app bundle exec rspec --format documentation
 
 .PHONY: shell

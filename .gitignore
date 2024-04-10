@@ -49,3 +49,9 @@ coverage
 
 /spec/acceptance/certificate/dummy_certificate/server_certificate/*
 !*.gitkeep
+
+.env.ssm.*
+
+
+.idea
+network-access-control-integration-tests
