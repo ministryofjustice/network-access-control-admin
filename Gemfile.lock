@@ -179,7 +179,7 @@ GEM
     minitest (5.22.3)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    mysql2 (0.5.5)
+    mysql2 (0.5.6)
     net-imap (0.4.11)
       date
       net-protocol
@@ -393,7 +393,7 @@ DEPENDENCIES
   ip (~> 0.3.1)
   ipaddress_2
   kaminari
-  mysql2 (~> 0.5.5)
+  mysql2 (~> 0.5.6)
   omniauth-oauth2
   omniauth-rails_csrf_protection (~> 1.0)
   openssl
