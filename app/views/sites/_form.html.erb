@@ -2,8 +2,8 @@
   <div class="govuk-form-group <%= field_error(f.object, :name) %>">
     <%= f.label :name, class: "govuk-label" %>
     <div id="name-hint" class="govuk-hint">
-      Must contain the FITS ID, type and location in the following format: "FITS-XXXX - TYPE - LOCATION"<br />
-      For example: FITS-1234 - Probation - Maidstone
+      Must contain the FITS ID, type and location in the following format: "FITS-XXXX-TYPE-LOCATION"<br />
+      For example: FITS-1234-Probation-Maidstone
     </div>
     <%= f.text_field :name, maxlength: 230, class: "govuk-input" %>
   </div>

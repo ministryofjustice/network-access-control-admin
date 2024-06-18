@@ -32,6 +32,38 @@ describe "create sites", type: :feature do
       login_as editor
     end
 
+    # Test to validate the Site Name format 'FITS-XXXX - TYPE - LOCATION'
+    it "displays error if site name not in expected format : FITS-XXXX-TYPE-LOCATION" do
+      visit "/sites"
+
+      click_on "Create a new site"
+
+      expect(current_path).to eql("/sites/new")
+
+      fill_in "Name", with: "FITS-Probation-Maidstone"
+
+      click_on "Create"
+
+      # Site name has to be in the format 'FITS-XXXX-TYPE-LOCATION'
+      expect(page).to have_content("Site Name not in expected format : 'FITS-XXXX-TYPE-LOCATION'")
+    end
+
+    it "can create a new site with site name in valid format" do
+      visit "/sites"
+
+      click_on "Create a new site"
+
+      expect(current_path).to eql("/sites/new")
+
+      fill_in "Name", with: "FITS-9999-Probation-Maidstone"
+
+      click_on "Create"
+
+      expect(page).to have_content("Successfully created site.")
+      expect(page).to have_content("This could take up to 10 minutes to apply.")
+      expect(page).to have_content("FITS-9999-Probation-Maidstone")
+    end
+
     it "creates a new site with a fallback policy" do
       visit "/sites"
 
@@ -39,20 +71,20 @@ describe "create sites", type: :feature do
 
       expect(current_path).to eql("/sites/new")
 
-      fill_in "Name", with: "My London Site"
+      fill_in "Name", with: "FITS-9999-Probation-Maidstone"
 
       click_on "Create"
 
       expect(page).to have_content("Successfully created site.")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
-      expect(page).to have_content("My London Site")
+      expect(page).to have_content("FITS-9999-Probation-Maidstone")
       expect(page).not_to have_content("There are no fallback policies attached to this site.")
 
-      click_on "My London Site"
+      click_on "FITS-9999-Probation-Maidstone"
 
       expect(current_path).to eql("/policies/#{Policy.last.id}")
       expect(page).to have_content("Fallback")
-      expect(page).to have_content("My London Site")
+      expect(page).to have_content("FITS-9999-Probation-Maidstone")
 
       expect_audit_log_entry_for(editor.email, "create", "Site")
     end
