@@ -45,8 +45,7 @@ describe "create sites", type: :feature do
       click_on "Create"
 
       # Site name has to be in the format 'FITS-XXXX-TYPE-LOCATION'
-      expect(page). to have_content("Site Name not in expected format : 'FITS-XXXX-TYPE-LOCATION'")
-
+      expect(page).to have_content("Site Name not in expected format : 'FITS-XXXX-TYPE-LOCATION'")
     end
 
     it "can create a new site with site name in valid format" do
@@ -63,7 +62,6 @@ describe "create sites", type: :feature do
       expect(page).to have_content("Successfully created site.")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("FITS-9999-Probation-Maidstone")
-
     end
 
     it "creates a new site with a fallback policy" do

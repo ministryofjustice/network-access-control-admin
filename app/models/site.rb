@@ -2,12 +2,11 @@ class Site < ApplicationRecord
   paginates_per 50
 
   # Removing blank spaces from Site name entered
-  before_validation:strip_whitespace, if: -> {name.present? && name.start_with?('FITS')}
+  before_validation :strip_whitespace, if: -> { name.present? && name.start_with?("FITS") }
 
   validates :name, presence: true
   validates :name, uniqueness: { case_sensitive: false }, unless: :skip_uniqueness_validation?
-  validates :name, format: { with: /\AFITS-\d{4}-\w+-\w+\z/, message:"Site Name not in expected format : 'FITS-XXXX-TYPE-LOCATION'"}, if: -> {name.present? && name.start_with?('FITS')}
-  
+  validates :name, format: { with: /\AFITS-\d{4}-\w+-\w+\z/, message: "Site Name not in expected format : 'FITS-XXXX-TYPE-LOCATION'" }, if: -> { name.present? && name.start_with?("FITS") }
 
   has_many :clients, dependent: :destroy
   has_many :mac_authentication_bypasses, dependent: :destroy
@@ -73,10 +72,8 @@ private
 
   # rubocop:enable Lint/IneffectiveAccessModifier
 
-  # Removes blank spaces from site name 
+  # Removes blank spaces from site name
   def strip_whitespace
     self.name = name.strip.gsub(/\s+/, "")
   end
-
-
 end
