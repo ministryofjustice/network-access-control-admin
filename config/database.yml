@@ -18,4 +18,4 @@ production:
   <<: *default
   database: <%= ENV.fetch('DB_NAME') %>
   ssl_mode: :verify_identity
-  sslca: <%= Rails.root.join("../cert/rds-combined-ca-bundle.pem") %>
+  sslca: <%= Rails.root.join("../cert/eu-west-2-bundle.pem") %>
