@@ -9,6 +9,19 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Raise pull requests for version updates
+    # to bundler against the `dependabot` branch
+    target-branch: "dependabot"
+    # Labels on pull requests for version updates only
+    labels:
+      - "bundler dependencies"
+      - "dependabot branch"
+    # Allow up to 100 open pull requests for bundler dependencies
+    open-pull-requests-limit: 100
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
