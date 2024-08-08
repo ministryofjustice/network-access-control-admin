@@ -38,7 +38,11 @@ build: ## Docker build image
 
 .PHONY: build-dev
 build-dev: ## Build-dev image
-	$(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) build --build-arg BUILD_DEV="true"
+
+.PHONY: shell-dev
+shell-dev: ## Run application and start shell
+	$(DOCKER_COMPOSE) run --rm app sh
 
 .PHONY: start-db
 start-db: ## Start database
