@@ -162,3 +162,26 @@ To upload a new server certificate, follow these steps:
 - Terraform module - module "network-access-control-admin"
 - AWS Account - MOJ Official (Shared Services)
 - [Pipeline "network-access-control-server"](https://eu-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/network-access-control-admin/view?region=eu-west-2)
+
+## Updating Gems
+
+Developer tools (alpine-sdk, ruby-dev) have been added to the container to facilitate Gem version updates. To update a Gem version:
+- Build and run tests to make sure you have a baseline of the application running well.
+
+- Build the dev container
+```bash
+  make build-dev
+```
+- Run the application with an interactive shell
+```bash
+  make shell-dev
+```
+- Change the version in the Gemfile
+- In the interactive shell run a bundle update for the Gem being updated, e.g.
+
+```bash
+  bundle update rails
+```
+- Check that the Gemfile.lock has the new version
+
+- Destroy container, re-build and run tests. 

@@ -19,7 +19,7 @@ services:
       context: .
       args:
         UID: "${UID}"
-        BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5}"
+        BUNDLE_INSTALL_FLAGS: "${BUNDLE_INSTALL_FLAGS:- --jobs 20 --retry 5 --full-index}"
     user: "${UID}:${UID}"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
