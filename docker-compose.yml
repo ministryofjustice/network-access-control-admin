@@ -13,6 +13,7 @@ services:
       - datavolume:/var/lib/mysql
     networks:
       - adminnet
+    command: "--default-authentication-plugin=caching_sha2_password"
 
   app:
     build:
