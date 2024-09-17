@@ -58,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.index ["site_id"], name: "index_clients_on_site_id"
   end
 
-  create_table "csv_import_results", charset: "utf8mb3", force: :cascade do |t|
+  create_table "csv_import_results", charset: "utf8", force: :cascade do |t|
     t.text "import_errors"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
