@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
-  create_table "audits", charset: "utf8mb3", force: :cascade do |t|
+  create_table "audits", charset: "utf8", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type"
     t.integer "associated_id"
@@ -33,7 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
-  create_table "certificates", charset: "utf8mb3", force: :cascade do |t|
+  create_table "certificates", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
     t.date "expiry_date"
@@ -48,7 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.text "contents"
   end
 
-  create_table "clients", charset: "utf8mb3", force: :cascade do |t|
+  create_table "clients", charset: "utf8", force: :cascade do |t|
     t.string "shared_secret", null: false
     t.string "ip_range", null: false
     t.bigint "site_id", null: false
@@ -65,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.datetime "completed_at"
   end
 
-  create_table "delayed_jobs", charset: "utf8mb3", force: :cascade do |t|
+  create_table "delayed_jobs", charset: "utf8", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
     t.text "handler", size: :long, null: false
@@ -80,7 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "mac_authentication_bypasses", charset: "utf8mb3", force: :cascade do |t|
+  create_table "mac_authentication_bypasses", charset: "utf8", force: :cascade do |t|
     t.string "address", null: false
     t.string "name"
     t.text "description"
@@ -91,7 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.index ["site_id"], name: "index_mac_authentication_bypasses_on_site_id"
   end
 
-  create_table "policies", charset: "utf8mb3", force: :cascade do |t|
+  create_table "policies", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -102,7 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.string "action", default: "accept"
   end
 
-  create_table "responses", charset: "utf8mb3", force: :cascade do |t|
+  create_table "responses", charset: "utf8", force: :cascade do |t|
     t.string "response_attribute", null: false
     t.text "value", null: false
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -113,7 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.index ["policy_id"], name: "index_responses_on_policy_id"
   end
 
-  create_table "rules", charset: "utf8mb3", force: :cascade do |t|
+  create_table "rules", charset: "utf8", force: :cascade do |t|
     t.string "operator", null: false
     t.text "value", null: false
     t.bigint "policy_id", null: false
@@ -123,7 +123,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.index ["policy_id"], name: "index_rules_on_policy_id"
   end
 
-  create_table "site_policies", charset: "utf8mb3", force: :cascade do |t|
+  create_table "site_policies", charset: "utf8", force: :cascade do |t|
     t.bigint "site_id"
     t.bigint "policy_id"
     t.integer "priority"
@@ -131,7 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
-  create_table "sites", charset: "utf8mb3", force: :cascade do |t|
+  create_table "sites", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -140,7 +140,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_153858) do
     t.index ["name"], name: "index_sites_on_name"
   end
 
-  create_table "users", charset: "utf8mb3", force: :cascade do |t|
+  create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "provider"
     t.string "uid"
     t.boolean "editor", default: false
