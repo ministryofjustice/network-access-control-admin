@@ -33,7 +33,7 @@ describe "create sites", type: :feature do
     end
 
     # Test to validate the Site Name format 'FITS-XXXX - TYPE - LOCATION'
-    it "displays error if site name not in expected format : FITS-XXXX-TYPE-LOCATION" do
+    it "displays error if site name not in expected format : It should have at least 4 parts separated by dashes" do
       visit "/sites"
 
       click_on "Create a new site"
@@ -45,7 +45,7 @@ describe "create sites", type: :feature do
       click_on "Create"
 
       # Site name has to be in the format 'FITS-XXXX-TYPE-LOCATION'
-      expect(page).to have_content("Site Name not in expected format : 'FITS-XXXX-TYPE-LOCATION'")
+      expect(page).to have_content("The name format is invalid. It should have at least 4 parts separated by dashes")
     end
 
     it "can create a new site with site name in valid format" do
