@@ -7,18 +7,12 @@ env:
     ENV: ${ENV}
     BUNDLE_WITHOUT: "test development"
   parameter-store:
-    DB_USER: "/moj-network-access-control/$ENV/admin_db_username"
-    DB_PASS: "/moj-network-access-control/$ENV/admin_db_password"
-    DB_HOST: "/moj-network-access-control/$ENV/admin/db/hostname"
-    DB_NAME: "/moj-network-access-control/$ENV/admin/db/name"
     REGISTRY_URL: "/moj-network-access-control/$ENV/admin/ecr/endpoint"
-    SECRET_KEY_BASE: "/moj-network-access-control/$ENV/admin/rails_master_key"
     TERRAFORM_OUTPUTS: "/moj-network-access-control/terraform/$ENV/outputs"
     TARGET_AWS_ACCOUNT_ID: "/codebuild/$ENV/account_id"
     ROLE_ARN: "/codebuild/pttp-ci-infrastructure-core-pipeline/${ENV}/assume_role"
     DOCKER_USERNAME: "/moj-network-access-control/docker/username"
     DOCKER_PASSWORD: "/moj-network-access-control/docker/password"
-    CLOUDWATCH_LINK: "/moj-network-access-control/$ENV/cloudwatch_link"
 
 phases:
   build:
