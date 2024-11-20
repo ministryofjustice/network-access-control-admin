@@ -10,7 +10,6 @@ class Site < ApplicationRecord
   validates :name, format: { with: /\AFITS-\d{4}-\w+-\w+\z/, message: "Site Name not in expected format : 'FITS-XXXX-TYPE-LOCATION'" }, if: -> { name.present? && name.start_with?("FITS") && new_record? }
   validates :name, format: { with: /\AMOJO-\d{4}-\w+-\w+\z/, message: "Site Name not in expected format : 'MOJO-XXXX-TYPE-LOCATION'" }, if: -> { name.present? && name.start_with?("MOJO") && new_record? }
 
-
   has_many :clients, dependent: :destroy
   has_many :mac_authentication_bypasses, dependent: :destroy
   has_many :site_policy
@@ -77,7 +76,7 @@ private
 
   def enforce_uppercase_prefix
     if name.present?
-      suggested_name = name.sub(/\A(fits|mojo)/i) { |match| match.upcase }
+      suggested_name = name.sub(/\A(fits|mojo)/i, &:upcase)
 
       # Check if the name needs to be corrected
       if name != suggested_name
@@ -86,9 +85,10 @@ private
       end
     end
   end
+
   def check_and_prompt_name_correction
     cleaned_name = name.strip
-    parts = cleaned_name.split('-').map(&:strip)
+    parts = cleaned_name.split("-").map(&:strip)
 
     if parts.length < 4
       errors.add(:name, "The name format is invalid. It should have at least 4 parts separated by dashes.")
@@ -96,11 +96,11 @@ private
     end
 
     prefix = parts[0].upcase
-    number = parts[1][0, 4].rjust(4, '0')
+    number = parts[1][0, 4].rjust(4, "0")
     # The third part should not be truncated
     service_type = parts[2]
     # The location part: replace spaces with underscores
-    location = parts[3..].join('-').gsub(/\s+/, "_")
+    location = parts[3..].join("-").gsub(/\s+/, "_")
 
     corrected_name = "#{prefix}-#{number}-#{service_type}-#{location}"
 
