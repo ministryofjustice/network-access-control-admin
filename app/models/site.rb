@@ -88,7 +88,7 @@ private
   end
   def check_and_prompt_name_correction
     cleaned_name = name.strip
-    parts = cleaned_name.split('-').map(&:strip)
+    parts = cleaned_name.split("-").map(&:strip)
 
     if parts.length < 4
       errors.add(:name, "The name format is invalid. It should have at least 4 parts separated by dashes.")
@@ -96,11 +96,11 @@ private
     end
 
     prefix = parts[0].upcase
-    number = parts[1][0, 4].rjust(4, '0')
+    number = parts[1][0, 4].rjust(4, "0")
     # The third part should not be truncated
     service_type = parts[2]
     # The location part: replace spaces with underscores
-    location = parts[3..].join('-').gsub(/\s+/, "_")
+    location = parts[3..].join("-").gsub(/\s+/, "_")
 
     corrected_name = "#{prefix}-#{number}-#{service_type}-#{location}"
 
