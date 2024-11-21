@@ -48,6 +48,9 @@ describe UseCases::ReadCertificateMetadata do
         \tCA:TRUE
       EXTENSIONS
 
+      puts "Actual extensions: #{extensions.inspect}"
+      puts "Expected extensions: #{expected_extensions.strip.inspect}"
+
       expect(extensions).to eq expected_extensions.strip
     end
   end
