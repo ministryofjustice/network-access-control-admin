@@ -36,16 +36,16 @@ describe UseCases::ReadCertificateMetadata do
     it "extracts the extensions of the certificate" do
       extensions = use_case.call[:extensions]
       expected_extensions = <<~EXTENSIONS
-    subjectKeyIdentifier:
-    \t46:53:FE:BC:50:C0:5D:02:B5:24:1B:BA:B3:B8:E2:89:87:85:40:08
+        subjectKeyIdentifier:
+        \t46:53:FE:BC:50:C0:5D:02:B5:24:1B:BA:B3:B8:E2:89:87:85:40:08
 
-    authorityKeyIdentifier:
-    \t46:53:FE:BC:50:C0:5D:02:B5:24:1B:BA:B3:B8:E2:89:87:85:40:08
+        authorityKeyIdentifier:
+        \t46:53:FE:BC:50:C0:5D:02:B5:24:1B:BA:B3:B8:E2:89:87:85:40:08
 
 
-    basicConstraints: critical
-    \tCA:TRUE
-  EXTENSIONS
+        basicConstraints: critical
+        \tCA:TRUE
+      EXTENSIONS
 
       puts "Actual extensions (raw): #{extensions.inspect}"
       puts "Expected extensions (raw): #{expected_extensions.strip.inspect}"
@@ -56,7 +56,6 @@ describe UseCases::ReadCertificateMetadata do
 
       expect(actual_extensions).to eq expected_extensions
     end
-
   end
 
   context "when the certificate is invalid" do
