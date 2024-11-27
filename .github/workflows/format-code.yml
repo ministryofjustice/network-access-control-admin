@@ -14,7 +14,7 @@ jobs:
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.3.6'
+        ruby-version: '3.3.6p108'
 
     - name: Format code
       env:
