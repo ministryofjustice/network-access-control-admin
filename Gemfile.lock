@@ -428,6 +428,7 @@ DEPENDENCIES
   puma (~> 6.4)
   rails (= 7.2.2)
   ransack
+  rexml (= 3.3.9)
   rspec-rails (~> 7.0.0)
   rubocop-govuk
   sassc-rails (~> 2.1.0)
@@ -436,6 +437,7 @@ DEPENDENCIES
   sentry-ruby
   shoulda-matchers (~> 5.3)
   sprockets (~> 4.2.1)
+  stringio (>= 3.1.2)
   timecop
   tzinfo-data
   webdrivers

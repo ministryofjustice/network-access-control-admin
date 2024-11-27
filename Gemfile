@@ -24,6 +24,8 @@ gem "sentry-rails"
 gem "sentry-ruby"
 gem "sprockets", "~> 4.2.1"
 gem "tzinfo-data"
+gem "rexml", "3.3.9"
+gem 'stringio', '>= 3.1.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
