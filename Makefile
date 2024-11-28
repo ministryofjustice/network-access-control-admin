@@ -34,7 +34,7 @@ authenticate-docker: ## Authenticate docker script
 
 .PHONY: build
 build: ## Docker build image
-	docker build --platform linux/x86_64 -t admin . --build-arg RACK_ENV --build-arg DB_HOST --build-arg DB_USER --build-arg DB_PORT --build-arg DB_PASS --build-arg SECRET_KEY_BASE --build-arg DB_NAME --build-arg BUNDLE_WITHOUT --build-arg CLOUDWATCH_LINK
+	docker build --platform linux/x86_64 -t admin . --build-arg RACK_ENV --build-arg DB_HOST="" --build-arg DB_USER="" --build-arg DB_PORT --build-arg DB_PASS="" --build-arg SECRET_KEY_BASE="" --build-arg DB_NAME="" --build-arg BUNDLE_WITHOUT --build-arg CLOUDWATCH_LINK=""
 
 .PHONY: build-dev
 build-dev: ## Build-dev image
