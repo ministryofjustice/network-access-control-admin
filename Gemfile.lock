@@ -187,7 +187,7 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
-    minitest (5.25.1)
+    minitest (5.25.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     mysql2 (0.5.5)
@@ -280,7 +280,7 @@ GEM
     rdoc (6.8.1)
       psych (>= 4.0.0)
     regexp_parser (2.9.1)
-    reline (0.5.11)
+    reline (0.5.12)
       io-console (~> 0.5)
     responders (3.1.1)
       actionpack (>= 5.2)
@@ -440,7 +440,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.2.6p234
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.4.19
