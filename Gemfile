@@ -19,12 +19,10 @@ gem "openssl"
 gem "puma", "~> 6.4"
 gem "rails", "7.2.2"
 gem "ransack"
-gem "rexml", "3.3.9"
 gem "sassc-rails", "~> 2.1.0"
 gem "sentry-rails"
 gem "sentry-ruby"
 gem "sprockets", "~> 4.2.1"
-gem "stringio", ">= 3.1.2"
 gem "tzinfo-data"
 
 group :development, :test do

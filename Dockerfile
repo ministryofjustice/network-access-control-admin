@@ -1,4 +1,4 @@
-FROM ruby:3.3.6-alpine3.19
+FROM ruby:3.2.6-alpine3.19
 
 ARG UID=1001
 ARG GROUP=app
@@ -36,7 +36,7 @@ ENV LANG='C.UTF-8' \
   CLOUDWATCH_LINK=${CLOUDWATCH_LINK}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius gcc musl-dev 
+  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius 
 
 RUN if [ "${BUILD_DEV}" = "true" ] ; then \
     apk add --no-cache alpine-sdk ruby-dev; \
