@@ -26,6 +26,8 @@ module NetworkAccessControlAdmin
     config.load_defaults 6.0
     config.server_certificate_documentation = "https://github.com/ministryofjustice/network-access-control-admin#certificate-management"
 
+    config.active_record.legacy_connection_handling = false
+
     # Force HTTPS for all requests except healthcheck endpoint
     config.force_ssl = true
     config.ssl_options = {
