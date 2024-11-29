@@ -1,4 +1,4 @@
-FROM ruby:3.2.6-alpine3.19
+FROM ruby:3.2.2-alpine3.16
 
 ARG UID=1001
 ARG GROUP=app
@@ -23,7 +23,6 @@ ARG BUILD_DEV
 
 # required for certain linting tools that read files, such as erb-lint
 ENV LANG='C.UTF-8' \
-  LC_ALL='C.UTF-8' \
   RACK_ENV=${RACK_ENV} \
   DB_HOST=${DB_HOST} \
   DB_USER=${DB_USER} \
@@ -36,7 +35,7 @@ ENV LANG='C.UTF-8' \
   CLOUDWATCH_LINK=${CLOUDWATCH_LINK}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius 
+  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius
 
 RUN if [ "${BUILD_DEV}" = "true" ] ; then \
     apk add --no-cache alpine-sdk ruby-dev; \
