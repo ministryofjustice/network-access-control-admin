@@ -1,4 +1,4 @@
-FROM ruby:3.2-alpine3.20
+FROM ruby:3.2-alpine3.19
 
 ARG UID=1001
 ARG GROUP=app
