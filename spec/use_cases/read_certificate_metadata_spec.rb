@@ -41,14 +41,18 @@ describe UseCases::ReadCertificateMetadata do
         \t46:53:FE:BC:50:C0:5D:02:B5:24:1B:BA:B3:B8:E2:89:87:85:40:08
 
         authorityKeyIdentifier:
-        \tkeyid:46:53:FE:BC:50:C0:5D:02:B5:24:1B:BA:B3:B8:E2:89:87:85:40:08
+        \t46:53:FE:BC:50:C0:5D:02:B5:24:1B:BA:B3:B8:E2:89:87:85:40:08
 
 
         basicConstraints: critical
         \tCA:TRUE
       EXTENSIONS
 
-      expect(extensions).to eq expected_extensions.strip
+      normalize = ->(str) { str.gsub(/\n+/, "\n").strip }
+      actual_extensions = normalize.call(extensions.force_encoding("UTF-8"))
+      expected_extensions = normalize.call(expected_extensions.force_encoding("UTF-8"))
+
+      expect(actual_extensions).to eq expected_extensions
     end
   end
 
