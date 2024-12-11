@@ -35,7 +35,7 @@ ENV LANG='C.UTF-8' \
   CLOUDWATCH_LINK=${CLOUDWATCH_LINK}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius
+  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius libffi-dev musl-dev ruby-dev
 
 RUN if [ "${BUILD_DEV}" = "true" ] ; then \
     apk add --no-cache alpine-sdk ruby-dev; \
