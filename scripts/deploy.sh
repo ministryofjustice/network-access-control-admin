@@ -15,21 +15,34 @@ assume_deploy_role() {
 }
 
 deploy() {
-  aws ecs update-service \
-    --cluster $1 \
-    --service $2 \
-    --force-new-deployment
-}
+  cluster=$1
+  service=$2
 
-main() {
-  cluster_name=$( jq -r '.admin.ecs.cluster_name' <<< "${TERRAFORM_OUTPUTS}" )
-  service_name=$( jq -r '.admin.ecs.service_name' <<< "${TERRAFORM_OUTPUTS}" )
-  backrgound_service_name=$( jq -r '.admin.ecs.background_worker_service_name' <<< "${TERRAFORM_OUTPUTS}" )
+  aws ecs update-service --cluster "$cluster" --service "$service" --force-new-deployment
 
-  assume_deploy_role
-  deploy $cluster_name $service_name
-  deploy $cluster_name $backrgound_service_name
+  # Wait for the ECS service to stabilize (reach steady state)
+  echo "Waiting for ECS service $service to reach steady state..."
+  aws ecs wait services-stable --cluster "$cluster" --services "$service"
+  
+  if [ $? -eq 0 ]; then
+    echo "ECS service $service has reached steady state."
+  else
+    echo "ECS service $service failed to reach steady state."
+    exit 1
+  fi
 }
 
 main
 
+# Wait for the ECS service to reach a steady state
+echo "Waiting for ECS service to reach a steady state..." 
+aws ecs wait services-stable --cluster $CLUSTER_NAME --services $SERVICE_NAME 
+
+# Check if the ECS service reached a steady state 
+if [ $? -eq 0 ]; then 
+  echo "ECS service has reached a steady state." 
+  exit 0 
+else 
+  echo "Failed to reach steady state for ECS service." 
+  exit 1 
+fi
