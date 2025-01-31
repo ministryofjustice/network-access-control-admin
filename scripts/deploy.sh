@@ -18,7 +18,7 @@ deploy() {
   cluster=$1
   service=$2
 
-  aws ecs update-service --cluster "$cluster" --service "$service" --task-definition invalid-task-definition:1 --force-new-deployment
+  aws ecs update-service --cluster "$cluster" --service "$service" --force-new-deployment
 
   # Wait for the ECS service to stabilize (reach steady state)
   echo "Waiting for ECS service $service to reach steady state..."
