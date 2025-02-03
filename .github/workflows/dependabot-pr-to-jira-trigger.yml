@@ -4,3 +4,12 @@ on:
   push:
     branches:
       - ND-737-✔-implement-dependabot-tickets-automation-for-network-access-control-admin
+
+jobs:
+  call-workflow-dependabot-pr-to-jira:
+    if: github.ref == 'refs/heads/main'
+    uses: ministryofjustice/nvvs-devops-github-actions/.github/workflows/dependabot-pr-to-jira.yml@main
+    secrets:
+      TECH_SERVICES_JIRA_URL: ${{ secrets.TECH_SERVICES_JIRA_URL }}
+      TECH_SERVICES_JIRA_EMAIL: ${{ secrets.TECH_SERVICES_JIRA_EMAIL }}
+      TECH_SERVICES_JIRA_TOKEN: ${{ secrets.TECH_SERVICES_JIRA_TOKEN }}
