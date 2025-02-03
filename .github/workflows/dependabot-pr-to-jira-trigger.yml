@@ -1,0 +1,7 @@
+name: Create JIRA Ticket for Dependabot PR
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - ND-737-✔-implement-dependabot-tickets-automation-for-network-access-control-admin
