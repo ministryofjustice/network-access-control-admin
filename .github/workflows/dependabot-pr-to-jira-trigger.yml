@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-workflow-dependabot-pr-to-jira:
-    uses: ministryofjustice/network-access-control-admin/.github/workflows/dependabot-pr-to-jira.yml@main
+    uses: ministryofjustice/network-access-control-admin/.github/workflows/dependabot-pr-to-jira.yml@ND-737-✔-implement-dependabot-tickets-automation-for-network-access-control-admin
     secrets:
       TECH_SERVICES_JIRA_URL: ${{ secrets.TECH_SERVICES_JIRA_URL }}
       TECH_SERVICES_JIRA_EMAIL: ${{ secrets.TECH_SERVICES_JIRA_EMAIL }}
