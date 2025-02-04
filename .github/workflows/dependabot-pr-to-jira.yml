@@ -68,6 +68,7 @@ jobs:
             "$JIRA_URL/rest/api/2/search?jql=$JQL_QUERY")
 
           # Save the response to a file
+          echo "$response"
           echo "$response" > jira_search_response.json
 
           # Count the number of issues found
