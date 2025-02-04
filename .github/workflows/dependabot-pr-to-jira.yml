@@ -59,16 +59,21 @@ jobs:
           # URL-encode the REPO_NAME for safety (in case there are special characters)
           REPO_NAME_ENCODED=$(echo "${{ env.REPO_NAME }}" | jq -sRr @uri)
 
+          # Define the JQL query
           JQL_QUERY="project = ND AND labels in (Dependabot, \"$REPO_NAME_ENCODED\") AND status in (Backlog)"
 
-          # Perform the GET request with the JQL query
+          # URL encode the JQL query
+          ENCODED_JQL_QUERY=$(echo "$JQL_QUERY" | jq -sRr @uri)
+
+          # Perform the GET request with the URL-encoded JQL query
           response=$(curl -s -u $JIRA_USERNAME:$JIRA_API_TOKEN \
-            -X GET \
-            -H "Content-Type: application/json" \
-            "$JIRA_URL/rest/api/2/search?jql=$JQL_QUERY")
+          -X GET \
+          -H "Content-Type: application/json" \
+          "$JIRA_URL/rest/api/2/search?jql=$ENCODED_JQL_QUERY")
+
+          echo "$response"
 
           # Save the response to a file
-          echo "$response"
           echo "$response" > jira_search_response.json
 
           # Count the number of issues found
