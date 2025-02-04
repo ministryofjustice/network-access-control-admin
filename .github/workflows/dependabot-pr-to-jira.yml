@@ -55,11 +55,11 @@ jobs:
           JIRA_USERNAME: ${{ secrets.TECH_SERVICES_JIRA_EMAIL }}
         run: |
           echo "Searching for issues with the 'Dependabot' label in project 'ND'..."
-          JQL_QUERY='project = ND AND labels in (Dependabot) AND state in (Backlog)'
+          JQL_QUERY='project = ND AND (labels in (Dependabot, ${{ env.REPO_NAME }}) AND state in (Backlog))'
           response=$(curl -s -u $JIRA_USERNAME:$JIRA_API_TOKEN \
             -X GET \
             -H "Content-Type: application/json" \
-            "$JIRA_URL/rest/api/2/search?jql=project=ND%20AND%20labels%3D%27Dependabot%27%20AND%20status%3D%27Backlog%27")
+            "$JIRA_URL/rest/api/2/search?jql=$JQL_QUERY")
 
           echo "$response" > jira_search_response.json
 
@@ -89,9 +89,7 @@ jobs:
           create_response=$(curl -s -u $JIRA_USERNAME:$JIRA_API_TOKEN \
              -X POST \
              -H "Content-Type: application/json" \
-             --data "{\"fields\":{\"project\":{\"key\":\"ND\"},\"summary\":\"Dependabot PRs for ${{ env.REPO_NAME }}\",\"description\":\"Repository : ${{ env.REPO_NAME }} \\n $PR_DESCRIPTION\",\"issuetype\":{\"name\":\"Story\"},\"labels\":[\"Dependabot\",\"${{ env.REPO_NAME }}\"]}}" \
-             "$JIRA_URL/rest/api/2/issue")
-
+                          --data "{\"fields\":{\"project\":{\"key\":\"ND\"},\"summary\":\"Dependabot PRs for ${{ env.REPO_NAME }}\",\"description\":\"Repository : ${{ env.REPO_NAME }} \\n $PR_DESCRIPTION\",\"issuetype\":{\"name\":\"Task\"},\"labels\":[\"Dependabot\", \"${{ env.REPO_NAME }}\"]}}" \
           echo "$create_response"
 
           new_issue_id=$(echo "$create_response" | jq -r '.key')
