@@ -46,36 +46,46 @@ jobs:
           PR_DESCRIPTION=$(jq -r '.[] | "- PR Number: \(.number)  \nTitle: \(.title)  \nBranch: \(.headRefName) \nURL: https://github.com/${{ github.repository }}/pull/\(.number)\n"' pr_list.json | sed ':a;N;$!ba;s/\n/\\n/g')
           echo "PR_DESCRIPTION=$PR_DESCRIPTION" >> $GITHUB_ENV
 
-      # Step: Find Jira tickets in project ND labeled 'Dependabot'
-      - name: Find Jira tickets in project ND labeled Dependabot
+      # Step: Find Jira tickets in project ND labeled Dependabot and REPO_NAME
+      - name: Find Jira tickets in project ND labeled Dependabot and REPO_NAME
         id: find-jira-ticket
         env:
           JIRA_URL: ${{ secrets.TECH_SERVICES_JIRA_URL }}
           JIRA_API_TOKEN: ${{ secrets.TECH_SERVICES_JIRA_TOKEN }}
           JIRA_USERNAME: ${{ secrets.TECH_SERVICES_JIRA_EMAIL }}
         run: |
-          echo "Searching for issues with the 'Dependabot' label in project 'ND'..."
-          JQL_QUERY='project = ND AND (labels in (Dependabot, ${{ env.REPO_NAME }}) AND state in (Backlog))'
-          response=$(curl -s -u $JIRA_USERNAME:$JIRA_API_TOKEN \
-            -X GET \
-            -H "Content-Type: application/json" \
-            "$JIRA_URL/rest/api/2/search?jql=$JQL_QUERY")
+          echo "Searching for issues with the 'Dependabot' label and '${{ env.REPO_NAME }}' label in project 'ND'..."
 
+        # URL-encode the REPO_NAME for safety (in case there are special characters)
+          REPO_NAME_ENCODED=$(echo "${{ env.REPO_NAME }}" | jq -sRr @uri)
+
+          JQL_QUERY="project = ND AND labels in (Dependabot, \"$REPO_NAME_ENCODED\") AND status in (Backlog)"
+
+          # Perform the GET request with the JQL query
+          response=$(curl -s -u $JIRA_USERNAME:$JIRA_API_TOKEN \
+          -X GET \
+          -H "Content-Type: application/json" \
+          "$JIRA_URL/rest/api/2/search?jql=$JQL_QUERY")
+
+          # Save the response to a file
           echo "$response" > jira_search_response.json
 
+          # Count the number of issues found
           issue_count=$(echo "$response" | jq '.issues | length')
           echo "Number of issues found: $issue_count"
           echo "ISSUE_COUNT=$issue_count" >> $GITHUB_ENV
 
+          # Check if the response is valid JSON
           if echo "$response" | jq -e . >/dev/null 2>&1; then
-            issue_id=$(echo "$response" | jq -r '.issues[0].key // "null"')
-            echo "ISSUE_ID=$issue_id" >> $GITHUB_ENV
+          # Extract the issue key of the first issue if any are found
+          issue_id=$(echo "$response" | jq -r '.issues[0].key // "null"')
+          echo "ISSUE_ID=$issue_id" >> $GITHUB_ENV
           else
-            echo "Invalid JSON response"
-            exit 1
+          echo "Invalid JSON response"
+          exit 1
           fi
 
-      # Step: Create Jira ticket if none found
+        # Step: Create Jira ticket if none found
       - name: Create Jira ticket
         if: (env.ISSUE_COUNT == 0)
         id: create-jira-ticket
