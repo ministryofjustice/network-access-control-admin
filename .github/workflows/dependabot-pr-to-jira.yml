@@ -117,7 +117,7 @@ jobs:
           },
           \"labels\": [
             \"Dependabot\",
-            \"$REPO_NAME_ENCODED\"
+            \"${{ env.REPO_NAME }}\"
           ]
           }
           }" \
