@@ -103,11 +103,26 @@ jobs:
           echo "No issues found with the 'Dependabot' label in project 'ND'. Creating a new issue..."
 
           create_response=$(curl -s -u $JIRA_USERNAME:$JIRA_API_TOKEN \
-             -X POST \
-             -H "Content-Type: application/json" \
-             --data "{\"fields\":{\"project\":{\"key\":\"ND\"},\"summary\":\"Dependabot PRs for ${{ env.REPO_NAME }}\",\"description\":\"Repository : ${{ env.REPO_NAME }} \\n $PR_DESCRIPTION\",\"issuetype\":{\"name\":\"Task\"}}}" \
-             "$JIRA_URL/rest/api/2/issue")
-          echo "$create_response"
+          -X POST \
+          -H "Content-Type: application/json" \
+          --data "{
+          \"fields\": {
+          \"project\": {
+            \"key\": \"ND\"
+          },
+          \"summary\": \"Dependabot PRs for ${{ env.REPO_NAME }}\",
+          \"description\": \"Repository : ${{ env.REPO_NAME }} \\n $PR_DESCRIPTION\",
+          \"issuetype\": {
+            \"name\": \"Task\"
+          },
+          \"labels\": [
+            \"Dependabot\",
+            \"$REPO_NAME_ENCODED\"
+          ]
+          }
+          }" \
+          "$JIRA_URL/rest/api/2/issue")
+
 
           new_issue_id=$(echo "$create_response" | jq -r '.key')
           echo "Created new issue $new_issue_id"
