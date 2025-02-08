@@ -26,13 +26,17 @@ jobs:
 
           # If the repository name is 'network-access-control-admin', set REPO_NAME to 'NACSAdmin'
           if [ "$REPO_NAME" == "network-access-control-admin" ]; then
-            REPO_NAME="NACSAdmin"
+          REPO_NAME="NACSAdmin"
           else
-            # Replace non-alphanumeric characters with underscores and convert to lowercase
-            REPO_NAME=$(echo "$REPO_NAME" | sed 's/[^a-zA-Z0-9]/_/g' | tr '[:upper:]' '[:lower:]')
+          # Replace non-alphanumeric characters with underscores and convert to lowercase
+          REPO_NAME=$(echo "$REPO_NAME" | sed 's/[^a-zA-Z0-9]/_/g' | tr '[:upper:]' '[:lower:]')
           fi
 
+          # Sanitize REPO_NAME by removing any leading/trailing whitespace or newlines
+          REPO_NAME=$(echo "$REPO_NAME" | tr -d '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+
 
 
       # Step: List open Dependabot PRs on the main branch
@@ -79,6 +83,7 @@ jobs:
           ENCODED_JQL_QUERY=$(echo "$JQL_QUERY" | jq -sRr @uri)
 
           # Print Jira API URL before request
+          echo "Requesting Jira API at: $JIRA_URL/rest/api/2/search?jql=$JQL_QUERY"
           echo "Requesting Jira API at: $JIRA_URL/rest/api/2/search?jql=$ENCODED_JQL_QUERY"
 
           # Perform the GET request with the URL-encoded JQL query
