@@ -17,10 +17,14 @@ jobs:
     name: Create or Update Jira Ticket
     steps:
 
-      # Step: Set repo name
+      # Step: Set repo name to Replace Special Characters with Underscores and Convert to Lowercase
       - name: Set repository name
         id: set-repo-name
-        run: echo "REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2)" >> $GITHUB_ENV
+        run: |
+          # Get the repository name (after the slash), remove non-alphanumeric characters, and convert to lowercase
+          REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2 | sed 's/[^a-zA-Z0-9]//g' | tr '[:upper:]' '[:lower:]')
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+
 
       # Step: List open Dependabot PRs on the main branch
       - name: List open Dependabot PRs on main branch
