@@ -64,7 +64,7 @@ jobs:
           REPO_NAME_ENCODED=$(echo "${{ env.REPO_NAME }}" | jq -sRr @uri)
 
           # Define the JQL query
-          JQL_QUERY="project = ND AND labels in (\"Dependabot"\,\"$REPO_NAME_ENCODED\") AND status in (Backlog)"
+          JQL_QUERY="project = ND AND labels in (\"Dependabot\", \"$REPO_NAME_ENCODED\") AND status in (Backlog)"
 
           # URL encode the JQL query
           ENCODED_JQL_QUERY=$(echo "$JQL_QUERY" | jq -sRr @uri)
