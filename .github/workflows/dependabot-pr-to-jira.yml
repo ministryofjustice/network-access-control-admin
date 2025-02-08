@@ -39,7 +39,8 @@ jobs:
 
 
 
-      # Step: List open Dependabot PRs on the main branch
+
+# Step: List open Dependabot PRs on the main branch
       - name: List open Dependabot PRs on main branch
         id: list-prs
         env:
