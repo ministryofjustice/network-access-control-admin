@@ -79,7 +79,7 @@ describe "create sites", type: :feature do
       expect(page).to have_content("Successfully created site.")
       expect(page).to have_content("This could take up to 10 minutes to apply.")
       expect(page).to have_content("FITS-9999-Probation-Maidstone")
-      expect(page).to have_content("WARNING: Please contact DevOps Team with the FitsID and the client CIDR ranges to be added to the NACs Server Security Group.")
+      expect(page).to have_content("WARNING: Please email InfrastructureAutomationTeam@justice.gov.uk with the FitsID and the client CIDR ranges to be added to the NACs Server Security Group.")
       expect(page).not_to have_content("There are no fallback policies attached to this site.")
 
       click_on "FITS-9999-Probation-Maidstone"
