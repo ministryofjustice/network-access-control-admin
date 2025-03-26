@@ -64,6 +64,84 @@ describe "create sites", type: :feature do
       expect(page).to have_content("FITS-9999-Probation-Maidstone")
     end
 
+    # Test to validate the Site Name format 'FITS-XXXX-TYPE-LOCATION' when it starts with 'FITS'
+    it "displays error if the site name starts with 'FITS' but does not follow the expected format" do
+      visit "/sites"
+
+      click_on "Create a new site"
+
+      expect(current_path).to eql("/sites/new")
+
+      fill_in "Name", with: "FITS-1234-InvalidName"
+
+      click_on "Create"
+
+      expect(page).to have_content("The name format is invalid. It should have at least 4 parts separated by dashes")
+    end
+
+
+    # Test to validate the Site Name format 'MOJO-XXXX-TYPE-LOCATION' when it starts with 'MOJO'
+    it "displays error if the site name starts with 'MOJO' but does not follow the expected format" do
+      visit "/sites"
+
+      click_on "Create a new site"
+
+      expect(current_path).to eql("/sites/new")
+
+      fill_in "Name", with: "MOJO-1234-InvalidName"
+
+      click_on "Create"
+
+      # Error message should indicate invalid format
+      expect(page).to have_content("The name format is invalid. It should have at least 4 parts separated by dashes")
+    end
+
+    # Test that a valid MOJO name format is accepted
+    it "creates a site with a valid 'MOJO' name format" do
+      visit "/sites"
+
+      click_on "Create a new site"
+
+      expect(current_path).to eql("/sites/new")
+
+      fill_in "Name", with: "MOJO-9999-Probation-Maidstone"
+
+      click_on "Create"
+
+      expect(page).to have_content("Successfully created site.")
+      expect(page).to have_content("MOJO-9999-Probation-Maidstone")
+    end
+
+    # Test that the name is automatically enforced to uppercase if the name starts with 'FITS' or 'MOJO'
+    it "enforces uppercase on the site name if it starts with 'FITS'" do
+      visit "/sites"
+
+      click_on "Create a new site"
+
+      expect(current_path).to eql("/sites/new")
+
+      fill_in "Name", with: "fits-9999-Probation-Maidstone"
+
+      click_on "Create"
+
+      expect(page).to have_content("Suggested Name: 'FITS-9999-Probation-Maidstone'. Please confirm if this is acceptable.")
+    end
+
+    it "enforces uppercase on the site name if it starts with 'MOJO'" do
+      visit "/sites"
+
+      click_on "Create a new site"
+
+      expect(current_path).to eql("/sites/new")
+
+      fill_in "Name", with: "mojo-9999-Probation-Maidstone"
+
+      click_on "Create"
+
+      expect(page).to have_content("Suggested Name: 'MOJO-9999-Probation-Maidstone'. Please confirm if this is acceptable.")
+    end
+
+
     it "creates a new site with a fallback policy" do
       visit "/sites"
 
