@@ -47,7 +47,7 @@ shell-dev: ## Run application and start shell
 .PHONY: start-db
 start-db: ## Start database
 	$(DOCKER_COMPOSE) up -d db
-
+	ENV=${ENV} ./scripts/wait_for_db.sh
 
 .PHONY: db-setup
 db-setup: ## Setup database
