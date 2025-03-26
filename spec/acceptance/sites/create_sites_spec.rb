@@ -79,7 +79,6 @@ describe "create sites", type: :feature do
       expect(page).to have_content("The name format is invalid. It should have at least 4 parts separated by dashes")
     end
 
-
     # Test to validate the Site Name format 'MOJO-XXXX-TYPE-LOCATION' when it starts with 'MOJO'
     it "displays error if the site name starts with 'MOJO' but does not follow the expected format" do
       visit "/sites"
@@ -140,7 +139,6 @@ describe "create sites", type: :feature do
 
       expect(page).to have_content("Suggested Name: 'MOJO-9999-Probation-Maidstone'. Please confirm if this is acceptable.")
     end
-
 
     it "creates a new site with a fallback policy" do
       visit "/sites"
