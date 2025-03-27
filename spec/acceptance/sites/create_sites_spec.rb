@@ -140,21 +140,20 @@ describe "create sites", type: :feature do
       expect(page).to have_content("Suggested Name: 'MOJO-9999-Probation-Maidstone'. Please confirm if this is acceptable.")
     end
 
-      # Test that the name is automatically enforced to strip whitespaces and replace them with dashes
+    # Test that the name is automatically enforced to strip whitespaces and replace them with dashes
     it "enforces whitespace striping" do
       visit "/sites"
-  
+
       click_on "Create a new site"
-  
+
       expect(current_path).to eql("/sites/new")
-  
+
       fill_in "Name", with: "FITS-1234-Probation-London Camberly"
-  
+
       click_on "Create"
-  
+
       expect(page).to have_content("Suggested Name: 'FITS-1234-Probation-London_Camberly'. Please confirm if this is acceptable.")
     end
-
 
     it "creates a new site with a fallback policy" do
       visit "/sites"
