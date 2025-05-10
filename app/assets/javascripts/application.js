@@ -1,4 +1,4 @@
-//= require all.js
+//= require govuk-frontend.min.js
 //= require rails-ujs
 
 window.addEventListener("DOMContentLoaded", () => {

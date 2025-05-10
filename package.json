@@ -5,7 +5,9 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "govuk-frontend": "^3.8.1"
+    "govuk-frontend": "^5.0.0"
   },
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT"
 }
