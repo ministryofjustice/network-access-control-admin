@@ -15,10 +15,21 @@ assume_deploy_role() {
 }
 
 deploy() {
-  aws ecs update-service \
-    --cluster $1 \
-    --service $2 \
-    --force-new-deployment
+  cluster=$1
+  service=$2
+
+  aws ecs update-service --cluster "$cluster" --service "$service" --force-new-deployment
+
+  # Wait for the ECS service to stabilize (reach steady state)
+  echo "Waiting for ECS service $service to reach steady state..."
+  aws ecs wait services-stable --cluster "$cluster" --services "$service"
+  
+  if [ $? -eq 0 ]; then
+    echo "ECS service $service has reached steady state."
+  else
+    echo "ECS service $service failed to reach steady state."
+    exit 1
+  fi
 }
 
 main() {

@@ -1,4 +1,4 @@
-FROM ruby:3.2.2-alpine3.16
+FROM ruby:3.3.6-alpine3.19
 
 ARG UID=1001
 ARG GROUP=app
@@ -35,7 +35,7 @@ ENV LANG='C.UTF-8' \
   CLOUDWATCH_LINK=${CLOUDWATCH_LINK}
 
 RUN apk add --no-cache --virtual .build-deps build-base && \
-  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius
+  apk add --no-cache gcompat nodejs yarn mysql-dev mysql-client bash make bind shadow freeradius libffi-dev musl-dev ruby-dev
 
 RUN if [ "${BUILD_DEV}" = "true" ] ; then \
     apk add --no-cache alpine-sdk ruby-dev; \
@@ -59,7 +59,7 @@ RUN yarn && yarn cache clean
 
 COPY --chown=$USER:$GROUP . $APPDIR
 
-ADD https://truststore.pki.rds.amazonaws.com/eu-west-2/eu-west-2-bundle.pem $CERTDIR/
+RUN curl -o $CERTDIR/eu-west-2-bundle.pem https://truststore.pki.rds.amazonaws.com/eu-west-2/eu-west-2-bundle.pem
 
 
 USER root
