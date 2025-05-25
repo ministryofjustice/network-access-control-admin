@@ -1,5 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  skip_before_action :verify_authenticity_token, only: :developer
+  skip_before_action :verify_authenticity_token, only: :developer if Rails.env.development?
+
 
   def cognito
     @user = User.from_omniauth(request.env["omniauth.auth"])
