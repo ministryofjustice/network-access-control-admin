@@ -20,4 +20,4 @@ phases:
       - make authenticate-docker
       - ENV=test make db-setup
       - make test
-      - make private-integration-test-schema GITHUB_TOKEN=$GITHUB_TOKEN
+      - make integration-test-schema-private GITHUB_TOKEN=$GITHUB_TOKEN

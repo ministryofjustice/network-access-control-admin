@@ -74,12 +74,12 @@ integration-test-schema: ## Clone nacs integration tests and test schema
 	cd network-access-control-integration-tests && make clone-server test-schema
 
 .PHONY: clone-private-integration-test
-clone-integration-test: ## Clone private nacs integration tests
+clone-private-integration-test: ## Clone private nacs integration tests
 	@GITHUB_TOKEN=$$GITHUB_TOKEN; \
 	git clone https://$$GITHUB_TOKEN@github.com/ministryofjustice/network-access-control-integration-tests.git
 
 .PHONY: private-integration-test-schema
-integration-test-schema: ## Clone nacs integration tests and test schema - private repos
+integration-test-schema-private: ## Clone nacs integration tests and test schema - private repos
 	$(MAKE) clone-private-integration-test
 	cd network-access-control-integration-tests && make clone-private-server test-schema
 
