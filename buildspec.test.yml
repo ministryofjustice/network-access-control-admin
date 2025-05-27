@@ -16,7 +16,8 @@ phases:
 
   build:
     commands:
+      - GITHUB_TOKEN=$(aws secretsmanager get-secret-value --secret-id pttp-ci-infrastructure__github_token --region eu-west-2 --query SecretString --output text | jq -r .token)
       - make authenticate-docker
       - ENV=test make db-setup
       - make test
-      - make integration-test-schema
+      - make private-integration-test-schema GITHUB_TOKEN=$GITHUB_TOKEN
