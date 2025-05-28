@@ -83,7 +83,7 @@ integration-test-schema-private: ## Clone nacs integration tests and test schema
 	$(MAKE) clone-private-integration-test
 	@GITHUB_TOKEN=$$GITHUB_TOKEN; \
 	cd network-access-control-integration-tests && make clone-private-server GITHUB_TOKEN=$$GITHUB_TOKEN 
-	test-schema
+	$(MAKE) test-schema
 
 .PHONY: test
 test: ## Build and run tests
