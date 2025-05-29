@@ -1,6 +1,6 @@
 class Certificate < ApplicationRecord
   paginates_per 50
-
+  encrypts  :contents
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates_presence_of :description
   validate :fields_from_certificate_file, on: :create
